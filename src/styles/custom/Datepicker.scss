@@ -1,0 +1,19 @@
+.react-datepicker {
+  &__input-container {
+    input {
+      width: 100%;
+      height: 56px;
+      padding-left: 24px;
+      outline: none;
+      border-radius: 8px;
+    }
+  }
+
+  &__triangle {
+    &::before,
+    &::after {
+      right: 16px;
+      left: auto !important;
+    }
+  }
+}

@@ -1,0 +1,80 @@
+@import "~react-datepicker/dist/react-datepicker.min.css";
+@import "./custom/Datepicker.scss";
+
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-media {
+  background: repeating-conic-gradient(rgb(234 234 234) 0%, rgb(216 216 216) 25%, transparent 0%, transparent 50%) 50% center/20px 20px;
+}
+
+.calendar-item {
+  &:hover {
+    background-color: #2A7871;
+
+    * {
+      color: white;
+    }
+  }
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+// .rbc-time-slot:hover {
+//   background-color: gray;
+//   z-index: 9999;
+// }
+
+table.sinh_hieu tr:nth-child(odd) {
+  background-color: #dcefdc7e;
+}
+
+table.service tr:nth-child(odd) {
+  background-color: #dcefdc7e;
+}
+
+table.service {
+  text-align: left;
+}
+
+table.service .price {
+  text-align: right;
+}
+
+.tagify--focus {
+  border: 1px solid green !important;
+}
+
+.tagify__tag {
+  width: calc(100% - 10px);
+}
+
+.tagify {
+  border-color: green !important;
+  min-height: 55px;
+}
+
+.jsoneditor-menu {
+  background-color: #416045 !important;
+  border-bottom: 1px solid #416045 !important;
+}
+
+.accordion__content{
+  max-height: 0em;
+  transition: all 0.4s cubic-bezier(0.865, 0.14, 0.095, 0.87);
+  padding-top: 10px;
+}
+input[name='panel']:checked ~ .accordion__content {
+  /* Get this as close to what height you expect */
+  max-height: 50em;
+}

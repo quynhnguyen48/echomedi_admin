@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "lib": ["es6", "dom"],
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "strict": true,
+    "strictNullChecks": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowUmdGlobalAccess": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src/**/*.js", "__tests__/**/*.js"],
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "jest.config.js"
+  ]
+}
