@@ -1,7 +1,7 @@
 name: CI/CD
 
 on:
-  # Trigger the workflow on push or pull request,
+  # Trigger the workflow on push or pull request, 2
   # but only for the master branch
   push:
     branches:
