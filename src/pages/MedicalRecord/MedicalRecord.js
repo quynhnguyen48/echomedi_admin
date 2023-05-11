@@ -153,6 +153,7 @@ const Treatments = () => {
       )
       .then((response) => {
         setData(response.data)
+        setPageCount(1);
       })
       .finally(() => {
         toast.dismiss(toastId)
