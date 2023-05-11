@@ -3,6 +3,7 @@ import classNames from "classnames"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { toast } from "react-toastify"
+import axios from "../../services/axios"
 
 import Button from "components/Button"
 import Icon from "components/Icon"
@@ -138,34 +139,58 @@ const Treatments = () => {
     }
   }, [detailData?.id, detailData?.publishedAt])
 
+  const search = () => {
+    const toastId = toast.loading("Đang tải")
+    axios
+      .post(
+        "/medical-record/search",
+        {
+          data: {
+            startDate,
+            endDate,
+          }
+        },
+      )
+      .then((response) => {
+        setData(response.data)
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+      })
+  }
+
+  const downloadReport = () => {
+    const toastId = toast.loading("Đang tải")
+    axios
+      .post(
+        "/medical-record/download-report",
+        {
+          data: {
+            startDate,
+            endDate,
+          }
+        },
+      )
+      .then((response) => {
+        console.log('response', response)
+        let csvContent = "data:text/csv;charset=utf-8," + response.data;
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "my_data.csv");
+        document.body.appendChild(link); // Required for FF
+
+        link.click(); // This will download the data file named "my_data.csv".
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+      })
+  }
+
   return (
     <Page
       title="Quản lý hồ sơ bệnh án"
-    // rightContent={detailData && <TreatmentAnalytics data={detailData} />}
     >
-      {/* <div className="w-full flex items-center gap-x-9">
-        <SearchInput
-          placeholder="Search by Treatment ID / Treatment Name"
-          className="flex-1"
-          onSearch={(value) => {
-            dispatch(resetPageIndex())
-            setSearchKey(value)
-          }}
-        />
-      </div> */}
-      {/* <div className="pt-4">
-      <Calendar
-      onSelectEvent={(e) => {
-        console.log(e);
-      }}
-      onSelecting={() => alert(312321)}
-      localizer={localizer}
-      events={bookings}
-      startAccessor="start"
-      endAccessor="end"
-      style={{ height: 500 }}
-    />
-    </div> */}
       <div className="flex items-center">
         <div className="w-[340px]  mr-4">
           <Datepicker
@@ -175,6 +200,7 @@ const Treatments = () => {
             dateFormat={"dd MMMM, yyyy"}
             showMonthYearPicker={dateType === "date"}
             onChange={(date) => {
+              date.setHours(0);
               setStartDate(date);
             }}
           />
@@ -187,6 +213,8 @@ const Treatments = () => {
             dateFormat={"dd MMMM, yyyy"}
             showMonthYearPicker={dateType === "date"}
             onChange={(date) => {
+              date.setHours(23);
+              date.setMinutes(59);
               setEndDate(date);
             }}
           />
@@ -194,8 +222,7 @@ const Treatments = () => {
         <div className="ml-6">
           <Button
             onClick={() => {
-              const input = document.getElementById('input')
-              input.click();
+              search();
             }}
           >
             Tìm kiếm
@@ -204,8 +231,7 @@ const Treatments = () => {
         <div className="ml-6">
           <Button
             onClick={() => {
-              const input = document.getElementById('input')
-              input.click();
+              downloadReport();
             }}
           >
             Xuất file
