@@ -24,7 +24,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
     return intervalSplit[0] * 60 + intervalSplit[1] * 1 + " minutes"
   }
 
-  console.log('data123', data);
 
   useEffect(() => {
     if (data.bundle_services) {
@@ -147,12 +146,10 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       })
   }
 
-  console.log('data', data)
 
   return (
-    <div className="my-10 w-full">
+    <div className="my-4 w-full">
       <div className="flex items-center gap-x-2"></div>
-      <p className="text-3xl text-center text-bold underline mb-8">Sinh hiệu:</p>
       <table className="table-auto sinh_hieu w-full">
         <tr>
           <th>Mạch(lần/phút)</th>
@@ -261,7 +258,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
-            // console.log('getValues', getValues("bmi"))
             downloadMedicalRecord()
           }}
         >
@@ -271,7 +267,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
-            // console.log('getValues', getValues("bmi"))
             downloadShortenMedicalRecord()
           }}
         >

@@ -24,6 +24,8 @@ import format from "date-fns/format"
 import parse from "date-fns/parse"
 import startOfWeek from "date-fns/startOfWeek"
 import getDay from "date-fns/getDay"
+import Datepicker from "components/Datepicker"
+import moment from "moment"
 
 const locales = {
   vi: viVN,
@@ -40,12 +42,16 @@ const localizer = dateFnsLocalizer({
 const Treatments = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const today = moment()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [pageCount, setPageCount] = useState(0)
   const [detailData, setDetailData] = useState()
   const [searchKey, setSearchKey] = useState()
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
   const fetchIdRef = useRef(0)
+  const [dateType, setDateType] = useState("month")
 
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
@@ -135,7 +141,7 @@ const Treatments = () => {
   return (
     <Page
       title="Quản lý hồ sơ bệnh án"
-      // rightContent={detailData && <TreatmentAnalytics data={detailData} />}
+    // rightContent={detailData && <TreatmentAnalytics data={detailData} />}
     >
       {/* <div className="w-full flex items-center gap-x-9">
         <SearchInput
@@ -160,6 +166,52 @@ const Treatments = () => {
       style={{ height: 500 }}
     />
     </div> */}
+      <div className="flex items-center">
+        <div className="w-[340px]  mr-4">
+          <Datepicker
+            className="bg-primary text-white"
+            iconClassName="fill-white"
+            value={startDate}
+            dateFormat={"dd MMMM, yyyy"}
+            showMonthYearPicker={dateType === "date"}
+            onChange={(date) => {
+              setStartDate(date);
+            }}
+          />
+        </div><div
+          className="w-[340px]">
+          <Datepicker
+            className="bg-primary text-white"
+            iconClassName="fill-white"
+            value={endDate}
+            dateFormat={"dd MMMM, yyyy"}
+            showMonthYearPicker={dateType === "date"}
+            onChange={(date) => {
+              setEndDate(date);
+            }}
+          />
+        </div>
+        <div className="ml-6">
+          <Button
+            onClick={() => {
+              const input = document.getElementById('input')
+              input.click();
+            }}
+          >
+            Tìm kiếm
+          </Button>
+        </div>
+        <div className="ml-6">
+          <Button
+            onClick={() => {
+              const input = document.getElementById('input')
+              input.click();
+            }}
+          >
+            Xuất file
+          </Button>
+        </div>
+      </div>
       <div
         className={classNames({
           "w-full": !detailData,
