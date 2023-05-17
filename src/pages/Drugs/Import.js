@@ -122,7 +122,6 @@ const Products = () => {
   return (
     <Page
       title="Quản lý thuốc"
-      rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
       <div className="w-full flex items-center gap-x-9">
         <SearchInput
@@ -133,6 +132,7 @@ const Products = () => {
             setSearchKey(value)
           }}
         />
+        <ImportExportHistory />
         {/* <Button
           icon={<Icon name="add-circle" className="fill-white" />}
           onClick={() => {
