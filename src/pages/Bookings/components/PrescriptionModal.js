@@ -150,6 +150,7 @@ const PrescriptionModal = ({ medicalRecordId, patientId, visibleModal, onClose }
         dontShowOnCalendar: false,
         status: "scheduled",
         note: "Tái khám",
+        type: "at_clinic"
       }
       await createBookingWithPatient({ ...payload, createNewPatient: false })
     }
