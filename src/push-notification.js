@@ -15,7 +15,7 @@ export const initializeFirebase = async () => {
     console.log('messaging', messaging)
     const token = await getToken(messaging, {vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk"});
     console.log('token123', token);
-    onMessage(msg, (payload) => {
+    onMessage(messaging, (payload) => {
         console.log('Message received. ', payload);
         msg.setBackgroundMessageHandler(payload => {
             console.log(payload);
