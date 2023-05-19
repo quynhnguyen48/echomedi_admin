@@ -13,5 +13,6 @@ export const initializeFirebase = async () => {
     let app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
     console.log('messaging', messaging)
-    getToken(messaging, {vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk"});
+    const token = getToken(messaging, {vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk"});
+    console.log('token123', token);
 }
