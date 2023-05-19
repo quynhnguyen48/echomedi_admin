@@ -156,9 +156,6 @@ const ServiceBundles = () => {
       title="Nhắn tin"
     // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
-      <button onClick={askForPermissioToReceiveNotifications} >
-      Clique aqui para receber notificações
-    </button>
       <div className="w-full flex items-center gap-x-9">
         <div class="container mx-auto">
           <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
