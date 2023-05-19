@@ -173,7 +173,7 @@ const Bookings = () => {
             status: b.status,
             ...b,
             id: b.id,
-            title: b.patient.uid + " | " + b.patient.full_name,
+            title: b.patient?.uid + " | " + b.patient?.full_name,
           }
         })
         setEvents(bks)
