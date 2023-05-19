@@ -17,7 +17,7 @@ export const initializeFirebase = async () => {
     console.log('token123', token);
     onMessage(msg, (payload) => {
         console.log('Message received. ', payload);
-        messaging.setBackgroundMessageHandler(payload => {
+        msg.setBackgroundMessageHandler(payload => {
             console.log(payload);
             const title = payload.data.title;
             const options = {
