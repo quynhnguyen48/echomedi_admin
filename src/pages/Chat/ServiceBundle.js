@@ -131,6 +131,19 @@ const ServiceBundles = () => {
       });
   }
 
+  const askForPermissioToReceiveNotifications = async () => {
+    try {
+      const messaging = firebase.messaging();
+      await messaging.requestPermission();
+      const token = await messaging.getToken();
+      console.log('token do usuário:', token);
+      
+      return token;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
 
     loadConversation();
@@ -143,6 +156,9 @@ const ServiceBundles = () => {
       title="Nhắn tin"
     // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
+      <button onClick={askForPermissioToReceiveNotifications} >
+      Clique aqui para receber notificações
+    </button>
       <div className="w-full flex items-center gap-x-9">
         <div class="container mx-auto">
           <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
