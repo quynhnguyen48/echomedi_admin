@@ -9,21 +9,30 @@ export const initializeFirebase = async () => {
         storageBucket: "echomedi-551ad.appspot.com",
         messagingSenderId: "868250085237",
         appId: "1:868250085237:web:0dac966b3530189b19153c"
-      };
+    };
     let app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
-    console.log('messaging', messaging)
-    const token = await getToken(messaging, {vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk"});
-    console.log('token123', token);
+    const token = await getToken(messaging, { vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk" });
+
     onMessage(messaging, (payload) => {
-        console.log('Message received. ', payload);
-        msg.setBackgroundMessageHandler(payload => {
-            console.log(payload);
-            const title = payload.data.title;
-            const options = {
-                body: payload.data.score
-            };
-            return self.registration.showNotification(title, options);
-        });
+        const notificationTitle = payload.notification.title;
+        const notificationOptions = {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+        };
+
+        if (!("Notification" in window)) {
+            console.log("This browser does not support system notifications");
+        }
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+            // If it's okay let's create a notification
+            var notification = new Notification(notificationTitle, notificationOptions);
+            notification.onclick = function (event) {
+                event.preventDefault(); // prevent the browser from focusing the Notification's tab
+                window.open(payload.notification.click_action, '_blank');
+                notification.close();
+            }
+        }
     });
 }

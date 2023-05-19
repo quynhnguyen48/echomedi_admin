@@ -40,6 +40,7 @@ messaging.getToken({ vapidKey: 'BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDzt
     // ...
 });
 
+console.log('onBackgroundMessage');
 
 messaging.onBackgroundMessage((payload) => {
     console.log(
