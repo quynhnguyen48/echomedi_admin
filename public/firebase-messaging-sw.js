@@ -29,7 +29,28 @@ messaging.getToken({ vapidKey: 'BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDzt
     if (currentToken) {
         // Send the token to your server and update the UI if necessary
         // ...
-        console.log('token', currentToken)
+        var request = indexedDB.open("echomedi", 1);
+        request.onsuccess = (e) => {
+            var db = e.target.result;
+            console.log('save token 1', db)
+            var request = db.transaction("echomedi").objectStore("echomedi").get(1);
+            console.log('save token 2')
+            request.onsuccess = (event) => {
+                fetch('http://localhost:1337/api/user/updateMe', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': "Bearer " + event.target.result.token
+                    },
+                    body: JSON.stringify({ "token": currentToken })
+                })
+                    .then(response => response.json())
+                    .then(response => console.log(JSON.stringify(response)))
+            };
+
+        }
+
     } else {
         // Show permission request UI
         console.log('No registration token available. Request permission to generate one.');
@@ -43,14 +64,11 @@ messaging.getToken({ vapidKey: 'BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDzt
 console.log('onBackgroundMessage');
 
 messaging.onBackgroundMessage((payload) => {
-    console.log(
-        '[firebase-messaging-sw.js] Received background message ',
-        payload
-    );
     // Customize notification here
-    const notificationTitle = 'Background Message Title';
+    console.log('payload', payload);
+    const notificationTitle = payload.title;
     const notificationOptions = {
-        body: 'Background Message body.',
+        body: payload.body,
         icon: '/firebase-logo.png'
     };
     self.registration.showNotification(notificationTitle, notificationOptions);
