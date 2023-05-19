@@ -5,10 +5,7 @@ importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 
 // If the "hi" message is posted, say hi back
-self.addEventListener('message', function (event) {
-	if (event.data !== 'hi') return;
-	console.log('Oh, hi there!');
-});
+console.log('123123123123')
 
 const firebaseConfig = {
     apiKey: "AIzaSyAH9EPMpEoiRi644KtreNgOVpSBmDMjTmg",
@@ -30,42 +27,6 @@ const messaging = firebase.messaging();
 
 // Get registration token. Initially this makes a network call, once retrieved
 // subsequent calls to getToken will return from cache.
-messaging.getToken({ vapidKey: 'BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk' }).then((currentToken) => {
-    console.log('currentToken', currentToken)
-    if (currentToken) {
-        // Send the token to your server and update the UI if necessary
-        // ...
-        var request = indexedDB.open("echomedi", 1);
-        request.onsuccess = (e) => {
-            var db = e.target.result;
-            console.log('save token 1', db)
-            var request = db.transaction("echomedi").objectStore("echomedi").get(1);
-            console.log('save token 2 3')
-            request.onsuccess = (event) => {
-                fetch('https://api.echomedi.com/api/user/updateMe', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer " + event.target.result.token
-                    },
-                    body: JSON.stringify({ "token": currentToken })
-                })
-                    .then(response => response.json())
-                    .then(response => console.log(JSON.stringify(response)))
-            };
-
-        }
-
-    } else {
-        // Show permission request UI
-        console.log('No registration token available. Request permission to generate one.');
-        // ...
-    }
-}).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    // ...
-});
 
 console.log('onBackgroundMessage');
 
