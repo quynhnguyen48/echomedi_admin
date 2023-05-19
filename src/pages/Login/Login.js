@@ -77,9 +77,9 @@ const Login = () => {
         localStorage.setItem(BRANCH, branch);
         db.transaction("echomedi", "readwrite")
           .objectStore("echomedi")
-          .add({
-            token: loginRes.data?.jwt
-          });
+          .put({
+            id: 1, token: loginRes.data?.jwt
+          }, 1);
 
 
           var request = db.transaction("echomedi").objectStore("echomedi").get(1);
