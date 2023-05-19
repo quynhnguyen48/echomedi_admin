@@ -28,12 +28,10 @@ const messaging = firebase.messaging();
 // Get registration token. Initially this makes a network call, once retrieved
 // subsequent calls to getToken will return from cache.
 
-console.log('onBackgroundMessage');
-
 messaging.onBackgroundMessage((payload) => {
     // Customize notification here
     console.log('payload', payload);
-    const notificationTitle = payload.title;
+    const notificationTitle = "New message";
     const notificationOptions = {
         body: payload.body,
         icon: '/firebase-logo.png'
