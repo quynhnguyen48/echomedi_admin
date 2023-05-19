@@ -673,6 +673,16 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           )}
         />
 
+        {/* <a target="_blank" href={`https://maps.google.com/?q=${data.latitude},${data.longitude}`}>Vị trí</a> */}
+        {data.latitude && data.longitude && <Button
+                        type={"button"}
+                        onClick={() => {
+                          window.open(`https://maps.google.com/?q=${data.latitude},${data.longitude}`);
+                        }}
+                      >
+                        Mở google maps vị trí
+                      </Button>}
+
         {/* <div className="grid grid-cols-2 gap-x-6">
           <div className="space-y-2">
             <label className="font-16 font-bold">Customer Tag</label>
