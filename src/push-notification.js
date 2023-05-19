@@ -15,4 +15,8 @@ export const initializeFirebase = async () => {
     console.log('messaging', messaging)
     const token = getToken(messaging, {vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk"});
     console.log('token123', token);
+    messaging.onMessage(function(payload) {
+        alert("Foreground message fired!")
+        console.log(payload)
+      });
 }
