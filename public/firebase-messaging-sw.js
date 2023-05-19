@@ -4,6 +4,12 @@
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 
+// If the "hi" message is posted, say hi back
+self.addEventListener('message', function (event) {
+	if (event.data !== 'hi') return;
+	console.log('Oh, hi there!');
+});
+
 const firebaseConfig = {
     apiKey: "AIzaSyAH9EPMpEoiRi644KtreNgOVpSBmDMjTmg",
     authDomain: "echomedi-551ad.firebaseapp.com",
@@ -34,7 +40,7 @@ messaging.getToken({ vapidKey: 'BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDzt
             var db = e.target.result;
             console.log('save token 1', db)
             var request = db.transaction("echomedi").objectStore("echomedi").get(1);
-            console.log('save token 2')
+            console.log('save token 2 3')
             request.onsuccess = (event) => {
                 fetch('https://api.echomedi.com/api/user/updateMe', {
                     method: 'POST',

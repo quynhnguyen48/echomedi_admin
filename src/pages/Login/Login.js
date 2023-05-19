@@ -82,9 +82,17 @@ const Login = () => {
           }, 1);
 
 
-          var request = db.transaction("echomedi").objectStore("echomedi").get(1);
-          request.onsuccess = (event) => {
-            console.log(`Value is: ${event.target.result.token}` )
+        var request = db.transaction("echomedi").objectStore("echomedi").get(1);
+        request.onsuccess = (event) => {
+          console.log(`Value is: ${event.target.result.token}`)
+            navigator.serviceWorker
+              .register('firebase-messaging-sw.js')
+              .then(function (registration) {
+                return registration.scope;
+              })
+              .catch(function (err) {
+                return err;
+              });
         }
 
         const userRes = await getMe();
