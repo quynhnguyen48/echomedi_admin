@@ -206,7 +206,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     const el3 = document.getElementById('diagnose');
     var tagify = new Tagify(el3, {
-      whitelist: currentUser.abbreviation.diagnose,
+      whitelist: currentUser.abbreviation.diagnose ?? [],
       dropdown: {
         classname: "color-blue",
         enabled: 0,              // show the dropdown immediately on focus
@@ -248,7 +248,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     const el5 = document.getElementById('examination');
     var tagify = new Tagify(el5, {
-      whitelist: currentUser.abbreviation.examination,
+      whitelist: currentUser.abbreviation.examination ?? [],
       dropdown: {
         classname: "color-blue",
         enabled: 0,              // show the dropdown immediately on focus
@@ -290,7 +290,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     const el7 = document.getElementById('general_examination');
     var tagify = new Tagify(el7, {
-      whitelist: currentUser.abbreviation.general_examination,
+      whitelist: currentUser.abbreviation.general_examination ?? [],
       dropdown: {
         classname: "color-blue",
         enabled: 0,              // show the dropdown immediately on focus
@@ -311,7 +311,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     const el8 = document.getElementById('main_diagnose');
     var tagify = new Tagify(el8, {
-      whitelist: currentUser.abbreviation.main_diagnose,
+      whitelist: currentUser.abbreviation.main_diagnose ?? [],
       dropdown: {
         classname: "color-blue",
         enabled: 0,              // show the dropdown immediately on focus
@@ -332,7 +332,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     const el9 = document.getElementById('other_diagnose');
     var tagify = new Tagify(el9, {
-      whitelist: currentUser.abbreviation.other_diagnose,
+      whitelist: currentUser.abbreviation.other_diagnose ?? [],
       dropdown: {
         classname: "color-blue",
         enabled: 0,              // show the dropdown immediately on focus
@@ -353,7 +353,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     const el10 = document.getElementById('premise');
     var tagify = new Tagify(el10, {
-      whitelist: currentUser.abbreviation.premise,
+      whitelist: currentUser.abbreviation.premise ?? [],
       dropdown: {
         classname: "color-blue",
         enabled: 0,              // show the dropdown immediately on focus
@@ -791,8 +791,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const loadBundleServices = () => {
 
-    axios
-      .get("/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
+    axios2
+      .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
       .then((response) => {
         if (!data.bundle_services) {
           let ms = response.data.data;

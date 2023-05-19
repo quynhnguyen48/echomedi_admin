@@ -283,12 +283,12 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           dontShowOnCalendar: false,
           status: "scheduled",
         }
-        await createBookingWithPatient({ ...payload, createNewPatient: false })
+        await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient: false })
       } else if (updateBooking) {
         await updateBookingWithPatient({ ...payload, id: data.id, patient: data?.patient.id, createNewPatient })
       } else {
         // const existPatient = !!getValues("user") || !createNewPatient;
-        await createBookingWithPatient({ ...payload, createNewPatient })
+        await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient })
       }
 
       onCloseModal()
