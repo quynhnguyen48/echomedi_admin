@@ -36,7 +36,7 @@ messaging.getToken({ vapidKey: 'BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDzt
             var request = db.transaction("echomedi").objectStore("echomedi").get(1);
             console.log('save token 2')
             request.onsuccess = (event) => {
-                fetch('http://localhost:1337/api/user/updateMe', {
+                fetch('https://api.echomedi.com/api/user/updateMe', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
