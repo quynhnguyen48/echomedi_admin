@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 export const initializeFirebase = async () => {
     const firebaseConfig = {
@@ -13,10 +13,17 @@ export const initializeFirebase = async () => {
     let app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
     console.log('messaging', messaging)
-    const token = getToken(messaging, {vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk"});
+    const token = await getToken(messaging, {vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk"});
     console.log('token123', token);
-    messaging.onMessage(function(payload) {
-        alert("Foreground message fired!")
-        console.log(payload)
-      });
+    onMessage(messaging, (payload) => {
+        console.log('Message received. ', payload);
+        messaging.setBackgroundMessageHandler(payload => {
+            console.log(payload);
+            const title = payload.data.title;
+            const options = {
+                body: payload.data.score
+            };
+            return self.registration.showNotification(title, options);
+        });
+    });
 }
