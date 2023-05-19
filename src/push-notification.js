@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { JWT_TOKEN } from "constants/Authentication";
 
 export const initializeFirebase = async () => {
     const firebaseConfig = {
@@ -13,6 +14,20 @@ export const initializeFirebase = async () => {
     let app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
     const token = await getToken(messaging, { vapidKey: "BIu9-xxOmBtEir-Zz1LrCbDc_Dh5X5wXc4dYXzROdm-ukDztaquaTSIYTtLsSWSI0aulxvlbERH6z61Ij_L3Ejk" });
+    const tokenApp = localStorage.getItem(JWT_TOKEN);
+
+    // fetch('http://localhost:1337/api/user/updateMe', {
+    fetch('https://api.echomedi.com/api/user/updateMe', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + tokenApp
+        },
+        body: JSON.stringify({ "token": token })
+    })
+        .then(response => response.json())
+        .then(response => console.log(JSON.stringify(response)))
 
     onMessage(messaging, (payload) => {
         const notificationTitle = payload.notification.title;

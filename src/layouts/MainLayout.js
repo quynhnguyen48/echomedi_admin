@@ -13,6 +13,7 @@ import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import { getAllBoards, getBoard, getBoardDetail } from "api/Board";
 import UserProvider from "provider/UserProvider";
 import UIProvider from "provider/UIProvider";
+import { initializeFirebase } from '../push-notification';
 
 const MainLayout = ({ children }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,10 @@ const MainLayout = ({ children }) => {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [boards, setBoards] = useState([]);
   const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    initializeFirebase();
+  }, [])
 
   const loadRenderedBoard = async (b) => {
     const toastId = toast.loading("Đang tải ...")
