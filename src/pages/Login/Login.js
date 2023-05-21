@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Input from "components/Input";
 import Button from "components/Button";
 import { getMe, login, updateUser } from "services/api/users"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { JWT_TOKEN, USER_ROLE, BRANCH } from "constants/Authentication";
 import { setCurrentUser } from "slice/userSlice";
@@ -18,6 +18,7 @@ const Login = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [branch, setBranch] = useState("q7");
+  const [db, setDb] = useState();
 
   const validationSchema = yup.object({
     email: yup
@@ -43,6 +44,8 @@ const Login = () => {
     },
   });
 
+  
+
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
@@ -53,6 +56,26 @@ const Login = () => {
       if (loginRes.data?.jwt) {
         localStorage.setItem(JWT_TOKEN, loginRes.data?.jwt);
         localStorage.setItem(BRANCH, branch);
+        // db.transaction("echomedi", "readwrite")
+        //   .objectStore("echomedi")
+        //   .put({
+        //     id: 1, token: loginRes.data?.jwt
+        //   }, 1);
+
+
+        // var request = db.transaction("echomedi").objectStore("echomedi").get(1);
+        // request.onsuccess = (event) => {
+        //   console.log(`Value is: ${event.target.result.token}`)
+        //     navigator.serviceWorker
+        //       .register('firebase-messaging-sw.js')
+        //       .then(function (registration) {
+        //         return registration.scope;
+        //       })
+        //       .catch(function (err) {
+        //         return err;
+        //       });
+        // }
+
         const userRes = await getMe();
         if (
           ![USER_ROLE.PUBLIC, USER_ROLE.AUTHENTICATED].includes(
@@ -74,6 +97,8 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+
+
 
   const getDisplayLabelBranches = (value) => {
     switch (value) {
@@ -129,35 +154,35 @@ const Login = () => {
           )}
         />
         <div className="space-y-2">
-            <label className="font-16 font-bold">Chọn chi nhánh</label>
-            <div className="grid grid-cols-3 gap-x-6">
-              <Controller
-                name="gender"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    {["q7", "q2", "binhduong"]?.map((gender) => (
-                      <Button
-                        key={gender}
-                        onChange={onchange}
-                        type="button"
-                        className={classNames("w-full h-14 pl-6 !justify-start capitalize", {
-                          "bg-primary text-white font-bold": gender === branch,
-                          "bg-primary/10 text-primary font-normal": gender !== branch,
-                        })}
-                        onClick={() => setBranch(gender)}
-                      >
-                        {getDisplayLabelBranches(gender)}
-                      </Button>
-                    ))}
-                    {errors?.gender?.message && (
-                      <p className="text-12 text-error mt-1">{errors?.gender?.message}</p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
+          <label className="font-16 font-bold">Chọn chi nhánh</label>
+          <div className="grid grid-cols-3 gap-x-6">
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  {["q7", "q2", "binhduong"]?.map((gender) => (
+                    <Button
+                      key={gender}
+                      onChange={onchange}
+                      type="button"
+                      className={classNames("w-full h-14 pl-6 !justify-start capitalize", {
+                        "bg-primary text-white font-bold": gender === branch,
+                        "bg-primary/10 text-primary font-normal": gender !== branch,
+                      })}
+                      onClick={() => setBranch(gender)}
+                    >
+                      {getDisplayLabelBranches(gender)}
+                    </Button>
+                  ))}
+                  {errors?.gender?.message && (
+                    <p className="text-12 text-error mt-1">{errors?.gender?.message}</p>
+                  )}
+                </>
+              )}
+            />
           </div>
+        </div>
         <div className="flex justify-center gap-x-4 mt-10">
           <Button className="fill-primary" type="submit" loading={isLoading}>
             ĐĂNG NHẬP

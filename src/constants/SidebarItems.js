@@ -46,9 +46,10 @@ export const SIDEBAR_ITEMS = [
   {
     id: "chat",
     name: "Nhắn tin",
-    icon: "sidebar/blogs",
+    icon: "sidebar/conversation",
     url: "/chat",
     apiKey: "api::conversation",
+    controllerKey: "conversation",
   },
   {
     id: "invoices",

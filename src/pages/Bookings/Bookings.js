@@ -173,7 +173,7 @@ const Bookings = () => {
             status: b.status,
             ...b,
             id: b.id,
-            title: b.patient?.uid + " | " + b.patient?.full_name,
+            title: (b.type ?? "") + " " + b.patient?.uid + " | " + b.patient?.full_name,
           }
         })
         setEvents(bks)
@@ -234,27 +234,28 @@ const Bookings = () => {
   )
 
   const eventStyleGetter = (event, start, end, isSelected) => {
+    
     let backgroundColor
     switch (event.status) {
-      case bookingStatus[0]:
-        backgroundColor = "orange"
-        break
-      case bookingStatus[1]:
-        backgroundColor = "green"
-        break
-      case bookingStatus[2]:
-        backgroundColor = "blue"
-        break
-      case bookingStatus[3]:
-        backgroundColor = "grey"
-        break
-      case bookingStatus[4]:
-        backgroundColor = "purple"
-        break
-      case bookingStatus[5]:
-        backgroundColor = "red"
-        break
-    }
+        case bookingStatus[0]:
+          backgroundColor = "orange"
+          break
+        case bookingStatus[1]:
+          backgroundColor = "green"
+          break
+        case bookingStatus[2]:
+          backgroundColor = "blue"
+          break
+        case bookingStatus[3]:
+          backgroundColor = "grey"
+          break
+        case bookingStatus[4]:
+          backgroundColor = "purple"
+          break
+        case bookingStatus[5]:
+          backgroundColor = "red"
+          break
+      }
     var style = {
       backgroundColor: backgroundColor,
       borderRadius: "0px",
