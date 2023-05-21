@@ -20,7 +20,7 @@ const populate = [
   // "patient",
   // "booking",
   "booking.patient",
-  // "prescription",
+  "prescription",
 ]
 
 export const getMedicalRecords = (pagination, filters = {}) => {
