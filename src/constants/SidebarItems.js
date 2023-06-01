@@ -52,6 +52,14 @@ export const SIDEBAR_ITEMS = [
     controllerKey: "conversation",
   },
   {
+    id: "chat-request",
+    name: "Yêu cầu hỗ trợ",
+    icon: "sidebar/conversation",
+    url: "/request-chat",
+    apiKey: "api::conversation-queue",
+    controllerKey: "conversation-queue",
+  },
+  {
     id: "invoices",
     name: "Hoá đơn",
     icon: "sidebar/coin",

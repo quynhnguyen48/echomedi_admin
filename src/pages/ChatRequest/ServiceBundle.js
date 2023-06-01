@@ -119,13 +119,21 @@ const ServiceBundles = () => {
   )
 
   const loadConversation = async () => {
-    await axios.get("/conversation-queues?populate[user][populate]=*&populate[second_person][populate]=*&filters[second_person]=" + currentUser.id, {
-      // axios2.post("http://localhost:1337/api/product/generatePrescription", {
-      // "id": medicalRecordId,
-    })
+    await axios.get("/conversation-queues?populate[user][populate]=*&populate[second_person][populate]=*&filters[second_person][id][\$null]=true")
       .then((response) => {
+        console.log('response', response.data?.data)
         setConversations(response.data?.data);
 
+      })
+      .finally(() => {
+        // toast.dismiss(toastId);
+      });
+  }
+
+  const createConversation = async (c) => {
+    c.attributes["second_person"] = currentUser.id;
+    await axios.put("/conversation-queues/" + c.id, { data: c.attributes })
+      .then((response) => {
       })
       .finally(() => {
         // toast.dismiss(toastId);
@@ -138,7 +146,7 @@ const ServiceBundles = () => {
       await messaging.requestPermission();
       const token = await messaging.getToken();
       console.log('token do usuário:', token);
-      
+
       return token;
     } catch (error) {
       console.error(error);
@@ -177,24 +185,30 @@ const ServiceBundles = () => {
               <ul class="overflow-auto h-[32rem]">
                 <li>
                   {conversations && conversations.map(c => <a
-                  class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
-                    >
-                    <button 
+                    class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
+                  >
+                    {/* <button 
                     class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
                     onClick={e => {
                           navigate(`/chat/${c?.id}/${c.attributes.user?.data.attributes.email}`)
-                        }}>
+                        }}> */}
                     <img class="object-cover w-10 h-10 rounded-full"
                       src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg" alt="username" />
                     <div class="w-full pb-2">
                       <div class="flex justify-between">
-                        
-                      <span class="block ml-2 font-semibold text-gray-600">{c.attributes.user.data.attributes.patient.data.attributes.full_name}</span>
+
+                        <span class="block ml-2 font-semibold text-gray-600">{c.attributes.user.data.attributes.patient.data.attributes.full_name}</span>
                         {/* <span class="block ml-2 text-sm text-gray-600">25 minutes</span> */}
                       </div>
                       {/* <span class="block ml-2 text-sm text-gray-600">bye</span> */}
                     </div>
-                    </button>
+                    <button
+                      onClick={async e => {
+                        await createConversation(c);
+                        navigate(`/chat/${c?.id}/${c.attributes.user?.data.attributes.email}`)
+                      }}
+                    >Bắt đầu hội thoại</button>
+                    {/* </button> */}
                   </a>)}
                 </li>
               </ul>

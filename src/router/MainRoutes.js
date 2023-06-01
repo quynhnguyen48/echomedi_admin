@@ -84,6 +84,7 @@ const ServiceBundles = React.lazy(() => import("pages/ServiceBundle/ServiceBundl
 const News = React.lazy(() => import("pages/News/News"));
 const EmailTemplate = React.lazy(() => import("pages/EmailTemplate/EmailTemplate"));
 const ChatPage = React.lazy(() => import("pages/Chat/ServiceBundle"));
+const ChatRequestPage = React.lazy(() => import("pages/ChatRequest/ServiceBundle"));
 const MessagePage = React.lazy(() => import("pages/MessagePage/ServiceBundle"));
 
 const MainRoutes = () => {
@@ -184,6 +185,7 @@ const MainRoutes = () => {
         <Route path="/medical-services/create" element={<CreateMedicalService />} />
         <Route path="/service-bundle/create" element={<CreateBundleService />} />
         <Route path="/chat" element={<ChatPage />} />
+        <Route path="/request-chat" element={<ChatRequestPage />} />
         <Route path="/chat/:id/:email" element={<MessagePage />} />
         <Route path="/boards" element={<Boards />} />
         <Route path="/board/:id/:taskId" element={<Board />} />

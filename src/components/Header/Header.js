@@ -71,14 +71,14 @@ const Header = ({ title, parentUrl }) => {
 
           </div>
           <Button shape="circle" className="bg-transparent w-[200px] text-[green]" onClick={() => navigate("/settings")}>
-          <Avatar
+          {/* <Avatar
             size={40}
             round
             name={`${currentUser?.firstName} ${currentUser?.lastName}`}
             src={
               currentUser?.avatar && getStrapiMedia({ url: currentUser.avatar })
             }
-          />
+          /> */}
           <pre>{" " + currentUser?.email + " "}</pre>
           </Button>
           <Button shape="circle" className="bg-transparent" onClick={() => logout()}>
