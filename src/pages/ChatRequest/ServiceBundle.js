@@ -197,7 +197,7 @@ const ServiceBundles = () => {
                     <div class="w-full pb-2">
                       <div class="flex justify-between">
 
-                        <span class="block ml-2 font-semibold text-gray-600">{c.attributes.user.data.attributes.patient.data.attributes.full_name}</span>
+                        <span class="block ml-2 font-semibold text-gray-600">{c.attributes.user.data.attributes.patient.data?.attributes.full_name}</span>
                         {/* <span class="block ml-2 text-sm text-gray-600">25 minutes</span> */}
                       </div>
                       {/* <span class="block ml-2 text-sm text-gray-600">bye</span> */}
