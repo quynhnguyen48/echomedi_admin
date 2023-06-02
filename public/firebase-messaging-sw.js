@@ -31,7 +31,7 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
     // Customize notification here
     console.log('payload', payload);
-    const notificationTitle = "New message";
+    const notificationTitle = payload.title;
     const notificationOptions = {
         body: payload.body,
         icon: '/firebase-logo.png'
