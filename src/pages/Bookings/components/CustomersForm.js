@@ -127,7 +127,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
       .trim()
       .when([], {
         is: () => !getValues("user"),
-        then: yup.string().trim().matches(/^[0-9]*$/, "Phone number is not in correct format"),
+        then: yup.string().trim(),
         otherwise: yup.string().notRequired(),
       }),
     // address: yup.object({
@@ -564,7 +564,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
                     setValue("address.district", null, { shouldDirty: true })
                     setValue("address.ward", null, { shouldDirty: true })
                   }}
-                  value={(getValues("user")?.address.province &&
+                  value={(getValues("user")?.address?.province &&
                     { value: getValues("user")?.address.province.id, label: getValues("user")?.address.province.name }
                   )
                     || (value && { value: value?.id, label: value?.name })}
@@ -602,8 +602,8 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
 
                     setValue("address.ward", null)
                   }}
-                  value={(getValues("user")?.address.district &&
-                    { value: getValues("user")?.address.district.id, label: getValues("user")?.address.district.name }
+                  value={(getValues("user")?.address?.district &&
+                    { value: getValues("user")?.address?.district.id, label: getValues("user")?.address.district.name }
                   )
                     || (value && { value: value?.id, label: value?.name })}
                   options={districtList}
@@ -629,8 +629,8 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
                       { shouldDirty: true, shouldValidate: true }
                     )
                   }}
-                  value={(getValues("user")?.address.ward &&
-                    { value: getValues("user")?.address.ward.id, label: getValues("user")?.address.ward.name }
+                  value={(getValues("user")?.address?.ward &&
+                    { value: getValues("user")?.address?.ward.id, label: getValues("user")?.address.ward.name }
                   )
                     || (value && { value: value?.id, label: value?.name })}
                   options={wardList}

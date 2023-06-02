@@ -34,8 +34,8 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
     lastName: yup.string().required("Last name is required"),
     phone: yup
       .string()
-      .trim()
-      .matches(/^[0-9]*$/, "Phone number is not in correct format"),
+      .trim(),
+      // .matches(/^[0-9]*$/, "Phone number is not in correct format"),
     address: yup.object({
       province: yup.object().required("City is required").nullable(),
       district: yup.object().required("District is required").nullable(),

@@ -33,8 +33,8 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
     phone: yup
       .string()
-      .trim()
-      .matches(/^[0-9]*$/, "Phone number is not in correct format"),
+      .trim(),
+      // .matches(/^[0-9]*$/, "Phone number is not in correct format"),
     address: yup.object({
       province: yup.object().required("City is required").nullable(),
       district: yup.object().required("District is required").nullable(),
