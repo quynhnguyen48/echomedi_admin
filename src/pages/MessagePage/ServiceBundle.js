@@ -189,7 +189,7 @@ const ServiceBundles = () => {
 
   const sendMesssage = () => {
     var email = currentUser?.email;
-    socket.emit("chatMessage", { "user": "user", "message": `${email}|room${id}|${message}|${DateTime.now().toIso8601String()}` });
+    socket.emit("chatMessage", { "user": "user", "message": `${email}|room${id}|${message}|${new Date().toISOString()}` });
     refInput.current.value = "";
   }
 
