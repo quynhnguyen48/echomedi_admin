@@ -160,6 +160,8 @@ const ServiceBundles = () => {
     var socket = io();
   }, []);
 
+  console.log('conversations', conversations)
+
   return (
     <Page
       title="Nhắn tin"
@@ -198,6 +200,22 @@ const ServiceBundles = () => {
                       <div class="flex justify-between">
 
                         <span class="block ml-2 font-semibold text-gray-600">{c.attributes.user.data.attributes.patient.data?.attributes.full_name}</span>
+                        {/* <span class="block ml-2 text-sm text-gray-600">25 minutes</span> */}
+                      </div>
+                      {/* <span class="block ml-2 text-sm text-gray-600">bye</span> */}
+                    </div>
+                    <div class="w-30 pb-2">
+                      <div class="flex justify-between">
+
+                        <span class="block ml-2 font-semibold text-gray-600">{c.attributes.branch}</span>
+                        {/* <span class="block ml-2 text-sm text-gray-600">25 minutes</span> */}
+                      </div>
+                      {/* <span class="block ml-2 text-sm text-gray-600">bye</span> */}
+                    </div>
+                    <div class="w-30 pb-2">
+                      <div class="flex justify-between">
+
+                        <span class="block ml-2 font-semibold text-gray-600">{c.attributes.supporter}</span>
                         {/* <span class="block ml-2 text-sm text-gray-600">25 minutes</span> */}
                       </div>
                       {/* <span class="block ml-2 text-sm text-gray-600">bye</span> */}
