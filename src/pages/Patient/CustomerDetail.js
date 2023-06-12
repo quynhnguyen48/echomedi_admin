@@ -22,6 +22,7 @@ import { createBookingWithPatient, } from "services/api/bookings";
 import { BRANCH } from "constants/Authentication"
 import moment from "moment";
 import Modal from "components/Modal"
+import PrescriptionModal from "./PrescriptionModal";
 
 dayjs.locale('vi')
 
@@ -32,11 +33,12 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   const [openCustomerDebtDrawer, setOpenCustomerDebtDrawer] = useState(false)
   const [openCustomerAccountBalanceDrawer, setOpenCustomerAccountBalanceDrawer] = useState(true)
   const [listActiveMemberCard, setListActiveMemberCard] = useState([])
+  const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (data?.id) {
-      ;(async () => {
+      ; (async () => {
         try {
           const res = await getUserDebt({ userId: data?.id })
           setTotalDebt(res?.data?.[0]?.totalDebt || 0)
@@ -70,7 +72,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               }
             })
           )
-        } catch (error) {}
+        } catch (error) { }
       })()
     }
   }, [data?.id])
@@ -142,23 +144,23 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         >
           Tạo hồ sơ bệnh án
         </Button> */}
-        <Button
-          icon={<Icon name="add-circle" className="fill-white" />}
-          onClick={async () => {
-            await createBookingWithPatient({
-              patient: data.id,
-              status: "confirmed",
-              createNewPatient: false,
-              bookingDate: moment().toDate(),
-              branch: localStorage.getItem(BRANCH),
-              dontShowOnCalendar: true,
-            });
+          <Button
+            icon={<Icon name="add-circle" className="fill-white" />}
+            onClick={async () => {
+              await createBookingWithPatient({
+                patient: data.id,
+                status: "confirmed",
+                createNewPatient: false,
+                bookingDate: moment().toDate(),
+                branch: localStorage.getItem(BRANCH),
+                dontShowOnCalendar: true,
+              });
 
-            navigate("/today-patient")
-          }}
-        >
-          Đưa bệnh nhân vào danh sách tiếp đón
-        </Button>
+              navigate("/today-patient")
+            }}
+          >
+            Đưa bệnh nhân vào danh sách tiếp đón
+          </Button>
         </div>
       </div>
       <div className="grid grid-cols-2 grid-flow-row gap-y-8 mt-4">
@@ -177,12 +179,28 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           title="Địa chỉ"
           value={
             data?.address
-              ? `${data?.address?.address || ""}, ${data?.address?.ward?.name || ""}, ${
-                  data?.address?.district?.name || ""
-                }, ${data?.address?.province?.name || ""}`
+              ? `${data?.address?.address || ""}, ${data?.address?.ward?.name || ""}, ${data?.address?.district?.name || ""
+              }, ${data?.address?.province?.name || ""}`
               : "-"
           }
         />
+        <p>Relationships</p>
+        <div className="my-4">
+          <div className="flex flex-row align-center">
+            <span className="font-bold mr-4 mt-1">Các mối quan hệ:</span>
+            <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>
+          </div>
+          {data?.medical_services?.map(item => <p>- {item.label}</p>)}
+        </div>
+        {visiblePrescriptionModal && (
+          <PrescriptionModal
+            patientId={data?.id}
+            patient={data}
+            // bundleServiceId={data?.id}
+            visibleModal={visiblePrescriptionModal}
+            onClose={() => setVisiblePrescriptionModal(false)}
+          />
+        )}
         {/* <DataItem
           icon="coin"
           title="Bệnh án"
@@ -231,7 +249,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         wrapperClassName="w-[588px]"
         contentClassName="!min-h-[0] overflow-y-visible"
       > */}
-        <CustomerMedicalRecords 
+      <CustomerMedicalRecords
         userId={data?.id}
         openDrawer={openCustomerAccountBalanceDrawer}
         onClose={() => setOpenCustomerAccountBalanceDrawer(false)}

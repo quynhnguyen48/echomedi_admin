@@ -92,7 +92,11 @@ const Treatments = () => {
           pageSize: 10,
           page: pageIndex + 1,
         },
-        filters
+        filters,
+        [
+          "relationships",
+          "relationships.patient"
+        ]
       )
       if (res.data) {
       }

@@ -11,15 +11,15 @@ export const getListPatients = (pagination, filters = {}, populate) => {
     filters: {
       ...filters,
     },
-    // populate: populate || [
-    //   // "role",
-    //   // "transactions",
-    //   // "bookings",
-    //   // "treatment_histories",
-    //   // "orders",
-    //   // "referral",
-    //   // "treatment_histories.treatment",
-    // ],
+    populate: populate || [
+      // "role",
+      // "transactions",
+      // "bookings",
+      // "treatment_histories",
+      // "orders",
+      // "referral",
+      // "treatment_histories.treatment",
+    ],
     pagination,
     sort: ["createdAt:DESC"],
   })
@@ -33,6 +33,10 @@ export const getPatientById = (id) => {
   })
 
   return axios.get(`/patients/${id}?${query}`)
+}
+
+export const updatePatientRelationship = (id, payload) => {
+  return axios.post(`/patient/updatePatientRelationship/${id}`, payload)
 }
 
 export const updatePatient = (id, payload) => {
@@ -72,4 +76,9 @@ export const getReferralByUserId = (userId) => {
 
 export const createDebtColectionReminder = (data) => {
   return axios.post(`/debt-collection-reminders`, { data })
+}
+
+export const getRelationshipById = (id) => {
+  return axios.get(`/patient/getRelationship/${id}`, {
+  })
 }
