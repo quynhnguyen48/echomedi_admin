@@ -41,7 +41,7 @@ const DRUG_DEFAULT = {
   value: 1,
 }
 
-const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, onClose }) => {
+const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, onClose, setRelationships }) => {
   const validationSchema = yup.object({})
   const [prescriptionData, setPrescriptionData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -91,20 +91,31 @@ const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, 
       relationship
     }
 
-    console.log('relationship', relationship)
+
 
     try {
       setLoading(true)
       if (patientId) {
-        await updatePatient(patientId, {data: {
-          ...patient,
-          relationships: relationship.map(r => {
-            return {
-              "label": r.ten,
-              "patient": r.value
-            }
-          })
-      }})
+        await updatePatient(patientId, {
+          data: {
+            ...patient,
+            relationships: relationship.map(r => {
+              return {
+                "label": r.ten,
+                "patient": r.value
+              }
+            })
+          }
+        })
+
+        let rs = relationship.map(r => {
+          let res = { ...r };
+          res.patient = { full_name: res.label };
+          res.label = res.ten;
+          return res;
+        })
+
+        setRelationships(rs);
         // await fetchPrescriptionData(prescriptionData?.id)
       }
       toast.success("Cập nhật mối quan hệ thành công")
@@ -192,10 +203,7 @@ const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, 
       ; (async () => {
         try {
           const res = await getRelationshipById(patientId)
-          // const relationships = formatStrapiArr(res.data.relationships);
           setRelationship(res.data.relationships);
-          // const data = formatStrapiObj(res.data.data)
-          // setBundleService({ ...data, medical_services: formatStrapiArr(data?.medical_services) })
         } catch (error) { }
       })()
     }
@@ -232,9 +240,6 @@ const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, 
   useEffect(() => {
     getAllDrugs();
   }, [])
-
-  console.log('relationship', patient.relationships)
-
 
   return (
     <Modal

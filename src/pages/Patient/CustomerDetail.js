@@ -19,6 +19,7 @@ import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import CustomerAccountBalance from "./Components/CustomerAccountBalance"
 import CustomerMedicalRecords from "./Components/CustomerMedicalRecords";
 import { createBookingWithPatient, } from "services/api/bookings";
+import { getRelationshipById } from "services/api/patient";
 import { BRANCH } from "constants/Authentication"
 import moment from "moment";
 import Modal from "components/Modal"
@@ -35,11 +36,19 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   const [listActiveMemberCard, setListActiveMemberCard] = useState([])
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
   const [show, setShow] = useState(false);
+  const [relationships, setRelationships] = useState([]);
 
   useEffect(() => {
     if (data?.id) {
       ; (async () => {
         try {
+          const res1 = await getRelationshipById(data?.id)
+          let rs = res1.data.relationships.map( r => {
+            let res = {...r};
+            return res;
+          })
+          setRelationships(rs);
+
           const res = await getUserDebt({ userId: data?.id })
           setTotalDebt(res?.data?.[0]?.totalDebt || 0)
 
@@ -77,30 +86,10 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
     }
   }, [data?.id])
 
+
   return (
     <div className="w-full max-h-tableBody overflow-scroll">
       <div className="flex items-center gap-x-2">
-        {/* <div className="flex items-center flex-1 gap-x-4">
-          <Avatar
-            size={110}
-            src={getStrapiMedia({ url: data?.avatar })}
-            name={`${data?.firstName} ${data?.lastName}`}
-          />
-          <div className="flex-1">
-            <p className="text-24 font-bold">{`${data?.firstName} ${data?.lastName}`}</p>
-            <p className="text-18 break-all">{data?.email}</p>
-            <Tag
-              className={classNames("mt-4 rounded-lg", {
-                "bg-red": data.blocked,
-                "bg-green": !data.blocked,
-              })}
-              name={data.blocked ? "Blocked" : "Active"}
-            />
-            {data?.customerTag === "new" && (
-              <Tag className="ml-2 rounded-lg bg-pink2" name="New Customer" />
-            )}
-          </div>
-        </div> */}
         <div className="flex gap-x-2">
           <Button
             btnSize="auto"
@@ -185,76 +174,30 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           }
         />
         <p>Relationships</p>
-        <div className="my-4">
+        <div className="my-4 mb-4">
           <div className="flex flex-row align-center">
             <span className="font-bold mr-4 mt-1">Các mối quan hệ:</span>
             <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>
           </div>
-          {data?.medical_services?.map(item => <p>- {item.label}</p>)}
+          {relationships?.map(item => <p>- {item?.label} : {item?.patient?.full_name}</p>)}
         </div>
         {visiblePrescriptionModal && (
           <PrescriptionModal
             patientId={data?.id}
             patient={data}
             // bundleServiceId={data?.id}
+            setRelationships={setRelationships}
             visibleModal={visiblePrescriptionModal}
             onClose={() => setVisiblePrescriptionModal(false)}
           />
         )}
-        {/* <DataItem
-          icon="coin"
-          title="Bệnh án"
-          footer={
-            <Button
-              btnSize="small"
-              className="mt-2"
-              onClick={() => setOpenCustomerAccountBalanceDrawer(true)}
-            >
-              Xem lịch sử hồ sơ bệnh án
-            </Button>
-          }
-        /> */}
-        {/* <DataItem
-          icon="coin"
-          title="Debt Balance"
-          value={`${formatPrice(totalDebt)} vnđ`}
-          footer={
-            <Button
-              btnSize="small"
-              className="mt-2"
-              onClick={() => setOpenCustomerDebtDrawer(true)}
-            >
-              View Detail
-            </Button>
-          }
-        /> */}
       </div>
-      {/* <CustomerDebt
-        userId={data?.id}
-        totalDebt={totalDebt}
-        openDrawer={openCustomerDebtDrawer}
-        onClose={() => setOpenCustomerDebtDrawer(false)}
-      /> */}
-      {/* <CustomerAccountBalance
-        cardIds={listActiveMemberCard?.map((card) => card?.id)}
-        userId={data?.id}
-        accountBalance={accountBalance}
-        openDrawer={openCustomerAccountBalanceDrawer}
-        onClose={() => setOpenCustomerAccountBalanceDrawer(false)}
-      /> */}
-      {/* <Modal
-        showCloseButton
-        visibleModal={show}
-        onClose={() => setShow(false)}
-        wrapperClassName="w-[588px]"
-        contentClassName="!min-h-[0] overflow-y-visible"
-      > */}
+      
       <CustomerMedicalRecords
         userId={data?.id}
         openDrawer={openCustomerAccountBalanceDrawer}
         onClose={() => setOpenCustomerAccountBalanceDrawer(false)}
       />
-      {/* </Modal> */}
     </div>
   )
 }
