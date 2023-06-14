@@ -20,6 +20,7 @@ import ProductsTable from "./components/ProductsTable"
 import ProductDetail from "./ProductDetail"
 import { io } from "socket.io-client";
 import axios from "../../services/axios";
+import { formatDate } from "utils/dateTime"
 
 const ServiceBundles = () => {
   const dispatch = useDispatch()
@@ -215,17 +216,25 @@ const ServiceBundles = () => {
                     <div class="w-30 pb-2">
                       <div class="flex justify-between">
 
-                        <span class="block ml-2 font-semibold text-gray-600">{c.attributes.supporter}</span>
+                        <span class="block ml-2 font-semibold text-gray-600">{formatDate(c.attributes.createdAt, "h:mm DD/MM/YYYY")}</span>
                         {/* <span class="block ml-2 text-sm text-gray-600">25 minutes</span> */}
                       </div>
                       {/* <span class="block ml-2 text-sm text-gray-600">bye</span> */}
                     </div>
-                    <button
+                    <div class="w-30 pb-2">
+                      <div class="flex justify-between">
+
+                        <span class="block ml-2 font-semibold text-gray-600">{c.attributes.supporter == "doctor" ? "Bác sĩ" : "CC" }</span>
+                        {/* <span class="block ml-2 text-sm text-gray-600">25 minutes</span> */}
+                      </div>
+                      {/* <span class="block ml-2 text-sm text-gray-600">bye</span> */}
+                    </div>
+                    <Button
                       onClick={async e => {
                         await createConversation(c);
                         navigate(`/chat/${c?.id}/${c.attributes.user?.data.attributes.email}`)
                       }}
-                    >Bắt đầu hội thoại</button>
+                    >Bắt đầu hội thoại</Button>
                     {/* </button> */}
                   </a>)}
                 </li>
