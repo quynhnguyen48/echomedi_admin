@@ -106,10 +106,15 @@ const Treatments = () => {
           }
         })
         .then(response => {
-          let bks = response.data.bookings.map(b => {
-            b.patient.booking = b;
+          let bks = response.data.bookings
+          .filter(b => !!b.patient)
+          .map(b => {
+            if (b.patient) {
+              b.patient.booking = b;
+            }
             return b.patient;
           });
+          console.log('bks', bks)
           setData(bks);
         }).finally(() => {
           // toast.dismiss(id);
