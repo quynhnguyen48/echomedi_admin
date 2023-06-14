@@ -282,12 +282,12 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           bookingDate: mergeDateAndHour(bookingDate, bookingHour.value),
           dontShowOnCalendar: false,
           status: "scheduled",
+          notify: true,
         }
         await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient: false })
       } else if (updateBooking) {
         await updateBookingWithPatient({ ...payload, id: data.id, patient: data?.patient.id, createNewPatient })
       } else {
-        // const existPatient = !!getValues("user") || !createNewPatient;
         await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient })
       }
 

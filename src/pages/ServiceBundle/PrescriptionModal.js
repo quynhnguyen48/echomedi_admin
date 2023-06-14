@@ -27,7 +27,6 @@ import Loading from "components/Loading"
 import axios2 from "axios";
 import axios from "../../services/axios";
 import { BRANCH } from "constants/Authentication"
-import { createBookingWithPatient, updateBookingWithPatient, } from "services/api/bookings";
 import { getListDrugs } from "services/api/drug"
 import { formatStrapiArr } from "utils/strapi"
 import { getListMedicalServices } from "services/api/medicalService"
@@ -104,51 +103,6 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
     } finally {
       setLoading(false)
     }
-
-    // setIsPrinting(true)
-    // try {
-    //   const toastId = toast.loading("Đang tải");
-    //   await axios.post("/product/generatePrescription", {
-    //     // axios2.post("http://localhost:1337/api/product/generatePrescription", {
-    //     "id": bundleServiceId,
-    //   }, {
-    //     responseType: 'arraybuffer',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Accept': 'application/pdf'
-    //     }
-    //   })
-    //     .then((response) => {
-    //       const b = new Blob([response.data], { type: 'application/pdf' })
-    //       var url = window.URL.createObjectURL(b)
-    //       window.open(url)
-    //       setTimeout(() => window.URL.revokeObjectURL(url), 100)
-    //     })
-    //     .finally(() => {
-    //       toast.dismiss(toastId);
-    //     });
-    // } catch (error) {
-    //   toast.error(getErrorMessage(error))
-    // } finally {
-    //   setIsPrinting(false)
-    //   onClose()
-    //   setLoading(false)
-    // }
-
-    // const reExDate = getValues("reExaminationDate");
-    // if (reExDate && !prescriptionData?.reExaminationDate) {
-    //   const payload = {
-    //     // ...formData,
-    //     // ...getValues("user"),
-    //     patient: patientId,
-    //     branch: localStorage.getItem(BRANCH),
-    //     bookingDate: reExDate,
-    //     dontShowOnCalendar: false,
-    //     status: "scheduled",
-    //     note: "Tái khám",
-    //   }
-    //   await createBookingWithPatient({ ...payload, createNewPatient: false })
-    // }
   }
 
   const fetchPrescriptionData = useCallback(async (id) => {

@@ -31,7 +31,6 @@ import Loading from "components/Loading"
 import axios2 from "axios";
 import axios from "../../services/axios";
 import { BRANCH } from "constants/Authentication"
-import { createBookingWithPatient, updateBookingWithPatient, } from "services/api/bookings";
 import { getListDrugs } from "services/api/drug"
 import { formatStrapiArr } from "utils/strapi"
 import { getListMedicalServices } from "services/api/medicalService"

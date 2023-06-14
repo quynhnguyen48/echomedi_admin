@@ -143,6 +143,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
                 bookingDate: moment().toDate(),
                 branch: localStorage.getItem(BRANCH),
                 dontShowOnCalendar: true,
+                notify: false,
               });
 
               navigate("/today-patient")

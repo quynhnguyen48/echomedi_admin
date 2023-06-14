@@ -29,7 +29,7 @@ import parse from "date-fns/parse"
 import startOfWeek from "date-fns/startOfWeek"
 import getDay from "date-fns/getDay"
 import Modal from "components/Modal2"
-import TreatmentForm from "./components/CustomersForm"
+import CustomersForm from "./components/CustomersForm"
 import axios from "../../services/axios"
 import { setBookings } from "slice/userSlice"
 import moment from "moment"
@@ -387,7 +387,7 @@ const Bookings = () => {
             showCloseButton={true}
             onClose={() => setModalVisible(false)}
           >
-            <TreatmentForm
+            <CustomersForm
               data={slotInfo}
               updateBooking={upBooking}
               createNewPatient={createNewPatient}
