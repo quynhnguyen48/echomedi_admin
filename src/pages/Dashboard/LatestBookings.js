@@ -12,6 +12,7 @@ import Icon from "components/Icon";
 const LatestBookings = () => {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -35,6 +36,9 @@ const LatestBookings = () => {
               treatment: formatStrapiObj(booking.treatment),
             }))
           );
+        }
+        if (res.data.meta.pagination) {
+          setTotal(res.data.meta.pagination.total);
         }
       } catch (error) {}
     })();
@@ -60,7 +64,7 @@ const translate = (t) => {
 
   return (
     <div className="pb-6 h-full overflow-auto">
-      <span className="font-bold">Đặt hẹn mới nhất</span>
+      <span className="font-bold">Đặt hẹn mới nhất <span className="text-red-500">({total})</span></span>
       <div className="mt-4 space-y-4">
         {Array.isArray(bookings) &&
           bookings?.map((booking) => (
@@ -73,13 +77,13 @@ const translate = (t) => {
                 {dayjs(booking?.createdAt).format("DD MMMM, YYYY [|] HH:mm")}
               </p> */}
               <p className="text-16 font-bold">
-                {booking?.patient?.full_name || ""}
+                Tên: {booking?.patient?.full_name || ""}
               </p>
               <p className="text-16 font-bold">
-                {booking?.patient?.phone || ""}
+                SĐT: {booking?.patient?.phone || ""}
               </p>
               <p className="text-16 font-bold">
-                {booking?.note || ""}
+                Lời nhắn: {booking?.note || ""}
               </p>
               <Button
                 btnSize="small"
