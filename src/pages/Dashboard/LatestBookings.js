@@ -72,8 +72,14 @@ const translate = (t) => {
               {/* <p className="text-14 text-secondary/[56]">
                 {dayjs(booking?.createdAt).format("DD MMMM, YYYY [|] HH:mm")}
               </p> */}
-              <p className="text-16 font-bold mt-4">
+              <p className="text-16 font-bold">
                 {booking?.patient?.full_name || ""}
+              </p>
+              <p className="text-16 font-bold">
+                {booking?.patient?.phone || ""}
+              </p>
+              <p className="text-16 font-bold">
+                {booking?.note || ""}
               </p>
               <Button
                 btnSize="small"
