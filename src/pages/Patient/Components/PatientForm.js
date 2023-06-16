@@ -26,25 +26,16 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [customersData, setCustomersData] = useState([])
 
   const validationSchema = yup.object({
-    email: yup
-      .string()
-      .trim()
-      .required("Email is required")
-      .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
     phone: yup
       .string()
       .trim(),
-      // .matches(/^[0-9]*$/, "Phone number is not in correct format"),
     address: yup.object({
       province: yup.object().required("City is required").nullable(),
       district: yup.object().required("District is required").nullable(),
       ward: yup.object().required("Ward is required").nullable(),
       address: yup.string().required("Address is required"),
     }),
-    birthday: yup.date().required().typeError("Date of birth is required"),
     gender: yup.string().required("Gender is required"),
-    // customerTag: yup.string().required().typeError("Customer Tag is required"),
-    // referral: yup.object().nullable(),
   })
 
   const {
