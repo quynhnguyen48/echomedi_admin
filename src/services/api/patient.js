@@ -27,6 +27,27 @@ export const getListPatients = (pagination, filters = {}, populate) => {
   return axios.get(`/patients?${query}`)
 }
 
+export const getPatientByPhone = (phone) => {
+  // const query = qs.stringify({
+  //   filters: {
+  //     ...filters,
+  //   },
+  //   populate: populate || [
+  //     // "role",
+  //     // "transactions",
+  //     // "bookings",
+  //     // "treatment_histories",
+  //     // "orders",
+  //     // "referral",
+  //     // "treatment_histories.treatment",
+  //   ],
+  //   pagination,
+  //   sort: ["createdAt:DESC"],
+  // })
+
+  return axios.get(`/patient/findByPhoneNumber/` + phone)
+}
+
 export const getPatientById = (id) => {
   const query = qs.stringify({
     populate: ["role", "referral", "check_ins"],

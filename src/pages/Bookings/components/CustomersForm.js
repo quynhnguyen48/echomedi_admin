@@ -13,7 +13,7 @@ import Datepicker from "components/Datepicker"
 import { CUSTOMER_TAG, GENDER } from "constants/Customer"
 import { REGION_DATA } from "constants/Regions"
 import { createNewUser, getListUsers, updateUser } from "services/api/users"
-import { createNewPatient, getListPatients } from "services/api/patient";
+import { createNewPatient, getListPatients, getPatientByPhone } from "services/api/patient";
 import { createBookingWithPatient, updateBookingWithPatient, } from "services/api/bookings";
 import { randomPassword } from "utils/string"
 import { getErrorMessage } from "utils/error"
@@ -229,10 +229,39 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
     }))
   }
 
+  const handleSearchCustomerByPhone = (e) => {
+    const toastId = toast.loading("Tìm khách hàng")
+    getPatientByPhone(e.target.value)
+      .then((res) => {
+        if (res.data) {
+          setValue("patient", 0);
+          setValue(
+            "user", res.data,
+            { shouldDirty: true, shouldValidate: true }
+          )
+          setCustomersData([{
+            value: res.data.id,
+            label: `${res.data?.uid} | ${res.data?.full_name} | ${res.data?.phone}`,
+            }])
+        }
+        setLoadingCustomers(false)
+      })
+      .catch(() => {
+        setLoadingCustomers(false)
+      })
+      .then(() => {
+        toast.dismiss(toastId);
+      });
+  }
+
   const handleSearchCustomer = useCallback((value) => {
     if (!value) return
     setLoadingCustomers(true)
     getListPatients(
+      {
+        pageSize: 100,
+        page: 0,
+      },
       {
         $or: [
           { uid: { $containsi: value } },
@@ -406,9 +435,11 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
               <Input
                 disabled={readonly || updateBooking || !!getValues("user")}
                 onChange={onChange}
+                
                 value={getValues("user")?.phone || value}
                 name="phone"
                 label="Số điện thoại"
+                onBlur={handleSearchCustomerByPhone}
                 placeholder={"Nhập số điện thoại"}
                 errors={errors?.phone?.message}
               />

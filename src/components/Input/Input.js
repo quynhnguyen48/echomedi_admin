@@ -17,6 +17,7 @@ export function Input({
   showError = true,
   onChange,
   onFocus,
+  onBlur,
   size = "default",
   disabled,
   ...rest
@@ -46,6 +47,7 @@ export function Input({
           value={value}
           onChange={onChange}
           onFocus={onFocus}
+          onBlur={onBlur}
           placeholder={placeholder}
           disabled={disabled}
           {...rest}
