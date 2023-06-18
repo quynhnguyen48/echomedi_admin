@@ -236,27 +236,27 @@ const DebtsReport = () => {
     renderChart()
   }, [renderChart])
 
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const totalDebtRes = await getTotalDebt()
-        if (totalDebtRes.data) {
-          setTotalDebt(totalDebtRes.data?.[0]?.totalDebt || 0)
-        }
-        const topDebtRes = await getTopDebt()
-        if (topDebtRes.data) {
-          setTopDebt(topDebtRes.data)
-        }
-        const debtDistributionRes = await getDebtDistribution()
-        if (debtDistributionRes.data) {
-          setDebtDistribution({
-            distributions: debtDistributionRes.data,
-            total: sumBy(debtDistributionRes.data, (debt) => parseInt(debt.totalTransactions)),
-          })
-        }
-      } catch (error) {}
-    })()
-  }, [])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     try {
+  //       const totalDebtRes = await getTotalDebt()
+  //       if (totalDebtRes.data) {
+  //         setTotalDebt(totalDebtRes.data?.[0]?.totalDebt || 0)
+  //       }
+  //       const topDebtRes = await getTopDebt()
+  //       if (topDebtRes.data) {
+  //         setTopDebt(topDebtRes.data)
+  //       }
+  //       const debtDistributionRes = await getDebtDistribution()
+  //       if (debtDistributionRes.data) {
+  //         setDebtDistribution({
+  //           distributions: debtDistributionRes.data,
+  //           total: sumBy(debtDistributionRes.data, (debt) => parseInt(debt.totalTransactions)),
+  //         })
+  //       }
+  //     } catch (error) {}
+  //   })()
+  // }, [])
 
   return (
     <Page title="Nợ" parentUrl="/reports">

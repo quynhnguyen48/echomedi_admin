@@ -44,6 +44,7 @@ const ServiceBundles = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [patient, setPatient] = useState({});
   const [patientId, setPatientId] = useState(0);
+  const [userId, setUserId] = useState();
   const [socket, setSocket] = useState();
   const ref = useRef();
   const refInput = useRef();
@@ -143,6 +144,8 @@ const ServiceBundles = () => {
       // "id": medicalRecordId,
     })
       .then((response) => {
+        console.log('loadConversation', response)
+        setUserId(response.data.data.attributes.user.data.id)
         setPatient(response.data.data.attributes.user.data.attributes);
         setPatientId(response.data.data.attributes.user.data.attributes.patient.data.id);
         let message = response.data.data.attributes.data;
@@ -225,8 +228,9 @@ const ServiceBundles = () => {
                     {conversations && conversations.map(c => {
                       let messages = c.split("|");
                       let msg = messages[2];
+                      console.log('patient', patientId, messages[0])
                       if (msg.startsWith("file:")) {
-                        return <li class={patient?.email != messages[0] ? "flex justify-end" : "flex justify-start"}>
+                        return <li class={userId != messages[0] ? "flex justify-end" : "flex justify-start"}>
                           <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
                             <span>File {msg.substring(5).split('.').pop()}</span>
                             <a target="_blank" href={"https://api.echomedi.com" + msg.substring(5)} rel="noreferrer">
@@ -238,8 +242,8 @@ const ServiceBundles = () => {
                           </div>
                         </li>
                       } else {
-                        console.log('messages', messages[0], messages[2], patient?.email, patient?.email != messages[0])
-                        return <li class={(patient?.email != messages[0]) ? "flex justify-end" : "flex justify-start"}>
+                        console.log('messages', userId, messages[0], messages[2], patient?.email, patient?.email != messages[0])
+                        return <li class={(userId != messages[0]) ? "flex justify-end" : "flex justify-start"}>
                           <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
                             <span class="block">{messages[2]}</span>
                           </div>
