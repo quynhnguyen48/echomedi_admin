@@ -273,6 +273,12 @@ const ServiceBundles = () => {
                   <input
                     ref={refInput}
                     onChange={e => setMessage(e.target.value)}
+                    onKeyUp={e => {
+                      console.log('eee', e)
+                      if (e.keyCode === 13) {
+                        sendMesssage();
+                      }
+                    }}
                     type="text" placeholder="Message"
                     class="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
                     name="message" required />
