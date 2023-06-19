@@ -234,7 +234,8 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
     getPatientByPhone(e.target.value)
       .then((res) => {
         if (res.data) {
-          setValue("patient", 0);
+          console.log('res.data.', res.data)
+          setValue("patient", res.data.id);
           setValue(
             "user", res.data,
             { shouldDirty: true, shouldValidate: true }
@@ -313,6 +314,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           status: "scheduled",
           notify: true,
         }
+        delete payload.id;
         await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient: false })
       } else if (updateBooking) {
         await updateBookingWithPatient({ ...payload, id: data.id, patient: data?.patient.id, createNewPatient })
