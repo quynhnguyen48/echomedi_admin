@@ -23,6 +23,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [wardList, setWardList] = useState([])
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
+  const [patientExist, setPatientExist] = useState(false);
 
   const validationSchema = yup.object({
     email: yup
@@ -176,6 +177,23 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
     }
   }
 
+  const handleSearchCustomerByPhone = (e) => {
+    const toastId = toast.loading("Tìm khách hàng")
+    getPatientByPhone(e.target.value)
+      .then((res) => {
+        if (res.data) {
+          setPatientExist(true);
+        }
+        setLoadingCustomers(false)
+      })
+      .catch(() => {
+        setPatientExist(false);
+      })
+      .then(() => {
+        toast.dismiss(toastId);
+      });
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">
@@ -216,9 +234,10 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             render={({ field: { onChange, value } }) => (
               <Input
                 onChange={onChange}
+                onBlur={handleSearchCustomerByPhone}
                 value={value}
                 name="phone"
-                label="Số điện thoại"
+                label="Số điện thoại 1"
                 placeholder={"Nhập số điện thoại"}
                 errors={errors?.phone?.message}
               />
@@ -476,7 +495,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       </div>
       
       <div className="flex gap-x-4 mt-10">
-        <Button className="fill-primary" type="submit" loading={loading}>
+        <Button disabled={patientExist} className="fill-primary" type="submit" loading={loading}>
           Save
         </Button>
         <Button

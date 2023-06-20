@@ -13,7 +13,7 @@ import Datepicker from "components/Datepicker"
 import { CUSTOMER_TAG, GENDER } from "constants/Customer"
 import { REGION_DATA } from "constants/Regions"
 import { createNewUser, getListUsers, updateUser } from "services/api/users"
-import { createNewPatient } from "services/api/patient";
+import { createNewPatient, getPatientByPhone } from "services/api/patient";
 import { randomPassword } from "utils/string"
 import { getErrorMessage } from "utils/error"
 
@@ -25,6 +25,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
   const [bookingHour, setBookingHour] = useState("");
+  const [patientExist, setPatientExist] = useState(false);
 
   const validationSchema = yup.object({
     // email: yup
@@ -76,13 +77,13 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         data?.customerTag === "referral"
           ? CUSTOMER_TAG.REFERRAL
           : data?.customerTag === "new"
-          ? CUSTOMER_TAG.NEW_CUSTOMER
-          : null,
+            ? CUSTOMER_TAG.NEW_CUSTOMER
+            : null,
       referral: data?.referral
         ? {
-            value: data?.referral?.id,
-            label: `${data?.referral?.firstName} ${data?.referral?.lastName} (${data?.referral?.code})`,
-          }
+          value: data?.referral?.id,
+          label: `${data?.referral?.firstName} ${data?.referral?.lastName} (${data?.referral?.code})`,
+        }
         : null,
     },
   })
@@ -193,45 +194,33 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
     }
   }
 
+
+  const handleSearchCustomerByPhone = (e) => {
+    console.log('123123')
+    const toastId = toast.loading("Tìm khách hàng")
+    getPatientByPhone(e.target.value)
+      .then((res) => {
+        if (res.data) {
+          setPatientExist(true);
+        }
+        setLoadingCustomers(false)
+      })
+      .catch(() => {
+        setPatientExist(false);
+      })
+      .then(() => {
+        toast.dismiss(toastId);
+      });
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p>{JSON.stringify(slotInfo)}</p>
       <div className="grid grid-cols-2 gap-6 my-4">
-      {/* <Controller
-            name="birthday"
-            control={control}
-            render={({ field: { value, ref } }) => (
-              <Datepicker
-                label="Ngày đặt lịch"
-                value={slotInfo?.start}
-                onChange={(date) => {
-                  setValue("birthday", date)
-                }}
-                errors={errors?.birthday?.message}
-              />
-            )}
-          />
-          <Controller
-              name="address.province"
-              control={control}
-              render={({ field: { value, ref } }) => (
-                <Select
-                  placeholder="Khung giờ"
-                  label="Khung giờ"
-                  name="address.province"
-                  onChange={(e) => {
-                    setBookingHour(e);
-                  }}
-                  value={bookingHour}
-                  options={bookingHours()}
-                  errors={errors?.address?.province?.message}
-                />
-              )}
-            /> */}
-        </div>
+      </div>
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-6">
-        <Controller
+          <Controller
             name="full_name"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -305,21 +294,24 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               />
             )}
           />
-          <Controller
-            name="phone"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                onChange={onChange}
-                value={value}
-                name="phone"
-                label="Số điện thoại"
-                placeholder={"Nhập số điện thoại"}
-                errors={errors?.phone?.message}
-              />
-            )}
-          />
-          
+          <div>
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  onChange={onChange}
+                  onBlur={handleSearchCustomerByPhone}
+                  value={value}
+                  name="phone"
+                  label="Số điện thoại"
+                  placeholder={"Nhập số điện thoại"}
+                  errors={errors?.phone?.message}
+                />
+              )}
+            />
+            {patientExist && <p className="text-red">Số điện thoại đã tồn tại</p>}
+          </div>
           <Controller
             name="birthday"
             control={control}
@@ -514,7 +506,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       </div>
 
       <div className="flex gap-x-4 mt-10">
-        <Button className="fill-primary" type="submit" loading={loading}>
+        <Button disabled={patientExist} className="fill-primary" type="submit" loading={loading}>
           Lưu
         </Button>
         <Button

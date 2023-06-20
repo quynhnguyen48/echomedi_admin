@@ -36,6 +36,7 @@ const InvoiceForm = ({
   const [discountReasons, setDiscountReasons] = useState(null)
   const [totalDiscountFixedPrice, setTotalDiscountFixedPrice] = useState(0);
   const [totalDiscountPercentage, setTotalDiscountPercentage] = useState(0);
+  const [paid, setPaid] = useState(false);
 
   const {
     handleSubmit,
@@ -248,6 +249,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
+                    disabled={paid}
                     suffix={"đ"}
                     className="flex-1"
                     name={`${name}[${index}].discountFixedPrice`}
@@ -271,6 +273,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
+                  disabled={paid}
                   suffix={"%"}
                     type="number"
                     // className="w-[100px]"
@@ -405,6 +408,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
+                  disabled={paid}
                     name={`totalDiscountFixedPrice`}
                     suffix="đ"
                     onFocus={() => {
@@ -431,6 +435,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
+                  disabled={paid}
                     type="number"
                     // className="w-[100px]"
                     suffix="%"
@@ -468,6 +473,9 @@ const InvoiceForm = ({
       <div className="flex gap-x-4 !mt-5 justify-end">
         <Button type="submit" loading={isLoading}>
           Lưu và tải hoá đơn
+        </Button>
+        <Button type="button" loading={isLoading} onClick={() => {setPaid(true)}}>
+          Đã thanh toán
         </Button>
       </div>
     </form>

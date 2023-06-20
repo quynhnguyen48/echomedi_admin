@@ -13,7 +13,7 @@ import Datepicker from "components/Datepicker"
 import { CUSTOMER_TAG, GENDER } from "constants/Customer"
 import { REGION_DATA } from "constants/Regions"
 import { createNewUser, getListUsers, updateUser } from "services/api/users"
-import { updatePatient } from "services/api/patient"
+import { updatePatient, getPatientByPhone } from "services/api/patient"
 import { randomPassword } from "utils/string"
 import { getErrorMessage } from "utils/error"
 
@@ -24,6 +24,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [wardList, setWardList] = useState([])
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
+  const [patientExist, setPatientExist] = useState(false);
 
   const validationSchema = yup.object({
     phone: yup
@@ -65,13 +66,13 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         data?.customerTag === "referral"
           ? CUSTOMER_TAG.REFERRAL
           : data?.customerTag === "new"
-          ? CUSTOMER_TAG.NEW_CUSTOMER
-          : null,
+            ? CUSTOMER_TAG.NEW_CUSTOMER
+            : null,
       referral: data?.referral
         ? {
-            value: data?.referral?.id,
-            label: `${data?.referral?.firstName} ${data?.referral?.lastName} (${data?.referral?.code})`,
-          }
+          value: data?.referral?.id,
+          label: `${data?.referral?.firstName} ${data?.referral?.lastName} (${data?.referral?.code})`,
+        }
         : null,
     },
   })
@@ -107,35 +108,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
     }))
   }
 
-  const handleSearchCustomer = useCallback((value) => {
-    if (!value) return
-    setLoadingCustomers(true)
-    getListUsers(
-      { pageSize: 1000 },
-      {
-        $or: [
-          { firstName: { $containsi: value } },
-          { lastName: { $containsi: value } },
-          { code: { $containsi: value } },
-        ],
-      }
-    )
-      .then((res) => {
-        if (res.data) {
-          setCustomersData(
-            res.data?.map((customer) => ({
-              value: customer?.id,
-              label: `${customer?.firstName} ${customer?.lastName} (${customer?.code})`,
-            }))
-          )
-        }
-        setLoadingCustomers(false)
-      })
-      .catch(() => {
-        setLoadingCustomers(false)
-      })
-  }, [])
-
   const onSubmit = async (formData) => {
     try {
       setLoading(true)
@@ -146,7 +118,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         // customerTag: formData.customerTag === CUSTOMER_TAG.REFERRAL ? "referral" : "new",
       }
       if (data?.id) {
-        await updatePatient(data?.id, {data: payload})
+        await updatePatient(data?.id, { data: payload })
         toast.success("Customer updated successfully")
       } else {
         const password = randomPassword()
@@ -165,6 +137,24 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSearchCustomerByPhone = (e) => {
+    if (e.target.value == data.phone) return;
+    const toastId = toast.loading("Tìm khách hàng")
+    getPatientByPhone(e.target.value)
+      .then((res) => {
+        if (res.data) {
+          setPatientExist(true);
+        }
+        setLoadingCustomers(false)
+      })
+      .catch(() => {
+        setPatientExist(false);
+      })
+      .then(() => {
+        toast.dismiss(toastId);
+      });
   }
 
   return (
@@ -186,27 +176,31 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               />
             )}
           />
-          <Controller
-            name="phone"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-              readOnly={readOnly}
-                onChange={onChange}
-                value={value}
-                name="phone"
-                label="Số điện thoại"
-                placeholder={"Nhập số điện thoại"}
-                errors={errors?.phone?.message}
-              />
-            )}
-          />
+          <div>
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  readOnly={readOnly}
+                  onChange={onChange}
+                  onBlur={handleSearchCustomerByPhone}
+                  value={value}
+                  name="phone"
+                  label="Số điện thoại"
+                  placeholder={"Nhập số điện thoại"}
+                  errors={errors?.phone?.message}
+                />
+              )}
+            />
+            {patientExist && <p className="text-red">Số điện thoại đã tồn tại</p>}
+          </div>
           <Controller
             name="relative_phone"
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-              readOnly={readOnly}
+                readOnly={readOnly}
                 onChange={onChange}
                 value={value}
                 name="relative_phone"
@@ -221,7 +215,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-              readOnly={readOnly}
+                readOnly={readOnly}
                 onChange={onChange}
                 value={value}
                 name="full_name"
@@ -248,7 +242,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
                           "bg-primary text-white font-bold": value === gender,
                           "bg-primary/10 text-primary font-normal": value !== gender,
                         })}
-                        onClick={() => { if (!readOnly) setValue("gender", gender);}}
+                        onClick={() => { if (!readOnly) setValue("gender", gender); }}
                       >
                         {gender == "male" ? "Nam" : "Nữ"}
                       </Button>
@@ -456,40 +450,40 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           )}
         </div> */}
         <div className="space-y-2">
-            <label className="font-16 font-bold">Thành viên</label>
-            <div className="grid grid-cols-4 gap-6">
-              <Controller
-                name="membership"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    {["silver", "gold", "platinum", "family", "business", "non-resident", "foreigner"]?.map((gender) => (
-                      <Button
-                        key={gender}
-                        onChange={onchange}
-                        type="button"
-                        className={classNames("w-full h-14 pl-6 !justify-start capitalize", {
-                          "bg-primary text-white font-bold": value === gender,
-                          "bg-primary/10 text-primary font-normal": value !== gender,
-                        })}
-                        onClick={() => { if (!readOnly) setValue("membership", gender); }}
-                      >
-                        {gender}
-                      </Button>
-                    ))}
-                    {errors?.gender?.message && (
-                      <p className="text-12 text-error mt-1">{errors?.gender?.message}</p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
+          <label className="font-16 font-bold">Thành viên</label>
+          <div className="grid grid-cols-4 gap-6">
+            <Controller
+              name="membership"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  {["silver", "gold", "platinum", "family", "business", "non-resident", "foreigner"]?.map((gender) => (
+                    <Button
+                      key={gender}
+                      onChange={onchange}
+                      type="button"
+                      className={classNames("w-full h-14 pl-6 !justify-start capitalize", {
+                        "bg-primary text-white font-bold": value === gender,
+                        "bg-primary/10 text-primary font-normal": value !== gender,
+                      })}
+                      onClick={() => { if (!readOnly) setValue("membership", gender); }}
+                    >
+                      {gender}
+                    </Button>
+                  ))}
+                  {errors?.gender?.message && (
+                    <p className="text-12 text-error mt-1">{errors?.gender?.message}</p>
+                  )}
+                </>
+              )}
+            />
           </div>
+        </div>
       </div>
-                    
-      
+
+
       {!readOnly && <div className="flex gap-x-4 mt-10">
-        <Button className="fill-primary" type="submit" loading={loading}>
+        <Button disabled={patientExist} className="fill-primary" type="submit" loading={loading}>
           Save
         </Button>
         <Button

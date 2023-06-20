@@ -11,7 +11,6 @@ import Avatar from "components/Avatar"
 import { getStrapiMedia } from "utils/media"
 import { formatPrice } from "utils/number"
 import { useEffect, useState } from "react"
-import { getUserDebt } from "services/api/transactions"
 import CustomerDebt from "./components/CustomerDebt"
 import { getListCards } from "services/api/card"
 import { CARD_STATUS, CARD_TYPE } from "constants/Card"
@@ -31,8 +30,6 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
     if (data?.id) {
       ;(async () => {
         try {
-          const res = await getUserDebt({ userId: data?.id })
-          setTotalDebt(res?.data?.[0]?.totalDebt || 0)
 
           const cardRes = await getListCards(
             { pageSize: 1000 },

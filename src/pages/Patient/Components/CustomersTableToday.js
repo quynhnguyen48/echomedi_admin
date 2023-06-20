@@ -48,6 +48,29 @@ const getMembershipBackgroundColor = (v) => {
   }
 }
 
+const translate = (t) => {
+  switch (t) {
+    case "scheduled":
+      return "Đặt lịch"
+      break;
+    case "confirmed":
+      return "Đã xác nhận"
+      break;
+    case "finished":
+      return "Hoàn thành"
+      break;
+    case "cancelled":
+      return "Huỷ"
+      break;
+    case "postpone": 
+      return "Hoãn lịch"
+      break;
+    case "waiting":
+      return "Đã đến"
+      break;
+  }
+}
+
 
 const CustomersTable = ({
   data,
@@ -86,6 +109,20 @@ const CustomersTable = ({
         ),
         collapse: true,
         width: 100,
+      },
+      {
+        Header: "Trạng thái",
+        accessor: (originalRow) => (
+          <span
+            className={`font-bold ${
+              originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
+            }`}
+          >
+            {translate(originalRow?.booking?.status)}
+          </span>
+        ),
+        collapse: true,
+        width: 70,
       },
       {
         Header: "Gói thành viên",
