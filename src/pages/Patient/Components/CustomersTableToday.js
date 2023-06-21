@@ -104,7 +104,7 @@ const CustomersTable = ({
               originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
             }`}
           >
-            {originalRow?.uid}
+            {originalRow?.id}
           </span>
         ),
         collapse: true,
@@ -118,7 +118,7 @@ const CustomersTable = ({
               originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
             }`}
           >
-            {translate(originalRow?.booking?.status)}
+            {translate(originalRow?.status)}
           </span>
         ),
         collapse: true,
@@ -128,12 +128,12 @@ const CustomersTable = ({
         Header: "Gói thành viên",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            {originalRow?.membership && (
+            {originalRow?.patient?.membership && (
               <MembershipTag 
-              color={getMembershipColor(originalRow?.membership)}
-              backgroundColor={getMembershipBackgroundColor(originalRow?.membership)}
-              name={originalRow?.membership} className={`font-bold ${
-                        originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.membership)} text-${getMembershipColor(originalRow?.membership)}`
+              color={getMembershipColor(originalRow?.patient?.membership)}
+              backgroundColor={getMembershipBackgroundColor(originalRow?.patient?.membership)}
+              name={originalRow?.patient?.membership} className={`font-bold ${
+                        originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.patient?.membership)} text-${getMembershipColor(originalRow?.patient?.membership)}`
                       }`}/>
             )}
           </div>
@@ -145,7 +145,7 @@ const CustomersTable = ({
         Header: "Tên",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            <span>{`${originalRow?.full_name}`}</span>
+            <span>{`${originalRow?.patient?.full_name}`}</span>
           </div>
         ),
         collapse: true,
@@ -193,7 +193,7 @@ const CustomersTable = ({
         //     name={originalRow.blocked ? "Blocked" : "Active"}
         //   />
         // ),
-        accessor: (originalRow) => <span className="capitalize">{formatDate(originalRow.booking.bookingDate, "H:mm")}</span>,
+        accessor: (originalRow) => <span className="capitalize">{formatDate(originalRow.bookingDate, "H:mm")}</span>,
         collapse: true,
         width: 100,
       },

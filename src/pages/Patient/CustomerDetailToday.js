@@ -32,7 +32,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   const downloadMedicalRecord = () => {
     const toastId = toast.loading("Đang tải");
     axios.post("/product/downloadMedicalRecord", {
-      "id": data.booking.medical_record.id,
+      "id": data.medical_record.id,
     }, {
       responseType: 'arraybuffer',
       headers: {
@@ -189,23 +189,23 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           title="Joined Date"
           value={dayjs(data?.createdAt).format("DD MMMM, YYYY")}
         /> */}
-        <DataItem icon="user" title="Tên" value={`${data?.full_name}`} />
-        <DataItem icon="message" title="Email" value={data?.email} />
-        <DataItem icon="man" title="Giới tính" value={data?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />
+        <DataItem icon="user" title="Tên" value={`${data?.patient?.full_name}`} />
+        <DataItem icon="message" title="Email" value={data?.patient?.email} />
+        <DataItem icon="man" title="Giới tính" value={data?.patient?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />
         <DataItem
           icon="cake"
           title="Ngày sinh"
-          value={dayjs(data?.birthday).format("DD MMMM, YYYY")}
+          value={dayjs(data?.patient?.birthday).format("DD MMMM, YYYY")}
         />
-        <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
+        <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
         <DataItem
           icon="location"
           title="Địa chỉ"
           value={
-            data?.address
-              ? `${data?.address?.address || ""}, ${data?.address?.ward?.name || ""}, ${
-                  data?.address?.district?.name || ""
-                }, ${data?.address?.province?.name || ""}`
+            data?.patient?.address
+              ? `${data?.patient?.address?.address || ""}, ${data?.patient?.address?.ward?.name || ""}, ${
+                  data?.patient?.address?.district?.name || ""
+                }, ${data?.patient?.address?.province?.name || ""}`
               : "-"
           }
         />
@@ -252,9 +252,9 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
       /> */}
       
       <div className="flex space-x-1 mt-4 justify-between">
-      {data.booking.medical_record ?  <Button
+      {data.medical_record ?  <Button
           onClick={() => {
-            navigate(`/bookings/medical-records/${data.booking.id}/view`);
+            navigate(`/bookings/medical-records/${data.id}/view`);
           }}
         >
           Xem hồ sơ bệnh án
@@ -262,19 +262,19 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         <Button
         icon={<Icon name="add-circle" className="fill-white" />}
         onClick={() => {
-          navigate(`/bookings/medical-records/${data.booking.id}/create`);
+          navigate(`/bookings/medical-records/${data.id}/create`);
         }}
       >
         Tạo hồ sơ bệnh án
       </Button>}
-      {data.booking.medical_record &&  <Button
+      {data.medical_record &&  <Button
           onClick={() => {
-            navigate(`/bookings/medical-records/${data.booking.id}/edit`);
+            navigate(`/bookings/medical-records/${data.id}/edit`);
           }}
         >
           Sửa hồ sơ bệnh án
         </Button>}
-        {data.booking.medical_record &&  <Button
+        {data.medical_record &&  <Button
         onClick={() => downloadMedicalRecord()}
       >
         Tải bệnh án
@@ -284,14 +284,14 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
       >
         Tải hoá đơn
       </Button>} */}
-      {data.booking.medical_record &&  <Button
+      {data.medical_record &&  <Button
         onClick={() => generatePhieuChiDinh()}
       >
         Tải phiếu chỉ định
       </Button>}
       </div>
       <CustomerMedicalRecords 
-        userId={data?.id}
+        userId={data?.patient?.id}
         openDrawer={openCustomerAccountBalanceDrawer}
         onClose={() => setOpenCustomerAccountBalanceDrawer(false)}
       />

@@ -8,6 +8,7 @@ import { getListBookings } from "services/api/bookings";
 import { formatStrapiArr, formatStrapiObj } from "utils/strapi";
 import Button from "components/Button";
 import Icon from "components/Icon";
+import { BRANCH } from "constants/Authentication"
 
 const LatestBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -23,6 +24,7 @@ const LatestBookings = () => {
           },
           {
             status: BOOKING_STATUS.ON_SCHEDULED,
+            branch: localStorage.getItem(BRANCH),
           }
         );
         if (res.data) {

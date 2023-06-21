@@ -114,8 +114,8 @@ const Treatments = () => {
             }
             return b.patient;
           });
-          console.log('bks', bks)
-          setData(bks);
+          console.log('bks', response.data.bookings)
+          setData(response.data.bookings);
         }).finally(() => {
           // toast.dismiss(id);
         });
