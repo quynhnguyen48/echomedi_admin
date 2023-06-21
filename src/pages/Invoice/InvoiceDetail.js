@@ -100,12 +100,14 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
         <InvoiceForm
           id={data?.id}
           invoiceData={data?.data}
+          published={!!data?.publishedAt}
           bundleServices={bundleServices}
           medicalServices={medicalServices}
           cliniqueServices={cliniqueServices}
           membership={membership}
           downloadPDF={downloadPDF}
           onUpdate={onUpdate}
+          togglePublish={onTogglePublish}
         />
       </div>
       <div className="flex justify-around mt-4">

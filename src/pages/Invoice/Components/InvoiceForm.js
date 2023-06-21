@@ -21,14 +21,15 @@ import { formatPrice } from "utils/number";
 const InvoiceForm = ({
   id,
   invoiceData,
+  published,
   bundleServices,
   medicalServices,
   cliniqueServices,
   downloadPDF,
   onUpdate,
   membership,
+  togglePublish,
 }) => {
-  console.log('cliniqueServices', cliniqueServices)
   const [isLoading, setIsLoading] = useState(false)
   const validationSchema = yup.object({})
   const [tagifyWhitelist, setTagifyWhitelist] = useState()
@@ -37,6 +38,8 @@ const InvoiceForm = ({
   const [totalDiscountFixedPrice, setTotalDiscountFixedPrice] = useState(0);
   const [totalDiscountPercentage, setTotalDiscountPercentage] = useState(0);
   const [paid, setPaid] = useState(false);
+
+  console.log('invoiceData', invoiceData)
 
   const {
     handleSubmit,
@@ -131,28 +134,6 @@ const InvoiceForm = ({
 
     const tagifyWhiteList = discountReasons
 
-  //   setTimeout(() => {
-  //   const el1 = document.getElementsByClassName("test");
-  //   for (let i = 0; i < el1.length; ++i) {
-  //     const el = el1[i];
-  //     if (!el.classList.contains("tagify-inp")) {
-  //       el.classList.add("tagify-inp");
-  //       var tagify = new Tagify(el, {
-  //         // whitelist: tagifyWhitelist.reasons_to_get_hospitalized,
-  //         whitelist: tagifyWhiteList,
-  //         dropdown: {
-  //           // classname: "border border-green border-1",
-  //           enabled: 0, // show the dropdown immediately on focus
-  //           // maxItems: 5,
-  //           position: "text", // place the dropdown near the typed text
-  //           closeOnSelect: false, // keep the dropdown open after selecting a suggestion
-  //           highlightFirst: true,
-  //         },
-  //         templates,
-  //       })
-  //     }
-  //   }
-  // }, 300);
   }, [tagifyWhitelist, id, discountReasons])
 
   useEffect(() => {
@@ -213,15 +194,7 @@ const InvoiceForm = ({
         .finally(() => {
           toast.dismiss(toastId)
         })
-      // const data = formatStrapiObj(res.data.data)
-      // const booking = formatStrapiObj(data?.booking)
-      // onUpdate({
-      //   ...data,
-      //   patient: formatStrapiObj(booking?.patient),
-      //   medicalRecord: formatStrapiObj(booking?.medical_record),
-      //   booking,
-      // })
-      // toast.success("Lưu thành công")
+      
     } catch (error) {
       toast.error(getErrorMessage(error))
     } finally {
@@ -249,7 +222,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
-                    disabled={paid}
+                    disabled={published}
                     suffix={"đ"}
                     className="flex-1"
                     name={`${name}[${index}].discountFixedPrice`}
@@ -273,7 +246,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
-                  disabled={paid}
+                  disabled={published}
                   suffix={"%"}
                     type="number"
                     // className="w-[100px]"
@@ -421,7 +394,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
-                  disabled={paid}
+                  disabled={published}
                     name={`totalDiscountFixedPrice`}
                     suffix="đ"
                     onFocus={() => {
@@ -448,7 +421,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
-                  disabled={paid}
+                  disabled={published}
                     type="number"
                     // className="w-[100px]"
                     suffix="%"
@@ -485,11 +458,11 @@ const InvoiceForm = ({
       </div>
       <div className="flex gap-x-4 !mt-5 justify-end">
         <Button type="submit" loading={isLoading}>
-          Lưu và tải hoá đơn
+          {published ? "Tải hoá đơn" : "Lưu và tải hóa đơn"}
         </Button>
-        <Button type="button" loading={isLoading} onClick={() => {setPaid(true)}}>
+        {!published && <Button type="button" loading={isLoading} onClick={togglePublish}>
           Đã thanh toán
-        </Button>
+        </Button>}
       </div>
     </form>
   )

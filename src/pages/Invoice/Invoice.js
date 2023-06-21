@@ -12,11 +12,13 @@ import parse from "date-fns/parse"
 import startOfWeek from "date-fns/startOfWeek"
 import { dateFnsLocalizer } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
-import { getInvoices } from "services/api/invoice"
+import { getInvoices, updateInvoice } from "services/api/invoice"
 import { resetPageIndex } from "slice/tableSlice"
 import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import InvoiceTable from "./Components/InvoiceTable"
 import InvoiceDetail from "./InvoiceDetail"
+import { toast } from "react-toastify"
+import { getErrorMessage } from "utils/error"
 
 const locales = {
   vi: viVN,
@@ -29,20 +31,6 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 })
-// const localizer = globalizeLocalizer(globalize)
-
-const bookings = [
-  {
-    start: new Date(),
-    end: new Date(),
-    title: `Ola Stay (Human:)`,
-  },
-  {
-    start: new Date(),
-    end: new Date(),
-    title: `Ola Stay (Human:)`,
-  },
-]
 
 const Invoice = () => {
   const dispatch = useDispatch()
@@ -116,28 +104,28 @@ const Invoice = () => {
   )
 
   const togglePublish = useCallback(async () => {
-    //   try {
-    //     const res = await updateTreatment(detailData?.id, {
-    //       publishedAt: !!detailData?.publishedAt ? null : new Date().toISOString(),
-    //     })
-    //     let updatedData = formatStrapiObj(res.data)
-    //     setDetailData((oldDetailData) => ({
-    //       ...oldDetailData,
-    //       publishedAt: updatedData?.publishedAt,
-    //     }))
-    //     setData((oldData) => {
-    //       const pos = oldData.findIndex((t) => t.id === detailData?.id)
-    //       if (pos > -1) {
-    //         oldData[pos].publishedAt = updatedData?.publishedAt
-    //       }
-    //       return oldData
-    //     })
-    //     toast.success(
-    //       `Treatment ${!!detailData?.publishedAt ? "unpublished" : "published"} successfully!`
-    //     )
-    //   } catch (error) {
-    //     toast.error(getErrorMessage(error))
-    //   }
+      try {
+        const res = await updateInvoice(detailData?.id, {
+          publishedAt: !!detailData?.publishedAt ? null : new Date().toISOString(),
+        })
+        let updatedData = formatStrapiObj(res.data)
+        setDetailData((oldDetailData) => ({
+          ...oldDetailData,
+          publishedAt: updatedData?.publishedAt,
+        }))
+        setData((oldData) => {
+          const pos = oldData.findIndex((t) => t.id === detailData?.id)
+          if (pos > -1) {
+            oldData[pos].publishedAt = updatedData?.publishedAt
+          }
+          return oldData
+        })
+        toast.success(
+          `Treatment ${!!detailData?.publishedAt ? "unpublished" : "published"} successfully!`
+        )
+      } catch (error) {
+        toast.error(getErrorMessage(error))
+      }
   }, [detailData?.id, detailData?.publishedAt])
 
   const onUpdate = useCallback(

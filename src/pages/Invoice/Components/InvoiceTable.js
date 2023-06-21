@@ -68,14 +68,14 @@ const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDa
         width: 250,
       },
       {
-        Header: "Status",
+        Header: "Trạng thái",
         accessor: (originalRow) => (
           <Tag
             className={classNames({
               "bg-red": !originalRow.publishedAt,
               "bg-green": originalRow.publishedAt,
             })}
-            name={originalRow.publishedAt ? CATEGORY_STATUS.PUBLISHED : CATEGORY_STATUS.UNPUBLISHED}
+            name={originalRow.publishedAt ? "Đã thanh toán" : "Nháp"}
           />
         ),
         align: "right",

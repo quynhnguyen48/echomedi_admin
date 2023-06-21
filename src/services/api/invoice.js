@@ -64,8 +64,8 @@ export const createNewTreatment = (payload) => {
   })
 }
 
-export const updateTreatment = (id, payload) => {
-  return axios.put(`/medical-records/${id}`, {
+export const updateInvoice = (id, payload) => {
+  return axios.put(`/invoices/${id}`, {
     data: payload,
   })
 }
