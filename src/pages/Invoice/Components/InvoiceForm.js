@@ -329,36 +329,49 @@ const InvoiceForm = ({
         note: invoiceData?.note,
       })
     } else {
-      console.log('cliniqueServices22', cliniqueServices)
+      console.log('asd', membership)
+      // console.log('cliniqueServices22', bundleServices?.map((item) => ({
+      //   id: item?.id,
+      //   price: item?.attributes?.price,
+      //   label: item?.attributes?.label,
+      //   discountFixedPrice: "",
+      //   discountPercentage: "",
+      // })), medicalServices?.map((item) => ({
+      //   id: item?.id,
+      //   price: item?.attributes?.price,
+      //   label: item?.attributes?.label,
+      //   discountFixedPrice: "",
+      //   discountPercentage: "",
+      // })), cliniqueServices)
       reset({
         bundleServices: bundleServices?.map((item) => ({
-          id: item.id,
+          id: item?.id,
           price: item?.attributes?.price,
           label: item?.attributes?.label,
           discountFixedPrice: "",
           discountPercentage: "",
         })),
         medicalServices: medicalServices?.map((item) => ({
-          id: item.id,
+          id: item?.id,
           price: item?.attributes?.price,
           label: item?.attributes?.label,
           discountFixedPrice: "",
           discountPercentage: "",
         })),
         cliniqueServices: cliniqueServices?.map((item) => ({
-          id: item.id,
+          id: item?.id,
           price: item?.attributes?.price,
           label: item?.attributes?.label,
           discountFixedPrice: "",
           discountPercentage: "",
         })),
-        membership: membership && [{
-          id: membership.id,
+        membership: membership ? [{
+          id: membership?.id,
           price: membership?.price,
           label: membership?.label,
           discountFixedPrice: "",
           discountPercentage: "",
-        }],
+        }] : [],
         note: "",
       })
     }
