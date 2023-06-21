@@ -121,7 +121,7 @@ const Invoice = () => {
           return oldData
         })
         toast.success(
-          `Treatment ${!!detailData?.publishedAt ? "unpublished" : "published"} successfully!`
+          `Thành công`
         )
       } catch (error) {
         toast.error(getErrorMessage(error))
