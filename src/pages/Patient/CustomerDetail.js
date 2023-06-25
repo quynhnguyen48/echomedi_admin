@@ -22,6 +22,8 @@ import { BRANCH } from "constants/Authentication"
 import moment from "moment";
 import Modal from "components/Modal"
 import PrescriptionModal from "./PrescriptionModal";
+import { useDispatch, useSelector } from "react-redux";
+
 
 dayjs.locale('vi')
 
@@ -35,6 +37,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
   const [show, setShow] = useState(false);
   const [relationships, setRelationships] = useState([]);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     if (data?.id) {
@@ -85,7 +88,9 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   return (
     <div className="w-full max-h-tableBody overflow-scroll">
       <div className="flex items-center gap-x-2">
-        <div className="flex gap-x-2">
+        {currentUser?.role?.type != "doctor" 
+        && currentUser?.role?.type != "nurse" 
+        && <div className="flex gap-x-2">
           <Button
             btnSize="auto"
             className="w-10 h-10"
@@ -94,40 +99,6 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           >
             <Icon name="edit" />
           </Button>
-          <Button
-            btnSize="auto"
-            className="w-10 h-10"
-            shape="circle"
-            onClick={() => navigate(`/patient/${data?.id}/view`)}
-          >
-            <Icon name="eye" />
-          </Button>
-          {/* <Button
-            btnSize="auto"
-            className={`w-10 h-10 ${data?.blocked ? "bg-green" : "bg-red"}`}
-            shape="circle"
-            onClick={onToggleStatus}
-          >
-            <Icon name="slash" />
-          </Button> */}
-          {/* <Button
-            btnSize="auto"
-            className={`w-10 h-10 ${data?.blocked ? "bg-green" : "bg-red"}`}
-            shape="circle"
-            onClick={() => {
-              navigate(`/medical-records/${data.id}/create`);
-            }}
-          >
-            <Icon name="check" />
-          </Button> */}
-          {/* <Button
-          icon={<Icon name="add-circle" className="fill-white" />}
-          onClick={() => {
-            navigate(`/medical-records/${data.id}/create`);
-          }}
-        >
-          Tạo hồ sơ bệnh án
-        </Button> */}
           <Button
             icon={<Icon name="add-circle" className="fill-white" />}
             onClick={async () => {
@@ -146,7 +117,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           >
             Đưa bệnh nhân vào danh sách tiếp đón
           </Button>
-        </div>
+        </div>}
       </div>
       <div className="grid grid-cols-2 grid-flow-row gap-y-8 mt-4">
         <DataItem icon="user" title="Tên" value={`${data?.full_name}`} />
@@ -169,11 +140,12 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               : "-"
           }
         />
-        <p>Relationships</p>
         <div className="my-4 mb-4">
           <div className="flex flex-row align-center">
             <span className="font-bold mr-4 mt-1">Các mối quan hệ:</span>
-            <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>
+            {currentUser?.role?.type != "doctor" && 
+            currentUser?.role?.type != "nurse" &&
+            <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>}
           </div>
           {relationships?.map(item => <p>- {item?.label} : {item?.patient?.full_name}</p>)}
         </div>

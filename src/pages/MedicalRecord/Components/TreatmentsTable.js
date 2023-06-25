@@ -1,5 +1,6 @@
 import { useMemo, useCallback } from "react"
 import classNames from "classnames"
+import dayjs from "dayjs";
 
 import Table from "components/Table"
 import Tag from "components/Tag"
@@ -57,38 +58,50 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
       //   width: 150,
       // },
       {
+        Header: "Năm sinh",
+        collapse: true,
+        width: 80,
+        accessor: (originalRow) => <span>{dayjs(originalRow.patient?.birthday).year()} ({2023-dayjs(originalRow.patient?.birthday).year()})</span>,
+      },
+      {
+        Header: "Số điện thoại",
+        collapse: true,
+        width: 100,
+        accessor: (originalRow) => <span>{originalRow.patient?.phone}</span>,
+      },
+      {
         Header: "Ngày khám bệnh",
         accessor: (originalRow) => {
           return (
             <div className="flex">
-              <span className="mt-1">{formatDate(originalRow.createdAt, "DD MMMM, YYYY")}</span>
+              <span className="">{formatDate(originalRow.createdAt, "DD MMMM, YYYY")}</span>
             </div>
           )
         },
         collapse: true,
         width: 250,
       },
-      {
-        Header: "Status",
-        accessor: (originalRow) => (
-          <Tag
-            className={classNames({
-              "bg-red": !originalRow.publishedAt,
-              "bg-green": originalRow.publishedAt,
-            })}
-            name={originalRow.publishedAt ? CATEGORY_STATUS.PUBLISHED : CATEGORY_STATUS.UNPUBLISHED}
-          />
-        ),
-        align: "right",
-        collapse: true,
-        width: 100,
-      },
+      // {
+      //   Header: "Status",
+      //   accessor: (originalRow) => (
+      //     <Tag
+      //       className={classNames({
+      //         "bg-red": !originalRow.publishedAt,
+      //         "bg-green": originalRow.publishedAt,
+      //       })}
+      //       name={originalRow.publishedAt ? CATEGORY_STATUS.PUBLISHED : CATEGORY_STATUS.UNPUBLISHED}
+      //     />
+      //   ),
+      //   align: "right",
+      //   collapse: true,
+      //   width: 100,
+      // },
     ]
   }, [activeRow])
 
   return (
     <Table
-      className="mt-6"
+      className="mt-2"
       columns={columns}
       data={data}
       fetchData={fetchData}

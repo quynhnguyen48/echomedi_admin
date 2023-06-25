@@ -1139,7 +1139,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-1" class="hidden" />
-              <label for="panel-1" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer	bg-form font-bold">1. Hành chính</label>
+              <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">1. Hành chính</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="grid grid-cols-2 gap-x-6 gap-y-4 py-4">
                   <Controller
@@ -1355,7 +1355,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-2" class="hidden" />
-              <label for="panel-2" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer bg-form font-bold">2. Thông tin lịch hẹn</label>
+              <label for="panel-2" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer bg-form font-bold">2. Thông tin lịch hẹn</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="grid col-span-2 grid-cols-2 gap-x-6 gap-y-4 py-4">
                   <Controller
@@ -1417,7 +1417,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-3" class="hidden" />
-              <label for="panel-3" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer	bg-form font-bold">3. Trạng thái</label>
+              <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">3. Trạng thái</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full">
                   <Controller
@@ -1480,7 +1480,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-4" class="hidden" />
-              <label for="panel-4" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer	bg-form font-bold">4. Tư vấn ban đầu</label>
+              <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">4. Tư vấn ban đầu</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   {(readonly || data.patient.membership) && <div className="w-full">
@@ -1642,9 +1642,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 </div>
               </div>
             </div>
+            {currentUser?.role?.type != "care_concierge" && 
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-5" class="hidden" />
-              <label for="panel-5" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
+              <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="grid grid-cols-4 gap-6">
@@ -1653,7 +1654,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Input
-                          disabled={readonly}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           value={value}
                           name="circuit"
@@ -1672,7 +1673,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Input
-                          disabled={readonly}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           value={value}
                           name="temperature"
@@ -1696,7 +1697,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       </p>
                       <div className="flex">
                         <Input
-                          disabled={readonly}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={(e) => setBP1(e.target.value)}
                           value={bp1}
                           name="blood_pressure"
@@ -1709,7 +1710,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         />
                         <span className="m-auto">/</span>
                         <Input
-                          disabled={readonly}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={(e) => setBP2(e.target.value)}
                           value={bp2}
                           name="blood_pressure"
@@ -1729,7 +1730,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Input
-                          disabled={readonly}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           value={value}
                           name="respiratory_rate"
@@ -1748,7 +1749,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               control={control}
               render={({ field: { onChange, value } }) => ( */}
                     <Input
-                      disabled={readonly}
+                      disabled={readonly || currentUser?.role?.type == "nurse"}
                       onChange={(e) => setHeight(e.target.value)}
                       value={height}
                       name="height"
@@ -1767,7 +1768,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               control={control}
               render={({ field: { onChange, value } }) => ( */}
                     <Input
-                      disabled={readonly}
+                      disabled={readonly || currentUser?.role?.type == "nurse"}
                       onChange={(e) => setWeight(e.target.value)}
                       value={weight}
                       name="weight"
@@ -1797,7 +1798,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Input
-                          disabled={readonly}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           value={value}
                           name="spo2"
@@ -1814,10 +1815,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="w-full">
+            </div>}
+            {currentUser?.role?.type != "care_concierge" && <div className="w-full">
               <input type="checkbox" name="panel" id="panel-6" class="hidden" />
-              <label for="panel-6" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer	bg-form font-bold">6. Khám</label>
+              <label for="panel-6" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">6. Khám</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="grid grid-cols-1 gap-6">
@@ -1841,7 +1842,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           size="large"
                           name="title.en"
                           value={value}
-                          disabled={readonly}
+                          disabled={readonly  || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           errors={errors?.title?.en?.message}
                         />
@@ -1855,7 +1856,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="inquiry"
-                          disabled={readonly}
+                          disabled={readonly  || currentUser?.role?.type == "nurse"}
                           label="Bệnh sử"
                           name="inquiry"
                           value={value}
@@ -1874,7 +1875,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           size="large"
                           name="premise"
                           value={value}
-                          disabled={readonly}
+                          disabled={readonly  || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           errors={errors?.title?.en?.message}
                         />
@@ -1886,7 +1887,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="general_examination"
-                          disabled={readonly}
+                          disabled={readonly  || currentUser?.role?.type == "nurse"}
                           label="Khám tổng quát"
                           name="general_examination"
                           value={value}
@@ -1901,7 +1902,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="examination"
-                          disabled={readonly}
+                          disabled={readonly  || currentUser?.role?.type == "nurse"}
                           label="Khám cơ quan"
                           name="examination"
                           value={value}
@@ -1918,7 +1919,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="main_diagnose"
-                          disabled={readonly}
+                          disabled={readonly  || currentUser?.role?.type == "nurse"}
                           label="Bệnh chính"
                           name="main_diagnose"
                           value={value}
@@ -1933,7 +1934,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="other_diagnose"
-                          disabled={readonly}
+                          disabled={readonly  || currentUser?.role?.type == "nurse"}
                           label="Bệnh kèm theo"
                           name="other_diagnose"
                           value={value}
@@ -1950,7 +1951,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     render={({ field: { onChange, value } }) => (
                       <TagifyInput
                         id="treatment_regimen"
-                        disabled={readonly}
+                        disabled={readonly  || currentUser?.role?.type == "nurse"}
                         label="Hướng điều trị"
                         name="treatment_regimen"
                         value={value}
@@ -1962,10 +1963,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>}
+            {currentUser?.role?.type != "care_concierge" && 
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-7" class="hidden" />
-              <label for="panel-7" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer	bg-form font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
+              <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
 
@@ -2175,10 +2177,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   )}
                 </div>
               </div>
-            </div>
+            </div>}
+            {currentUser?.role?.type != "care_concierge" && 
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-8" class="hidden" />
-              <label for="panel-8" class="relative block bg-black p-4 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
+              <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="flex items-center gap-x-4 pl-4">
@@ -2217,7 +2220,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>}
           </div>
           <p className="text-xl font-semibold text-right">Tổng {numberWithCommas(total)}</p>
         </div>
@@ -2239,7 +2242,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Huỷ
             </Button>
           )}
-          {readonly && (
+          {readonly && currentUser?.role?.type != "care_concierge" && (
             <Button
               btnType="outline"
               type="reset"
@@ -2250,7 +2253,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải bệnh án
             </Button>
           )}
-          {readonly && (
+          {readonly && currentUser?.role?.type != "care_concierge" && (
             <Button
               btnType="outline"
               type="reset"
@@ -2272,7 +2275,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Sửa bệnh án
             </Button>
           )}
-          {readonly && (
+          {readonly && currentUser?.role?.type != "doctor" && currentUser?.role?.type != "nurse" && (
             <Button
               btnType="outline"
               type="reset"
@@ -2284,7 +2287,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Xuất hoá đơn
             </Button>
           )}
-          {readonly && (
+          {readonly && currentUser?.role?.type != "care_concierge" && (
             <Button
               btnType="outline"
               type="reset"
@@ -2295,13 +2298,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải phiếu chỉ định
             </Button>
           )}
-          {readonly && (<Button btnType="outline" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
+          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="outline" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
             Đơn thuốc
           </Button>)}
-          {readonly && (<Button btnType="outline" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
+          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="outline" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
             Tư vấn TPCN
           </Button>)}
-          {readonly && (<Button btnType="outline" type="reset" onClick={() => setVisibleTestResultModal(true)}>
+          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="outline" type="reset" onClick={() => setVisibleTestResultModal(true)}>
             Kết quả xét nghiệm
           </Button>)}
         </div>

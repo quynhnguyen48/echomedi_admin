@@ -58,7 +58,6 @@ const ServiceBundles = () => {
           )
           if (res.data) {
             const listProducts = formatStrapiArr(res.data)
-            console.log('listProducts', listProducts)
             setData(
               listProducts?.map((product) => {
                 console.log('product', formatStrapiArr(product.medical_services))

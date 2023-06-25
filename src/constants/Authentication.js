@@ -6,6 +6,9 @@ export const USER_ROLE = {
   AUTHENTICATED: "authenticated",
   PUBLIC: "public",
   DOCTOR: "doctor",
+  NURSE: "nurse",
+  PHARMACIST: "pharmacist",
+  CARE_CONCIERGE: "care_concierge"
 };
 
 export const STAFF_ROLES = [USER_ROLE.SUPER_ADMIN];

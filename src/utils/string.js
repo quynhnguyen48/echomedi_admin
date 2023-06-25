@@ -77,3 +77,15 @@ export const renderTransactionCheckinStatusColor = (status) => {
 			return "bg-orangeLight"
 	}
 }
+
+export function getDisplayBranchLabel(value) {
+	switch (value) {
+	  case "q7":
+		return "Quận 7"
+	  case "q2":
+		return "Quận 2"
+	  case "binhduong":
+		return "Bình Dương"
+	}
+  }
+  

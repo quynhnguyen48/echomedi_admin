@@ -23,13 +23,13 @@ const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDa
       {
         Header: "ID",
         accessor: (originalRow) => (
-          <span
-            className={`font-bold ${
+          <p
+            className={`font-bold my-2 ${
               originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
             }`}
           >
             {originalRow?.idu}
-          </span>
+          </p>
         ),
         collapse: true,
         width: 80,
@@ -60,7 +60,7 @@ const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDa
         accessor: (originalRow) => {
           return (
             <div className="flex">
-              <span className="mt-1">{formatDate(originalRow.createdAt, "DD MMMM, YYYY")}</span>
+              <span className="">{formatDate(originalRow.createdAt, "DD MMMM, YYYY")}</span>
             </div>
           )
         },
@@ -87,7 +87,7 @@ const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDa
 
   return (
     <Table
-      className="mt-6"
+      className="mt-2"
       columns={columns}
       data={data}
       fetchData={fetchData}

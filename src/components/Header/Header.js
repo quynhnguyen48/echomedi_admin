@@ -40,7 +40,7 @@ const Header = ({ title, parentUrl }) => {
   }
 
   return (
-    <header className="flex items-center justify-between p-6">
+    <header className="flex items-center justify-between p-4">
       <div className="flex items-center">
         {!!parentUrl && (
           <button
@@ -79,7 +79,7 @@ const Header = ({ title, parentUrl }) => {
               currentUser?.avatar && getStrapiMedia({ url: currentUser.avatar })
             }
           /> */}
-          <pre>{" " + currentUser?.email + " "}</pre>
+          <pre>{" " + currentUser?.patient?.full_name + " "}</pre>
           </Button>
           <Button shape="circle" className="bg-transparent" onClick={() => logout()}>
             <Icon name="logout-circle" />

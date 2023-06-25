@@ -148,7 +148,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
 
 
   return (
-    <div className="my-4 w-full">
+    <div className="my-4 w-full max-h-[70vh] overflow-scroll">
       <div className="flex items-center gap-x-2"></div>
       <table className="table-auto sinh_hieu w-full">
         <tr>
@@ -176,7 +176,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <th>{data?.spo2}</th>
         </tr>
       </table>
-      <div className="grid grid-cols-3 grid-flow-row gap-y-5 mt-12">
+      <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"

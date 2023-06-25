@@ -41,6 +41,7 @@ const Table = ({
   fullHeight = false,
   disableLineClamp = false,
   rowClassName,
+  createConversation,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -93,7 +94,7 @@ const Table = ({
     <div>
       <div
         {...getTableProps()}
-        className={`p-1 overflow-auto ${className} ${!fullHeight && "max-h-[70vh]"}`}
+        className={`p-1 overflow-auto ${className} ${!fullHeight && "max-h-[75vh]"}`}
       >
         <div className="flex">
           {headerGroups.map((headerGroup) => (
@@ -132,7 +133,7 @@ const Table = ({
                 >
                   <div
                     {...row.getRowProps()}
-                    className={classNames("relative flex items-center h-20 px-6 rounded-lg", {
+                    className={classNames("relative flex items-center py-2 px-6 rounded-lg", {
                       "text-white bg-primary": isActive,
                       "bg-primary/10": isModal,
                       "shadow-sm": !isModal,

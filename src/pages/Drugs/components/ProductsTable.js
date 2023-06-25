@@ -35,7 +35,7 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
           </span>
         ),
         collapse: true,
-        width: 100,
+        width: 90,
       },
       {
         Header: "Tên thuốc",
@@ -45,23 +45,23 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
           </div>
         ),
         collapse: true,
-        width: 200,
+        width: 300,
       },
     ]
     if (activeRow) return defaultColumns
 
     return [
       ...defaultColumns,
-      {
-        Header: "Hoạt chất",
-        accessor: (originalRow) => (
-          <div className="flex items-center gap-x-4">
-            <span>{originalRow?.ingredient}</span>
-          </div>
-        ),
-        collapse: true,
-        width: 300,
-      },
+      // {
+      //   Header: "Hoạt chất",
+      //   accessor: (originalRow) => (
+      //     <div className="flex items-center gap-x-4">
+      //       <span>{originalRow?.ingredient}</span>
+      //     </div>
+      //   ),
+      //   collapse: true,
+      //   width: 300,
+      // },
       {
         Header: "Tồn",
         accessor: (originalRow) => (
@@ -120,7 +120,6 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
 
   return (
     <Table
-      className="mt-6"
       columns={columns}
       data={data}
       fetchData={fetchData}

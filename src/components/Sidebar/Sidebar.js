@@ -53,7 +53,7 @@ const Sidebar = () => {
   return (
     <div className="w-sidebarWidth">
       <img src="/images/logo_.png" alt="logo" className="m-auto p-5" />
-      <div className="max-h-sidebarHeight overflow-scroll space-y-8">
+      <div className="max-h-sidebarHeight overflow-scroll space-y-6">
         {/* <Button 
         className={"m-auto"}
         onClick={(e) => {

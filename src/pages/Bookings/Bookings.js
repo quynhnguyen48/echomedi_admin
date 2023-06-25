@@ -271,27 +271,7 @@ const Bookings = () => {
 
   return (
     <Page title="Quản lý lịch hẹn">
-      <div className="w-full flex items-center gap-x-9 mb-4">
-        {/* <SearchInput
-          placeholder="Search by Booking ID / Customer Name / Treatment Name"
-          className="flex-1"
-          onSearch={(value) => {
-            dispatch(resetPageIndex());
-            setSearchKey(value);
-          }}
-        /> */}
-        <Button
-          icon={<Icon name="add-circle" className="fill-white" />}
-          onClick={() => {
-            setUpBooking(false)
-            setCreateNewPatient(true)
-            setSlotInfo({})
-            setModalVisible(true)
-          }}
-        >
-          Tạo lịch hẹn
-        </Button>
-      </div>
+      
       <div
         className={classNames({
           "w-full": !detailData,
@@ -401,7 +381,7 @@ const Bookings = () => {
           >
             Nhập phiếu
           </Button> */}
-              {slotInfo.id && (
+              {/* {slotInfo.id && (
                 <Button
                   onClick={() => {
                     if (slotInfo.medical_record?.id) {
@@ -413,7 +393,7 @@ const Bookings = () => {
                 >
                   {slotInfo.medical_record?.id ? "Xem hồ sơ bệnh án" : "Tạo hồ sơ bệnh án"}
                 </Button>
-              )}
+              )} */}
               {slotInfo.id &&
                 slotInfo.medical_record?.id &&
                 (slotInfo.status == "scheduled" || slotInfo.status == "confirmed") && (
@@ -493,6 +473,17 @@ const Bookings = () => {
         </div>
       </div>
       <Button btnType="outline" onClick={e => setStatusFilter(bookingStatus) }>Chọn tất cả</Button>
+      <Button
+          icon={<Icon name="add-circle" className="fill-white" />}
+          onClick={() => {
+            setUpBooking(false)
+            setCreateNewPatient(true)
+            setSlotInfo({})
+            setModalVisible(true)
+          }}
+        >
+          Tạo lịch hẹn
+        </Button>
     </Page>
   )
 }

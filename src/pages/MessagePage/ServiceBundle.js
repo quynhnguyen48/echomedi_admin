@@ -79,10 +79,8 @@ const ServiceBundles = () => {
           )
           if (res.data) {
             const listProducts = formatStrapiArr(res.data)
-            console.log('listProducts', listProducts)
             setData(
               listProducts?.map((product) => {
-                console.log('product', formatStrapiArr(product.medical_services))
                 return {
                   ...product,
                   medical_services: formatStrapiArr(product.medical_services)
@@ -139,16 +137,13 @@ const ServiceBundles = () => {
   )
 
   const loadConversation = async () => {
-    await axios.get(`/conversation-queues/${id}?populate=user.patient`, {
-      // axios2.post("http://localhost:1337/api/product/generatePrescription", {
-      // "id": medicalRecordId,
+    await axios.get(`/conversation-queue/getMessages/${id}`, {
     })
       .then((response) => {
-        console.log('loadConversation', response)
-        setUserId(response.data.data.attributes.user.data.id)
-        setPatient(response.data.data.attributes.user.data.attributes);
-        setPatientId(response.data.data.attributes.user.data.attributes.patient.data.id);
-        let message = response.data.data.attributes.data;
+        setUserId(response.data.user.id)
+        setPatient(response.data.user);
+        setPatientId(response.data.user.patient.id);
+        let message = response.data.data;
         if (!Array.isArray(message)) {
           message = [message];
         }
@@ -228,7 +223,6 @@ const ServiceBundles = () => {
                     {conversations && conversations.map(c => {
                       let messages = c.split("|");
                       let msg = messages[2];
-                      console.log('patient', patientId, messages[0])
                       if (msg.startsWith("file:")) {
                         return <li class={userId != messages[0] ? "flex justify-end" : "flex justify-start"}>
                           <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
@@ -242,7 +236,6 @@ const ServiceBundles = () => {
                           </div>
                         </li>
                       } else {
-                        console.log('messages', userId, messages[0], messages[2], patient?.email, patient?.email != messages[0])
                         return <li class={(userId != messages[0]) ? "flex justify-end" : "flex justify-start"}>
                           <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
                             <span class="block">{messages[2]}</span>
@@ -274,7 +267,6 @@ const ServiceBundles = () => {
                     ref={refInput}
                     onChange={e => setMessage(e.target.value)}
                     onKeyUp={e => {
-                      console.log('eee', e)
                       if (e.keyCode === 13) {
                         sendMesssage();
                       }

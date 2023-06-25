@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify"
 
 import Button from "components/Button";
@@ -53,6 +53,7 @@ const Treatments = () => {
   const [slotInfo, setSlotInfo] = useState({});
   const fetchIdRef = useRef(0);
   const [patients, setPatients] = useState([]);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     (async () => {
@@ -147,34 +148,17 @@ const Treatments = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
-        <Button
+        {currentUser?.role?.type != "doctor" 
+        && currentUser?.role?.type != "nurse" 
+        && <Button
           onClick={() => {
             navigate("/patient/create");
           }}
         >
           Tạo bệnh nhân mới
-        </Button>
+        </Button>}
       </div>
       <div className="mt-4">
-
-        {/* <Calendar
-      selectable={true}
-      onSelectEvent={(e) => {
-        console.log(e);
-        setModalVisible(true);
-      }}
-      onSelecting={() => alert(312321)}
-      localizer={localizer}
-      events={bookings}
-      startAccessor="start"
-      endAccessor="end"
-      style={{ height: 500 }}
-      onSelectSlot={(slotInfo) => {
-        console.log('slotInfo asd', slotInfo)
-        setSlotInfo(slotInfo);
-        setModalVisible(true);
-      }}
-    /> */}
       </div>
       <Modal contentClassName="bg-modal" visibleModal={modalVisible} showCloseButton={true} onClose={() => setModalVisible(false)}>
         <TreatmentForm slotInfo={slotInfo} />

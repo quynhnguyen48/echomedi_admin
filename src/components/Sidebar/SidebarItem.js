@@ -59,7 +59,7 @@ const SidebarItem = ({ item }) => {
               key={subItem.url}
               to={subItem.url}
               className={classNames(
-                "relative flex items-center gap-x-4 pl-16 last:pb-10",
+                "relative flex items-center gap-x-6 pl-16 last:pb-10",
                 {
                   "opacity-30": !isActiveItem,
                 }

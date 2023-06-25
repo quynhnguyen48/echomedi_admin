@@ -5,12 +5,12 @@ export const SIDEBAR_ITEMS = [
     icon: "sidebar/dashboard",
     url: "/",
   },
-  {
-    id: "boards",
-    name: "Boards",
-    icon: "sidebar/kanban",
-    url: "/boards",
-  },
+  // {
+  //   id: "boards",
+  //   name: "Boards",
+  //   icon: "sidebar/kanban",
+  //   url: "/boards",
+  // },
   {
     id: "patient",
     name: "Danh sách khách hàng",
@@ -24,8 +24,8 @@ export const SIDEBAR_ITEMS = [
     name: "Danh sách tiếp đón",
     icon: "sidebar/customer",
     url: "/today-patient",
-    // apiKey: "api::patient",
-    controllerKey: "today-patient",
+    apiKey: "api::patient",
+    controllerKey: "patient",
   },
   {
     id: "medical-record",
@@ -128,8 +128,8 @@ export const SIDEBAR_ITEMS = [
     name: "Báo cáo",
     icon: "sidebar/report",
     url: "/reports",
-    // apiKey: "api::report",
-    // controllerKey: "report",
+    apiKey: "api::report",
+    controllerKey: "report",
   },
   {
     id: "products",

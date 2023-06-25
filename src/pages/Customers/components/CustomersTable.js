@@ -105,7 +105,7 @@ const CustomersTable = ({
 
   return (
     <Table
-      className="mt-6"
+      className="mt-2"
       columns={columns}
       data={data}
       fetchData={fetchData}

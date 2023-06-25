@@ -69,7 +69,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   return (
     <div className="my-10 w-full">
       <div className="flex items-center gap-x-2"></div>
-      <div className="grid grid-cols-3 grid-flow-row gap-y-5 mt-12">
+      <div className="grid grid-cols-3 grid-flow-row gap-y-5">
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"
