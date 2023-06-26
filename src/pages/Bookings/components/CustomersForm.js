@@ -335,6 +335,8 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
 
   }
 
+  console.log('data', data)
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">

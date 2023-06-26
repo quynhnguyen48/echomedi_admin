@@ -6,7 +6,8 @@ export const getMe = () => {
   return axios.get("/users/me?populate=*")
 }
 
-export const getListPatients = (pagination, filters = {}, populate) => {
+export const getListPatients = (pagination, filters, populate) => {
+  console.log('filters', filters)
   const query = qs.stringify({
     filters: {
       ...filters,

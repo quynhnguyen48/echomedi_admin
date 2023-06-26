@@ -59,7 +59,18 @@ const Treatments = () => {
     (async () => {
       try {
         setLoading(true);
-        const res = await getListPatients();
+        console.log('123')
+        const res = await getListPatients(
+          {
+            pageSize: 10,
+            page: pageIndex + 1,
+          },
+          {
+            internal: {
+              $ne: 'yes'
+            }
+          }
+        );
         setPageCount(res?.data?.meta?.pagination?.pageCount)
         if (res.data) {
           setPatients(formatStrapiArr(res.data));
@@ -75,7 +86,11 @@ const Treatments = () => {
     async ({ pageSize, pageIndex }) => {
       const fetchId = ++fetchIdRef.current;
       setLoading(true);
-      let filters = {};
+      let filters = {
+        internal: {
+          $null: true,
+        }
+      };
       if (searchKey?.length) {
         filters = {
           $or: [
@@ -85,6 +100,9 @@ const Treatments = () => {
             { email: { $containsi: searchKey } },
             { phone: { $containsi: searchKey } }
           ],
+          internal: {
+            $null: true,
+          }
         }
       }
 
@@ -148,15 +166,15 @@ const Treatments = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
-        {currentUser?.role?.type != "doctor" 
-        && currentUser?.role?.type != "nurse" 
-        && <Button
-          onClick={() => {
-            navigate("/patient/create");
-          }}
-        >
-          Tạo bệnh nhân mới
-        </Button>}
+        {currentUser?.role?.type != "doctor"
+          && currentUser?.role?.type != "nurse"
+          && <Button
+            onClick={() => {
+              navigate("/patient/create");
+            }}
+          >
+            Tạo bệnh nhân mới
+          </Button>}
       </div>
       <div className="mt-4">
       </div>

@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { toast } from "react-toastify"
 import {
   Calendar,
@@ -34,6 +34,7 @@ import axios from "../../services/axios"
 import { setBookings } from "slice/userSlice"
 import moment from "moment"
 import { BRANCH } from "constants/Authentication"
+import { getBookingById } from "services/api/bookings"
 require("moment/locale/vi.js")
 const localizer2 = momentLocalizer(moment)
 let allViews = Object.keys(Views).map((k) => Views[k])
@@ -73,6 +74,7 @@ const bookingStatus = ["scheduled", "confirmed", "waiting", "postpone", "finishe
 const Bookings = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { id } = useParams();
   const today = moment()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -92,6 +94,21 @@ const Bookings = () => {
   useEffect(() => {
     loadBookings();
   }, [statusFilter]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getBookingById(id)
+      if (res.data) {
+        let tmp = formatStrapiObj(res.data);
+        tmp.patient = formatStrapiObj(tmp.patient.data);
+        tmp.start = tmp.bookingDate;
+        tmp.end = moment(tmp.bookingDate).add(29, "minutes").toDate();
+        setSlotInfo(tmp);
+        setModalVisible(true);
+        setUpBooking(true)
+      }
+    })();
+  }, [id])
 
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
@@ -234,28 +251,28 @@ const Bookings = () => {
   )
 
   const eventStyleGetter = (event, start, end, isSelected) => {
-    
+
     let backgroundColor
     switch (event.status) {
-        case bookingStatus[0]:
-          backgroundColor = "orange"
-          break
-        case bookingStatus[1]:
-          backgroundColor = "green"
-          break
-        case bookingStatus[2]:
-          backgroundColor = "blue"
-          break
-        case bookingStatus[3]:
-          backgroundColor = "grey"
-          break
-        case bookingStatus[4]:
-          backgroundColor = "purple"
-          break
-        case bookingStatus[5]:
-          backgroundColor = "red"
-          break
-      }
+      case bookingStatus[0]:
+        backgroundColor = "orange"
+        break
+      case bookingStatus[1]:
+        backgroundColor = "green"
+        break
+      case bookingStatus[2]:
+        backgroundColor = "blue"
+        break
+      case bookingStatus[3]:
+        backgroundColor = "grey"
+        break
+      case bookingStatus[4]:
+        backgroundColor = "purple"
+        break
+      case bookingStatus[5]:
+        backgroundColor = "red"
+        break
+    }
     var style = {
       backgroundColor: backgroundColor,
       borderRadius: "0px",
@@ -271,7 +288,7 @@ const Bookings = () => {
 
   return (
     <Page title="Quản lý lịch hẹn">
-      
+
       <div
         className={classNames({
           "w-full": !detailData,
@@ -472,18 +489,18 @@ const Bookings = () => {
           </div>
         </div>
       </div>
-      <Button btnType="outline" onClick={e => setStatusFilter(bookingStatus) }>Chọn tất cả</Button>
+      <Button btnType="outline" onClick={e => setStatusFilter(bookingStatus)}>Chọn tất cả</Button>
       <Button
-          icon={<Icon name="add-circle" className="fill-white" />}
-          onClick={() => {
-            setUpBooking(false)
-            setCreateNewPatient(true)
-            setSlotInfo({})
-            setModalVisible(true)
-          }}
-        >
-          Tạo lịch hẹn
-        </Button>
+        icon={<Icon name="add-circle" className="fill-white" />}
+        onClick={() => {
+          setUpBooking(false)
+          setCreateNewPatient(true)
+          setSlotInfo({})
+          setModalVisible(true)
+        }}
+      >
+        Tạo lịch hẹn
+      </Button>
     </Page>
   )
 }

@@ -96,6 +96,7 @@ const MainRoutes = () => {
         <Route path="/customers/create" element={<CreateCustomers />} />
         <Route path="/customers/:id/edit" element={<EditCustomer />} />
         <Route path="/bookings" element={<Bookings />} />
+        <Route path="/bookings/:id" element={<Bookings />} />
         <Route path="/bookings/create" element={<CreateBooking />} />
         <Route path="/bookings/:id/edit" element={<EditBooking />} />
         <Route path="/orders" element={<Orders />} />

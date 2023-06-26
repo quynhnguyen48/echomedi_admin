@@ -90,7 +90,7 @@ const translate = (t) => {
               <Button
                 btnSize="small"
                 className="mt-2"
-                onClick={() => navigate(`/bookings/medical-records/${booking?.id}/view`)}
+                onClick={() => navigate(`/bookings/${booking?.id}`)}
               >
                 Xem chi tiết
               </Button>
