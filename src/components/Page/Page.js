@@ -17,7 +17,7 @@ const Page = ({
           {children}
         </div>
         {rightContent && (
-          <div className={`w-79 ml-4 py-6 ${rightContentClassName}`}>
+          <div className={`w-79 ${rightContentClassName}`}>
             {rightContent}
           </div>
         )}

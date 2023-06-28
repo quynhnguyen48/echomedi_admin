@@ -32,7 +32,7 @@ const Dashboard = () => {
 
 	return (
 		<Page title="Bảng thông tin" rightContent={<LatestBookings />}>
-			<div className="mt-4 p-6 bg-form rounded-t-2xl">
+			<div className="bg-form rounded-t-2xl">
 				<div className="grid grid-cols-3 grid-flow-col gap-x-4">
 					<div className="rounded-xl shadow-sm p-4">
 						<AnalysItem

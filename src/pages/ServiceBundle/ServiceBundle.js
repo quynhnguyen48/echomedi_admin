@@ -18,6 +18,7 @@ import ImportExportHistory from "./components/ImportExportHistory"
 import ProductAnalytics from "./components/ProductAnalytics"
 import ProductsTable from "./components/ProductsTable"
 import ProductDetail from "./ProductDetail"
+import { removeVietnameseTones } from "../../utils/string";
 
 const ServiceBundles = () => {
   const dispatch = useDispatch()
@@ -39,12 +40,10 @@ const ServiceBundles = () => {
       if (searchKey?.length) {
         filters = {
           $or: [
-            { label: { $containsi: searchKey } },
+            { label_i: { $containsi: searchKey } },
           ],
         }
       }
-
-      console.log('filter', filters)
 
       if (fetchId === fetchIdRef.current) {
         try {
@@ -130,7 +129,7 @@ const ServiceBundles = () => {
           className="flex-1"
           onSearch={(value) => {
             dispatch(resetPageIndex())
-            setSearchKey(value)
+            setSearchKey(removeVietnameseTones(value))
           }}
         />
         <Button

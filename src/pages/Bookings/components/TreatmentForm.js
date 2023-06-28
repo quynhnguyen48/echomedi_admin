@@ -474,6 +474,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         address: data?.patient?.address?.address || "",
       },
       note: data?.note || "",
+      cc_note: data?.medical_record?.data?.attributes?.cc_note || "",
     },
   })
   // useScrollToError(errors)
@@ -531,7 +532,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         label: data.doctor_in_charge.data?.attributes?.firstName + " " + data.doctor_in_charge.data?.attributes?.lastName,
       })
     }
-    
+
     if (data?.references) {
       setReferences(data.references);
     }
@@ -1021,7 +1022,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       }
 
       toast.success("Lưu hồ sơ bệnh án thành công")
-      window.location.href = `/bookings/medical-records/${data.id}/view`
+      // window.location.href = `/bookings/medical-records/${data.id}/view`
     } catch (error) {
       toast.error(getErrorMessage(error))
     }
@@ -1104,7 +1105,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         references: payload,
       })
       setReferences(payload)
-    } catch (error) {}
+    } catch (error) { }
   }
 
   const uploadAssets = useCallback(
@@ -1642,180 +1643,180 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 </div>
               </div>
             </div>
-            {currentUser?.role?.type != "care_concierge" && 
-            <div className="w-full">
-              <input type="checkbox" name="panel" id="panel-5" class="hidden" />
-              <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
-              <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="w-full py-4">
-                  <div className="grid grid-cols-4 gap-6">
-                    <Controller
-                      name="circuit"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          onChange={onChange}
-                          value={value}
-                          name="circuit"
-                          label="Mạch(lần/phút)"
-                          placeholder={""}
-                          onFocus={() => {
-                            if (value == 0) {
-                              setValue("circuit", "");
-                            }
-                          }}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="temperature"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          onChange={onChange}
-                          value={value}
-                          name="temperature"
-                          label="Nhiệt độ(*C)"
-                          placeholder={""}
-                          onFocus={() => {
-                            if (value == 0) {
-                              setValue("temperature", "");
-                            }
-                          }}
-                        />
-                      )}
-                    />
-                    {/* <Controller
+            {currentUser?.role?.type != "care_concierge" &&
+              <div className="w-full">
+                <input type="checkbox" name="panel" id="panel-5" class="hidden" />
+                <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
+                <div class="accordion__content overflow-scroll bg-grey-lighter">
+                  <div className="w-full py-4">
+                    <div className="grid grid-cols-4 gap-6">
+                      <Controller
+                        name="circuit"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Input
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            onChange={onChange}
+                            value={value}
+                            name="circuit"
+                            label="Mạch(lần/phút)"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (value == 0) {
+                                setValue("circuit", "");
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                      <Controller
+                        name="temperature"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Input
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            onChange={onChange}
+                            value={value}
+                            name="temperature"
+                            label="Nhiệt độ(*C)"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (value == 0) {
+                                setValue("temperature", "");
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                      {/* <Controller
               name="blood_pressure"
               control={control}
               render={({ field: { onChange, value } }) => ( */}
-                    <div className="">
-                      <p style={{ marginBottom: "10px" }} className="font-bold">
-                        Huyết áp(mmHg)
-                      </p>
-                      <div className="flex">
-                        <Input
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          onChange={(e) => setBP1(e.target.value)}
-                          value={bp1}
-                          name="blood_pressure"
-                          placeholder={""}
-                          onFocus={() => {
-                            if (bp1 == 0) {
-                              setBP1("");
-                            }
-                          }}
-                        />
-                        <span className="m-auto">/</span>
-                        <Input
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          onChange={(e) => setBP2(e.target.value)}
-                          value={bp2}
-                          name="blood_pressure"
-                          placeholder={""}
-                          onFocus={() => {
-                            if (bp2 == 0) {
-                              setBP2("");
-                            }
-                          }}
-                        />
+                      <div className="">
+                        <p style={{ marginBottom: "10px" }} className="font-bold">
+                          Huyết áp(mmHg)
+                        </p>
+                        <div className="flex">
+                          <Input
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            onChange={(e) => setBP1(e.target.value)}
+                            value={bp1}
+                            name="blood_pressure"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (bp1 == 0) {
+                                setBP1("");
+                              }
+                            }}
+                          />
+                          <span className="m-auto">/</span>
+                          <Input
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            onChange={(e) => setBP2(e.target.value)}
+                            value={bp2}
+                            name="blood_pressure"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (bp2 == 0) {
+                                setBP2("");
+                              }
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    {/* )} */}
-                    {/* /> */}
-                    <Controller
-                      name="respiratory_rate"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          onChange={onChange}
-                          value={value}
-                          name="respiratory_rate"
-                          label="Nhịp thở(Lần/phút)"
-                          placeholder={""}
-                          onFocus={() => {
-                            if (value == 0) {
-                              setValue("respiratory_rate", "");
-                            }
-                          }}
-                        />
-                      )}
-                    />
-                    {/* <Controller
+                      {/* )} */}
+                      {/* /> */}
+                      <Controller
+                        name="respiratory_rate"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Input
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            onChange={onChange}
+                            value={value}
+                            name="respiratory_rate"
+                            label="Nhịp thở(Lần/phút)"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (value == 0) {
+                                setValue("respiratory_rate", "");
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                      {/* <Controller
               name="height"
               control={control}
               render={({ field: { onChange, value } }) => ( */}
-                    <Input
-                      disabled={readonly || currentUser?.role?.type == "nurse"}
-                      onChange={(e) => setHeight(e.target.value)}
-                      value={height}
-                      name="height"
-                      label="Chiều cao(Cm)"
-                      placeholder={""}
-                      onFocus={() => {
-                        if (height == 0) {
-                          setHeight("")
-                        }
-                      }}
-                    />
-                    {/* )}
+                      <Input
+                        disabled={readonly || currentUser?.role?.type == "nurse"}
+                        onChange={(e) => setHeight(e.target.value)}
+                        value={height}
+                        name="height"
+                        label="Chiều cao(Cm)"
+                        placeholder={""}
+                        onFocus={() => {
+                          if (height == 0) {
+                            setHeight("")
+                          }
+                        }}
+                      />
+                      {/* )}
             /> */}
-                    {/* <Controller
+                      {/* <Controller
               name="weight"
               control={control}
               render={({ field: { onChange, value } }) => ( */}
-                    <Input
-                      disabled={readonly || currentUser?.role?.type == "nurse"}
-                      onChange={(e) => setWeight(e.target.value)}
-                      value={weight}
-                      name="weight"
-                      label="Cân nặng(Kg)"
-                      placeholder={""}
-                    // errors={errors?.name?.message}
-                    />
-                    {/* )}
+                      <Input
+                        disabled={readonly || currentUser?.role?.type == "nurse"}
+                        onChange={(e) => setWeight(e.target.value)}
+                        value={weight}
+                        name="weight"
+                        label="Cân nặng(Kg)"
+                        placeholder={""}
+                      // errors={errors?.name?.message}
+                      />
+                      {/* )}
             /> */}
-                    {/* <Controller
+                      {/* <Controller
               name="bmi"
               control={control}
               render={({ field: { onChange, value } }) => ( */}
-                    <Input
-                      disabled={true}
-                      // onChange={onChange}
-                      value={bmi}
-                      name="bmi"
-                      label="BMI"
-                      placeholder={""}
-                    // errors={errors?.name?.message}
-                    />
-                    {/* )}
+                      <Input
+                        disabled={true}
+                        // onChange={onChange}
+                        value={bmi}
+                        name="bmi"
+                        label="BMI"
+                        placeholder={""}
+                      // errors={errors?.name?.message}
+                      />
+                      {/* )}
             /> */}
-                    <Controller
-                      name="spo2"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          onChange={onChange}
-                          value={value}
-                          name="spo2"
-                          label="SPO2"
-                          placeholder={""}
-                          onFocus={() => {
-                            if (value == 0) {
-                              setValue("spo2", "");
-                            }
-                          }}
-                        />
-                      )}
-                    />
+                      <Controller
+                        name="spo2"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Input
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            onChange={onChange}
+                            value={value}
+                            name="spo2"
+                            label="SPO2"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (value == 0) {
+                                setValue("spo2", "");
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>}
+              </div>}
             {currentUser?.role?.type != "care_concierge" && <div className="w-full">
               <input type="checkbox" name="panel" id="panel-6" class="hidden" />
               <label for="panel-6" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">6. Khám</label>
@@ -1842,7 +1843,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           size="large"
                           name="title.en"
                           value={value}
-                          disabled={readonly  || currentUser?.role?.type == "nurse"}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           errors={errors?.title?.en?.message}
                         />
@@ -1856,7 +1857,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="inquiry"
-                          disabled={readonly  || currentUser?.role?.type == "nurse"}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Bệnh sử"
                           name="inquiry"
                           value={value}
@@ -1875,7 +1876,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           size="large"
                           name="premise"
                           value={value}
-                          disabled={readonly  || currentUser?.role?.type == "nurse"}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           onChange={onChange}
                           errors={errors?.title?.en?.message}
                         />
@@ -1887,7 +1888,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="general_examination"
-                          disabled={readonly  || currentUser?.role?.type == "nurse"}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Khám tổng quát"
                           name="general_examination"
                           value={value}
@@ -1902,7 +1903,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="examination"
-                          disabled={readonly  || currentUser?.role?.type == "nurse"}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Khám cơ quan"
                           name="examination"
                           value={value}
@@ -1919,7 +1920,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="main_diagnose"
-                          disabled={readonly  || currentUser?.role?.type == "nurse"}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Bệnh chính"
                           name="main_diagnose"
                           value={value}
@@ -1934,7 +1935,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       render={({ field: { onChange, value } }) => (
                         <TagifyInput
                           id="other_diagnose"
-                          disabled={readonly  || currentUser?.role?.type == "nurse"}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Bệnh kèm theo"
                           name="other_diagnose"
                           value={value}
@@ -1951,7 +1952,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     render={({ field: { onChange, value } }) => (
                       <TagifyInput
                         id="treatment_regimen"
-                        disabled={readonly  || currentUser?.role?.type == "nurse"}
+                        disabled={readonly || currentUser?.role?.type == "nurse"}
                         label="Hướng điều trị"
                         name="treatment_regimen"
                         value={value}
@@ -1964,263 +1965,285 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 </div>
               </div>
             </div>}
-            {currentUser?.role?.type != "care_concierge" && 
-            <div className="w-full">
-              <input type="checkbox" name="panel" id="panel-7" class="hidden" />
-              <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
-              <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="w-full py-4">
+            {currentUser?.role?.type != "care_concierge" &&
+              <div className="w-full">
+                <input type="checkbox" name="panel" id="panel-7" class="hidden" />
+                <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
+                <div class="accordion__content overflow-scroll bg-grey-lighter">
+                  <div className="w-full py-4">
 
-                  <div>
-                    {readonly && servicesData && servicesData.length > 0 && <p className="underline text-xl font-bold">Dịch vụ:</p>}
-                    {readonly && servicesData && servicesData.map((s) => <p>{s.attributes.label}</p>)}
-                    {readonly && bundleServicesData && bundleServicesData.length > 0 && <p className="underline mt-3 text-xl font-bold">Gói dịch vụ:</p>}
-                    {readonly &&
-                      bundleServicesData &&
-                      bundleServicesData.map((s) => (
+                    <div>
+                      {readonly && servicesData && servicesData.length > 0 && <p className="underline text-xl font-bold">Dịch vụ:</p>}
+                      {readonly && servicesData && servicesData.map((s) => <p>{s.attributes.label}</p>)}
+                      {readonly && bundleServicesData && bundleServicesData.length > 0 && <p className="underline mt-3 text-xl font-bold">Gói dịch vụ:</p>}
+                      {readonly &&
+                        bundleServicesData &&
+                        bundleServicesData.map((s) => (
+                          <div>
+                            <p className="font-semibold">- {s.attributes.label}</p>
+                            {s.attributes.medical_services.data.map((ss) => (
+                              <p>+ {ss.attributes.label} </p>
+                            ))}
+                          </div>
+                        ))}
+                    </div>
+                    {!readonly && (
+                      <div className="grid grid-cols-2 gap-6">
                         <div>
-                          <p className="font-semibold">- {s.attributes.label}</p>
-                          {s.attributes.medical_services.data.map((ss) => (
-                            <p>+ {ss.attributes.label} </p>
-                          ))}
-                        </div>
-                      ))}
-                  </div>
-                  {!readonly && (
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <p className="inline-block text-16 font-bold mb-2">Gói dịch vụ</p>
-                        <SearchInput
-                          placeholder="Nhập tên gói cần tìm"
-                          className="flex-1 mb-2"
-                          value={filterBundleService}
-                          onChange={handleSearchBundleService}
-                        />
-                        <div
-                          style={{
-                            maxHeight: "300px",
-                            overflow: "scroll",
-                          }}
-                        >
-                          {bundleServices &&
-                            (!!filterBundleService
-                              ? bundleServices.filter((m) =>
-                                matchSearchString(m.attributes.label, filterBundleService)
-                              )
-                              : bundleServices
-                            ).map((m) => (
-                              <div className="mb-2 flex">
-                                <Button
-                                  type="button"
-                                  className={"inline"}
-                                  icon={<Icon name="add-circle" className="fill-white" />}
-                                  onClick={() => addBundleMedicalService(m)}
-                                >
-                                  {m.attributes.label}
-                                  <span>{numberWithCommas(m.attributes.price)}</span>
-                                </Button>
-                                {/* <Button 
+                          <p className="inline-block text-16 font-bold mb-2">Gói dịch vụ</p>
+                          <SearchInput
+                            placeholder="Nhập tên gói cần tìm"
+                            className="flex-1 mb-2"
+                            value={filterBundleService}
+                            onChange={handleSearchBundleService}
+                          />
+                          <div
+                            style={{
+                              maxHeight: "300px",
+                              overflow: "scroll",
+                            }}
+                          >
+                            {bundleServices &&
+                              (!!filterBundleService
+                                ? bundleServices.filter((m) =>
+                                  matchSearchString(m.attributes.label, filterBundleService)
+                                )
+                                : bundleServices
+                              ).map((m) => (
+                                <div className="mb-2 flex">
+                                  <Button
+                                    type="button"
+                                    className={"inline"}
+                                    icon={<Icon name="add-circle" className="fill-white" />}
+                                    onClick={() => addBundleMedicalService(m)}
+                                  >
+                                    {m.attributes.label}
+                                    <span>{numberWithCommas(m.attributes.price)}</span>
+                                  </Button>
+                                  {/* <Button 
                         onClick={e => {
                           // toast.success(<div>{m.attributes.medical_services.data.map(a => <p>{a.attributes.label}</p>)}</div>, 
                           // {progress: 1, className: "w-[500px] left-[-177px]"})
                         }}
                       className="ml-2" shape="circle">i</Button> */}
-                                <Button
-                                  type="button"
-                                  className={"inline ml-1"}
-                                  onClick={(e) => {
-                                    toast.success(
-                                      <div>
-                                        {m.attributes.medical_services.data.map((a) => (
-                                          <p>{a.attributes.label}</p>
+                                  <Button
+                                    type="button"
+                                    className={"inline ml-1"}
+                                    onClick={(e) => {
+                                      toast.success(
+                                        <div>
+                                          {m.attributes.medical_services.data.map((a) => (
+                                            <p>{a.attributes.label}</p>
 
-                                        ))}
-                                      </div>,
-                                      { progress: 1, className: "w-[500px] left-[-177px]" }
-                                    )
-                                  }}
-                                >
-                                  i
-                                </Button>
-                              </div>
-                            ))}
+                                          ))}
+                                        </div>,
+                                        { progress: 1, className: "w-[500px] left-[-177px]" }
+                                      )
+                                    }}
+                                  >
+                                    i
+                                  </Button>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="inline-block text-16 font-bold mb-2">Gói dịch vụ sử dụng</p>
+                          <SearchInput
+                            placeholder="Nhập tên gói cần tìm"
+                            className="flex-1 mb-2"
+                            value={filterUsedBundleService}
+                            onChange={(e) => {
+                              setFilterUsedBundleService(e.target.value)
+                            }}
+                          />
+                          <div
+                            style={{
+                              maxHeight: "300px",
+                              overflow: "scroll",
+                            }}
+                          >
+                            {usedBundleMedicalServices &&
+                              (!!filterUsedBundleService
+                                ? usedBundleMedicalServices.filter((m) =>
+                                  matchSearchString(m.attributes.label, filterUsedBundleService)
+                                )
+                                : usedBundleMedicalServices
+                              ).map((m) => (
+                                <div className="mb-2 flex">
+                                  <Button
+                                    type="button"
+                                    className={"inline"}
+                                    icon={<Icon name="close-circle" className="fill-white" />}
+                                    onClick={() => removeBundleMedicalService(m)}
+                                  >
+                                    {m.attributes.label}
+                                    <span>{numberWithCommas(m.attributes.price)}</span>
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    className={"inline ml-1"}
+                                    onClick={(e) => {
+                                      toast.success(
+                                        <div>
+                                          {m.attributes.medical_services.data.map((a) => (
+                                            <p>{a.attributes.label}</p>
+                                          ))}
+                                        </div>,
+                                        { progress: 1, className: "w-[500px] left-[-177px]" }
+                                      )
+                                    }}
+                                  >
+                                    i
+                                  </Button>
+                                </div>
+                              ))}
+                          </div>
                         </div>
                       </div>
-                      <div>
-                        <p className="inline-block text-16 font-bold mb-2">Gói dịch vụ sử dụng</p>
-                        <SearchInput
-                          placeholder="Nhập tên gói cần tìm"
-                          className="flex-1 mb-2"
-                          value={filterUsedBundleService}
-                          onChange={(e) => {
-                            setFilterUsedBundleService(e.target.value)
-                          }}
-                        />
-                        <div
-                          style={{
-                            maxHeight: "300px",
-                            overflow: "scroll",
-                          }}
-                        >
-                          {usedBundleMedicalServices &&
-                            (!!filterUsedBundleService
-                              ? usedBundleMedicalServices.filter((m) =>
-                                matchSearchString(m.attributes.label, filterUsedBundleService)
-                              )
-                              : usedBundleMedicalServices
-                            ).map((m) => (
-                              <div className="mb-2 flex">
-                                <Button
-                                  type="button"
-                                  className={"inline"}
-                                  icon={<Icon name="close-circle" className="fill-white" />}
-                                  onClick={() => removeBundleMedicalService(m)}
-                                >
-                                  {m.attributes.label}
-                                  <span>{numberWithCommas(m.attributes.price)}</span>
-                                </Button>
-                                <Button
-                                  type="button"
-                                  className={"inline ml-1"}
-                                  onClick={(e) => {
-                                    toast.success(
-                                      <div>
-                                        {m.attributes.medical_services.data.map((a) => (
-                                          <p>{a.attributes.label}</p>
-                                        ))}
-                                      </div>,
-                                      { progress: 1, className: "w-[500px] left-[-177px]" }
-                                    )
-                                  }}
-                                >
-                                  i
-                                </Button>
-                              </div>
-                            ))}
+                    )}
+                    {!readonly && (
+                      <div className="grid grid-cols-2 gap-6">
+                        <div>
+                          <p className="inline-block text-16 font-bold mb-2">Dịch vụ</p>
+                          <SearchInput
+                            placeholder="Nhập tên gói cần tìm"
+                            className="flex-1 mb-2"
+                            value={filterService}
+                            onChange={(e) => setFilterService(e.target.value)}
+                          />
+                          <div
+                            style={{
+                              maxHeight: "500px",
+                              overflow: "scroll",
+                            }}
+                          >
+                            {medicalServices &&
+                              (!!filterService
+                                ? medicalServices.filter((m) =>
+                                  matchSearchString(m.attributes?.label, filterService)
+                                )
+                                : medicalServices
+                              ).map((m) => (
+                                <div className="mb-2">
+                                  <Button
+                                    type="button"
+                                    className={"inline"}
+                                    icon={<Icon name="add-circle" className="fill-white" />}
+                                    onClick={() => addMedicalService(m)}
+                                  >
+                                    {m.attributes?.label}
+                                    <span>{numberWithCommas(m.attributes?.price)}</span>
+                                  </Button>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="inline-block text-16 font-bold mb-2">Dịch vụ sử dụng</p>
+                          <SearchInput
+                            placeholder="Nhập tên gói cần tìm"
+                            className="flex-1 mb-2"
+                            value={filterUsedService}
+                            onChange={(e) => setFilterUsedService(e.target.value)}
+                          />
+                          <div
+                            style={{
+                              maxHeight: "500px",
+                              overflow: "scroll",
+                            }}
+                          >
+                            {usedMedicalServices &&
+                              (!!filterUsedService
+                                ? usedMedicalServices.filter((m) =>
+                                  matchSearchString(m.attributes.label, filterUsedService)
+                                )
+                                : usedMedicalServices
+                              ).map((m) => (
+                                <div className="mb-2">
+                                  <Button
+                                    type="button"
+                                    className={"inline"}
+                                    icon={<Icon name="close-circle" className="fill-white" />}
+                                    onClick={() => removeMedicalService(m)}
+                                  >
+                                    {m.attributes.label}
+                                    <span>{numberWithCommas(m.attributes.price)}</span>
+                                  </Button>
+                                </div>
+                              ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  {!readonly && (
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <p className="inline-block text-16 font-bold mb-2">Dịch vụ</p>
-                        <SearchInput
-                          placeholder="Nhập tên gói cần tìm"
-                          className="flex-1 mb-2"
-                          value={filterService}
-                          onChange={(e) => setFilterService(e.target.value)}
-                        />
-                        <div
-                          style={{
-                            maxHeight: "500px",
-                            overflow: "scroll",
-                          }}
-                        >
-                          {medicalServices &&
-                            (!!filterService
-                              ? medicalServices.filter((m) =>
-                                matchSearchString(m.attributes?.label, filterService)
-                              )
-                              : medicalServices
-                            ).map((m) => (
-                              <div className="mb-2">
-                                <Button
-                                  type="button"
-                                  className={"inline"}
-                                  icon={<Icon name="add-circle" className="fill-white" />}
-                                  onClick={() => addMedicalService(m)}
-                                >
-                                  {m.attributes?.label}
-                                  <span>{numberWithCommas(m.attributes?.price)}</span>
-                                </Button>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                      <div>
-                        <p className="inline-block text-16 font-bold mb-2">Dịch vụ sử dụng</p>
-                        <SearchInput
-                          placeholder="Nhập tên gói cần tìm"
-                          className="flex-1 mb-2"
-                          value={filterUsedService}
-                          onChange={(e) => setFilterUsedService(e.target.value)}
-                        />
-                        <div
-                          style={{
-                            maxHeight: "500px",
-                            overflow: "scroll",
-                          }}
-                        >
-                          {usedMedicalServices &&
-                            (!!filterUsedService
-                              ? usedMedicalServices.filter((m) =>
-                                matchSearchString(m.attributes.label, filterUsedService)
-                              )
-                              : usedMedicalServices
-                            ).map((m) => (
-                              <div className="mb-2">
-                                <Button
-                                  type="button"
-                                  className={"inline"}
-                                  icon={<Icon name="close-circle" className="fill-white" />}
-                                  onClick={() => removeMedicalService(m)}
-                                >
-                                  {m.attributes.label}
-                                  <span>{numberWithCommas(m.attributes.price)}</span>
-                                </Button>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>}
-            {currentUser?.role?.type != "care_concierge" && 
-            <div className="w-full">
-              <input type="checkbox" name="panel" id="panel-8" class="hidden" />
-              <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
-              <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="w-full py-4">
-                  <div className="flex items-center gap-x-4 pl-4">
-                  {references?.map((item, index) => (
-              <div key={index} className="relative">
-                <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
-                  {item?.mime?.startsWith("image") ? (
-                    <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
-                  ) : (
-                    <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-30 w-30 relative border-primary border-1">
-                      {item?.name}
-                    </div>
-                  )}
-                </a>
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onRemove(item)
-                  }}
-                  className="absolute cursor-pointer -top-2 -right-2 z-20"
-                >
-                  <Icon name="close-circle" className="fill-red bg-white rounded-full" />
-                </div>
-              </div>
-            ))}
-                    <div className="inline-flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
-                      <input
-                        // ref={ref}
-                        type="file"
-                        className="h-full w-full opacity-0 cursor-pointer absolute z-20"
-                        onChange={(e) => uploadAssets(data?.id, e)}
-                        multiple
-                      />
-                      <p>Tải lên</p>
+              </div>}
+            {currentUser?.role?.type != "care_concierge" &&
+              <div className="w-full">
+                <input type="checkbox" name="panel" id="panel-8" class="hidden" />
+                <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
+                <div class="accordion__content overflow-scroll bg-grey-lighter">
+                  <div className="w-full py-4">
+                    <div className="flex items-center gap-x-4 pl-4">
+                      {references?.map((item, index) => (
+                        <div key={index} className="relative">
+                          <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
+                            {item?.mime?.startsWith("image") ? (
+                              <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
+                            ) : (
+                              <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-30 w-30 relative border-primary border-1">
+                                {item?.name}
+                              </div>
+                            )}
+                          </a>
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onRemove(item)
+                            }}
+                            className="absolute cursor-pointer -top-2 -right-2 z-20"
+                          >
+                            <Icon name="close-circle" className="fill-red bg-white rounded-full" />
+                          </div>
+                        </div>
+                      ))}
+                      <div className="inline-flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
+                        <input
+                          // ref={ref}
+                          type="file"
+                          className="h-full w-full opacity-0 cursor-pointer absolute z-20"
+                          onChange={(e) => uploadAssets(data?.id, e)}
+                          multiple
+                        />
+                        <p>Tải lên</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>}
+              </div>}
+            {
+              <div className="w-full">
+                <input type="checkbox" name="panel" id="panel-9" class="hidden" />
+                <label for="panel-9" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">9. CC note</label>
+                <div class="accordion__content overflow-scroll bg-grey-lighter">
+                <div className="col-span-2">
+                  <Controller
+                    name="cc_note"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        name="cc_note"
+                        placeholder={"Nhập CC Note"}
+                        value={value}
+                        onChange={onChange}
+                        errors={errors?.address?.address?.message}
+                      />
+                    )}
+                  />
+                </div>
+                </div>
+              </div>}
           </div>
           <p className="text-xl font-semibold text-right">Tổng {numberWithCommas(total)}</p>
         </div>
