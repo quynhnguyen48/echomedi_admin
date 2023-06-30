@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { useCallback, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { JWT_TOKEN, BRANCH } from "../../constants/Authentication"
@@ -22,6 +22,7 @@ import ProductDetail from "./ProductDetail"
 const MedicalServices = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const currentUser = useSelector((state) => state.user.currentUser)
 
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -121,6 +122,7 @@ const MedicalServices = () => {
       title="Quản lý dịch vụ"
       // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
+      
       <div className="w-full flex items-center gap-x-9">
         <SearchInput
           placeholder="Tìm bằng tên của dịch vụ"
@@ -130,6 +132,7 @@ const MedicalServices = () => {
             setSearchKey(value)
           }}
         />
+        {currentUser?.role?.type == "admin" &&
         <Button
           icon={<Icon name="add-circle" className="fill-white" />}
           onClick={() => {
@@ -137,7 +140,7 @@ const MedicalServices = () => {
           }}
         >
           Tạo mới dịch vụ
-        </Button>
+        </Button>}
       </div>
 
       <div
@@ -156,6 +159,7 @@ const MedicalServices = () => {
         />
         {detailData && (
           <ProductDetail
+            editable={currentUser?.role?.type == "admin"}
             data={detailData}
             onUpdateProduct={onUpdateProduct}
             onTogglePublish={togglePublish}

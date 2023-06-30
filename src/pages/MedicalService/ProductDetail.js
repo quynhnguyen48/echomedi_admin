@@ -22,7 +22,7 @@ import * as yup from "yup"
 import { formatPrice } from "utils/number";
 import { updateMedicalService } from "services/api/medicalService"
 
-const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
+const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => {
   const navigate = useNavigate()
   const [openProductDescriptionDrawer, setOpenProductDescriptionDrawer] = useState(false)
   const [openProductImagesDrawer, setOpenProductImagesDrawer] = useState(false)
@@ -97,7 +97,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
             />
           </div>
         </div>
-        <div className="flex gap-x-2">
+        {editable && <div className="flex gap-x-2">
           <Button
             btnSize="auto"
             className="w-10 h-10"
@@ -107,7 +107,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
             <Icon name="edit" />
           </Button>
 
-        </div>
+        </div>}
       </div>
       <div className="grid grid-cols-2 grid-flow-row gap-y-10 my-12">
         <DataItem icon="key" title="Tên" value={data?.label} />
@@ -200,7 +200,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
           />
         </div>
       </div>
-      <Button className="mt-4" type="button" onClick={async () => {
+      {editable && <Button className="mt-4" type="button" onClick={async () => {
         const payload = {
           price: parseInt(price),
           label,
@@ -227,7 +227,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
         // await updateServiceBundle(data?.id, payload)
         await updateMedicalService(data?.id, payload);
         toast.success("Lưu thành công")
-      }}>Lưu</Button>
+      }}>Lưu</Button>}
     </div>
   )
 }

@@ -134,6 +134,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [selectedMembership, setSelectedMembership] = useState();
   const [references, setReferences] = useState([]);
 
+  console.log('currentUser', currentUser)
+
   useEffect(() => {
     setMembershipPackages(MEMBERSHIP_PKGS);
   }, [])
@@ -1022,7 +1024,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       }
 
       toast.success("Lưu hồ sơ bệnh án thành công")
-      // window.location.href = `/bookings/medical-records/${data.id}/view`
+      window.location.href = `/bookings/medical-records/${data.id}/view`
     } catch (error) {
       toast.error(getErrorMessage(error))
     }
@@ -1655,7 +1657,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Input
-                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            disabled={readonly}
                             onChange={onChange}
                             value={value}
                             name="circuit"
@@ -1674,7 +1676,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Input
-                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            disabled={readonly}
                             onChange={onChange}
                             value={value}
                             name="temperature"
@@ -1698,7 +1700,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         </p>
                         <div className="flex">
                           <Input
-                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            disabled={readonly}
                             onChange={(e) => setBP1(e.target.value)}
                             value={bp1}
                             name="blood_pressure"
@@ -1711,7 +1713,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           />
                           <span className="m-auto">/</span>
                           <Input
-                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            disabled={readonly}
                             onChange={(e) => setBP2(e.target.value)}
                             value={bp2}
                             name="blood_pressure"
@@ -1731,7 +1733,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Input
-                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            disabled={readonly}
                             onChange={onChange}
                             value={value}
                             name="respiratory_rate"
@@ -1750,7 +1752,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               control={control}
               render={({ field: { onChange, value } }) => ( */}
                       <Input
-                        disabled={readonly || currentUser?.role?.type == "nurse"}
+                        disabled={readonly}
                         onChange={(e) => setHeight(e.target.value)}
                         value={height}
                         name="height"
@@ -1769,7 +1771,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               control={control}
               render={({ field: { onChange, value } }) => ( */}
                       <Input
-                        disabled={readonly || currentUser?.role?.type == "nurse"}
+                        disabled={readonly}
                         onChange={(e) => setWeight(e.target.value)}
                         value={weight}
                         name="weight"
@@ -1799,7 +1801,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Input
-                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            disabled={readonly}
                             onChange={onChange}
                             value={value}
                             name="spo2"
@@ -2012,6 +2014,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2 flex">
                                   <Button
+                                    disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
@@ -2029,6 +2032,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     type="button"
                                     className={"inline ml-1"}
+                                    disabled={currentUser?.role?.type == "nurse"}
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
@@ -2072,6 +2076,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2 flex">
                                   <Button
+                                    disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
@@ -2081,6 +2086,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     <span>{numberWithCommas(m.attributes.price)}</span>
                                   </Button>
                                   <Button
+                                    disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
                                     className={"inline ml-1"}
                                     onClick={(e) => {
@@ -2102,7 +2108,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         </div>
                       </div>
                     )}
-                    {!readonly && (
+                    {!readonly && currentUser?.role?.type != "care_concierge" && (
                       <div className="grid grid-cols-2 gap-6">
                         <div>
                           <p className="inline-block text-16 font-bold mb-2">Dịch vụ</p>
@@ -2127,6 +2133,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2">
                                   <Button
+                                    disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
@@ -2162,6 +2169,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2">
                                   <Button
+                                    disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="close-circle" className="fill-white" />}

@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { useCallback, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { JWT_TOKEN, BRANCH } from "../../constants/Authentication"
@@ -23,6 +23,7 @@ import { removeVietnameseTones } from "../../utils/string";
 const ServiceBundles = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const currentUser = useSelector((state) => state.user.currentUser)
 
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -132,6 +133,7 @@ const ServiceBundles = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
+        {currentUser?.role?.type == "admin" &&
         <Button
           icon={<Icon name="add-circle" className="fill-white" />}
           onClick={() => {
@@ -139,7 +141,7 @@ const ServiceBundles = () => {
           }}
         >
           Tạo mới gói dịch vụ
-        </Button>
+        </Button>}
       </div>
 
       <div
@@ -158,6 +160,7 @@ const ServiceBundles = () => {
         />
         {detailData && (
           <ProductDetail
+            editable={currentUser?.role?.type == "admin"}
             data={detailData}
             onUpdateProduct={onUpdateProduct}
             onTogglePublish={togglePublish}

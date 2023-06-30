@@ -25,7 +25,7 @@ import {
   updateServiceBundle
 } from "services/api/serviceBundle";
 
-const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
+const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => {
   const navigate = useNavigate()
   const [openProductDescriptionDrawer, setOpenProductDescriptionDrawer] = useState(false)
   const [openProductImagesDrawer, setOpenProductImagesDrawer] = useState(false)
@@ -101,9 +101,9 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
       <div className="my-4">
         <div className="flex flex-row align-center">
           <span className="font-bold mr-4 mt-1">Các dịch vụ con:</span>
-          <Button onClick={e => setVisiblePrescriptionModal(true)}>Thay đổi dịch vụ</Button>
+          {editable && <Button onClick={e => setVisiblePrescriptionModal(true)}>Thay đổi dịch vụ</Button>}
         </div>
-        {data?.medical_services.map(item => <p>- {item.label}</p>)}
+        {Array.isArray(data?.medical_services) && data?.medical_services?.map(item => <p>- {item.label}</p>)}
       </div>
       {visiblePrescriptionModal && (
         <PrescriptionModal
@@ -204,7 +204,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
           />
         </div>
       </div>
-      <Button className="mt-4" type="button" onClick={async () => {
+      {editable && <Button className="mt-4" type="button" onClick={async () => {
         const payload = {
           price,
           label,
@@ -230,7 +230,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
 
         await updateServiceBundle(data?.id, payload)
         toast.success("Lưu thành công")
-      }}>Lưu</Button>
+      }}>Lưu</Button>}
     </div>
   )
 }
