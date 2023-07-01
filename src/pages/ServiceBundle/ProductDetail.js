@@ -230,6 +230,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
 
         await updateServiceBundle(data?.id, payload)
         toast.success("Lưu thành công")
+        window.location.reload();
       }}>Lưu</Button>}
     </div>
   )
