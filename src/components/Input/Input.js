@@ -42,6 +42,7 @@ export function Input({
               "!pr-10.5": suffix,
             }
           )}
+          multiple={true}
           id={id}
           name={name}
           value={value}

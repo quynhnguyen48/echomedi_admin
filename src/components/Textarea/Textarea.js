@@ -7,6 +7,7 @@ export function Textarea({
   placeholder,
   id,
   name,
+  disabled,
   className = "",
   errors,
   showError = true,
@@ -15,7 +16,7 @@ export function Textarea({
   textareaClassName,
 }) {
   return (
-    <div className={className}>
+    <div className={`${disabled && "opacity-30"} ${className}`}>
       {label && (
         <label className="inline-block text-16 font-bold mb-2" htmlFor={name}>
           {label}
@@ -24,14 +25,29 @@ export function Textarea({
       <div className="relative">
         <textarea
           className={classNames(
-            "w-full resize-none bg-white h-14 outline-none px-6 py-4.5 rounded-lg text-16 placeholder:text-secondary/30",
+            "w-full resize-none bg-white outline-none px-6 py-4.5 rounded-lg text-16 placeholder:text-secondary/30",
             {
               error: !!errors,
               [size]: true,
               [textareaClassName]: true,
             }
           )}
+          onFocus={(e) => {
+            e.target.style.height = "";
+            e.target.style.height = e.target.scrollHeight + "px"
+          }}
+          onInput={(e) => {
+            e.target.style.height = "";
+            e.target.style.height = e.target.scrollHeight + "px"
+          }}
+          style={{
+            border: '1px solid #ddd'
+          }}
+          onLoadedData={e => {
+            console.log('123123a')
+          }}
           id={id}
+          disabled={disabled}
           name={name}
           value={value}
           onChange={onChange}
