@@ -185,11 +185,11 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <DataItem icon="location" title="Chi nhánh" value={getDisplayBranchLabel(data?.booking?.branch)} />
         <DataItem icon="user" title="Tên" value={data?.patient?.full_name} />
         <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
-        <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={data?.reasons_to_get_hospitalized} />
-        <DataItemJSON icon="calendar" title="Chẩn đoán" value={data?.diagnose} />
-        <DataItemJSON icon="calendar" title="Hướng điều trị" value={data?.treatment_regimen} />
-        <DataItemJSON icon="calendar" title="Khám bệnh" value={data?.examination} />
-        <DataItemJSON icon="calendar" title="Hỏi bệnh" value={data?.inquiry} />
+        <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
+        <DataItemJSON icon="calendar" title="Chẩn đoán" value={parseJson(data?.diagnose)} />
+        <DataItemJSON icon="calendar" title="Hướng điều trị" value={parseJson(data?.treatment_regimen)} />
+        <DataItemJSON icon="calendar" title="Khám bệnh" value={parseJson(data?.examination)} />
+        <DataItemJSON icon="calendar" title="Hỏi bệnh" value={parseJson(data?.inquiry)} />
         <DataItem icon="calendar" title="Nội dung đặt lịch" value={data?.booking?.note} />
         {/* <DataItem
           icon="calendar"
@@ -331,5 +331,15 @@ function getDisplayBranchLabel(value) {
       return "Quận 2";
     case 'binhduong':
       return "Bình Dương";
+  }
+}
+
+function parseJson(str) {
+  try {
+    let items = JSON.parse(str);
+    console.log('items', items)
+    return items.map(i => i.value).join("\n");
+  } catch (e) {
+      return str;
   }
 }

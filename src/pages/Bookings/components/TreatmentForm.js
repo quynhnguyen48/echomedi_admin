@@ -483,15 +483,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       gender: data?.patient?.gender || "",
       phone: data?.patient?.phone || "",
       status: data?.status || "",
-      reasons_to_get_hospitalized: data?.reasons_to_get_hospitalized || "",
-      premise: data?.premise || "",
-      past_medical_history: data?.past_medical_history || "",
-      main_diagnose: data?.main_diagnose || "",
-      other_diagnose: data?.other_diagnose || "",
-      inquiry: data?.inquiry || "",
-      examination: data?.examination || "",
-      general_examination: data?.general_examination || "",
-      treatment_regimen: data?.treatment_regimen || "",
+      reasons_to_get_hospitalized: isJson(data?.reasons_to_get_hospitalized) ? parseJson(data?.reasons_to_get_hospitalized) : data?.reasons_to_get_hospitalized,
+      premise: isJson(data?.premise) ? parseJson(data?.premise) : data?.premise,
+      past_medical_history: isJson(data?.past_medical_history) ? parseJson(data?.past_medical_history) : data?.past_medical_history,
+      main_diagnose: isJson(data?.main_diagnose) ? parseJson(data?.main_diagnose) : data?.main_diagnose,
+      other_diagnose: isJson(data?.other_diagnose) ? parseJson(data?.other_diagnose) : data?.other_diagnose,
+      inquiry: isJson(data?.inquiry) ? parseJson(data?.inquiry) : data?.inquiry,
+      examination: isJson(data?.examination) ? parseJson(data?.examination) : data?.examination,
+      general_examination: isJson(data?.general_examination) ? parseJson(data?.general_examination) : data?.general_examination,
+      treatment_regimen: isJson(data?.treatment_regimen) ? parseJson(data?.treatment_regimen) : data?.treatment_regimen,
       birthday: !!data?.patient?.birthday ? new Date(data?.patient?.birthday) : null,
       address: {
         province: data?.patient?.address?.province || null,
@@ -2470,6 +2470,25 @@ const translate = (t) => {
     case "waiting":
       return "Đã đến"
       break;
+  }
+}
+
+function isJson(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}
+
+function parseJson(str) {
+  try {
+    let items = JSON.parse(str);
+    console.log('items', items)
+    return items.map(i => i.value).join("\n");
+  } catch (e) {
+      return str;
   }
 }
 
