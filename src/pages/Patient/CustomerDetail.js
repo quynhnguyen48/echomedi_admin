@@ -23,6 +23,7 @@ import moment from "moment";
 import Modal from "components/Modal"
 import PrescriptionModal from "./PrescriptionModal";
 import { useDispatch, useSelector } from "react-redux";
+import { isMobile } from "react-device-detect"
 
 
 dayjs.locale('vi')
@@ -86,7 +87,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
 
 
   return (
-    <div className="w-full max-h-tableBody overflow-scroll">
+    <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll`}>
       <div className="flex items-center gap-x-2">
         {currentUser?.role?.type != "doctor" 
         && currentUser?.role?.type != "nurse" 

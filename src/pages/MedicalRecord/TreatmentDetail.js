@@ -148,7 +148,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
 
 
   return (
-    <div className="my-4 w-full max-h-[70vh] overflow-scroll">
+    <div className="my-4 w-full max-h-[70vh]">
       <div className="flex items-center gap-x-2"></div>
       <table className="table-auto sinh_hieu w-full">
         <tr>
@@ -244,7 +244,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           ))}
           </table>
       </div>
-      <div className="flex justify-around mt-4">
+      <div className="grid grid-cols-4 sm:grid-cols-1 gap-x-4">
         <Button
           btnSize="small"
           className="mt-2"
