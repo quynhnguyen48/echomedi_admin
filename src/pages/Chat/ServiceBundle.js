@@ -128,7 +128,7 @@ const ServiceBundles = () => {
       <div
         className={classNames({
           "w-full": !detailData,
-          "flex gap-x-6": detailData,
+          "sm:block flex gap-x-6": detailData,
         })}
       >
         <ProductsTable
