@@ -107,9 +107,9 @@ const MainLayout = ({ children }) => {
         loadRenderedBoard={loadRenderedBoard}
       >
         <div className="flex">
-          <BrowserView>
+          {/* <BrowserView> */}
             <Sidebar />
-          </BrowserView>
+          {/* </BrowserView> */}
           <div className="flex-1 overflow-x-hidden">{children}</div>
         </div>
       </UserProvider>

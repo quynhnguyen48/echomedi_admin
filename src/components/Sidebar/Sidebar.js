@@ -59,7 +59,7 @@ const Sidebar = () => {
 
   return (
     <div>
-      <button className="fixed" onClick={e => setDisplayNone(!displayNone)}>MENU</button>
+      <button className="fixed top-0" onClick={e => setDisplayNone(!displayNone)}>MENU</button>
     <div className={`sm:w-full w-sidebarWidth ${displayNone ? 'hidden' : 'block'}`}>
       <img src="/images/logo_.png" alt="logo" className="m-auto p-5" />
       <div className="max-h-sidebarHeight overflow-scroll space-y-6">
