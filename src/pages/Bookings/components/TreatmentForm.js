@@ -2256,7 +2256,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           <p className="text-xl font-semibold text-right">Tổng {numberWithCommas(total)}</p>
         </div>
 
-        <div className="flex gap-2 my-4 grid grid-cols-4 mb-2">
+        <div className="flex gap-2 my-4 grid grid-cols-4 sm:grid-cols-1 mb-2">
           {!readonly && (
             <Button className="fill-primary" type="submit">
               Lưu

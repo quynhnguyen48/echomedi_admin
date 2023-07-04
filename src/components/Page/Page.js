@@ -13,7 +13,7 @@ const Page = ({
     <div className="flex flex-col h-screen">
       <Header title={title} parentUrl={parentUrl}/>
       <div className={`flex px-6 flex-1 overflow-y-auto ${className}`} id="pageContent">
-        <div className={`flex-1 pb-6 h-full pr-6 ${contentClassName}`}>
+        <div className={`flex-1 pb-6 h-full pr-6 w-[100vw] ${contentClassName}`}>
           {children}
         </div>
         {rightContent && (

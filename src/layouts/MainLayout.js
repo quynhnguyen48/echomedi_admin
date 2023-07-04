@@ -70,11 +70,11 @@ const MainLayout = ({ children }) => {
     })();
   }, [dispatch, navigate]);
 
-  useEffect(() => {
-    if (isMobile && location.pathname === '/') {
-      navigate('/check-in')
-    }
-  }, [location.pathname, navigate])
+  // useEffect(() => {
+  //   if (isMobile && location.pathname === '/') {
+  //     navigate('/check-in')
+  //   }
+  // }, [location.pathname, navigate])
 
   useEffect(() => {
     if (location.pathname.startsWith('/board')) {

@@ -7,6 +7,7 @@ import Button from "components/Button"
 import { SIDEBAR_ITEMS } from "constants/SidebarItems"
 import { getRoleById } from "services/api/roles"
 import SidebarItem from "./SidebarItem"
+import { isMobile } from "react-device-detect"
 
 const Sidebar = () => {
   let location = useLocation()
@@ -14,6 +15,7 @@ const Sidebar = () => {
 
   const currentUser = useSelector((state) => state.user.currentUser)
   const [roleData, setRoleData] = useState(null)
+  const [displayNone, setDisplayNone] = useState(isMobile ? true : false)
 
   const accessSidebarItems = useMemo(() => {
     if (!roleData) return
@@ -50,8 +52,15 @@ const Sidebar = () => {
     }
   }, [accessSidebarItems, location?.pathname, navigate])
 
+  const hideSidebar = () => {
+    if (isMobile)
+    setDisplayNone(true);
+  }
+
   return (
-    <div className="w-sidebarWidth">
+    <div>
+      <button className="fixed" onClick={e => setDisplayNone(!displayNone)}>MENU</button>
+    <div className={`sm:w-full w-sidebarWidth ${displayNone ? 'hidden' : 'block'}`}>
       <img src="/images/logo_.png" alt="logo" className="m-auto p-5" />
       <div className="max-h-sidebarHeight overflow-scroll space-y-6">
         {/* <Button 
@@ -63,9 +72,10 @@ const Sidebar = () => {
           Trang tài liệu
           </Button> */}
         {Array.isArray(accessSidebarItems) &&
-          accessSidebarItems?.map((item) => <SidebarItem key={item.name} item={item} />)}
+          accessSidebarItems?.map((item) => <SidebarItem key={item.name} item={item} hideSidebar={hideSidebar}/>)}
         
       </div>
+    </div>
     </div>
   )
 }

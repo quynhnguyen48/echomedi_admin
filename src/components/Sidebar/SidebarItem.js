@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 
 import Icon from "components/Icon";
 
-const SidebarItem = ({ item }) => {
+const SidebarItem = ({ item, hideSidebar }) => {
   let location = useLocation();
 
   const isActive = useMemo(
@@ -20,6 +20,7 @@ const SidebarItem = ({ item }) => {
   return (
     <>
       <Link
+      onClick={e => hideSidebar()}
         to={item.url}
         className={classNames(
           "relative flex items-center gap-x-4 pl-6 last:pb-10",
