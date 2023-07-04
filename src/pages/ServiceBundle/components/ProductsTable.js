@@ -38,16 +38,16 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
 
     return [
       ...defaultColumns,
-      // {
-      //   Header: "Hoạt chất",
-      //   accessor: (originalRow) => (
-      //     <div className="flex items-center gap-x-4">
-      //       <span>{originalRow?.ingredient}</span>
-      //     </div>
-      //   ),
-      //   collapse: true,
-      //   width: 300,
-      // },
+      {
+        Header: "Giá",
+        accessor: (originalRow) => (
+          <div className="flex items-center gap-x-4">
+            <span>{originalRow?.price}</span>
+          </div>
+        ),
+        collapse: true,
+        width: 100,
+      },
       // {
       //   Header: "Tồn",
       //   accessor: (originalRow) => (

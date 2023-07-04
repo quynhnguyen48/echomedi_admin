@@ -13,6 +13,7 @@ import { REGION_DATA } from "constants/Regions"
 import { getListUsersByRole } from "services/api/users"
 import { uploadMedia } from "services/api/mediaLibrary"
 import Input from "components/Input"
+import Textarea from "components/Textarea"
 import TagifyInput from "components/TagifyInput"
 import Select from "components/Select"
 import Button from "components/Button"
@@ -134,8 +135,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [selectedMembership, setSelectedMembership] = useState();
   const [references, setReferences] = useState([]);
 
-  console.log('currentUser', currentUser)
-
   useEffect(() => {
     setMembershipPackages(MEMBERSHIP_PKGS);
   }, [])
@@ -166,213 +165,238 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         catch (err) { console.error(err) }
       }
     };
-    const el1 = document.getElementById('reasons_to_get_hospitalized');
-    var tagify = new Tagify(el1, {
-      whitelist: currentUser.abbreviation?.reasons_to_get_hospitalized ?? [],
-      dropdown: {
-        enabled: 0,              // show the dropdown immediately on focus
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    });
+    // const el1 = document.getElementById('reasons_to_get_hospitalized');
+    // var tagify = new Tagify(el1, {
+    //   whitelist: currentUser.abbreviation?.reasons_to_get_hospitalized ?? [],
+    //   dropdown: {
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true,
+    //   },
+    //   backspace: 'edit',
+    //   templates,
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // });
 
-    const el2 = document.getElementById('inquiry');
-    var tagify = new Tagify(el2, {
-      whitelist: currentUser.abbreviation?.inquiry ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    });
+    //     // bind "DragSort" to Tagify's main element and tell
+    // // it that all the items with the below "selector" are "draggable"
+    // var dragsort = new DragSort(tagify.DOM.scope, {
+    //   selector: '.'+tagify.settings.classNames.tag,
+    //   callbacks: {
+    //       dragEnd: onDragEnd
+    //   }
+    // })
 
-    const el3 = document.getElementById('diagnose');
-    var tagify = new Tagify(el3, {
-      whitelist: currentUser.abbreviation.diagnose ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
+    // // must update Tagify's value according to the re-ordered nodes in the DOM
+    // function onDragEnd(elm){
+    //   tagify.updateValueByDOMTags()
+    // }
 
-    const el4 = document.getElementById('past_medical_history');
-    var tagify = new Tagify(el4, {
-      whitelist: currentUser.abbreviation?.past_medical_history ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
 
-    const el5 = document.getElementById('examination');
-    var tagify = new Tagify(el5, {
-      whitelist: currentUser.abbreviation.examination ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
+    // const el2 = document.getElementById('inquiry');
+    // var tagify = new Tagify(el2, {
+    //   whitelist: currentUser.abbreviation?.inquiry ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // });
 
-    const el6 = document.getElementById('treatment_regimen');
-    var tagify = new Tagify(el6, {
-      whitelist: currentUser.abbreviation?.treatment_regimen ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
+    // const el3 = document.getElementById('diagnose');
+    // var tagify = new Tagify(el3, {
+    //   whitelist: currentUser.abbreviation.diagnose ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
 
-    const el7 = document.getElementById('general_examination');
-    var tagify = new Tagify(el7, {
-      whitelist: currentUser.abbreviation.general_examination ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
+    // const el4 = document.getElementById('past_medical_history');
+    // var tagify = new Tagify(el4, {
+    //   whitelist: currentUser.abbreviation?.past_medical_history ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
 
-    const el8 = document.getElementById('main_diagnose');
-    var tagify = new Tagify(el8, {
-      whitelist: currentUser.abbreviation.main_diagnose ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
+    // const el5 = document.getElementById('examination');
+    // var tagify = new Tagify(el5, {
+    //   whitelist: currentUser.abbreviation.examination ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
 
-    const el9 = document.getElementById('other_diagnose');
-    var tagify = new Tagify(el9, {
-      whitelist: currentUser.abbreviation.other_diagnose ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
+    // const el6 = document.getElementById('treatment_regimen');
+    // var tagify = new Tagify(el6, {
+    //   whitelist: currentUser.abbreviation?.treatment_regimen ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
 
-    const el10 = document.getElementById('premise');
-    var tagify = new Tagify(el10, {
-      whitelist: currentUser.abbreviation.premise ?? [],
-      dropdown: {
-        classname: "color-blue",
-        enabled: 0,              // show the dropdown immediately on focus
-        maxItems: 5,
-        position: "text",         // place the dropdown near the typed text
-        closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        highlightFirst: true
-      },
-      templates,
-      delimiters: null,
-      transformTag: (tag) => {
-        const str = tag.value;
-        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-        tag.value = str2;
-        return tag;
-      }
-    })
+    // const el7 = document.getElementById('general_examination');
+    // var tagify = new Tagify(el7, {
+    //   whitelist: currentUser.abbreviation.general_examination ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
+
+    // const el8 = document.getElementById('main_diagnose');
+    // var tagify = new Tagify(el8, {
+    //   whitelist: currentUser.abbreviation.main_diagnose ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
+
+    // const el9 = document.getElementById('other_diagnose');
+    // var tagify = new Tagify(el9, {
+    //   whitelist: currentUser.abbreviation.other_diagnose ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
+
+    // const el10 = document.getElementById('premise');
+    // var tagify = new Tagify(el10, {
+    //   whitelist: currentUser.abbreviation.premise ?? [],
+    //   dropdown: {
+    //     classname: "color-blue",
+    //     enabled: 0,              // show the dropdown immediately on focus
+    //     maxItems: 5,
+    //     position: "text",         // place the dropdown near the typed text
+    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+    //     highlightFirst: true
+    //   },
+    //   templates,
+    //   backspace: 'edit',
+    //   delimiters: null,
+    //   transformTag: (tag) => {
+    //     const str = tag.value;
+    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+    //     tag.value = str2;
+    //     return tag;
+    //   }
+    // })
 
   }, [tagifyWhitelist]);
 
@@ -459,15 +483,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       gender: data?.patient?.gender || "",
       phone: data?.patient?.phone || "",
       status: data?.status || "",
-      reasons_to_get_hospitalized: data?.reasons_to_get_hospitalized || "",
-      premise: data?.premise || "",
-      past_medical_history: data?.past_medical_history || "",
-      main_diagnose: data?.main_diagnose || "",
-      other_diagnose: data?.other_diagnose || "",
-      inquiry: data?.inquiry || "",
-      examination: data?.examination || "",
-      general_examination: data?.general_examination || "",
-      treatment_regimen: data?.treatment_regimen || "",
+      reasons_to_get_hospitalized: isJson(data?.reasons_to_get_hospitalized) ? parseJson(data?.reasons_to_get_hospitalized) : data?.reasons_to_get_hospitalized,
+      premise: isJson(data?.premise) ? parseJson(data?.premise) : data?.premise,
+      past_medical_history: isJson(data?.past_medical_history) ? parseJson(data?.past_medical_history) : data?.past_medical_history,
+      main_diagnose: isJson(data?.main_diagnose) ? parseJson(data?.main_diagnose) : data?.main_diagnose,
+      other_diagnose: isJson(data?.other_diagnose) ? parseJson(data?.other_diagnose) : data?.other_diagnose,
+      inquiry: isJson(data?.inquiry) ? parseJson(data?.inquiry) : data?.inquiry,
+      examination: isJson(data?.examination) ? parseJson(data?.examination) : data?.examination,
+      general_examination: isJson(data?.general_examination) ? parseJson(data?.general_examination) : data?.general_examination,
+      treatment_regimen: isJson(data?.treatment_regimen) ? parseJson(data?.treatment_regimen) : data?.treatment_regimen,
       birthday: !!data?.patient?.birthday ? new Date(data?.patient?.birthday) : null,
       address: {
         province: data?.patient?.address?.province || null,
@@ -1829,7 +1853,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       name="reasons_to_get_hospitalized"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <TagifyInput
+                        <Textarea
                           id="reasons_to_get_hospitalized"
                           label={<div className="flex">
                             <span className="mr-2">Lý do nhập viện</span>
@@ -1857,7 +1881,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       name="inquiry"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <TagifyInput
+                        <Textarea
                           id="inquiry"
                           disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Bệnh sử"
@@ -1872,7 +1896,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       name="premise"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <TagifyInput
+                        <Textarea
                           id="premise"
                           label="Tiền căn"
                           size="large"
@@ -1888,7 +1912,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       name="general_examination"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <TagifyInput
+                        <Textarea
                           id="general_examination"
                           disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Khám tổng quát"
@@ -1903,7 +1927,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       name="examination"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <TagifyInput
+                        <Textarea
                           id="examination"
                           disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Khám cơ quan"
@@ -1920,7 +1944,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       name="main_diagnose"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <TagifyInput
+                        <Textarea
                           id="main_diagnose"
                           disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Bệnh chính"
@@ -1935,7 +1959,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       name="other_diagnose"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <TagifyInput
+                        <Textarea
                           id="other_diagnose"
                           disabled={readonly || currentUser?.role?.type == "nurse"}
                           label="Bệnh kèm theo"
@@ -1952,7 +1976,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     name="treatment_regimen"
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <TagifyInput
+                      <Textarea
                         id="treatment_regimen"
                         disabled={readonly || currentUser?.role?.type == "nurse"}
                         label="Hướng điều trị"
@@ -2446,6 +2470,25 @@ const translate = (t) => {
     case "waiting":
       return "Đã đến"
       break;
+  }
+}
+
+function isJson(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}
+
+function parseJson(str) {
+  try {
+    let items = JSON.parse(str);
+    console.log('items', items)
+    return items.map(i => i.value).join("\n");
+  } catch (e) {
+      return str;
   }
 }
 

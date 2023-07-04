@@ -79,7 +79,7 @@ const Header = ({ title, parentUrl }) => {
               currentUser?.avatar && getStrapiMedia({ url: currentUser.avatar })
             }
           /> */}
-          <pre>{" " + currentUser?.patient?.full_name + " "}</pre>
+          <pre>{" " + currentUser?.patient?.full_name + " (" + currentUser?.role.type + ")  "}</pre>
           </Button>
           <Button shape="circle" className="bg-transparent" onClick={() => logout()}>
             <Icon name="logout-circle" />

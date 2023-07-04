@@ -1,13 +1,18 @@
 import Icon from "components/Icon";
 
-const DataItem = ({ title, value, icon, footer, valueClassName = "" }) => {
-  let js;
+
+function parseJson(str) {
   try {
-    js = JSON.parse(value);
+    let items = JSON.parse(str);
+    console.log('items', items)
+    return items.map(i => i.value).join("\n");
   } catch (e) {
-    js = [];
-  } finally {
+      return str;
   }
+}
+
+
+const DataItem = ({ title, value, icon, footer, valueClassName = "" }) => {
   return (
     <div className="flex gap-x-2">
       <div className="flex items-center justify-center w-10.5 h-10.5 rounded-full bg-primary/10">
@@ -15,7 +20,7 @@ const DataItem = ({ title, value, icon, footer, valueClassName = "" }) => {
       </div>
       <div className="flex-1 overflow-x-hidden">
         <p className="text-12 font-bold text-secondary/[0.56]">{title}</p>
-        <div className={`text-16 ${valueClassName}`}>{Array.isArray(js) ? js.map(i => <p>{i.value}</p>) : <p>{js}</p>}</div>
+        <div className={`text-16 ${valueClassName}`}>{parseJson(value)}</div>
         {footer}
       </div>
     </div>
