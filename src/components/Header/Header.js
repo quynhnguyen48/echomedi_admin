@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { getStrapiMedia } from "utils/media";
 import Button from "../Button"
 import { JWT_TOKEN, BRANCH } from "../../constants/Authentication"
+import { isMobile } from "react-device-detect";
 
 const getBranchDisplayLabel = () => {
   const branch = localStorage.getItem(BRANCH);
@@ -53,7 +54,7 @@ const Header = ({ title, parentUrl }) => {
         <span className="text-32 text-primary font-bold">{title}</span>
       </div>
       {
-        currentUser &&
+        currentUser && !isMobile && 
         <div className="flex items-center gap-x-2">
           <div className="">
 

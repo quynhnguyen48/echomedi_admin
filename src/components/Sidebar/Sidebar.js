@@ -59,7 +59,10 @@ const Sidebar = () => {
 
   return (
     <div>
-      <button className="fixed top-0" onClick={e => setDisplayNone(!displayNone)}>{!displayNone ? 'ĐÓNG' : 'MỞ'}</button>
+      {isMobile && <button className="fixed top-0 right-0 bg-white w-8 h-8" onClick={e => setDisplayNone(!displayNone)}>
+        <img src={"/icons/icons8-menu-rounded-24.png"} />
+      </button>
+}
     <div className={`sm:w-full w-sidebarWidth ${displayNone ? 'hidden' : 'block'}`}>
       <img src="/images/logo_.png" alt="logo" className="m-auto p-5" />
       <div className="max-h-sidebarHeight overflow-scroll space-y-6">
