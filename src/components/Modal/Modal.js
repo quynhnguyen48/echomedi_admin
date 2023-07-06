@@ -12,7 +12,7 @@ const Modal = ({
   return (
     <>
       <div
-        className={`m-auto px-6 justify-center items-center flex overflow-hidden fixed inset-0 z-[101] outline-none focus:outline-none transition-all duration-300 w-[940px] ${wrapperClassName} ${
+        className={`m-auto px-6 justify-center items-center flex overflow-hidden fixed inset-0 z-[101] outline-none focus:outline-none transition-all duration-300 w-[940px] sm:w-[100vw] ${wrapperClassName} ${
           visibleModal ? "visible opacity-1" : "invisible opacity-0"
         }`}
       >

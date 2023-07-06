@@ -160,7 +160,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
           </div>
         ),
         collapse: true,
-        width: 300,
+        width: 150,
       },
     ]
   }, [testResults, uploadAssets])
