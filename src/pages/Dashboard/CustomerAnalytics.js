@@ -96,7 +96,7 @@ const CustomerAnalytics = ({ className }) => {
   }, [])
 
   return (
-    <div className={`rounded-t-xl p-4 bg-white mt-4 flex items-start justify-between ${className}`}>
+    <div className={`rounded-t-xl p-4 bg-white mt-4 flex sm:block items-start justify-between ${className}`}>
       <div>
         <AnalysItem iconName="user" title="Lượng khách hàng" value={total} />
         <CustomerAnalyticsItem

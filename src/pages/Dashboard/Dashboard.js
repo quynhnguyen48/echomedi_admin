@@ -33,7 +33,7 @@ const Dashboard = () => {
 	return (
 		<Page title="Bảng thông tin" rightContent={<LatestBookings />}>
 			<div className="bg-form rounded-t-2xl">
-				<div className="grid grid-cols-3 grid-flow-col gap-x-4">
+				<div className="grid grid-cols-3 sm:block grid-flow-col gap-x-4">
 					<div className="rounded-xl shadow-sm p-4">
 						<AnalysItem
 							iconName="calendar-tick"
@@ -54,8 +54,8 @@ const Dashboard = () => {
 					</div>
 				</div>
 				<CustomerAnalytics />
-				<div className="mt-4 flex items-start space-x-4">
-					<CheckinAnalytics className="w-[58%]" />
+				<div className="mt-4 flex items-start space-x-4 sm:block">
+					<CheckinAnalytics/>
 					<TreatementAnalytics className="w-fit" />
 					<button onClick={e => {
 						// curl --request POST --url 'https://api.github.com/repos/quynhnguyen48/em_web/dispatches' --header 'authorization: Bearer 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' --data '{"event_type": "hello"}'
