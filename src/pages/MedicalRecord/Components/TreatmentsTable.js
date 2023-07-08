@@ -79,7 +79,19 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
           )
         },
         collapse: true,
-        width: 250,
+        width: 50,
+      },
+      {
+        Header: "Ngày tái khám",
+        accessor: (originalRow) => {
+          return (
+            <div className="flex">
+              <span className="">{originalRow.prescription?.reExaminationDate && formatDate(originalRow.prescription?.reExaminationDate, "DD MMMM, YYYY")}</span>
+            </div>
+          )
+        },
+        collapse: true,
+        width: 50,
       },
       // {
       //   Header: "Status",
