@@ -541,6 +541,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
     if (data.services) {
       const servicesData_ = JSON.parse(data.services)
+      console.log('servicesData_', servicesData_)
       setServicesData(servicesData_)
       setUsedMedicalServices(servicesData_)
 
@@ -789,6 +790,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           const usedIdCliniqueServices = cliniqueServicesData.map((ud) => ud.id)
           ms = ms.filter(s => usedIdMedicalServices.indexOf(s.id) == -1);
           cs = cs.filter(s => usedIdCliniqueServices.indexOf(s.id) == -1);
+
+          console.log('msss', cliniqueServicesData)
           setMedicalServices(ms);
           setCliniqueServices(cs);
         }

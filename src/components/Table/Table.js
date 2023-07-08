@@ -166,9 +166,7 @@ const Table = ({
         </div>
       </div>
       <ReactPaginate
-        className={`flex items-center justify-end gap-x-4 mt-6 ${
-          hidePagination && "opacity-0 h-0 mt-0"
-        }`}
+        className={`flex items-center justify-end gap-x-4 mt-6 mb-6`}
         pageClassName="bg-primary/10 rounded text-14"
         pageLinkClassName="w-6 h-6 flex items-center justify-center"
         activeClassName="!bg-primary text-white font-bold"
