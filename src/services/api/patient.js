@@ -7,7 +7,6 @@ export const getMe = () => {
 }
 
 export const getListPatients = (pagination, filters, populate) => {
-  console.log('filters', filters)
   const query = qs.stringify({
     filters: {
       ...filters,

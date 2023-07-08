@@ -337,7 +337,6 @@ function getDisplayBranchLabel(value) {
 function parseJson(str) {
   try {
     let items = JSON.parse(str);
-    console.log('items', items)
     return items.map(i => i.value).join("\n");
   } catch (e) {
       return str;

@@ -77,7 +77,7 @@ const Treatments = () => {
           }
           const res = await getMedicalRecords(
             {
-              pageSize: 10,
+              pageSize: 15,
               page: pageIndex + 1,
             },
             filters
@@ -90,18 +90,21 @@ const Treatments = () => {
                 return {
                   ...treatment,
                   areaImage: formatStrapiObj(treatment?.areaImage),
+                  patient: formatStrapiObj(treatment?.patient),
                   background: formatStrapiObj(treatment?.background),
                   thumbnail: formatStrapiObj(treatment?.thumbnail),
                   categories: formatStrapiArr(treatment?.categories),
                   bookings: formatStrapiArr(treatment?.bookings),
                   transactions: formatStrapiArr(treatment?.transactions),
-                  patient: formatStrapiObj(booking?.patient),
+                  patient: formatStrapiObj(treatment?.patient),
                   prescription: formatStrapiObj(treatment?.prescription),
                   booking,
                   treatmentHistories: formatStrapiArr(treatment?.treatmentHistories),
                 }
               })
             )
+
+            console.log('data', listTreatments)
 
             setPageCount(res?.data?.meta?.pagination?.pageCount)
           }

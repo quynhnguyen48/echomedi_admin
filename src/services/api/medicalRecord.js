@@ -17,7 +17,7 @@ const populate = [
   // "procedure.image",
   // "results.title",
   // "results.images",
-  // "patient",
+  "patient",
   // "booking",
   "booking.patient",
   "prescription",

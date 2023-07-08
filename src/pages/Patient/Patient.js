@@ -59,10 +59,9 @@ const Treatments = () => {
     (async () => {
       try {
         setLoading(true);
-        console.log('123')
         const res = await getListPatients(
           {
-            pageSize: 10,
+            pageSize: 15,
             page: pageIndex + 1,
           },
           {
@@ -108,7 +107,7 @@ const Treatments = () => {
 
       const res = await getListPatients(
         {
-          pageSize: 10,
+          pageSize: 15,
           page: pageIndex + 1,
         },
         filters,
