@@ -1,4 +1,5 @@
 import Header from "components/Header";
+import { isMobile } from "react-device-detect"
 
 const Page = ({
   title,
