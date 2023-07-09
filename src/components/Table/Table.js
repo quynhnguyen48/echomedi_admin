@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom"
 import Icon from "components/Icon"
 import Empty from "components/Empty/Empty"
 import TableRowSkeleton from "./TableRowSkeleton"
+import { isMobile } from "react-device-detect"
 
 const headerProps = (props, { column }) => getStyles(props, column.align)
 
@@ -94,7 +95,7 @@ const Table = ({
     <div>
       <div
         {...getTableProps()}
-        className={`p-1 overflow-auto ${className} ${!fullHeight && "max-h-[75vh]"}`}
+        className={`p-1 overflow-auto ${className} ${!fullHeight && !isMobile && "max-h-[75vh]"}`}
       >
         <div className="flex">
           {headerGroups.map((headerGroup) => (
