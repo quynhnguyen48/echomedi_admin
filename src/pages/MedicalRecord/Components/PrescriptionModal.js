@@ -77,7 +77,6 @@ const PrescriptionModal = ({ medicalRecordId, visibleModal, onClose, patientId }
   }
 
   const onSubmit = async (values) => {
-    console.log('values', values)
     const { Drugs, ...rest } = values;
     const payload = {
       ...rest,
@@ -146,7 +145,6 @@ const PrescriptionModal = ({ medicalRecordId, visibleModal, onClose, patientId }
         note: "Tái khám",
         notify: true,
       }
-      console.log('payload', payload)
       await createBookingWithPatient({ ...payload, createNewPatient: false })
     }
   }

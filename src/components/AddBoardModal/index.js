@@ -62,7 +62,6 @@ const AddBoardModal = ({ open, setOpen }) => {
           if (response.data) {
             // console.log('response', formatStrapiObj(response.data));
             const board = formatStrapiObj(response.data);
-            console.log('asdasdasd');
             setBoards([...boards, board]);
             setLoading(false);
             handleClose();

@@ -61,7 +61,6 @@ const ServiceBundles = () => {
             const listProducts = formatStrapiArr(res.data)
             setData(
               listProducts?.map((product) => {
-                console.log('product', formatStrapiArr(product.medical_services))
                 return {
                   ...product,
                   medical_services: formatStrapiArr(product.medical_services)
@@ -116,8 +115,6 @@ const ServiceBundles = () => {
     },
     [data]
   )
-
-  console.log('asdasd')
 
   return (
     <Page

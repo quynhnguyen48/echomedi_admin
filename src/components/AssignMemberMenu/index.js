@@ -24,7 +24,6 @@ const AssignMemberMenu = ({
   const dispatch = useDispatch();
 
   const eventHandler = (sk) => {
-    console.log('sk', sk)
     // const fetchId = ++fetchIdRef.current;
     if (sk) {
       try {

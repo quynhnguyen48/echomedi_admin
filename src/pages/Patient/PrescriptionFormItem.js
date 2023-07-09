@@ -71,7 +71,6 @@ const PrescriptionFormItem = ({
     )
       .then((res) => {
         const patients = formatStrapiArr(res.data);
-        console.log('handleSearchPatients', value, patients)
         if (patients) {
           setListDrugs(
             patients?.map((customer) => ({
@@ -99,7 +98,6 @@ const PrescriptionFormItem = ({
             
               label={'Quan hệ'}
               onChange={e => {
-                console.log('label', e.target.value)
                 setValue(`relationship[${index}].ten`, e.target.value, {
                   shouldValidate: true,
                   shouldDirty: true,

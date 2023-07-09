@@ -56,7 +56,6 @@ const UpsertTreatment = () => {
           const res = await getPatientById(user_id);
           // treatmentData.user = res.data;
           setUser(formatStrapiObj(res.data));
-          console.log('user', res.data)
           // setTreatmentData(treatmentData);
           // if (res.data) {
           //   const treatment = formatStrapiObj(res.data);

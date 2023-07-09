@@ -405,14 +405,19 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const provincesList = REGION_DATA
 
   useEffect(() => {
-    if (!isNaN(data.total)) setTotal(data.total)
-    if (data.bookingDate) {
-      const bd = new Date(data.bookingDate)
-      setBookingDate(bd)
-      setBookingHour({ label: moment(bd).format("H:mm"), value: moment(bd).format("H:mm") })
-    }
-    if (data.patient.membership) {
-      setSelectedMembership(MEMBERSHIP_PKGS.find(s => s.value == data.patient.membership));
+    if (data) {
+      console.log('data data', data)
+      if (!isNaN(data.total)) setTotal(data.total)
+      if (data.bookingDate) {
+        const bd = new Date(data.bookingDate)
+        setBookingDate(bd)
+        setBookingHour({ label: moment(bd).format("H:mm"), value: moment(bd).format("H:mm") })
+      }
+      if (data.patient.membership) {
+        setSelectedMembership(MEMBERSHIP_PKGS.find(s => s.value == data.patient.membership));
+      }
+
+      loadData();
     }
   }, [data])
 
@@ -525,7 +530,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
   }, [categoryName, data?.name, setValue])
 
-  useEffect(() => {
+  const loadData = () => {
     let newExistServices = {};
     if (data.bundle_services) {
       const bundleServicesData_ = JSON.parse(data.bundle_services)
@@ -541,7 +546,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
     if (data.services) {
       const servicesData_ = JSON.parse(data.services)
-      console.log('servicesData_', servicesData_)
       setServicesData(servicesData_)
       setUsedMedicalServices(servicesData_)
 
@@ -583,6 +587,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           }
         } catch (error) { }
       })()
+  }
+
+  useEffect(() => {
+
   }, [])
 
   const handleAssetsSelected = (assets) => {
@@ -765,6 +773,21 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               }
             }
           })
+
+          if (s.attributes["membership_discount"]) {
+            if (selectedMembership && selectedMembership.value == "gold" && s.attributes["membership_discount"].gold_percentage) {
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_note"] = "Thành viên vàng";
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
+            } else if (selectedMembership && selectedMembership.value == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
+              s.attributes["discount_note"] = "Thành viên bạch kim";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+            }
+          }
+
           return s;
         });
         ms = ms.filter(s => !s.attributes["disabled"]);
@@ -791,7 +814,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           ms = ms.filter(s => usedIdMedicalServices.indexOf(s.id) == -1);
           cs = cs.filter(s => usedIdCliniqueServices.indexOf(s.id) == -1);
 
-          console.log('msss', cliniqueServicesData)
           setMedicalServices(ms);
           setCliniqueServices(cs);
         }
@@ -2166,7 +2188,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addMedicalService(m)}
                                   >
-                                    {m.attributes?.label}
+                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                     <span>{numberWithCommas(m.attributes?.price)}</span>
                                   </Button>
                                 </div>
@@ -2262,21 +2284,21 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <input type="checkbox" name="panel" id="panel-9" class="hidden" />
                 <label for="panel-9" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">9. CC note</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="col-span-2">
-                  <Controller
-                    name="cc_note"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Input
-                        name="cc_note"
-                        placeholder={"Nhập CC Note"}
-                        value={value}
-                        onChange={onChange}
-                        errors={errors?.address?.address?.message}
-                      />
-                    )}
-                  />
-                </div>
+                  <div className="col-span-2">
+                    <Controller
+                      name="cc_note"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Input
+                          name="cc_note"
+                          placeholder={"Nhập CC Note"}
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.address?.address?.message}
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
               </div>}
           </div>
@@ -2478,9 +2500,9 @@ const translate = (t) => {
 
 function isJson(str) {
   try {
-      JSON.parse(str);
+    JSON.parse(str);
   } catch (e) {
-      return false;
+    return false;
   }
   return true;
 }
@@ -2490,7 +2512,7 @@ function parseJson(str) {
     let items = JSON.parse(str);
     return items.map(i => i.value).join("\n");
   } catch (e) {
-      return str;
+    return str;
   }
 }
 

@@ -27,8 +27,6 @@ const Board = () => {
   } = useContext(UIContext);
   const { boards, userData } = useContext(UserContext);
 
-  console.log('loadRenderedBoard', loadRenderedBoard)
-
   const [adminPerm, setAdmin] = useState(false);
 
   useEffect(() => {

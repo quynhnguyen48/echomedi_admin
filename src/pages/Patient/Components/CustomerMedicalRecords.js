@@ -44,8 +44,6 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
     })()
   }, [cardIds?.length, fetchData, openDrawer, userId])
 
-  console.log('transaction', transactions)
-
   return (
       <div className="mt-8 space-y-4">
         <p>Lịch sử bệnh án</p>

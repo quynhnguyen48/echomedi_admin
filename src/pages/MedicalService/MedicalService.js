@@ -115,8 +115,6 @@ const MedicalServices = () => {
     [data]
   )
 
-  console.log('asdasd')
-
   return (
     <Page
       title="Quản lý dịch vụ"

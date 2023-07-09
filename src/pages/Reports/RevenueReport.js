@@ -53,7 +53,6 @@ const RevenueReport = () => {
   const [revenue, setRevenue] = useState(0);
 
   useEffect(() => {
-    console.log('getREvenue', startDate, endDate)
     axios.post("/invoice/getRevenue", {
       data: {
         startDate,
@@ -63,7 +62,6 @@ const RevenueReport = () => {
       .then(response => {
         let total = 0;
         let bks = response.data.forEach(b => {
-          console.log('b', b)
           total += b.data?.total ?? 0;
         });
 

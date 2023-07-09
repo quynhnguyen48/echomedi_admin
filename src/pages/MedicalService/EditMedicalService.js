@@ -18,7 +18,6 @@ const EditCustomer = () => {
     (async () => {
       try {
         const res = await getMedicalServiceById(id);
-        console.log('resss', res);
         if (res.data) {
           setMedicalServiceData(formatStrapiObj(res.data));
         }

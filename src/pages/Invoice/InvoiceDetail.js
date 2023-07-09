@@ -31,7 +31,6 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
       if (data?.medicalRecord.membership) {
         setMembership(JSON.parse(data.medicalRecord.membership));
       }
-      console.log('data', data)
       if (data?.medicalRecord.clinique_services) {
         setCliniqueServices(data.medicalRecord.clinique_services);
       }

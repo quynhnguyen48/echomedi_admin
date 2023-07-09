@@ -104,8 +104,6 @@ const Treatments = () => {
               })
             )
 
-            console.log('data', listTreatments)
-
             setPageCount(res?.data?.meta?.pagination?.pageCount)
           }
         } catch (error) {
@@ -176,7 +174,6 @@ const Treatments = () => {
         },
       )
       .then((response) => {
-        console.log('response', response)
         let csvContent = "data:text/csv;charset=utf-8," + response.data;
         var encodedUri = encodeURI(csvContent);
         var link = document.createElement("a");

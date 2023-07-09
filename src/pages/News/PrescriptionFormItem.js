@@ -71,8 +71,6 @@ const PrescriptionFormItem = ({
     
   }
 
-  console.log('item service', listDrugs)
-
   return (
     <div className="flex flex-col gap-2" key={item.id}>
       <div className="grid grid-cols-10 gap-4">

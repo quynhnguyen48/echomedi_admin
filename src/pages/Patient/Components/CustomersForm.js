@@ -196,7 +196,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
 
 
   const handleSearchCustomerByPhone = (e) => {
-    console.log('123123')
     const toastId = toast.loading("Tìm khách hàng")
     getPatientByPhone(e.target.value)
       .then((res) => {

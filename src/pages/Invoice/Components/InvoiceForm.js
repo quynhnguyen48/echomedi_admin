@@ -39,8 +39,6 @@ const InvoiceForm = ({
   const [totalDiscountPercentage, setTotalDiscountPercentage] = useState(0);
   const [paid, setPaid] = useState(false);
 
-  console.log('invoiceData', invoiceData)
-
   const {
     handleSubmit,
     control,
@@ -79,8 +77,8 @@ const InvoiceForm = ({
   const membershipValues = useWatch({ control: control, name: "membership" })
 
   const subTotal = useMemo(
-    () => sumBy([...(bundleServicesValues || []), 
-    ...(medicalServicesValues || []), 
+    () => sumBy([...(bundleServicesValues || []),
+    ...(medicalServicesValues || []),
     ...(membershipValues || []),
     ...(cliniqueServicesValues || [])], "price"),
     [bundleServicesValues, medicalServicesValues, membershipValues, cliniqueServicesValues]
@@ -88,7 +86,7 @@ const InvoiceForm = ({
   const totalDiscount = useMemo(
     () =>
       sumBy(
-        [...(bundleServicesValues || []), 
+        [...(bundleServicesValues || []),
         ...(medicalServicesValues || []),
         ...(cliniqueServicesValues || []),
         ...(membershipValues || []),
@@ -105,24 +103,21 @@ const InvoiceForm = ({
     const templates = {
       tag: function (tagData) {
         try {
-          return `<tag title='${
-            tagData.value
-          }' contenteditable='false' spellcheck="false" class='tagify__tag ${
-            tagData.class ? tagData.class : ""
-          }' ${this.getAttributes(tagData)}>
+          return `<tag title='${tagData.value
+            }' contenteditable='false' spellcheck="false" class='tagify__tag ${tagData.class ? tagData.class : ""
+            }' ${this.getAttributes(tagData)}>
                       <x title='remove tag' class='tagify__tag__removeBtn'></x>
                       <div>
                           <span class='tagify__tag-text'>${tagData.value}</span>
                       </div>
                   </tag>`
-        } catch (err) {}
+        } catch (err) { }
       },
 
       dropdownItem: function (tagData) {
         try {
-          return `<div ${this.getAttributes(tagData)} class='tagify__dropdown__item ${
-            tagData.class ? tagData.class : ""
-          }' >
+          return `<div ${this.getAttributes(tagData)} class='tagify__dropdown__item ${tagData.class ? tagData.class : ""
+            }' >
                           <span>${tagData.searchBy.toLowerCase()}</span> |
                           <span>${tagData.value}</span>
                       </div>`
@@ -157,7 +152,7 @@ const InvoiceForm = ({
           if (Array.isArray(reasons) && reasons?.length) {
             setDiscountReasons(reasons)
           }
-        } catch (error) {}
+        } catch (error) { }
       })
   }
 
@@ -194,7 +189,7 @@ const InvoiceForm = ({
         .finally(() => {
           toast.dismiss(toastId)
         })
-      
+
     } catch (error) {
       toast.error(getErrorMessage(error))
     } finally {
@@ -209,14 +204,14 @@ const InvoiceForm = ({
           <div className="grid grid-cols-6 gap-2 py-4">
             <p className="col-span-1">{item?.label}</p>
             {/* <div className="col-span-3 text-right"> */}
-              <div>
+            <div>
               {!getValues(`${name}[${index}].discountFixedPrice`) && !getValues(`${name}[${index}].discountPercentage`) && <Price price={item?.price} priceClassName="text-secondary font-normal" />}
               {(getValues(`${name}[${index}].discountFixedPrice`) || getValues(`${name}[${index}].discountPercentage`)) && <del><Price price={item?.price} priceClassName="text-secondary font-normal" /></del>}
               {(getValues(`${name}[${index}].discountFixedPrice`) || getValues(`${name}[${index}].discountPercentage`)) &&
-                <Price price={(item.price - getValues(`${name}[${index}].discountFixedPrice`) ?? 0) } priceClassName="text-secondary font-normal" />
+                <Price price={(item.price - getValues(`${name}[${index}].discountFixedPrice`) ?? 0)} priceClassName="text-secondary font-normal" />
               }
-              </div>
-              <div>
+            </div>
+            <div>
               <Controller
                 name={`${name}[${index}].discountFixedPrice`}
                 control={control}
@@ -240,31 +235,32 @@ const InvoiceForm = ({
                   />
                 )}
               />
-              </div>
-              <Controller
-                name={`${name}[${index}].discountPercentage`}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
+            </div>
+            <Controller
+              name={`${name}[${index}].discountPercentage`}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
                   disabled={published}
                   suffix={"%"}
-                    type="number"
-                    // className="w-[100px]"
-                    name={`${name}[${index}].discountPercentage`}
-                    onChange={(e) => {
-                      onChange(e);
-                      setValue(`${name}[${index}].discountFixedPrice`, parseInt(e.target.value) * item.price / 100)
-                    }}
-                    onFocus={() => {
-                      setValue(`${name}[${index}].discountFixedPrice`, '')
-                      setValue(`${name}[${index}].discountPercentage`, '')
-                    }}
-                    value={value}
-                    placeholder="%"
-                  />
-                )}
-              />
-              <div className="col-span-2">
+                  type="number"
+                  // className="w-[100px]"
+                  name={`${name}[${index}].discountPercentage`}
+                  onChange={(e) => {
+                    console.log('target value', e.target.value)
+                    onChange(e);
+                    setValue(`${name}[${index}].discountFixedPrice`, parseInt(e.target.value) * item.price / 100)
+                  }}
+                  onFocus={() => {
+                    setValue(`${name}[${index}].discountFixedPrice`, '')
+                    setValue(`${name}[${index}].discountPercentage`, '')
+                  }}
+                  value={value}
+                  placeholder="%"
+                />
+              )}
+            />
+            <div className="col-span-2">
               <Controller
                 name={`${name}[${index}].note`}
                 control={control}
@@ -281,17 +277,16 @@ const InvoiceForm = ({
                   />
                 )}
               />
-              </div>
+            </div>
           </div>
         ))}
-        
+
       </div>
     )
   }
 
   useEffect(() => {
     if (invoiceData) {
-      console.log('invoiceData', invoiceData)
       setTotalDiscountFixedPrice(invoiceData?.totalDiscountFixedPrice)
       setTotalDiscountPercentage(invoiceData?.totalDiscountPercentage)
       reset({
@@ -302,7 +297,6 @@ const InvoiceForm = ({
         note: invoiceData?.note,
       })
     } else {
-      console.log('asd', membership)
       // console.log('cliniqueServices22', bundleServices?.map((item) => ({
       //   id: item?.id,
       //   price: item?.attributes?.price,
@@ -326,10 +320,11 @@ const InvoiceForm = ({
         })),
         medicalServices: medicalServices?.map((item) => ({
           id: item?.id,
-          price: item?.attributes?.price,
+          price: item?.attributes?.original_price ?? item?.attributes?.price,
           label: item?.attributes?.label,
-          discountFixedPrice: "",
-          discountPercentage: "",
+          discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
+          discountPercentage: item.attributes["discount_percentage"],
+          note: item?.attributes?.discount_note
         })),
         cliniqueServices: cliniqueServices?.map((item) => ({
           id: item?.id,
@@ -365,84 +360,84 @@ const InvoiceForm = ({
         {renderFields(medicalServicesFields, "medicalServices")}
       </div>
       <div className="mt-4">
-      <p className="font-bold col-span-1">Ghi chú</p>
+        <p className="font-bold col-span-1">Ghi chú</p>
         <Controller
-                name={`note`}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <TagifyInput
-                    whiteList={discountReasons}
-                    className="flex-1"
-                    inputClassName="test"
-                    name={`note`}
-                    onChange={onChange}
-                    value={value}
-                    placeholder="Nhập ghi chú"
-                    errors={errors?.note?.message}
-                  />
-                )}
-              />
-              </div>
+          name={`note`}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <TagifyInput
+              whiteList={discountReasons}
+              className="flex-1"
+              inputClassName="test"
+              name={`note`}
+              onChange={onChange}
+              value={value}
+              placeholder="Nhập ghi chú"
+              errors={errors?.note?.message}
+            />
+          )}
+        />
+      </div>
       <div className="grid grid-cols-6 gap-2  border-t-1 pt-2">
         <p className="font-bold col-span-1">Tổng chi phí</p>
         <div className="col-span-1">
           <Price price={subTotal} />
         </div>
         <div >
-              <Controller
+          <Controller
+            name={`totalDiscountFixedPrice`}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                disabled={published}
                 name={`totalDiscountFixedPrice`}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                  disabled={published}
-                    name={`totalDiscountFixedPrice`}
-                    suffix="đ"
-                    onFocus={() => {
-                      setTotalDiscountFixedPrice('');
-                      setTotalDiscountPercentage('');
-                    }}
-                    onChange={e => {
-                      let value = e.target.value.replaceAll(".", "");
-                      value = value ? value : 0;
-                      onChange(value);
-                      setTotalDiscountFixedPrice(parseInt(value));
-                      setTotalDiscountPercentage(parseInt(value/subTotal*10000)/100)
-                    }}
-                    value={formatPrice(totalDiscountFixedPrice)}
-                    placeholder="VNĐ"
-                    // min={0}
-                    // errors={errors?.[name]?.[index]?.discountFixedPrice?.message}
-                  />
-                )}
+                suffix="đ"
+                onFocus={() => {
+                  setTotalDiscountFixedPrice('');
+                  setTotalDiscountPercentage('');
+                }}
+                onChange={e => {
+                  let value = e.target.value.replaceAll(".", "");
+                  value = value ? value : 0;
+                  onChange(value);
+                  setTotalDiscountFixedPrice(parseInt(value));
+                  setTotalDiscountPercentage(parseInt(value / subTotal * 10000) / 100)
+                }}
+                value={formatPrice(totalDiscountFixedPrice)}
+                placeholder="VNĐ"
+              // min={0}
+              // errors={errors?.[name]?.[index]?.discountFixedPrice?.message}
               />
-              </div>
-              <Controller
-                name={`totalDiscountPercentage`}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                  disabled={published}
-                    type="number"
-                    // className="w-[100px]"
-                    suffix="%"
-                    name={`totalDiscountPercentage`}
-                    onFocus={() => {
-                      setTotalDiscountFixedPrice('');
-                      setTotalDiscountPercentage('');
-                    }}
-                    onChange={e => {
-                      setTotalDiscountPercentage(parseInt(e.target.value))
-                      setTotalDiscountFixedPrice(parseInt(e.target.value));
-                      setTotalDiscountFixedPrice(parseInt(e.target.value)*subTotal/100)
-                    }
-                    }
-                    value={totalDiscountPercentage}
-                    placeholder="%"
-                    // min={0}
-                    // errors={errors?.[name]?.[index]?.discountPercentage?.message}
-                  />
-                )}
-              />
+            )}
+          />
+        </div>
+        <Controller
+          name={`totalDiscountPercentage`}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              disabled={published}
+              type="number"
+              // className="w-[100px]"
+              suffix="%"
+              name={`totalDiscountPercentage`}
+              onFocus={() => {
+                setTotalDiscountFixedPrice('');
+                setTotalDiscountPercentage('');
+              }}
+              onChange={e => {
+                setTotalDiscountPercentage(parseInt(e.target.value))
+                setTotalDiscountFixedPrice(parseInt(e.target.value));
+                setTotalDiscountFixedPrice(parseInt(e.target.value) * subTotal / 100)
+              }
+              }
+              value={totalDiscountPercentage}
+              placeholder="%"
+            // min={0}
+            // errors={errors?.[name]?.[index]?.discountPercentage?.message}
+            />
+          )}
+        />
       </div>
       <div className="grid grid-cols-6 gap-2">
         <p className="font-bold col-span-1">Tổng giảm giá</p>

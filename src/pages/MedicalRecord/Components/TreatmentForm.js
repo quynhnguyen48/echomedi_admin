@@ -931,7 +931,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             btnType="outline"
             type="reset"
             onClick={(e) => {
-              // console.log('getValues', getValues("bmi"))
               downloadPDF();
             }}
           >
@@ -941,7 +940,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             btnType="outline"
             type="reset"
             onClick={(e) => {
-              // console.log('getValues', getValues("bmi"))
               generatePhieuChiDinh();
             }}
           >

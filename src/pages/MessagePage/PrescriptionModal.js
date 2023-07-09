@@ -159,7 +159,6 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
   useEffect(() => {
     if (bundleService) {
       const { message, reExaminationDate, medical_services } = bundleService;
-      console.log('medical_services', medical_services)
       reset({
         message,
         reExaminationDate: reExaminationDate
@@ -184,7 +183,6 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
       ;(async () => {
         try {
           const res = await getServiceBundleById(bundleServiceId)
-          console.log('getServiceBundleById', res)
           const data = formatStrapiObj(res.data.data)
           // setMedicalRecord({ ...data, prescription: formatStrapiObj(data?.prescription) })
           setBundleService({ ...data, medical_services: formatStrapiArr(data?.medical_services)})
@@ -192,8 +190,6 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
       })()
     }
   }, [bundleServiceId])
-
-  console.log('bundle services', bundleService)
 
   const getAllDrugs = () => {
     setLoading(true)
@@ -207,19 +203,13 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
       }
     )
       .then((res) => {
-        console.log('getAllMedicalServices', res.data.data);
         if (res.data) {
-        console.log('getAllMedicalServices2', res.data);
-
           let listDrugs = formatStrapiArr(res.data)
-          console.log('getAllMedicalServices2', listDrugs);
-
           listDrugs = listDrugs.map(l => {
             l.value = l.id;
             l.label = l.label + (l.ingredient ? ` (${l.ingredient})` : "");
             return l;
           })
-          console.log('listDrugs', listDrugs)
           setAllDrugs(listDrugs);
         }
       })
@@ -228,7 +218,6 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
   }
 
   useEffect(() => {
-    console.log('123123')
     getAllDrugs();
   }, [])
 
