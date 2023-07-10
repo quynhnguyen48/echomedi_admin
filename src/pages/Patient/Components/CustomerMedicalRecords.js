@@ -33,11 +33,11 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
         setTransactions(formatStrapiArr(res.data))
         setLoading(false);
       }
-    } catch (error) {}
+    } catch (error) { }
   }, [cardIds, searchKey, userId])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (userId && openDrawer) {
         fetchData()
       }
@@ -45,29 +45,31 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
   }, [cardIds?.length, fetchData, openDrawer, userId])
 
   return (
-      <div className="mt-8 space-y-4">
-        <p>Lịch sử bệnh án</p>
-        {loading ? <Loading className="!border-primary !border-2 w-10 h-10" /> :
+    <div className="mt-8 space-y-4">
+      <p>Lịch sử bệnh án</p>
+      {loading ? <Loading className="!border-primary !border-2 w-10 h-10" /> :
         Array.isArray(transactions) &&
-          transactions?.map((transaction) => (
-            <div key={transaction?.id} className="bg-primary/10 p-4 rounded-xl">
-              <p className="text-14 text-secondary/[56]">
-                {dayjs(transaction?.booking?.data?.attributes?.bookingDate).format("DD MMMM, YYYY [|] HH:mm")}
-              </p>
-              <div className="flex justify-between mt-4 w-25">
-                <button
-                  className="flex w-22 justify-between"
-                  onClick={() => navigate(`/bookings/medical-records/${transaction?.booking?.data?.id}/view`)}>
-                  Chi tiết 
-                  <Icon
-            name="arrows/right-square"
-            className="fill-red bg-white rounded-full"
-          />
-                </button>
-              </div>
+        transactions
+          .filter(t => t.booking.data != null)        
+          .map((transaction) => (
+          <div key={transaction?.id} className="bg-primary/10 p-4 rounded-xl">
+            <p className="text-14 text-secondary/[56]">
+              {dayjs(transaction?.booking?.data?.attributes?.bookingDate).format("DD MMMM, YYYY [|] HH:mm")}
+            </p>
+            <div className="flex justify-between mt-4 w-25">
+              <button
+                className="flex w-22 justify-between"
+                onClick={() => navigate(`/bookings/medical-records/${transaction?.booking?.data?.id}/view`)}>
+                Chi tiết
+                <Icon
+                  name="arrows/right-square"
+                  className="fill-red bg-white rounded-full"
+                />
+              </button>
             </div>
-          ))}
-      </div>
+          </div>
+        ))}
+    </div>
   )
 }
 

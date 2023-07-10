@@ -50,7 +50,7 @@ export const getPatientByPhone = (phone) => {
 
 export const getPatientById = (id) => {
   const query = qs.stringify({
-    populate: ["role", "referral", "check_ins"],
+    populate: ["role", "referral", "check_ins", "membership_profile_file"],
   })
 
   return axios.get(`/patients/${id}?${query}`)

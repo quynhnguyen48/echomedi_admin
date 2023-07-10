@@ -244,7 +244,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           ))}
           </table>
       </div>
-      <div className="grid grid-cols-4 sm:grid-cols-1 gap-x-4">
+      <div className="grid grid-cols-4 sm:grid-cols-1 gap-x-4 py-4">
         <Button
           btnSize="small"
           className="mt-2"

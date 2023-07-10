@@ -134,7 +134,7 @@ const Table = ({
                 >
                   <div
                     {...row.getRowProps()}
-                    className={classNames("relative flex items-center py-2 px-6 rounded-lg", {
+                    className={classNames("relative flex items-center py-2 px-2 rounded-lg", {
                       "text-white bg-primary": isActive,
                       "bg-primary/10": isModal,
                       "shadow-sm": !isModal,

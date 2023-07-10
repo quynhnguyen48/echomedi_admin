@@ -16,6 +16,9 @@ import { createNewUser, getListUsers, updateUser } from "services/api/users"
 import { updatePatient, getPatientByPhone } from "services/api/patient"
 import { randomPassword } from "utils/string"
 import { getErrorMessage } from "utils/error"
+import Icon from "components/Icon"
+import { getStrapiMedia } from "utils/media"
+import { uploadMedia } from "services/api/mediaLibrary"
 
 const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseModal, readOnly }) => {
   const navigate = useNavigate()
@@ -55,6 +58,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       phone: data?.phone || "",
       relative_phone: data?.relative_phone || "",
       birthday: !!data?.birthday ? new Date(data?.birthday) : null,
+      start_date_membership: !!data?.start_date_membership ? new Date(data?.start_date_membership) : null,
       membership: data?.membership || "",
       address: {
         province: data?.address?.province || null,
@@ -156,6 +160,28 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         toast.dismiss(toastId);
       });
   }
+
+  const uploadFile = (file) =>
+    new Promise(async (resolve, reject) => {
+      const toastId = toast.loading("Đang tải lên")
+      try {
+        const uploadedFiles = [file]
+        const promises = uploadedFiles?.map((file) => {
+          const formData = new FormData()
+          formData.append("files", file)
+          formData.append("ref", "api::patient.patient")
+          formData.append("refId", data.id)
+          formData.append("field", "membership_profile_file")
+          return uploadMedia(formData)
+        })
+      } catch (error) {
+        // toast.error(getErrorMessage(error));
+      } finally {
+        toast.dismiss(toastId)
+      }
+    })
+
+    console.log('dataaa', data)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -387,68 +413,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             />
           )}
         />
-
-        {/* <div className="grid grid-cols-2 gap-x-6">
-          <div className="space-y-2">
-            <label className="font-16 font-bold">Customer Tag</label>
-            <div className="grid grid-cols-2 gap-x-6">
-              <Controller
-                name="customerTag"
-                control={control}
-                render={({ field: { value } }) => (
-                  <>
-                    {[CUSTOMER_TAG.NEW_CUSTOMER, CUSTOMER_TAG.REFERRAL]?.map((tag) => (
-                      <Button
-                        key={tag}
-                        onChange={onchange}
-                        type="button"
-                        className={classNames("w-full h-14 pl-6 !justify-start capitalize", {
-                          "bg-primary text-white font-bold": value === tag,
-                          "bg-primary/10 text-primary font-normal": value !== tag,
-                        })}
-                        onClick={() =>
-                          setValue("customerTag", tag, {
-                            shouldDirty: true,
-                            shouldValidate: true,
-                          })
-                        }
-                      >
-                        {tag}
-                      </Button>
-                    ))}
-                    {errors?.customerTag?.message && (
-                      <p className="text-12 text-error mt-1">{errors?.customerTag?.message}</p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
-          </div>
-          {getValues("customerTag") === CUSTOMER_TAG.REFERRAL && (
-            <Controller
-              name="referral"
-              control={control}
-              render={({ field: { value } }) => (
-                <Select
-                  onChange={(e) => {
-                    setValue("referral", e, {
-                      shouldValidate: true,
-                      shouldDirty: true,
-                    })
-                  }}
-                  onInputChange={handleSearchCustomer}
-                  value={value}
-                  name="referral"
-                  label="Referral"
-                  placeholder="Select Referral"
-                  isLoading={loadingCustomers}
-                  options={customersData}
-                  errors={errors?.referral?.message}
-                />
-              )}
-            />
-          )}
-        </div> */}
         <div className="space-y-2">
           <label className="font-16 font-bold">Thành viên</label>
           <div className="grid grid-cols-4 gap-6">
@@ -457,7 +421,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               control={control}
               render={({ field: { onChange, value } }) => (
                 <>
-                  {["silver", "gold", "platinum", "family", "business", "non-resident", "foreigner"]?.map((gender) => (
+                  {["gold", "platinum", "family", "business", "non-resident", "foreigner"]?.map((gender) => (
                     <Button
                       key={gender}
                       onChange={onchange}
@@ -477,6 +441,43 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
                 </>
               )}
             />
+          </div>
+          <Controller
+            name="start_date_membership"
+            control={control}
+            render={({ field: { value, ref } }) => (
+              <Datepicker
+                disabled={readOnly}
+                label="Ngày bắt đầu thành viên"
+                value={value}
+                onChange={(date) => {
+                  setValue("start_date_membership", date)
+                }}
+                errors={errors?.start_date_membership?.message}
+              />
+            )}
+          />
+          <label className="font-bold">Hồ sơ sức khỏe</label>
+          <div className="relative">
+            <a href={getStrapiMedia(data.membership_profile_file?.data?.attributes)} target="_blank" rel="noreferrer">
+              {data?.mime?.startsWith("image") ? (
+                <img className="rounded-xl w-14 h-14" src={getStrapiMedia(data.membership_profile_file)} alt="name" />
+              ) : (
+                <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-14 w-14 relative border-primary border-1">
+                  {data.membership_profile_file?.data?.attributes?.ext}
+                </div>
+              )}
+            </a>
+          </div>
+          <div className="flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
+            <input
+              // ref={ref}
+              type="file"
+              className="h-full w-full opacity-0 cursor-pointer absolute z-20"
+              onChange={(e) => uploadFile(e.target.files[0])}
+              multiple
+            />
+            <p>Tải lên</p>
           </div>
         </div>
       </div>

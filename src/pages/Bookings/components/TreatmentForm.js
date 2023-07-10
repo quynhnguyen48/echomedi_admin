@@ -842,12 +842,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const loadBundleServices = () => {
-
+    console.log('loadBundle', data.bundle_services)
     axios2
       .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
       .then((response) => {
         if (!data.bundle_services) {
           let ms = response.data.data;
+          console.log('msss', ms)
           ms = ms.map(s => {
             s.attributes["Locations"].forEach(sl => {
               if (sl["location"] == branch) {
@@ -855,6 +856,22 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["price"] = parseInt(sl["price"]);
               }
             })
+
+            if (s.attributes["membership_discount"]) {
+              if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_percentage) {
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_note"] = "Thành viên vàng";
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
+              } else if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
+                s.attributes["discount_note"] = "Thành viên bạch kim";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+              }
+              console.log('ssss', s)
+            }
+
             return s;
           });
           ms = ms.filter(s => !s.attributes["disabled"]);
@@ -863,8 +880,36 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         } else {
           const bundleServicesData_ = JSON.parse(data.bundle_services)
           const usedIdMedicalServices = bundleServicesData_.map((ud) => ud.id)
+          let ms = response.data.data;
+          console.log('msss', ms)
+          ms = ms.map(s => {
+            s.attributes["Locations"].forEach(sl => {
+              if (sl["location"] == branch) {
+                s.attributes["disabled"] = sl["disabled"];
+                s.attributes["price"] = parseInt(sl["price"]);
+              }
+            })
+
+            if (s.attributes["membership_discount"]) {
+              if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_percentage) {
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_note"] = "Thành viên vàng";
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
+              } else if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
+                s.attributes["discount_note"] = "Thành viên bạch kim";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+              }
+              console.log('ssss', s)
+            }
+
+            return s;
+          });
+          ms = ms.filter(s => !s.attributes["disabled"]);
           setBundleServices(
-            response.data.data.filter((m) => usedIdMedicalServices.indexOf(m.id) == -1)
+            ms.filter((m) => usedIdMedicalServices.indexOf(m.id) == -1)
           )
         }
       })
@@ -1193,7 +1238,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <input type="checkbox" name="panel" id="panel-1" class="hidden" />
               <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">1. Hành chính</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="grid grid-cols-2 gap-x-6 gap-y-4 py-4">
+                <div className="grid sm:grid-cols-1 grid-cols-2 gap-x-6 gap-y-4 py-4">
                   <Controller
                     name="full_name"
                     control={control}
@@ -1271,7 +1316,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       />
                     )}
                   />
-                  <div className="grid col-span-2 grid-cols-3 gap-x-6 gap-y-4  py-4">
+                  <div className="grid col-span-2 sm:grid-cols-1 grid-cols-3 gap-x-6 gap-y-4  py-4">
                     <div className="w-full">
                       <Controller
                         name="address.province"
@@ -1409,7 +1454,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <input type="checkbox" name="panel" id="panel-2" class="hidden" />
               <label for="panel-2" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer bg-form font-bold">2. Thông tin lịch hẹn</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="grid col-span-2 grid-cols-2 gap-x-6 gap-y-4 py-4">
+                <div className="grid col-span-2 sm:grid-cols-1 grid-cols-2 gap-x-6 gap-y-4 py-4">
                   <Controller
                     name="bookingDate"
                     control={control}
@@ -1490,7 +1535,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       />
                     )}
                   />
-                  <div className="grid grid-cols-4 gap-x-6 gap-y-4 py-4">
+                  <div className="grid sm:grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 py-4">
                     <Controller
                       name="status"
                       control={control}
@@ -1700,7 +1745,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full py-4">
-                    <div className="grid grid-cols-4 gap-6">
+                    <div className="grid sm: grid-cols-2 grid-cols-4 gap-6">
                       <Controller
                         name="circuit"
                         control={control}
@@ -1901,7 +1946,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       )}
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-6 mt-4">
+                  <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
                     <Controller
                       name="inquiry"
                       control={control}
@@ -2069,8 +2114,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addBundleMedicalService(m)}
                                   >
-                                    {m.attributes.label}
-                                    <span>{numberWithCommas(m.attributes.price)}</span>
+                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
+                                    <span>{numberWithCommas(m.attributes?.price)}</span>
                                   </Button>
                                   {/* <Button 
                         onClick={e => {

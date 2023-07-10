@@ -87,7 +87,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
 
 
   return (
-    <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll`}>
+    <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll px-2`}>
       <div className="flex items-center gap-x-2">
         {currentUser?.role?.type != "doctor" 
         && currentUser?.role?.type != "nurse" 
@@ -120,7 +120,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           </Button>
         </div>}
       </div>
-      <div className="grid grid-cols-2 grid-flow-row gap-y-8 mt-4">
+      <div className="grid grid-cols-2 sm:grid-cols-1 grid-flow-row gap-y-8 mt-4">
         <DataItem icon="user" title="Tên" value={`${data?.full_name}`} />
         <DataItem icon="message" title="Email" value={data?.email} />
         <DataItem icon="man" title="Giới tính" value={data?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />

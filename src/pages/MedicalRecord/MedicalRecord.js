@@ -192,7 +192,7 @@ const Treatments = () => {
     <Page
       title="Quản lý hồ sơ bệnh án"
     >
-      <div className="flex items-center">
+      <div className="grid grid-cols-4 sm:grid-cols-1 gap-y-2 items-center ">
         <div className="w-[340px]  mr-4">
           <Datepicker
             className="bg-primary text-white"

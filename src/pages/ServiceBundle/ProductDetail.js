@@ -41,17 +41,29 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
   const [pricebd, setPriceBD] = useState(0);
   const [disabledBD, setDisabledBD] = useState(false);
   const [label, setLabel] = useState("");
+  const [goldPercentage, setGoldPercentage] = useState(0);
+  const [platinumPercentage, setPlatinumPercentage] = useState(0);
+  const [monthlyGold, setMonthlyGold] = useState(0);
+  const [monthlyPlatinum, setMonthlyPlatinum] = useState(0);
+  const [yearlyGold, setYearlyGold] = useState(0);
+  const [yearlyPlatinum, setYearlyPlatinum] = useState(0);
 
   useEffect(() => {
     setPrice(data?.price);
     setLabel(data?.label)
+    setPriceQ2(data?.price);
+    setDisabledQ2(false);
+    setPriceQ7(data?.price);
+    setDisabledQ7(false);
+    setPriceBD(data?.price);
+    setDisabledBD(false);
+    setGoldPercentage(data?.membership_discount?.gold_percentage);
+    setPlatinumPercentage(data?.membership_discount?.platinum_percentage);
+    setMonthlyGold(data?.membership_discount?.gold_monthly);
+    setMonthlyPlatinum(data?.membership_discount?.platinum_monthly);
+    setYearlyGold(data?.membership_discount?.gold_yearly)
+    setYearlyPlatinum(data?.membership_discount?.platinum_yearly)
     if (data.Locations) {
-      setPriceQ2(0);
-      setDisabledQ2(false);
-      setPriceQ7(0);
-      setDisabledQ7(false);
-      setPriceBD(0);
-      setDisabledBD(false);
       data.Locations?.forEach(l => {
         if (l["location"] == "q2") {
           setPriceQ2(l["price"]);
@@ -113,7 +125,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
           onClose={() => setVisiblePrescriptionModal(false)}
         />
       )}
-      <Controller
+      {/* <Controller
         name="code"
         control={control}
         render={({ field: { onChange, value } }) => (
@@ -129,7 +141,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             suffix={"đ"}
           />
         )}
-      />
+      /> */}
       <div className="mt-6 space-y-6 flex-1 overflow-y-auto">
         <div className="grid grid-cols-1 gap-4">
           <Controller
@@ -202,6 +214,110 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               />
             )}
           />
+          <Controller
+            name="membership_discount"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setGoldPercentage(e.target.value);
+                }}
+                value={goldPercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên vàng (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setPlatinumPercentage(e.target.value);
+                }}
+                value={platinumPercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên bạch kim (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setMonthlyGold(e.target.value);
+                }}
+                value={monthlyGold}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên vàng</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyGold(e.target.value);
+                }}
+                value={yearlyGold}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên vàng</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setMonthlyPlatinum(e.target.value);
+                }}
+                value={monthlyPlatinum}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên bạch kim</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyPlatinum(e.target.value);
+                }}
+                value={yearlyPlatinum}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên bạch kim</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
         </div>
       </div>
       {editable && <Button className="mt-4" type="button" onClick={async () => {
@@ -224,7 +340,15 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               price: pricebd,
               disabled: disabledBD,
             }
-          ]
+          ],
+          membership_discount: {
+            gold_percentage: goldPercentage,
+            platinum_percentage: platinumPercentage,
+            gold_monthly: monthlyGold,
+            platinum_monthly: monthlyPlatinum,
+            gold_yearly: yearlyGold,
+            platinum_yearly: yearlyPlatinum
+          }
         };
 
 
