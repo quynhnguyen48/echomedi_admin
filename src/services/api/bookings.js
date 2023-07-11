@@ -47,6 +47,7 @@ export const getBookingById = (id) => {
       populate: [
         "medical_record",
         "medical_record.doctor_in_charge",
+        "medical_record.prescriptions",
         "patient"
       ],
     },

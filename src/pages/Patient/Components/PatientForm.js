@@ -458,7 +458,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             )}
           />
           <label className="font-bold">Hồ sơ sức khỏe</label>
-          <div className="relative">
+          {data.membership_profile_file.data && <div className="relative">
             <a href={getStrapiMedia(data.membership_profile_file?.data?.attributes)} target="_blank" rel="noreferrer">
               {data?.mime?.startsWith("image") ? (
                 <img className="rounded-xl w-14 h-14" src={getStrapiMedia(data.membership_profile_file)} alt="name" />
@@ -468,7 +468,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
                 </div>
               )}
             </a>
-          </div>
+          </div>}
           <div className="flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
             <input
               // ref={ref}

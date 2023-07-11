@@ -27,7 +27,7 @@ import { updateStatusBooking } from "services/api/bookings"
 import { updatePatient } from "services/api/patient";
 import { generateHoursInterval } from "utils/timeSlots"
 import { getErrorMessage } from "utils/error"
-import { formatStrapiArr } from "utils/strapi"
+import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import { getTreatmentCategories } from "services/api/treatmentCagegory"
 import { useScrollToError } from "hooks/useScrollToError"
 import axios from "../../../services/axios"
@@ -2443,9 +2443,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       />
 
       {visiblePrescriptionModal && (
+        // <PrescriptionModal
+        //   patientId={data?.patient?.id}
+
+        //   medicalRecordId={data?.medical_record?.data?.id}
+        //   visibleModal={visiblePrescriptionModal}
+        //   onClose={() => setVisiblePrescriptionModal(false)}
+        // />
+
         <PrescriptionModal
           patientId={data?.patient?.id}
-
+          data={formatStrapiObj(data?.medical_record?.data)}
           medicalRecordId={data?.medical_record?.data?.id}
           visibleModal={visiblePrescriptionModal}
           onClose={() => setVisiblePrescriptionModal(false)}

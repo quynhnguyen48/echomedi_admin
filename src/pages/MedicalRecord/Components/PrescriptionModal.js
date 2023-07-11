@@ -16,7 +16,7 @@ import {
 import { useCallback, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { getErrorMessage } from "utils/error"
-import { formatStrapiObj } from "utils/strapi"
+import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import dayjs from "dayjs"
 import { getMedicalRecordById, updateMedicalRecord } from "services/api/medicalRecord"
 import Loading from "components/Loading"
@@ -24,6 +24,7 @@ import axios from "../../../services/axios";
 import { createBookingWithPatient, updateBookingWithPatient, } from "services/api/bookings";
 import { BRANCH } from "constants/Authentication"
 import { data } from "autoprefixer"
+import { getListDrugs } from "services/api/drug"
 
 const DRUG_DEFAULT = {
   drug: "",
@@ -46,6 +47,8 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
   const [prescriptions, setPrescriptions] = useState([]);
   const [activePreId, setActivePreId] = useState(0);
   const [preIds, setPreIds] = useState([]);
+  const [pres, setPres] = useState([]);
+  const [allDrugs, setAllDrugs] = useState([]);
 
   const {
     handleSubmit,
@@ -80,18 +83,25 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
   }
 
   const createNewPrescription = async () => {
-    let ids = data.prescriptions.data.map(d => d.id)
+    let ids = data.prescriptions?.data.map(d => d.id) ?? [];
+    let uids = data.prescriptions?.data.map(d => d.uid) ?? [];
     const payload2 = {
       Drugs: [],
     }
     const res = await createPrescription(payload2);
+    const pre = await getPrescriptionById(res.data.data.id);
     const payload = {
       ...data,
       prescriptions: [...ids, res.data.data.id]
     };
+    console.log('pre', pre)
     await updateMedicalRecord(data.id, payload)
     setActivePreId(res.data.data.id);
-    setPreIds([...ids, res.data.data.id]);
+    setPreIds([...uids, pre.data.data.attributes.uid]);
+    console.log('preIds', [...uids, pre.data.data.attributes.uid])
+
+    let pres2 = [...pres, formatStrapiObj(pre.data)];
+    setPres(pres2);
   }
 
   const onSubmit = async (values) => {
@@ -174,6 +184,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
 
   const fetchPrescriptionData = useCallback(async (id) => {
     try {
+      console.log('idddd', id)
       const res = await getPrescriptionById(id)
       const data = formatStrapiObj(res.data)
       setPrescriptionData({
@@ -186,11 +197,10 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
 
   useEffect(() => {
     ; (async () => {
-      console.log('medicalRecord', medicalRecord)
       if (medicalRecord?.prescriptions) {
+        console.log('medicalRecord', medicalRecord)
         setActivePreId(medicalRecord?.prescriptions.data[0].id);
-        let ids = medicalRecord?.prescriptions.data.map(d => d.id)
-        setPreIds(ids);
+        setPres(medicalRecord?.prescriptions.data.map(p => formatStrapiObj(p)) ?? []);
       }
     })()
   }, [fetchPrescriptionData, medicalRecord?.prescriptions]);
@@ -231,6 +241,38 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
     }
   }, [medicalRecordId])
 
+  const getAllDrugs = () => {
+    setLoading(true)
+    getListDrugs(
+      {
+        pageSize: 1000,
+        page: 1,
+      },
+      {
+        branch: localStorage.getItem(BRANCH),
+      }
+    )
+      .then((res) => {
+        if (res.data) {
+          let listDrugs = formatStrapiArr(res.data)
+          listDrugs = listDrugs.map(l => {
+            l.value = l.id;
+            l.label = l.label + (l.ingredient ? ` (${l.ingredient})` : "") + (l.stock ? ` (${l.stock})` : "");
+            return l;
+          });
+          listDrugs = listDrugs.filter(l => l.stock > 0);
+          setAllDrugs(listDrugs);
+        }
+      })
+      .catch((err) => { })
+      .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    getAllDrugs();
+  }, [])
+
+
   return (
     <Modal
       wrapperClassName="w-[1340px]"
@@ -242,12 +284,19 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
       {medicalRecord ? (
         <>
           <p className="text-24 font-bold inline mr-4">Đơn thuốc</p>
-          {preIds && preIds.map(p => 
+          {pres && pres.map(p => 
             <button 
-              onClick={e => setActivePreId(p)}
-              className={`mr-2 ${activePreId == p && 'font-bold'}`}>{p}</button>)}
+              onClick={e => setActivePreId(p.id)}
+              className={`mr-2 ${activePreId == p.id && 'font-bold underline'}`}>{p.uid}</button>)}
           {/* <button className="mr-2">1</button> */}
-          <button className="mr-2" onClick={e => createNewPrescription()}>+</button>
+          <Button
+            className={"!inline"}
+              variant="contained"
+              color="primary"
+              onClick={e => createNewPrescription()}
+            >
+              Thêm đơn thuốc
+            </Button>
           <form className="flex flex-col gap-4 mt-2" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-3 gap-4">
               <Controller
@@ -296,6 +345,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
                 errors={errors}
                 handleUpdateAmount={handleUpdateAmount}
                 remove={remove}
+                allDrugs={allDrugs}
               />
             ))}
             <Button
