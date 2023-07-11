@@ -18,7 +18,7 @@ import { toast } from "react-toastify"
 import { getErrorMessage } from "utils/error"
 import { formatStrapiObj } from "utils/strapi"
 import dayjs from "dayjs"
-import { getMedicalRecordById } from "services/api/medicalRecord"
+import { getMedicalRecordById, updateMedicalRecord } from "services/api/medicalRecord"
 import Loading from "components/Loading"
 import axios from "../../../services/axios";
 import { createBookingWithPatient, updateBookingWithPatient, } from "services/api/bookings";
@@ -37,12 +37,15 @@ const DRUG_DEFAULT = {
   usage: "Uống sau ăn",
 }
 
-const PrescriptionModal = ({ medicalRecordId, visibleModal, onClose, patientId }) => {
+const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patientId }) => {
   const validationSchema = yup.object({})
   const [prescriptionData, setPrescriptionData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [isPrinting, setIsPrinting] = useState(false)
   const [medicalRecord, setMedicalRecord] = useState()
+  const [prescriptions, setPrescriptions] = useState([]);
+  const [activePreId, setActivePreId] = useState(0);
+  const [preIds, setPreIds] = useState([]);
 
   const {
     handleSubmit,
@@ -76,22 +79,42 @@ const PrescriptionModal = ({ medicalRecordId, visibleModal, onClose, patientId }
     }
   }
 
+  const createNewPrescription = async () => {
+    let ids = data.prescriptions.data.map(d => d.id)
+    const payload2 = {
+      Drugs: [],
+    }
+    const res = await createPrescription(payload2);
+    const payload = {
+      ...data,
+      prescriptions: [...ids, res.data.data.id]
+    };
+    await updateMedicalRecord(data.id, payload)
+    setActivePreId(res.data.data.id);
+    setPreIds([...ids, res.data.data.id]);
+  }
+
   const onSubmit = async (values) => {
     const { Drugs, ...rest } = values;
-    const payload = {
+    const payload2 = {
       ...rest,
-      medicalRecord: medicalRecord?.id,
       Drugs: Drugs?.filter((item) => !!item.drug)
         .map((item) => ({ ...item, drug: item.drug.value })),
-        additional_drugs: [],
+      additional_drugs: [],
     }
     try {
       setLoading(true)
-      if (prescriptionData?.id) {
-        await updatePrescription(prescriptionData?.id, payload)
-        await fetchPrescriptionData(prescriptionData?.id)
+      if (activePreId) {
+        // if (false) {
+        await updatePrescription(activePreId, payload2)
+        await fetchPrescriptionData(activePreId)
       } else {
-        const res = await createPrescription(payload)
+        const res = await createPrescription(payload2);
+        const payload = {
+          ...data,
+          prescriptions: [res.data.data.id]
+        };
+        // await updateMedicalRecord(data.id, payload)
         await fetchPrescriptionData(formatStrapiObj(res?.data)?.id)
       }
       toast.success("Lưu đơn thuốc thành công")
@@ -161,49 +184,20 @@ const PrescriptionModal = ({ medicalRecordId, visibleModal, onClose, patientId }
     } catch (error) { }
   }, [])
 
-  // const handleSaveAndPrint = async (values) => {
-
-
-  //   const { Drugs, ...rest } = values
-  //   const payload = {
-  //     ...rest,
-  //     medicalRecord: medicalRecord?.id,
-  //     Drugs: Drugs?.map((item) => ({ ...item, drug: item.drug.value })),
-  //   }
-  //   try {
-  //     setLoading(true)
-  //     if (prescriptionData?.id) {
-  //       await updatePrescription(prescriptionData?.id, payload)
-  //       await fetchPrescriptionData(prescriptionData?.id)
-  //     } else {
-  //       const res = await createPrescription(payload)
-  //       await fetchPrescriptionData(formatStrapiObj(res?.data)?.id)
-  //     }
-  //     toast.success("Lưu đơn thuốc thành công")
-  //     onClose()
-  //   } catch (error) {
-  //     toast.error(getErrorMessage(error))
-  //   } finally {
-  //     setLoading(false)
-  //   }
-
-  //   setIsPrinting(true)
-  //   try {
-  //     // TODO: call api to print
-  //   } catch (error) {
-  //     toast.error(getErrorMessage(error))
-  //   } finally {
-  //     setIsPrinting(false)
-  //   }
-  // }
-
   useEffect(() => {
     ; (async () => {
-      if (medicalRecord?.prescription?.id) {
-        fetchPrescriptionData(medicalRecord?.prescription?.id)
+      console.log('medicalRecord', medicalRecord)
+      if (medicalRecord?.prescriptions) {
+        setActivePreId(medicalRecord?.prescriptions.data[0].id);
+        let ids = medicalRecord?.prescriptions.data.map(d => d.id)
+        setPreIds(ids);
       }
     })()
-  }, [fetchPrescriptionData, medicalRecord?.prescription?.id])
+  }, [fetchPrescriptionData, medicalRecord?.prescriptions]);
+
+  useEffect(() => {
+    fetchPrescriptionData(activePreId)
+  }, [activePreId])
 
   useEffect(() => {
     if (prescriptionData) {
@@ -247,7 +241,13 @@ const PrescriptionModal = ({ medicalRecordId, visibleModal, onClose, patientId }
     >
       {medicalRecord ? (
         <>
-          <p className="text-24 font-bold">Đơn thuốc</p>
+          <p className="text-24 font-bold inline mr-4">Đơn thuốc</p>
+          {preIds && preIds.map(p => 
+            <button 
+              onClick={e => setActivePreId(p)}
+              className={`mr-2 ${activePreId == p && 'font-bold'}`}>{p}</button>)}
+          {/* <button className="mr-2">1</button> */}
+          <button className="mr-2" onClick={e => createNewPrescription()}>+</button>
           <form className="flex flex-col gap-4 mt-2" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-3 gap-4">
               <Controller
@@ -312,16 +312,6 @@ const PrescriptionModal = ({ medicalRecordId, visibleModal, onClose, patientId }
               <Button className="fill-primary self-end" type="submit" loading={loading}>
                 Lưu và in đơn thuốc
               </Button>
-              {/* <Button
-                className="self-end"
-                btnType="outline"
-                type="button"
-                loading={isPrinting}
-                disabled={!prescriptionData}
-                onClick={handleSaveAndPrint}
-              >
-                Lưu và in đơn thuốc
-              </Button> */}
             </div>
           </form>
         </>

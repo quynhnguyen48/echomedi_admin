@@ -22,7 +22,7 @@ import ChooseAssetsFromLibraryDrawer from "components/ChooseAssetsFromLibraryDra
 import { convertToKebabCase } from "utils/string"
 import { getStrapiMedia } from "utils/media"
 import { WEEK_DAYS } from "constants/Dates"
-import { createNewTreatment, updateTreatment } from "services/api/medicalRecord"
+import { createNewTreatment, updateMedicalRecord } from "services/api/medicalRecord"
 import { updateStatusBooking } from "services/api/bookings"
 import { updatePatient } from "services/api/patient";
 import { generateHoursInterval } from "utils/timeSlots"
@@ -1108,7 +1108,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       }
 
       if (data.medical_record?.data?.id) {
-        const result = await updateTreatment(data.medical_record?.data?.id, payload)
+        const result = await updateMedicalRecord(data.medical_record?.data?.id, payload)
       } else {
         const result = await createNewTreatment(payload)
       }
@@ -1187,7 +1187,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const onFinish = async (id, files) => {
     let payload = cloneDeep(references)
     payload = [...payload, ...files]
-    await updateTreatment(data?.medical_record?.data?.id, {
+    await updateMedicalRecord(data?.medical_record?.data?.id, {
       references: payload,
     })
     setReferences(payload)
@@ -1197,7 +1197,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     try {
       let payload = cloneDeep(references)
       payload = payload?.filter((item) => item.id !== value.id)
-      await updateTreatment(data?.medical_record?.data?.id, {
+      await updateMedicalRecord(data?.medical_record?.data?.id, {
         references: payload,
       })
       setReferences(payload)

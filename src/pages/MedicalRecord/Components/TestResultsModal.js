@@ -6,7 +6,7 @@ import Modal from "components/Modal"
 import Table from "components/Table"
 import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import { uploadMedia } from "services/api/mediaLibrary"
-import { getMedicalRecordById, updateTreatment } from "services/api/medicalRecord"
+import { getMedicalRecordById, updateMedicalRecord } from "services/api/medicalRecord"
 import { getStrapiMedia } from "utils/media"
 import Icon from "components/Icon"
 
@@ -50,7 +50,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
           [id]: files,
         }
       }
-      await updateTreatment(medicalRecordId, {
+      await updateMedicalRecord(medicalRecordId, {
         testResults: payload,
       })
       await fetchData()
@@ -63,7 +63,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
       try {
         let payload = cloneDeep(testResults)
         payload[id] = payload[id]?.filter((item) => item.id !== value.id)
-        await updateTreatment(medicalRecordId, {
+        await updateMedicalRecord(medicalRecordId, {
           testResults: payload,
         })
         await fetchData()

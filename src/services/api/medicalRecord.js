@@ -21,6 +21,7 @@ const populate = [
   // "booking",
   "booking.patient",
   "prescription",
+  "prescriptions",
 ]
 
 export const getMedicalRecords = (pagination, filters = {}) => {
@@ -51,7 +52,7 @@ export const createNewTreatment = (payload) => {
   })
 }
 
-export const updateTreatment = (id, payload) => {
+export const updateMedicalRecord = (id, payload) => {
   return axios.put(`/medical-records/${id}`, {
     data: payload,
   })

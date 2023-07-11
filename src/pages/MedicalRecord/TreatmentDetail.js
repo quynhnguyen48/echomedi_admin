@@ -146,6 +146,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       })
   }
 
+  console.log('data', data)
+
 
   return (
     <div className="my-4 w-full max-h-[70vh]">
@@ -278,14 +280,18 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <Button btnSize="small" className="mt-2" onClick={() => setVisibleTestResultModal(true)}>
           Kết quả xét nghiệm
         </Button>
+        <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
+          Đơn thuốc
+        </Button>
         {/* <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
           Đơn thuốc
         </Button> */}
       </div>
       {visiblePrescriptionModal && (
         <PrescriptionModal
-          medicalRecordId={data?.id}
           patientId={data?.patient?.id}
+          data={data}
+          medicalRecordId={data?.id}
           visibleModal={visiblePrescriptionModal}
           onClose={() => setVisiblePrescriptionModal(false)}
         />

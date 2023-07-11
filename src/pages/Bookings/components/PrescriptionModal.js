@@ -348,16 +348,6 @@ const PrescriptionModal = ({ medicalRecordId, patientId, visibleModal, onClose }
             <Button className="fill-primary self-end" type="submit" loading={loading}>
                 Lưu và in đơn thuốc
               </Button>
-              {/* <Button
-                className="self-end"
-                btnType="outline"
-                type="button"
-                loading={isPrinting}
-                disabled={!prescriptionData}
-                onClick={handlePrint}
-              >
-                In đơn thuốc
-              </Button> */}
             </div>
           </form>
         </>
