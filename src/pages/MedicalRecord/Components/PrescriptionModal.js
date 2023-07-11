@@ -94,11 +94,9 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
       ...data,
       prescriptions: [...ids, res.data.data.id]
     };
-    console.log('pre', pre)
     await updateMedicalRecord(data.id, payload)
     setActivePreId(res.data.data.id);
     setPreIds([...uids, pre.data.data.attributes.uid]);
-    console.log('preIds', [...uids, pre.data.data.attributes.uid])
 
     let pres2 = [...pres, formatStrapiObj(pre.data)];
     setPres(pres2);
@@ -184,7 +182,6 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
 
   const fetchPrescriptionData = useCallback(async (id) => {
     try {
-      console.log('idddd', id)
       const res = await getPrescriptionById(id)
       const data = formatStrapiObj(res.data)
       setPrescriptionData({
@@ -198,7 +195,6 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
   useEffect(() => {
     ; (async () => {
       if (medicalRecord?.prescriptions) {
-        console.log('medicalRecord', medicalRecord)
         setActivePreId(medicalRecord?.prescriptions.data[0].id);
         setPres(medicalRecord?.prescriptions.data.map(p => formatStrapiObj(p)) ?? []);
       }
@@ -235,7 +231,10 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
         try {
           const res = await getMedicalRecordById(medicalRecordId)
           const data = formatStrapiObj(res.data)
-          setMedicalRecord({ ...data, prescription: formatStrapiObj(data?.prescription) })
+          setMedicalRecord({ ...data, prescription: formatStrapiObj(data?.prescription) });
+          if (data.prescriptions.data.length == 0) {
+            createNewPrescription()
+          }
         } catch (error) { }
       })()
     }

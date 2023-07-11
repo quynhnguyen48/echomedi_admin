@@ -239,6 +239,9 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
           const res = await getMedicalRecordById(medicalRecordId)
           const data = formatStrapiObj(res.data)
           setMedicalRecord(data)
+          if (data.prescriptions.data.length == 0) {
+            createNewPrescription()
+          }
         } catch (error) { }
       })()
     }
