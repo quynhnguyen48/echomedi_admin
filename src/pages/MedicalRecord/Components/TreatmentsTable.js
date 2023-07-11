@@ -34,13 +34,13 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
           </span>
         ),
         collapse: true,
-        width: 100,
+        width: 70,
       },
       {
         Header: "Tên",
         accessor: (originalRow) => <span>{originalRow?.patient?.full_name}</span>,
         collapse: true,
-        width: 200,
+        width: 150,
       },
     ]
     if (activeRow) return defaultColumns

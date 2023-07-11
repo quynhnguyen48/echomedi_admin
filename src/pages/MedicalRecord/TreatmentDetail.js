@@ -283,9 +283,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
           Đơn thuốc
         </Button>
-        {/* <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
-          Đơn thuốc
-        </Button> */}
       </div>
       {visiblePrescriptionModal && (
         <PrescriptionModal

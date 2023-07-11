@@ -97,7 +97,6 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
     await updateMedicalRecord(data.id, payload)
     setActivePreId(res.data.data.id);
     setPreIds([...uids, pre.data.data.attributes.uid]);
-
     let pres2 = [...pres, formatStrapiObj(pre.data)];
     setPres(pres2);
   }
@@ -113,31 +112,22 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
     try {
       setLoading(true)
       if (activePreId) {
-        // if (false) {
         await updatePrescription(activePreId, payload2)
         await fetchPrescriptionData(activePreId)
       } else {
         const res = await createPrescription(payload2);
-        const payload = {
-          ...data,
-          prescriptions: [res.data.data.id]
-        };
-        // await updateMedicalRecord(data.id, payload)
         await fetchPrescriptionData(formatStrapiObj(res?.data)?.id)
       }
       toast.success("Lưu đơn thuốc thành công")
-      // onClose()
     } catch (error) {
       toast.error(getErrorMessage(error))
     } finally {
-      // setLoading(false)
     }
 
     setIsPrinting(true)
     try {
       const toastId = toast.loading("Đang tải");
       await axios.post("/product/generatePrescription", {
-        // axios2.post("http://localhost:1337/api/product/generatePrescription", {
         "id": medicalRecordId,
       }, {
         responseType: 'arraybuffer',
@@ -166,8 +156,6 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
     const reExDate = getValues("reExaminationDate");
     if (reExDate && !prescriptionData?.reExaminationDate) {
       const payload = {
-        // ...formData,
-        // ...getValues("user"),
         patient: patientId,
         branch: localStorage.getItem(BRANCH),
         bookingDate: reExDate,
@@ -286,8 +274,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
           {pres && pres.map(p => 
             <button 
               onClick={e => setActivePreId(p.id)}
-              className={`mr-2 ${activePreId == p.id && 'font-bold underline'}`}>{p.uid}</button>)}
-          {/* <button className="mr-2">1</button> */}
+              className={`mr-2 ${activePreId == p.id && 'font-bold underline'}`}>{p.uid ?? p.id}</button>)}
           <Button
             className={"!inline"}
               variant="contained"

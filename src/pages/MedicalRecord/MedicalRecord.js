@@ -192,8 +192,8 @@ const Treatments = () => {
     <Page
       title="Quản lý hồ sơ bệnh án"
     >
-      <div className="grid grid-cols-4 sm:grid-cols-1 gap-y-2 items-center ">
-        <div className="w-[340px]  mr-4">
+      <div className="grid grid-cols-4 sm:grid-cols-1 gap-y-2 items-center gap-x-2">
+        <div className="">
           <Datepicker
             className="bg-primary text-white"
             iconClassName="fill-white"
@@ -206,7 +206,7 @@ const Treatments = () => {
             }}
           />
         </div><div
-          className="w-[340px]">
+          className="">
           <Datepicker
             className="bg-primary text-white"
             iconClassName="fill-white"

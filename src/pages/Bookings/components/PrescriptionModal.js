@@ -292,8 +292,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
           {pres && pres.map(p => 
             <button 
               onClick={e => setActivePreId(p.id)}
-              className={`mr-2 ${activePreId == p.id && 'font-bold underline'}`}>{p.uid}</button>)}
-          {/* <button className="mr-2">1</button> */}
+              className={`mr-2 ${activePreId == p.id && 'font-bold underline'}`}>{p.uid ?? p.id}</button>)}
           <Button
             className={"!inline"}
               variant="contained"
