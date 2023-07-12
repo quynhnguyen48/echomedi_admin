@@ -6,6 +6,7 @@ import Select from "components/Select"
 import { getListDrugs } from "services/api/drug"
 import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import Icon from "components/Icon"
+import Textarea from "components/Textarea/Textarea"
 import { getValue } from "@testing-library/user-event/dist/utils"
 
 function removeVietnameseTones(str) {
