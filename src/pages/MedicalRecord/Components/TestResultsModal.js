@@ -131,8 +131,8 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                   {item?.mime?.startsWith("image") ? (
                     <img className="rounded-xl w-14 h-14" src={getStrapiMedia(item)} alt="name" />
                   ) : (
-                    <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-14 w-14 relative border-primary border-1">
-                      {item?.ext}
+                    <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold p-4 relative border-primary border-1">
+                      {item?.name}{item?.ext}
                     </div>
                   )}
                 </a>
@@ -147,7 +147,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                 </div>
               </div>
             ))}
-            <div className="inline-flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
+            <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1">
               <input
                 ref={ref}
                 type="file"
