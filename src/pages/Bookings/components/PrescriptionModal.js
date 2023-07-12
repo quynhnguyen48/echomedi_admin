@@ -139,8 +139,8 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
     try {
       const toastId = toast.loading("Đang tải");
       await axios.post("/product/generatePrescription", {
-        // axios2.post("http://localhost:1337/api/product/generatePrescription", {
         "id": medicalRecordId,
+        "pr_id": activePreId,
       }, {
         responseType: 'arraybuffer',
         headers: {

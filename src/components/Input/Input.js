@@ -33,7 +33,7 @@ export function Input({
         {prefix && <div className="absolute top-4 left-6">{prefix}</div>}
         <input
           className={classNames(
-            "border border-1 border-green w-full bg-white md:bg-gray2 h-14 outline-none px-4 rounded-lg text-16 placeholder:text-secondary/30 disabled:cursor-not-allowed",
+            "border border-1 border-green w-full bg-white md:bg-gray2 h-14 outline-none px-4 rounded-lg text-16 placeholder:text-secondary/30 disabled:cursor-not-allowed w-full",
             {
               error: !!errors,
               [size]: true,

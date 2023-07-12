@@ -80,7 +80,7 @@ const PrescriptionFormItem = ({
 
   return (
     <div className="flex flex-col gap-2" key={item.id}>
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <Controller
           name={`Drugs[${index}].drug`}
           control={control}
@@ -90,7 +90,7 @@ const PrescriptionFormItem = ({
               className="rounded-lg"
               wrapperClassName="col-span-4"
               placeholder="Tên thuốc"
-              label={index >= 1 ? "" : "Tên thuốc"}
+              label={`${index + 1}. Tên thuốc`}
               name={`Drugs[${index}].drug`}
               filterOption={() => true}
               onChange={(e) => {
@@ -117,14 +117,14 @@ const PrescriptionFormItem = ({
           render={({ field: { onChange, value } }) => (
             <Input
               type="text"
-              inputClassName="w-16"
+              inputClassName="w-full"
               name={`Drugs[${index}].morningAmount`}
               onChange={(e) => {
                 onChange(e)
                 handleUpdateAmount()
               }}
               value={value}
-              label={index >= 1 ? "" : "Sáng"}
+              label={"Sáng"}
               placeholder="Nhập Số lượng"
               min={0}
               errors={errors.Drugs?.[index]?.morningAmount?.message}
@@ -137,14 +137,14 @@ const PrescriptionFormItem = ({
           render={({ field: { onChange, value } }) => (
             <Input
               type="text"
-              inputClassName="flex-1 w-16"
+              inputClassName="flex-1 w-full"
               name={`Drugs[${index}].noonAmount`}
               onChange={(e) => {
                 onChange(e)
                 handleUpdateAmount()
               }}
               value={value}
-              label={index >= 1 ? "" : "Trưa"}
+              label={"Trưa"}
               placeholder="Nhập Số lượng"
               min={0}
               errors={errors.Drugs?.[index]?.noonAmount?.message}
@@ -157,14 +157,14 @@ const PrescriptionFormItem = ({
           render={({ field: { onChange, value } }) => (
             <Input
               type="text"
-              inputClassName="flex-1 w-16"
+              inputClassName="flex-1 w-full"
               name={`Drugs[${index}].afternoonAmount`}
               onChange={(e) => {
                 onChange(e)
                 handleUpdateAmount()
               }}
               value={value}
-              label={index >= 1 ? "" : "Chiều"}
+              label={"Chiều"}
               placeholder="Nhập Số lượng"
               min={0}
               errors={errors.Drugs?.[index]?.afternoonAmount?.message}
@@ -177,14 +177,14 @@ const PrescriptionFormItem = ({
           render={({ field: { onChange, value } }) => (
             <Input
               type="text"
-              inputClassName="flex-1 w-16"
+              inputClassName="flex-1 w-full"
               name={`Drugs[${index}].eveningAmount`}
               onChange={(e) => {
                 onChange(e)
                 handleUpdateAmount()
               }}
               value={value}
-              label={index >= 1 ? "" : "Tối"}
+              label={"Tối"}
               placeholder="Nhập Số lượng"
               min={0}
               errors={errors.Drugs?.[index]?.eveningAmount?.message}
@@ -198,14 +198,14 @@ const PrescriptionFormItem = ({
           render={({ field: { onChange, value } }) => (
             <Input
               type="text"
-              inputClassName="flex-1 w-16"
+              inputClassName="flex-1 w-full"
               name={`Drugs[${index}].numberOfDays`}
               onChange={(e) => {
                 onChange(e)
                 handleUpdateAmount()
               }}
               value={value}
-              label={index >= 1 ? "" : "Số ngày"}
+              label={"Số ngày"}
               placeholder="Nhập Số ngày"
               min={0}
               errors={errors.Drugs?.[index]?.numberOfDays?.message}
@@ -218,11 +218,11 @@ const PrescriptionFormItem = ({
           render={({ field: { onChange, value } }) => (
             <Input
               type="number"
-              inputClassName="flex-1 w-16"
+              inputClassName="flex-1 w-full"
               name={`Drugs[${index}].amount`}
               onChange={onChange}
               value={value}
-              label={index >= 1 ? "" : "Số lượng"}
+              label={"Số lượng"}
               placeholder="Nhập Số lượng"
               min={0}
               errors={errors.Drugs?.[index]?.amount?.message}
@@ -234,11 +234,11 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
-            inputClassName="flex-1 w-24"
+            inputClassName="flex-1 w-full"
               name={`Drugs[${index}].unit`}
               onChange={onChange}
               value={value}
-              label={index >= 1 ? "" : "Đơn vị"}
+              label={"Đơn vị"}
               placeholder="Viên, hộp, chai,..."
               errors={errors.Drugs?.[index]?.unit?.message}
             />
@@ -256,7 +256,7 @@ const PrescriptionFormItem = ({
                 name={`Drugs[${index}].usage`}
                 onChange={onChange}
                 value={value}
-                label={index >= 1 ? "" : "Cách dùng"}
+                label={"Cách dùng"}
                 placeholder="Nhập cách dùng"
                 errors={errors.Drugs?.[index]?.usage?.message}
               />
