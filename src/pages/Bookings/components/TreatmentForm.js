@@ -780,7 +780,19 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_note"] = "Thành viên vàng";
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
-            } else if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
+            }
+            if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_monthly) {
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_note"] = "Thành viên vàng";
+              s.attributes["discount_percentage"] = 100;
+              s.attributes["price"] = 0;
+            } else if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_yearly) {
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_note"] = "Thành viên vàng";
+              s.attributes["discount_percentage"] = 100;
+              s.attributes["price"] = 0;
+            } 
+            if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
               s.attributes["discount_note"] = "Thành viên bạch kim";
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
@@ -2067,7 +2079,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full py-4">
-
                     <div>
                       {readonly && servicesData && servicesData.length > 0 && <p className="underline text-xl font-bold">Dịch vụ:</p>}
                       {readonly && servicesData && servicesData.map((s) => <p>{s.attributes.label}</p>)}
@@ -2116,6 +2127,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   >
                                     {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                     <span>{numberWithCommas(m.attributes?.price)}</span>
+                                    <span>{m.attributes.discount_note}</span>
                                   </Button>
                                   {/* <Button 
                         onClick={e => {
@@ -2178,6 +2190,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   >
                                     {m.attributes.label}
                                     <span>{numberWithCommas(m.attributes.price)}</span>
+                                    <span>{m.attributes.discount_note}</span>
                                   </Button>
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse"}
@@ -2235,6 +2248,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   >
                                     {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                     <span>{numberWithCommas(m.attributes?.price)}</span>
+                                    <span>{m.attributes.discount_note}</span>
                                   </Button>
                                 </div>
                               ))}
@@ -2271,6 +2285,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   >
                                     {m.attributes.label}
                                     <span>{numberWithCommas(m.attributes.price)}</span>
+                                    <span>{m.attributes.discount_note}</span>
                                   </Button>
                                 </div>
                               ))}
