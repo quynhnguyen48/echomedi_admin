@@ -65,6 +65,8 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
       })
   }
 
+  console.log('data', data)
+
   return (
     <div className="my-10 w-full">
       <div className="flex items-center gap-x-2"></div>

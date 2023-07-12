@@ -9,6 +9,7 @@ export const getPercentageNumber = (val, total) => {
 }
 
 export const formatPrice = (price) => {
+  if (!price) return "";
   return Number(price)
     .toLocaleString("it-IT", { style: "currency", currency: "VND" })
     .replace("VND", "")
