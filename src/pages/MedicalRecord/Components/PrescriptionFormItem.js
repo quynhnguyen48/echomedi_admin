@@ -250,7 +250,7 @@ const PrescriptionFormItem = ({
             name={`Drugs[${index}].usage`}
             control={control}
             render={({ field: { onChange, value } }) => (
-              <Input
+              <Textarea
                 className="flex-1"
                 inputClassName=""
                 name={`Drugs[${index}].usage`}
