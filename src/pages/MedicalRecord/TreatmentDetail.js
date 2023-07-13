@@ -222,7 +222,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
                 <span>{numberWithCommas(b.attributes.price)}</span>
               </div>
               <table className="service w-full">
-              {b.attributes.medical_services.data.map((s) => (
+              {b.attributes.medical_services?.data?.map((s) => (
                 // <p> - {s.attributes.label}</p>
                 <tr>
             <th>- {s.attributes.label}</th>

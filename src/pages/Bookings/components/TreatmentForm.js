@@ -537,7 +537,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setUsedBundleMedicalServices(bundleServicesData_)
 
       bundleServicesData_.forEach(s => {
-        s.attributes.medical_services.data.forEach(ss => {
+        s.attributes.medical_services.data?.forEach(ss => {
           newExistServices[ss.id] = true;
         })
       });
@@ -702,7 +702,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const downloadShortenPDF = () => {
     const toastId = toast.loading("Đang tải")
     const patient = data.patient
-    axios
+    axios2
       .post(
         "/product/downloadShortenMedicalRecord",
         {
@@ -761,12 +761,12 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     // if (data.patient.membership == "gold") {
     //   return;
     // }
-    axios
+    axios2
       // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      // .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id)
       .then((response) => {
         const services = response.data.data;
-        console.log('services', services)
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
         ms = ms.map(s => {
 
@@ -790,28 +790,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
             }
-            // if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_monthly) {
-            //   s.attributes["original_price"] = s.attributes["price"];
-            //   s.attributes["discount_note"] = "Thành viên vàng";
-            //   s.attributes["discount_percentage"] = 100;
-            //   s.attributes["price"] = 0;
-            //   s.attributes["membership_gold"] = true;
-            //   monthlyGold.push(s.id);
-            // }
-            // if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_yearly) {
-            //   yearlyGold.push(s.id);
-            // } 
-            // if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_monthly) {
-            //   s.attributes["original_price"] = s.attributes["price"];
-            //   s.attributes["discount_note"] = "Thành viên vàng";
-            //   s.attributes["discount_percentage"] = 100;
-            //   s.attributes["price"] = 0;
-            // } else if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_yearly) {
-            //   s.attributes["original_price"] = s.attributes["price"];
-            //   s.attributes["discount_note"] = "Thành viên vàng";
-            //   s.attributes["discount_percentage"] = 100;
-            //   s.attributes["price"] = 0;
-            // } 
             if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
               s.attributes["discount_note"] = "Thành viên bạch kim";
               s.attributes["original_price"] = s.attributes["price"];
@@ -878,19 +856,23 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const loadBundleServices = () => {
     axios2
-      .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
+      // .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
+      // .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id)
+      .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id)
       .then((response) => {
         if (!data.bundle_services) {
           let ms = response.data.data;
           ms = ms.map(s => {
-            s.attributes["Locations"].forEach(sl => {
-              if (sl["location"] == branch) {
-                s.attributes["disabled"] = sl["disabled"];
-                s.attributes["price"] = parseInt(sl["price"]);
-              }
-            })
+            if (Array.isArray(s.attributes["Locations"])) {
+              s.attributes["Locations"].forEach(sl => {
+                if (sl["location"] == branch) {
+                  s.attributes["disabled"] = sl["disabled"];
+                  s.attributes["price"] = parseInt(sl["price"]);
+                }
+              })
+            }
 
-            if (s.attributes["membership_discount"]) {
+            if (s.attributes["membership_discount"] && !s.attributes["membership_gold"]) {
               if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_percentage) {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_note"] = "Thành viên vàng";
@@ -914,14 +896,16 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           const usedIdMedicalServices = bundleServicesData_.map((ud) => ud.id)
           let ms = response.data.data;
           ms = ms.map(s => {
-            s.attributes["Locations"].forEach(sl => {
-              if (sl["location"] == branch) {
-                s.attributes["disabled"] = sl["disabled"];
-                s.attributes["price"] = parseInt(sl["price"]);
-              }
-            })
+            if (Array.isArray(s.attributes["Locations"])) {
+              s.attributes["Locations"].forEach(sl => {
+                if (sl["location"] == branch) {
+                  s.attributes["disabled"] = sl["disabled"];
+                  s.attributes["price"] = parseInt(sl["price"]);
+                }
+              })
+            }
 
-            if (s.attributes["membership_discount"]) {
+            if (s.attributes["membership_discount"] && !s.attributes["membership_gold"]) {
               if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_percentage) {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_note"] = "Thành viên vàng";
@@ -994,7 +978,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const addBundleMedicalService = (m) => {
-    const ms = m.attributes.medical_services.data
+    const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
 
     if (exist) {
@@ -1059,7 +1043,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const removeBundleMedicalService = (m) => {
-    const ms = m.attributes.medical_services.data
+    const ms = m.attributes.medical_services
     let newExistServices = { ...existServices }
     ms.forEach((s) => delete newExistServices[s.id])
     setExistServices(newExistServices)
@@ -2106,7 +2090,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         bundleServicesData.map((s) => (
                           <div>
                             <p className="font-semibold">- {s.attributes.label}</p>
-                            {s.attributes.medical_services.data.map((ss) => (
+                            {s.attributes.medical_services.data?.map((ss) => (
                               <p>+ {ss.attributes.label} </p>
                             ))}
                           </div>
@@ -2160,8 +2144,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
-                                          {m.attributes.medical_services.data.map((a) => (
-                                            <p>{a.attributes.label}</p>
+                                          {m.attributes.medical_services.map((a) => (
+                                            <p>{a.label}</p>
 
                                           ))}
                                         </div>,
@@ -2217,8 +2201,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
-                                          {m.attributes.medical_services.data.map((a) => (
-                                            <p>{a.attributes.label}</p>
+                                          {m.attributes.medical_services.map((a) => (
+                                            <p>{a.label}</p>
                                           ))}
                                         </div>,
                                         { progress: 1, className: "w-[500px] left-[-177px]" }
