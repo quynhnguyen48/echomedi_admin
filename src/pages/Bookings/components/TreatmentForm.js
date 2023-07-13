@@ -406,7 +406,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   useEffect(() => {
     if (data) {
-      console.log('data data', data)
       if (!isNaN(data.total)) setTotal(data.total)
       if (data.bookingDate) {
         const bd = new Date(data.bookingDate)
@@ -757,22 +756,32 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const loadMedicalServices2 = () => {
-    axios2
-      .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
+    let monthlyGold = [];
+    let yearlyGold = [];
+    // if (data.patient.membership == "gold") {
+    //   return;
+    // }
+    axios
+      // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
+      .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
       .then((response) => {
         const services = response.data.data;
-        let ms = services.filter(s => s.attributes.group_service != "Khám lâm sàng");
+        console.log('services', services)
+        let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
         ms = ms.map(s => {
-          s.attributes["Locations"].forEach(sl => {
-            if (sl["location"] == branch) {
-              s.attributes["disabled"] = sl["disabled"];
-              if (Number.isInteger(sl["price"])) {
-                s.attributes["price"] = sl["price"];
-              } else {
-                s.attributes["price"] = parseInt(sl["price"]);
+
+          if (Array.isArray(s.attributes["Locations"])) {
+            s.attributes["Locations"].forEach(sl => {
+              if (sl["location"] == branch) {
+                s.attributes["disabled"] = sl["disabled"];
+                if (Number.isInteger(sl["price"])) {
+                  s.attributes["price"] = sl["price"];
+                } else {
+                  s.attributes["price"] = parseInt(sl["price"]);
+                }
               }
-            }
-          })
+            })
+          }
 
           if (s.attributes["membership_discount"]) {
             if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_percentage) {
@@ -781,17 +790,28 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
             }
-            if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_monthly) {
-              s.attributes["original_price"] = s.attributes["price"];
-              s.attributes["discount_note"] = "Thành viên vàng";
-              s.attributes["discount_percentage"] = 100;
-              s.attributes["price"] = 0;
-            } else if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_yearly) {
-              s.attributes["original_price"] = s.attributes["price"];
-              s.attributes["discount_note"] = "Thành viên vàng";
-              s.attributes["discount_percentage"] = 100;
-              s.attributes["price"] = 0;
-            } 
+            // if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_monthly) {
+            //   s.attributes["original_price"] = s.attributes["price"];
+            //   s.attributes["discount_note"] = "Thành viên vàng";
+            //   s.attributes["discount_percentage"] = 100;
+            //   s.attributes["price"] = 0;
+            //   s.attributes["membership_gold"] = true;
+            //   monthlyGold.push(s.id);
+            // }
+            // if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_yearly) {
+            //   yearlyGold.push(s.id);
+            // } 
+            // if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_monthly) {
+            //   s.attributes["original_price"] = s.attributes["price"];
+            //   s.attributes["discount_note"] = "Thành viên vàng";
+            //   s.attributes["discount_percentage"] = 100;
+            //   s.attributes["price"] = 0;
+            // } else if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_yearly) {
+            //   s.attributes["original_price"] = s.attributes["price"];
+            //   s.attributes["discount_note"] = "Thành viên vàng";
+            //   s.attributes["discount_percentage"] = 100;
+            //   s.attributes["price"] = 0;
+            // } 
             if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
               s.attributes["discount_note"] = "Thành viên bạch kim";
               s.attributes["original_price"] = s.attributes["price"];
@@ -802,16 +822,19 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
           return s;
         });
+
         ms = ms.filter(s => !s.attributes["disabled"]);
 
         let cs = services.filter(s => s.attributes.group_service == "Khám lâm sàng");
         cs = cs.map(s => {
-          s.attributes["Locations"].forEach(sl => {
-            if (sl["location"] == branch) {
-              s.attributes["disabled"] = sl["disabled"];
-              s.attributes["price"] = parseInt(sl["price"]);
-            }
-          })
+          if (Array.isArray(s.attributes["Locations"])) {
+            s.attributes["Locations"].forEach(sl => {
+              if (sl["location"] == branch) {
+                s.attributes["disabled"] = sl["disabled"];
+                s.attributes["price"] = parseInt(sl["price"]);
+              }
+            })
+          }
           return s;
         });
         cs = cs.filter(s => !s.attributes["disabled"]);
@@ -854,13 +877,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const loadBundleServices = () => {
-    console.log('loadBundle', data.bundle_services)
     axios2
       .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
       .then((response) => {
         if (!data.bundle_services) {
           let ms = response.data.data;
-          console.log('msss', ms)
           ms = ms.map(s => {
             s.attributes["Locations"].forEach(sl => {
               if (sl["location"] == branch) {
@@ -881,7 +902,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
               }
-              console.log('ssss', s)
             }
 
             return s;
@@ -893,7 +913,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           const bundleServicesData_ = JSON.parse(data.bundle_services)
           const usedIdMedicalServices = bundleServicesData_.map((ud) => ud.id)
           let ms = response.data.data;
-          console.log('msss', ms)
           ms = ms.map(s => {
             s.attributes["Locations"].forEach(sl => {
               if (sl["location"] == branch) {
@@ -914,7 +933,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
               }
-              console.log('ssss', s)
             }
 
             return s;

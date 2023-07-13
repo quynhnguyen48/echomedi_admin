@@ -193,6 +193,48 @@ const InvoiceForm = ({
     } catch (error) {
       toast.error(getErrorMessage(error))
     } finally {
+      setIsLoading(false);
+      togglePublish();
+    }
+  }
+
+  const markAsPaid = async (values) => {
+    try {
+      setIsLoading(true)
+      const toastId = toast.loading("Đang tải")
+      const res = await updateAndDownloadInvoiceById(
+        id,
+        {
+          data: {
+            ...values,
+            subTotal,
+            totalDiscount,
+            totalDiscountFixedPrice,
+            totalDiscountPercentage,
+            total: subTotal - totalDiscount,
+          },
+        },
+        {
+          responseType: "arraybuffer",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/pdf",
+          },
+        }
+      )
+        .then((response) => {
+          const b = new Blob([response.data], { type: "application/pdf" })
+          var url = window.URL.createObjectURL(b)
+          window.open(url)
+          setTimeout(() => window.URL.revokeObjectURL(url), 100)
+        })
+        .finally(() => {
+          toast.dismiss(toastId)
+        })
+
+    } catch (error) {
+      toast.error(getErrorMessage(error))
+    } finally {
       setIsLoading(false)
     }
   }
@@ -456,9 +498,9 @@ const InvoiceForm = ({
         <Button type="submit" loading={isLoading}>
           {published ? "Tải hoá đơn" : "Lưu và tải hóa đơn"}
         </Button>
-        {!published && <Button type="button" loading={isLoading} onClick={togglePublish}>
+        {/* {!published && <Button type="button" loading={isLoading} onClick={togglePublish}>
           Đã thanh toán
-        </Button>}
+        </Button>} */}
       </div>
     </form>
   )

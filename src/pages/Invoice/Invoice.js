@@ -12,7 +12,7 @@ import parse from "date-fns/parse"
 import startOfWeek from "date-fns/startOfWeek"
 import { dateFnsLocalizer } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
-import { getInvoices, updateInvoice } from "services/api/invoice"
+import { getInvoices, updateInvoice, markInvoiceAsPaid } from "services/api/invoice"
 import { resetPageIndex } from "slice/tableSlice"
 import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import InvoiceTable from "./Components/InvoiceTable"
@@ -105,9 +105,10 @@ const Invoice = () => {
 
   const togglePublish = useCallback(async () => {
       try {
-        const res = await updateInvoice(detailData?.id, {
-          publishedAt: !!detailData?.publishedAt ? null : new Date().toISOString(),
-        })
+        // const res = await updateInvoice(detailData?.id, {
+        //   publishedAt: !!detailData?.publishedAt ? null : new Date().toISOString(),
+        // })
+        const res = await markInvoiceAsPaid(detailData?.id);
         let updatedData = formatStrapiObj(res.data)
         setDetailData((oldDetailData) => ({
           ...oldDetailData,

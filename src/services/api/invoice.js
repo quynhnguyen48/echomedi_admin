@@ -69,3 +69,10 @@ export const updateInvoice = (id, payload) => {
     data: payload,
   })
 }
+
+export const markInvoiceAsPaid = (id) => {
+  return axios.post(`/invoice/markInvoiceAsPaid`,
+  {
+    id
+  })
+}
