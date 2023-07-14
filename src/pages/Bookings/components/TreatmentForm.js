@@ -702,7 +702,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const downloadShortenPDF = () => {
     const toastId = toast.loading("Đang tải")
     const patient = data.patient
-    axios2
+    axios
       .post(
         "/product/downloadShortenMedicalRecord",
         {
