@@ -782,7 +782,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
       </div>
 
       <div className="flex gap-x-4 mt-10">
-        {!data.medical_record && <Button className="fill-primary" type="submit" loading={loading}>
+        {<Button className="fill-primary" type="submit" loading={loading}>
           Lưu
         </Button>}
         <Button

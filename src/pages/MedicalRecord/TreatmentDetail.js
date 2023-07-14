@@ -9,6 +9,7 @@ import axios from "../../services/axios"
 import PrescriptionModal from "./Components/PrescriptionModal"
 import TestResultsModal from "./Components/TestResultsModal"
 import { flatten } from "lodash"
+import { useDispatch, useSelector } from "react-redux";
 
 const TreatmentDetail = ({ data, onTogglePublish }) => {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
   const [visibleModal, setVisibleModal] = useState(false)
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
   const [visibleTestResultModal, setVisibleTestResultModal] = useState(false)
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const formatInterval = (interval) => {
     const intervalSplit = interval?.split(":")
@@ -247,7 +249,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           </table>
       </div>
       <div className="grid grid-cols-4 sm:grid-cols-1 gap-x-4 py-4">
-        <Button
+      {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
           onClick={() => {
@@ -255,8 +257,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           }}
         >
           Sửa bệnh án
-        </Button>
-        <Button
+        </Button>}
+        {currentUser.role.type != "pharmacist" &&<Button
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
@@ -264,8 +266,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           }}
         >
           Tải bệnh án
-        </Button>
-        <Button
+        </Button>}
+        {currentUser.role.type != "pharmacist" &&<Button
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
@@ -273,19 +275,20 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           }}
         >
           Tải bệnh án tóm tắt
-        </Button>
-        <Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
+        </Button>}
+        {currentUser.role.type != "pharmacist" &&<Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
           Tải phiếu chỉ định
-        </Button>
-        <Button btnSize="small" className="mt-2" onClick={() => setVisibleTestResultModal(true)}>
+        </Button>}
+        {currentUser.role.type != "pharmacist" &&<Button btnSize="small" className="mt-2" onClick={() => setVisibleTestResultModal(true)}>
           Kết quả xét nghiệm
-        </Button>
+        </Button>}
         <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
           Đơn thuốc
         </Button>
       </div>
       {visiblePrescriptionModal && (
         <PrescriptionModal
+          readOnly={currentUser.role.type == "pharmacist"}
           patientId={data?.patient?.id}
           data={data}
           medicalRecordId={data?.id}
