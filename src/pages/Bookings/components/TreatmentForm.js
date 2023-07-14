@@ -763,8 +763,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     // }
     axios2
       // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      // .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
-      .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      // .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id)
       .then((response) => {
         const services = response.data.data;
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
@@ -857,8 +857,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const loadBundleServices = () => {
     axios2
       // .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      // .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id)
-      .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id)
+      .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id)
+      // .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id)
       .then((response) => {
         if (!data.bundle_services) {
           let ms = response.data.data;
