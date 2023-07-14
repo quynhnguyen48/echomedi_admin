@@ -1080,7 +1080,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     let circuit = 0, temperature = 0, respiratory_rate = 0, spo2 = 0;
     try {
       circuit = parseInt(formData.circuit);
-      temperature = parseInt(formData.temperature);
+      temperature = parseFloat(formData.temperature);
       respiratory_rate = parseInt(formData.respiratory_rate);
       spo2 = parseInt(formData.spo2);
     } catch {
