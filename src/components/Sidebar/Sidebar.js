@@ -78,6 +78,11 @@ const Sidebar = () => {
     setDisplayNone(true);
   }
 
+  const logout = () => {
+    localStorage.removeItem(JWT_TOKEN);
+    navigate('/login')
+  }
+
   return (
     <div>
       {isMobile && <button className="fixed top-0 right-0 bg-white w-8 h-8" onClick={e => setDisplayNone(!displayNone)}>
@@ -105,14 +110,6 @@ const Sidebar = () => {
 
           </div>
           <Button shape="circle" className="m-auto bg-transparent w-[200px] text-[green]" onClick={() => navigate("/settings")}>
-          {/* <Avatar
-            size={40}
-            round
-            name={`${currentUser?.firstName} ${currentUser?.lastName}`}
-            src={
-              currentUser?.avatar && getStrapiMedia({ url: currentUser.avatar })
-            }
-          /> */}
           <pre>{" " + currentUser?.patient?.full_name + " (" + currentUser?.role.type + ")  "}</pre>
           </Button>
           <Button shape="circle" className="m-auto bg-transparent" onClick={() => logout()}>
@@ -121,17 +118,8 @@ const Sidebar = () => {
         </div>
       }
       <div className="max-h-sidebarHeight overflow-scroll space-y-6">
-        {/* <Button 
-        className={"m-auto"}
-        onClick={(e) => {
-          window.open("https://internal.echomedi.com");
-        }}
-        target="_blank" href="https://internal.echomedi.com">
-          Trang tài liệu
-          </Button> */}
         {Array.isArray(accessSidebarItems) &&
           accessSidebarItems?.map((item) => <SidebarItem key={item.name} item={item} hideSidebar={hideSidebar}/>)}
-        
       </div>
     </div>
     </div>

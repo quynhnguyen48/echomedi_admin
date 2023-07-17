@@ -35,7 +35,6 @@ const Header = ({ title, parentUrl }) => {
   if (!title) return null;
 
   const logout = () => {
-    console.log('logout')
     localStorage.removeItem(JWT_TOKEN);
     navigate('/login')
   }
