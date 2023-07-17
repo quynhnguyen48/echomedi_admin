@@ -18,7 +18,7 @@ const Page = ({
           {children}
         </div>
         {rightContent && (
-          <div className={`w-79 ${rightContentClassName}`}>
+          <div className={`px-2 ${isMobile ? 'w-full' : 'w-79'} ${rightContentClassName}`}>
             {rightContent}
           </div>
         )}

@@ -253,6 +253,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           btnSize="small"
           className="mt-2"
           onClick={() => {
+            console.log('data', data)
             navigate(`/bookings/medical-records/${data.booking.id}/edit`)
           }}
         >
