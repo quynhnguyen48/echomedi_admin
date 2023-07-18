@@ -768,6 +768,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       .then((response) => {
         const services = response.data.data;
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
+        console.log('ms load', ms)
         ms = ms.map(s => {
 
           if (Array.isArray(s.attributes["Locations"])) {
@@ -816,6 +817,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           return s;
         });
         cs = cs.filter(s => !s.attributes["disabled"]);
+        console.log('msss', ms)
         if (!data.services) {
           setMedicalServices(ms);
           setCliniqueServices(cs);
@@ -826,7 +828,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           const usedIdCliniqueServices = cliniqueServicesData.map((ud) => ud.id)
           ms = ms.filter(s => usedIdMedicalServices.indexOf(s.id) == -1);
           cs = cs.filter(s => usedIdCliniqueServices.indexOf(s.id) == -1);
-
           setMedicalServices(ms);
           setCliniqueServices(cs);
         }
