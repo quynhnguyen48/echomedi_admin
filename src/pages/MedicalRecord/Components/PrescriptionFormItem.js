@@ -51,6 +51,7 @@ const PrescriptionFormItem = ({
   handleUpdateAmount,
   remove,
   allDrugs,
+  readOnly = false
 }) => {
   const [listDrugs, setListDrugs] = useState(allDrugs)
   const [loading, setLoading] = useState(true)
@@ -87,6 +88,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value, ref } }) => (
             <Select
+              isDisabled={readOnly}
               isLoading={loading}
               className="rounded-lg"
               wrapperClassName="col-span-4"
@@ -117,6 +119,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+              disabled={readOnly}
               type="text"
               inputClassName="w-full"
               name={`Drugs[${index}].morningAmount`}
@@ -137,6 +140,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+            disabled={readOnly}
               type="text"
               inputClassName="flex-1 w-full"
               name={`Drugs[${index}].noonAmount`}
@@ -157,6 +161,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+            disabled={readOnly}
               type="text"
               inputClassName="flex-1 w-full"
               name={`Drugs[${index}].afternoonAmount`}
@@ -177,6 +182,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+            disabled={readOnly}
               type="text"
               inputClassName="flex-1 w-full"
               name={`Drugs[${index}].eveningAmount`}
@@ -198,6 +204,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+            disabled={readOnly}
               type="text"
               inputClassName="flex-1 w-full"
               name={`Drugs[${index}].numberOfDays`}
@@ -218,6 +225,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+            disabled={readOnly}
               type="number"
               inputClassName="flex-1 w-full"
               name={`Drugs[${index}].amount`}
@@ -235,6 +243,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
+            disabled={readOnly}
             inputClassName="flex-1 w-full"
               name={`Drugs[${index}].unit`}
               onChange={onChange}
@@ -252,6 +261,7 @@ const PrescriptionFormItem = ({
             control={control}
             render={({ field: { onChange, value } }) => (
               <Textarea
+              disabled={readOnly}
                 className="flex-1"
                 inputClassName=""
                 name={`Drugs[${index}].usage`}
@@ -263,7 +273,7 @@ const PrescriptionFormItem = ({
               />
             )}
           />
-          <button type="button" className="mb-4" onClick={() => remove(index)}>
+          <button disabled={readOnly} type="button" className="mb-4" onClick={() => remove(index)}>
             <Icon name="trash" className="fill-red" />
           </button>
         </div>

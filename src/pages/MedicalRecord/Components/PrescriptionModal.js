@@ -38,7 +38,7 @@ const DRUG_DEFAULT = {
   usage: "Uống sau ăn",
 }
 
-const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patientId }) => {
+const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patientId, readOnly = false }) => {
   const validationSchema = yup.object({})
   const [prescriptionData, setPrescriptionData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -277,6 +277,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
               onClick={e => setActivePreId(p.id)}
               className={`mr-2 ${activePreId == p.id && 'font-bold underline'}`}>{p.uid ?? p.id}</button>)}
           <Button
+            disabled={readOnly}
             className={"!inline"}
               variant="contained"
               color="primary"
@@ -291,6 +292,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Textarea
+                    disabled={readOnly}
                     label="Lời dặn"
                     onChange={onChange}
                     value={value}
@@ -307,7 +309,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
                 control={control}
                 render={({ field: { value } }) => (
                   <Datepicker
-                    disabled={!!prescriptionData?.reExaminationDate}
+                    disabled={!!prescriptionData?.reExaminationDate || readOnly}
                     value={value}
                     label="Ngày tái khám"
                     errors={errors?.reExaminationDate?.message}
@@ -333,6 +335,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
                 handleUpdateAmount={handleUpdateAmount}
                 remove={remove}
                 allDrugs={allDrugs}
+                readOnly={readOnly}
               />
             ))}
             <Button
@@ -340,6 +343,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
               type="button"
               btnType="text"
               btnSize="auto"
+              disabled={readOnly}
               icon={<Icon name="add-circle" className="fill-primary w-6 h-6" />}
               onClick={() => append({ ...DRUG_DEFAULT })}
             >

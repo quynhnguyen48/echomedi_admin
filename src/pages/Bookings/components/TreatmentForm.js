@@ -763,11 +763,12 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     // }
     axios2
       // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      // .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
-      .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      // .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id)
       .then((response) => {
         const services = response.data.data;
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
+        console.log('ms load', ms)
         ms = ms.map(s => {
 
           if (Array.isArray(s.attributes["Locations"])) {
@@ -816,6 +817,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           return s;
         });
         cs = cs.filter(s => !s.attributes["disabled"]);
+        console.log('msss', ms)
         if (!data.services) {
           setMedicalServices(ms);
           setCliniqueServices(cs);
@@ -826,7 +828,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           const usedIdCliniqueServices = cliniqueServicesData.map((ud) => ud.id)
           ms = ms.filter(s => usedIdMedicalServices.indexOf(s.id) == -1);
           cs = cs.filter(s => usedIdCliniqueServices.indexOf(s.id) == -1);
-
           setMedicalServices(ms);
           setCliniqueServices(cs);
         }
@@ -857,8 +858,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const loadBundleServices = () => {
     axios2
       // .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      // .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id)
-      .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id)
+      .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id)
+      // .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id)
       .then((response) => {
         if (!data.bundle_services) {
           let ms = response.data.data;
@@ -1080,7 +1081,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     let circuit = 0, temperature = 0, respiratory_rate = 0, spo2 = 0;
     try {
       circuit = parseInt(formData.circuit);
-      temperature = parseInt(formData.temperature);
+      temperature = parseFloat(formData.temperature);
       respiratory_rate = parseInt(formData.respiratory_rate);
       spo2 = parseInt(formData.spo2);
     } catch {

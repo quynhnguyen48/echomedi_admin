@@ -364,7 +364,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           )}
         />}
         {!updateBooking && <button type="button" onClick={() => setValue("user", null, { shouldDirty: true, shouldValidate: true })}>Bỏ chọn bệnh nhân có sẵn</button>}
-        <div className="grid grid-cols-2 gap-6 my-4">
+        <div className="grid grid-cols-2 sm:grid-cols-1 gap-6 my-4">
           <Controller
             name="bookingDate"
             control={control}
@@ -399,7 +399,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
             )}
           />
         </div>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-1 gap-6">
           {/* {data && (
             <Controller
               name="code"
@@ -480,7 +480,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           /> */}
           <div className="space-y-2">
             <label className="font-16 font-bold">Giới tính</label>
-            <div className="grid grid-cols-2 gap-x-6">
+            <div className="grid grid-cols-2 sm:grid-cols-1 gap-x-6">
               <Controller
                 name="gender"
                 control={control}
@@ -531,7 +531,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
         <div>
           <div className="w-full">
             <label className="font-16 font-bold">Trạng thái</label>
-            <div className="grid grid-cols-4 gap-x-6 gap-y-2">
+            <div className="grid grid-cols-4 sm:grid-cols-1 gap-x-6 gap-y-2">
               <Controller
                 name="status"
                 control={control}
@@ -567,7 +567,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-x-6">
+        <div className="grid grid-cols-3 sm:grid-cols-1 gap-x-6">
           <div className="w-full">
             <Controller
               name="address.province"
@@ -782,7 +782,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
       </div>
 
       <div className="flex gap-x-4 mt-10">
-        {!data.medical_record && <Button className="fill-primary" type="submit" loading={loading}>
+        {<Button className="fill-primary" type="submit" loading={loading}>
           Lưu
         </Button>}
         <Button

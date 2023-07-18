@@ -110,6 +110,13 @@ const CustomersTable = ({
       //   width: 110,
       // },
       {
+        Header: "Ngày được tạo",
+        accessor: (originalRow) => originalRow?.createdAt && <span>{formatDate(originalRow?.createdAt, "DD MMMM, YYYY")}</span>,
+
+        collapse: true,
+        width: 80,
+      },
+      {
         Header: "Tên",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
@@ -135,7 +142,7 @@ const CustomersTable = ({
         Header: "Năm sinh",
         collapse: true,
         width: 80,
-        accessor: (originalRow) => <span>{dayjs(originalRow.birthday).year()} ({2023-dayjs(originalRow.birthday).year()})</span>,
+        accessor: (originalRow) => originalRow?.birthday && <span>{formatDate(originalRow?.birthday, "DD MMMM, YYYY")} ({2023-dayjs(originalRow.birthday).year()})</span>,
       },
       {
         Header: "Số điện thoại",

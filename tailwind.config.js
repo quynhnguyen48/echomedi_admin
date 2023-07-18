@@ -56,7 +56,7 @@ module.exports = {
     maxHeight: {
       sidebarHeight: "calc(100vh - 8.375rem)",
       content: "calc(100vh - 100px)",
-      tableBody: "calc(100vh - 130px)",
+      tableBody: "calc(100vh - 150px)",
       mainContent: "calc(100vh - 154px)",
       settingContent: "calc(100vh - 180px)",
       full: "100%",
