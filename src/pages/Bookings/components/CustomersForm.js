@@ -146,11 +146,11 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
     //   otherwise: yup.date().notRequired(),
     // }),
     // birthday: yup.date().notRequired(),
-    gender: yup.string().when([], {
-      is: () => !getValues("user"),
-      then: yup.string().required(),
-      otherwise: yup.string().notRequired(),
-    }),
+    // gender: yup.string().when([], {
+    //   is: () => !getValues("user"),
+    //   then: yup.string().required(),
+    //   otherwise: yup.string().notRequired(),
+    // }),
     status: yup.string().when([], {
       is: () => !getValues("user"),
       then: yup.string().required(),
