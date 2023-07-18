@@ -71,10 +71,13 @@ const translate = (t) => {
         {Array.isArray(bookings) &&
           bookings?.map((booking) => (
             <div key={booking?.id} className="bg-primary/10 p-4 rounded-xl">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-primary">{dayjs(booking?.bookingDate).format("DD MMMM, YYYY [|] HH:mm")}</span>
                 <Tag name={translate(booking?.status)} className="bg-purple !rounded-lg" />
+
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-primary">Lịch hẹn: {dayjs(booking?.bookingDate).format("DD MMMM, YYYY [|] HH:mm")}</span>
               </div>
+              <span className="text-sm text-primary">Tạo lúc: {dayjs(booking?.createdAt).format("DD MMMM, YYYY [|] HH:mm")}</span>
+
               {/* <p className="text-14 text-secondary/[56]">
                 {dayjs(booking?.createdAt).format("DD MMMM, YYYY [|] HH:mm")}
               </p> */}
