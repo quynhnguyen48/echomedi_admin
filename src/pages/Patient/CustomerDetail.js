@@ -120,7 +120,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           </Button>
         </div>}
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-1 grid-flow-row gap-y-8 mt-4">
+      <div className="grid grid-cols-3 sm:grid-cols-1 grid-flow-row gap-y-8 mt-4">
         <DataItem icon="user" title="Tên" value={`${data?.full_name}`} />
         <DataItem icon="message" title="Email" value={data?.email} />
         <DataItem icon="man" title="Giới tính" value={data?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />
@@ -141,7 +141,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               : "-"
           }
         />
-        <div className="my-4 mb-4">
+        <div className="my-4 mb-4 col-span-3">
           <div className="flex flex-row align-center">
             <span className="font-bold mr-4 mt-1">Các mối quan hệ:</span>
             {currentUser?.role?.type != "doctor" && 

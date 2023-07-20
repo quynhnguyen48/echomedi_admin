@@ -52,7 +52,7 @@ const Sidebar = () => {
   }, [roleData])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (currentUser?.role) {
         const res = await getRoleById(currentUser?.role.id)
         if (res?.data) {
@@ -75,7 +75,7 @@ const Sidebar = () => {
 
   const hideSidebar = () => {
     if (isMobile)
-    setDisplayNone(true);
+      setDisplayNone(true);
   }
 
   const logout = () => {
@@ -88,40 +88,42 @@ const Sidebar = () => {
       {isMobile && <button className="fixed top-0 right-0 bg-white w-8 h-8" onClick={e => setDisplayNone(!displayNone)}>
         <img src={"/icons/icons8-menu-rounded-24.png"} />
       </button>
-}
-    <div className={`sm:w-full w-sidebarWidth ${displayNone ? 'hidden' : 'block'}`}>
-      <img src="/images/logo_.png" alt="logo" className="m-auto p-5" />
-      {
-        currentUser && isMobile && 
-        <div className="grid grid-cols-1 items-center gap-x-2 justify-center">
-          <div className="m-auto">
-
-            <div className="dropdown inline-block relative">
-              <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-                <span className="mr-1">{getBranchDisplayLabel()}</span>
-                <svg className="fill-current h-4 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /> </svg>
-              </button>
-              <ul className="dropdown-menu absolute hidden text-gray-700 py-2 bg-gray z-50">
-                <li className="" onClick={() => changeBranch("q7")}><button onClick={() => changeBranch("q7")} className="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh quận 7</button></li>
-                <li className="" onClick={() => changeBranch("q2")}><button className="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh quận 2</button></li>
-                <li className="" onClick={() => changeBranch("binhduong")}><button className="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh Bình Dương</button></li>
-              </ul>
-            </div>
-
-          </div>
-          <Button shape="circle" className="m-auto bg-transparent w-[200px] text-[green]" onClick={() => navigate("/settings")}>
-          <pre>{" " + currentUser?.patient?.full_name + " (" + currentUser?.role.type + ")  "}</pre>
-          </Button>
-          <Button shape="circle" className="m-auto bg-transparent" onClick={() => logout()}>
-            <Icon name="logout-circle" />
-          </Button>
-        </div>
       }
-      <div className="max-h-sidebarHeight overflow-scroll space-y-6">
-        {Array.isArray(accessSidebarItems) &&
-          accessSidebarItems?.map((item) => <SidebarItem key={item.name} item={item} hideSidebar={hideSidebar}/>)}
+      <div className={`sm:w-full w-sidebarWidth ${displayNone ? 'hidden' : 'block'}`}>
+        <img src="/images/logo_.png" alt="logo" className="m-auto pr-10" />
+        {
+          currentUser && isMobile &&
+          <div className="grid grid-cols-1 items-center gap-x-2 justify-center">
+            <div className="m-auto">
+
+              <div className="dropdown inline-block relative">
+                <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
+                  <span className="mr-1">{getBranchDisplayLabel()}</span>
+                  <svg className="fill-current h-4 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /> </svg>
+                </button>
+                <ul className="dropdown-menu absolute hidden text-gray-700 py-2 bg-gray z-50">
+                  <li className="" onClick={() => changeBranch("q7")}><button onClick={() => changeBranch("q7")} className="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh quận 7</button></li>
+                  <li className="" onClick={() => changeBranch("q2")}><button className="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh quận 2</button></li>
+                  <li className="" onClick={() => changeBranch("binhduong")}><button className="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh Bình Dương</button></li>
+                </ul>
+              </div>
+
+            </div>
+            <div className="flex">
+            <Button shape="circle" className="m-auto bg-transparent w-[200px] text-[green]" onClick={() => navigate("/settings")}>
+              <pre>{" " + currentUser?.patient?.full_name + " (" + currentUser?.role.type + ")  "}</pre>
+            </Button>
+            <Button shape="circle" className="m-auto bg-transparent" onClick={() => logout()}>
+              <Icon name="logout-circle" />
+            </Button>
+            </div>
+          </div>
+        }
+        <div className="max-h-sidebarHeight overflow-scroll space-y-6">
+          {Array.isArray(accessSidebarItems) &&
+            accessSidebarItems?.map((item) => <SidebarItem key={item.name} item={item} hideSidebar={hideSidebar} />)}
+        </div>
       </div>
-    </div>
     </div>
   )
 }

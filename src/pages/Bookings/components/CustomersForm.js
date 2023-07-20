@@ -322,8 +322,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
         await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient })
       }
 
-      onCloseModal()
-      window.location.reload();
+      window.location.href = "/bookings";
     } catch (error) {
       toast.error(getErrorMessage(error))
     } finally {

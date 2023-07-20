@@ -155,7 +155,7 @@ const Treatments = () => {
     <Page
       title="Danh sách khách hàng"
     >
-      <div className="w-full flex items-center gap-x-9">
+      <div className="w-full grid grid-cols-2 sm:grid-cols-1 items-center gap-x-9">
 
         <SearchInput
           placeholder="Tìm khách hàng bằng ID / Tên / Email / SDT"
@@ -168,6 +168,7 @@ const Treatments = () => {
         {currentUser?.role?.type != "doctor"
           && currentUser?.role?.type != "nurse"
           && <Button
+            className={"w-52 sm:m-auto mt-4"}
             onClick={() => {
               navigate("/patient/create");
             }}

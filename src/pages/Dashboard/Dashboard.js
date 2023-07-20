@@ -13,27 +13,45 @@ import CustomerAnalytics from "./CustomerAnalytics";
 import LatestBookings from "./LatestBookings";
 import TreatementAnalytics from "./TreatementAnalytics";
 import axios from "axios";
+import { getListConversationQueues } from "services/api/conversationQueue"
 
 const Dashboard = () => {
 	const [dashboardData, setDashboardData] = useState([]);
+	const [conversationQueueCnt, setConversationQueueCnt] = useState(0);
 
 	useEffect(() => {
 		(async () => {
 			try {
+				console.log('load')
 				const allResponses = await Promise.all([
 					countNewBookings(),
 					countNewOrders(),
-					getTotalRevenue(),
+					// getTotalRevenue(),
+					// countNewConversationQueues(),
 				]);
 				setDashboardData(allResponses?.map((response) => response.data));
-			} catch (error) {}
+				console.log('load')
+				const res = await getListConversationQueues(
+					{
+						pageSize: 10,
+						page: 0 + 1,
+					},
+					{},
+					"preview"
+				)
+				console.log('resss', res)
+				if (res.data) {
+					setConversationQueueCnt(res?.data?.meta?.pagination?.total);
+				}
+
+			} catch (error) { }
 		})();
 	}, []);
 
 	return (
 		<Page title="Bảng thông tin" rightContent={<LatestBookings />}>
 			<div className="bg-form rounded-t-2xl">
-				<div className="grid grid-cols-3 sm:block grid-flow-col gap-x-4">
+				<div className="grid grid-cols-4 sm:block grid-flow-col gap-x-4">
 					<div className="rounded-xl shadow-sm p-4">
 						<AnalysItem
 							iconName="calendar-tick"
@@ -42,6 +60,13 @@ const Dashboard = () => {
 						/>
 					</div>
 					<div className="rounded-xl shadow-sm p-4">
+						<AnalysItem
+							iconName="calendar-tick"
+							title="Yêu cầu hội thoại mới"
+							value={conversationQueueCnt || 0}
+						/>
+					</div>
+					{/* <div className="rounded-xl shadow-sm p-4">
 						<AnalysItem iconName="box-tick" title="Đơn hàng mới" value={dashboardData?.[1] || 0} />
 					</div>
 					<div className="rounded-xl shadow-sm p-4">
@@ -51,20 +76,12 @@ const Dashboard = () => {
 							value={`${abbreviateNumber(dashboardData?.[2]?.[0]?.total || 0)}`}
 							valueClassName="text-pink"
 						/>
-					</div>
+					</div> */}
 				</div>
 				<CustomerAnalytics />
 				<div className="mt-4 flex items-start space-x-4 sm:block">
-					<CheckinAnalytics/>
+					<CheckinAnalytics />
 					<TreatementAnalytics className="w-fit" />
-					<button onClick={e => {
-						// curl --request POST --url 'https://api.github.com/repos/quynhnguyen48/em_web/dispatches' --header 'authorization: Bearer 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' --data '{"event_type": "hello"}'
-						axios.post("https://api.github.com/repos/quynhnguyen48/em_web/dispatches", {event_type: "hello"}, {headers: {
-							"Authorization" : "Bearer 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",
-						}}).then(response => {
-							alert("Đang build vui lòng đợi 3-5 phút")
-						})
-					}}>Build</button>
 				</div>
 			</div>
 		</Page>
