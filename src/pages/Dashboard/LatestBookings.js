@@ -24,7 +24,7 @@ const LatestBookings = () => {
           },
           {
             status: BOOKING_STATUS.ON_SCHEDULED,
-            branch: localStorage.getItem(BRANCH),
+            branch: [localStorage.getItem(BRANCH), "all"],
           }
         );
         if (res.data) {
