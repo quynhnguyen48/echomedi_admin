@@ -9,7 +9,6 @@ import store, { persistor } from "state/store";
 import "styles/index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { initializeFirebase } from './push-notification';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -17,7 +17,7 @@ export const initializeFirebase = async () => {
     const tokenApp = localStorage.getItem(JWT_TOKEN);
 
     // fetch('http://localhost:1337/api/user/updateMe', {
-    fetch('https://api.echomedi.com/api/user/updateMe', {
+    fetch(process.env.REACT_APP_API_URL + '/api/user/updateMe', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -30,6 +30,7 @@ export const initializeFirebase = async () => {
         .then(response => console.log(JSON.stringify(response)))
 
     onMessage(messaging, (payload) => {
+        console.log('onMessage')
         const notificationTitle = payload.notification.title;
         const notificationOptions = {
             body: payload.notification.body,
@@ -41,11 +42,10 @@ export const initializeFirebase = async () => {
         }
         // Let's check whether notification permissions have already been granted
         else if (Notification.permission === "granted") {
-            // If it's okay let's create a notification
             var notification = new Notification(notificationTitle, notificationOptions);
             notification.onclick = function (event) {
                 event.preventDefault(); // prevent the browser from focusing the Notification's tab
-                window.open(payload.notification.click_action, '_blank');
+                window.open('https://admin.echomedi.com/bookings');
                 notification.close();
             }
         }
