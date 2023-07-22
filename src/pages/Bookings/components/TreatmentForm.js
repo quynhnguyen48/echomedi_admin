@@ -124,8 +124,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [height, setHeight] = useState(data.height)
   const [weight, setWeight] = useState(data.weight)
   const [bmi, setBMI] = useState(data.bmi)
-  const [bp1, setBP1] = useState(data.blood_pressure)
-  const [bp2, setBP2] = useState(data.blood_pressure2)
+  const [bp1, setBP1] = useState(data.blood_pressure ?? '')
+  const [bp2, setBP2] = useState(data.blood_pressure2 ?? '')
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
   const [visibleAdditionalPrescriptionModal, setVisibleAdditionalPrescriptionModal] = useState(false);
   const [visibleTestResultModal, setVisibleTestResultModal] = useState(false)
@@ -470,14 +470,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      circuit: data?.circuit || 0,
-      temperature: data?.temperature || 0,
-      blood_pressure: data?.blood_pressure || 0,
-      respiratory_rate: data?.respiratory_rate || 0,
+      circuit: data?.circuit || "",
+      temperature: data?.temperature || "",
+      blood_pressure: data?.blood_pressure || "",
+      blood_pressure2: data?.blood_pressure2 || "",
+      respiratory_rate: data?.respiratory_rate || "",
       height: data?.height || "",
       weight: data?.weight || "",
       bmi: data?.bmi || "",
-      spo2: data?.spo2 || 0,
+      spo2: data?.spo2 || "",
       results: data?.results,
       phone: data?.patient?.phone || "",
       email: data?.patient?.email || "",
@@ -1078,12 +1079,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       })
   }
   const onSubmit = async (formData) => {
-    let circuit = 0, temperature = 0, respiratory_rate = 0, spo2 = 0;
+    let circuit = 0, temperature = 0, respiratory_rate = 0, spo2 = 0, blood_pressure = 0, blood_pressure2 = 0;
     try {
       circuit = parseInt(formData.circuit);
       temperature = parseFloat(formData.temperature);
       respiratory_rate = parseInt(formData.respiratory_rate);
       spo2 = parseInt(formData.spo2);
+      blood_pressure = parseInt(formData.blood_pressure);
+      blood_pressure2 = parseInt(formData.blood_pressure2);
     } catch {
 
     }
@@ -1106,8 +1109,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         temperature,
         respiratory_rate,
         spo2,
-        blood_pressure: bp1,
-        blood_pressure2: bp2,
+        blood_pressure,
+        blood_pressure2,
         weight,
         height,
         bmi,
@@ -1808,7 +1811,26 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           Huyết áp(mmHg)
                         </p>
                         <div className="flex">
+                        <Controller
+                        name="blood_pressure"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
                           <Input
+                            disabled={readonly}
+                            onChange={onChange}
+                            value={value}
+                            name="blood_pressure"
+                            label="Mạch(lần/phút)"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (value == 0) {
+                                setValue("blood_pressure", "");
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                          {/* <Input
                             disabled={readonly}
                             onChange={(e) => setBP1(e.target.value)}
                             value={bp1}
@@ -1819,9 +1841,28 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                 setBP1("");
                               }
                             }}
-                          />
+                          /> */}
                           <span className="m-auto">/</span>
+                          <Controller
+                        name="blood_pressure2"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
                           <Input
+                            disabled={readonly}
+                            onChange={onChange}
+                            value={value}
+                            name="blood_pressure2"
+                            label="Mạch(lần/phút)"
+                            placeholder={""}
+                            onFocus={() => {
+                              if (value == 0) {
+                                setValue("blood_pressure2", "");
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                          {/* <Input
                             disabled={readonly}
                             onChange={(e) => setBP2(e.target.value)}
                             value={bp2}
@@ -1832,7 +1873,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                 setBP2("");
                               }
                             }}
-                          />
+                          /> */}
                         </div>
                       </div>
                       {/* )} */}
