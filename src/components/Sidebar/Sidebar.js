@@ -90,7 +90,7 @@ const Sidebar = () => {
       </button>
       }
       <div className={`sm:w-full w-sidebarWidth ${displayNone ? 'hidden' : 'block'}`}>
-        <img src="/images/logo_.png" alt="logo" className="m-auto pr-10" />
+        <img src="/images/logo_.png" alt="logo" className="m-auto p-2" />
         {
           currentUser && isMobile &&
           <div className="grid grid-cols-1 items-center gap-x-2 justify-center">

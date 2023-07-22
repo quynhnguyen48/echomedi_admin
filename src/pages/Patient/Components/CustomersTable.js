@@ -110,9 +110,8 @@ const CustomersTable = ({
       //   width: 110,
       // },
       {
-        Header: "Ngày được tạo",
-        accessor: (originalRow) => originalRow?.createdAt && <span>{formatDate(originalRow?.createdAt, "DD MMMM, YYYY")}</span>,
-
+        Header: "Ngày tạo",
+        accessor: (originalRow) => originalRow?.createdAt && <div><p>{formatDate(originalRow?.createdAt, "DD MMMM")}</p><p>{formatDate(originalRow?.createdAt, "YYYY")}</p></div>,
         collapse: true,
         width: 80,
       },
@@ -156,14 +155,14 @@ const CustomersTable = ({
         collapse: true,
         width: 150,
       },
-      {
-        Header: "Lần khám gần nhất",
-        align: "right",
-        hidden: isModal,
-        // accessor: (originalRow) => <span className="capitalize">{formatDate(originalRow.booking.bookingDate)}</span>,
-        collapse: true,
-        width: 120,
-      },
+      // {
+      //   Header: "Lần khám gần nhất",
+      //   align: "right",
+      //   hidden: isModal,
+      //   // accessor: (originalRow) => <span className="capitalize">{formatDate(originalRow.booking.bookingDate)}</span>,
+      //   collapse: true,
+      //   width: 120,
+      // },
     ]
   }, [activeRow, isModal])
 
