@@ -51,7 +51,7 @@ const Dashboard = () => {
 	return (
 		<Page title="Bảng thông tin" rightContent={<LatestBookings />}>
 			<div className="bg-form rounded-t-2xl">
-				<div className="grid grid-cols-4 sm:block grid-flow-col gap-x-4">
+				<div className="grid grid-cols-2 sm:block grid-flow-col gap-x-4">
 					<div className="rounded-xl shadow-sm p-4">
 						<AnalysItem
 							iconName="calendar-tick"
