@@ -1820,7 +1820,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             onChange={onChange}
                             value={value}
                             name="blood_pressure"
-                            label="Mạch(lần/phút)"
                             placeholder={""}
                             onFocus={() => {
                               if (value == 0) {
@@ -1852,7 +1851,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             onChange={onChange}
                             value={value}
                             name="blood_pressure2"
-                            label="Mạch(lần/phút)"
                             placeholder={""}
                             onFocus={() => {
                               if (value == 0) {
