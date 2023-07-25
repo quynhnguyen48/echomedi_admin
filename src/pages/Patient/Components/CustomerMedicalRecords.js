@@ -44,6 +44,18 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
     })()
   }, [cardIds?.length, fetchData, openDrawer, userId])
 
+  console.log('transactions', transactions)
+
+  function parseJson(str) {
+    try {
+      let items = JSON.parse(str);
+      return items.map(i => i.value).join("\n");
+    } catch (e) {
+        return str;
+    }
+  }
+  
+
   return (
     <div className="mt-8 space-y-4">
       <p>Lịch sử bệnh án</p>
@@ -56,6 +68,12 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
             <p className="text-14 text-secondary/[56]">
               {dayjs(transaction?.booking?.data?.attributes?.bookingDate).format("DD MMMM, YYYY [|] HH:mm")}
             </p>
+            <p>
+              {"Lý do khám: " + parseJson(transaction.reasons_to_get_hospitalized)}
+            </p>
+            {/* <p className="text-14 text-secondary/[56]">
+              {transaction?.booking?.data?.attributes?.bookingDate}
+            </p> */}
             <div className="flex justify-between mt-4 w-25">
               <button
                 className="flex w-22 justify-between"
