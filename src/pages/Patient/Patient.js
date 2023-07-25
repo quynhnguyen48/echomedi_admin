@@ -113,7 +113,8 @@ const Treatments = () => {
         filters,
         [
           "relationships",
-          "relationships.patient"
+          "relationships.patient",
+          "membership_profile_file"
         ]
       )
       if (res.data) {

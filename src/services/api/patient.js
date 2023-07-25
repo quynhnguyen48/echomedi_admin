@@ -12,6 +12,7 @@ export const getListPatients = (pagination, filters, populate) => {
       ...filters,
     },
     populate: populate || [
+      "membership_profile_file"
       // "role",
       // "transactions",
       // "bookings",

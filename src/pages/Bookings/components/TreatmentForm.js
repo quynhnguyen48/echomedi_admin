@@ -559,8 +559,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     if (data.doctor_in_charge) {
       setDoctorInCharge({
-        value: data.doctor_in_charge.id,
-        label: data.doctor_in_charge.data?.attributes?.firstName + " " + data.doctor_in_charge.data?.attributes?.lastName,
+        value: data.doctor_in_charge.data?.id,
+        label: data.doctor_in_charge.data?.attributes?.email,
       })
     }
 
@@ -590,8 +590,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   useEffect(() => {
-
-  }, [])
+    loadMedicalServices2();
+    loadBundleServices();
+  }, [selectedMembership])
 
   const handleAssetsSelected = (assets) => {
     switch (imageType) {
@@ -739,21 +740,30 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const loadDoctors = () => {
-    getListUsersByRole("admin")
-      .then((res) => {
-        if (res.data) {
-          setCustomersData(
-            res.data?.map((customer) => ({
-              value: customer?.id,
-              label: `${customer?.firstName} ${customer?.lastName}`,
-            }))
-          )
-        }
-        setLoadingCustomers(false)
-      })
-      .catch(() => {
-        setLoadingCustomers(false)
-      })
+    // getListUsersByRole(["patient"], "doctor")
+    //   .then((res) => {
+    //     if (res.data) {
+    //       setCustomersData(
+    //         res.data?.map((customer) => ({
+    //           value: customer?.id,
+    //           label: `${customer?.patient?.full_name}`,
+    //         }))
+    //       )
+    //     }
+    //     setLoadingCustomers(false)
+    //   })
+    //   .catch(() => {
+    //     setLoadingCustomers(false)
+    //   })
+
+    if (currentUser?.role?.type == "doctor") {
+      setCustomersData([{
+                      value: currentUser?.id,
+              label: `${currentUser?.patient?.full_name}`,
+      }]);
+    } else {
+      setCustomersData([]);
+    }
   }
 
   const loadMedicalServices2 = () => {
@@ -764,12 +774,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     // }
     axios2
       // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
       // .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id)
       .then((response) => {
         const services = response.data.data;
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
-        console.log('ms load', ms)
         ms = ms.map(s => {
 
           if (Array.isArray(s.attributes["Locations"])) {
@@ -786,13 +795,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           }
 
           if (s.attributes["membership_discount"]) {
-            if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_percentage) {
+            if ((data.patient.membership == "gold" || selectedMembership?.value == "gold") && s.attributes["membership_discount"].gold_percentage) {
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_note"] = "Thành viên vàng";
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
             }
-            if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
+            if ((data.patient.membership == "gold" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
               s.attributes["discount_note"] = "Thành viên bạch kim";
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
@@ -815,10 +824,23 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               }
             })
           }
+          if (s.attributes["membership_discount"]) {
+            if ((data.patient.membership == "gold" || selectedMembership?.value == "gold") && s.attributes["membership_discount"].gold_percentage) {
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_note"] = "Thành viên vàng";
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
+            }
+            if ((data.patient.membership == "gold" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
+              s.attributes["discount_note"] = "Thành viên bạch kim";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+            }
+          }
           return s;
         });
         cs = cs.filter(s => !s.attributes["disabled"]);
-        console.log('msss', ms)
         if (!data.services) {
           setMedicalServices(ms);
           setCliniqueServices(cs);
@@ -858,9 +880,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const loadBundleServices = () => {
     axios2
-      // .get("https://api.echomedi.com/api/service-bundles?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id)
-      // .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id)
+      .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         if (!data.bundle_services) {
           let ms = response.data.data;
@@ -875,12 +895,12 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             }
 
             if (s.attributes["membership_discount"] && !s.attributes["membership_gold"]) {
-              if (data.patient.membership == "gold" && s.attributes["membership_discount"].gold_percentage) {
+              if ((selectedMembership?.value == "gold" || data.patient.membership == "gold") && s.attributes["membership_discount"].gold_percentage) {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_note"] = "Thành viên vàng";
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
-              } else if (data.patient.membership == "platinum" && s.attributes["membership_discount"].platinum_percentage) {
+              } else if ((selectedMembership?.value == "platinum" || data.patient.membership == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
                 s.attributes["discount_note"] = "Thành viên bạch kim";
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
@@ -1535,24 +1555,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">3. Trạng thái</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full">
-                  <Controller
-                    name="doctor_in_charge"
-                    control={control}
-                    render={({ field: { value, ref } }) => (
-                      <Select
-                        // isDisabled={true}
-                        placeholder="Bác sĩ phụ trách"
-                        label="Bác sĩ phụ trách"
-                        name="doctor_in_charge"
-                        onChange={(e) => {
-                          setDoctorInCharge(e)
-                        }}
-                        value={doctorInCharge}
-                        options={customersData}
-                        errors={errors?.address?.province?.message}
-                      />
-                    )}
-                  />
+                  
                   <div className="grid sm:grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 py-4">
                     <Controller
                       name="status"
@@ -1616,24 +1619,18 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         total = total + e.price;
                         setTotal(total);
                         setSelectedMembership(e);
+                        loadMedicalServices2();
                       }}
                       value={selectedMembership}
                       options={membershipPackage}
                       errors={errors?.address?.ward?.message}
                     />
-                    {/* )}
-              /> */}
                   </div>}
                   {!readonly && !data.patient.membership && (
                     <div className="grid grid-cols-1 gap-6 py-4">
                       <div>
                         <p className="inline-block text-16 font-bold mb-2">Gói thành viên</p>
-                        {/* <SearchInput
-                  placeholder="Nhập tên gói cần tìm"
-                  className="flex-1 mb-2"
-                  value={filterBundleService}
-                  onChange={handleSearchBundleService}
-                /> */}
+                        
                         <div
                           style={{
                             maxHeight: "300px",
@@ -1702,8 +1699,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   icon={<Icon name="add-circle" className="fill-white" />}
                                   onClick={() => addCliniqueService(m)}
                                 >
-                                  {m.attributes.label}
-                                  <span>{numberWithCommas(m.attributes.price)}</span>
+                                  {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
+                                    <span>{numberWithCommas(m.attributes?.price)}</span>
+                                    <span>{m.attributes.discount_note}</span>
                                 </Button>
                               </div>
                             ))}
@@ -1739,8 +1737,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   icon={<Icon name="close-circle" className="fill-white" />}
                                   onClick={() => removeCliniqueService(m)}
                                 >
-                                  {m.attributes.label}
-                                  <span>{numberWithCommas(m.attributes.price)}</span>
+                                  {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
+                                    <span>{numberWithCommas(m.attributes?.price)}</span>
+                                    <span>{m.attributes.discount_note}</span>
                                 </Button>
                               </div>
                             ))}
@@ -1802,80 +1801,98 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           />
                         )}
                       />
-                      {/* <Controller
-              name="blood_pressure"
-              control={control}
-              render={({ field: { onChange, value } }) => ( */}
                       <div className="">
                         <p style={{ marginBottom: "10px" }} className="font-bold">
                           Huyết áp(mmHg)
                         </p>
                         <div className="flex">
-                        <Controller
-                        name="blood_pressure"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Input
-                            disabled={readonly}
-                            onChange={onChange}
-                            value={value}
+                          <Controller
                             name="blood_pressure"
-                            placeholder={""}
-                            onFocus={() => {
-                              if (value == 0) {
-                                setValue("blood_pressure", "");
-                              }
-                            }}
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <Input
+                                disabled={readonly}
+                                onChange={onChange}
+                                value={value}
+                                name="blood_pressure"
+                                placeholder={""}
+                                onFocus={() => {
+                                  if (value == 0) {
+                                    setValue("blood_pressure", "");
+                                  }
+                                }}
+                              />
+                            )}
                           />
-                        )}
-                      />
-                          {/* <Input
-                            disabled={readonly}
-                            onChange={(e) => setBP1(e.target.value)}
-                            value={bp1}
-                            name="blood_pressure"
-                            placeholder={""}
-                            onFocus={() => {
-                              if (bp1 == 0) {
-                                setBP1("");
-                              }
-                            }}
-                          /> */}
+                          
                           <span className="m-auto">/</span>
                           <Controller
-                        name="blood_pressure2"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Input
-                            disabled={readonly}
-                            onChange={onChange}
-                            value={value}
                             name="blood_pressure2"
-                            placeholder={""}
-                            onFocus={() => {
-                              if (value == 0) {
-                                setValue("blood_pressure2", "");
-                              }
-                            }}
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <Input
+                                disabled={readonly}
+                                onChange={onChange}
+                                value={value}
+                                name="blood_pressure2"
+                                placeholder={""}
+                                onFocus={() => {
+                                  if (value == 0) {
+                                    setValue("blood_pressure2", "");
+                                  }
+                                }}
+                              />
+                            )}
                           />
-                        )}
-                      />
-                          {/* <Input
-                            disabled={readonly}
-                            onChange={(e) => setBP2(e.target.value)}
-                            value={bp2}
-                            name="blood_pressure"
-                            placeholder={""}
-                            onFocus={() => {
-                              if (bp2 == 0) {
-                                setBP2("");
-                              }
-                            }}
-                          /> */}
+                          
                         </div>
                       </div>
-                      {/* )} */}
-                      {/* /> */}
+                      <div className="">
+                        <p style={{ marginBottom: "10px" }} className="font-bold">
+                          Huyết áp(mmHg) lần 2
+                        </p>
+                        <div className="flex">
+                          <Controller
+                            name="blood_pressure"
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <Input
+                                disabled={readonly}
+                                onChange={onChange}
+                                value={value}
+                                name="blood_pressure"
+                                placeholder={""}
+                                onFocus={() => {
+                                  if (value == 0) {
+                                    setValue("blood_pressure", "");
+                                  }
+                                }}
+                              />
+                            )}
+                          />
+                          
+                          <span className="m-auto">/</span>
+                          <Controller
+                            name="blood_pressure2"
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <Input
+                                disabled={readonly}
+                                onChange={onChange}
+                                value={value}
+                                name="blood_pressure2"
+                                placeholder={""}
+                                onFocus={() => {
+                                  if (value == 0) {
+                                    setValue("blood_pressure2", "");
+                                  }
+                                }}
+                              />
+                            )}
+                          />
+                          
+                        </div>
+                      </div>
                       <Controller
                         name="respiratory_rate"
                         control={control}
@@ -2230,8 +2247,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     icon={<Icon name="close-circle" className="fill-white" />}
                                     onClick={() => removeBundleMedicalService(m)}
                                   >
-                                    {m.attributes.label}
-                                    <span>{numberWithCommas(m.attributes.price)}</span>
+                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
+                                    <span>{numberWithCommas(m.attributes?.price)}</span>
                                     <span>{m.attributes.discount_note}</span>
                                   </Button>
                                   <Button
@@ -2325,8 +2342,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     icon={<Icon name="close-circle" className="fill-white" />}
                                     onClick={() => removeMedicalService(m)}
                                   >
-                                    {m.attributes.label}
-                                    <span>{numberWithCommas(m.attributes.price)}</span>
+                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
+                                    <span>{numberWithCommas(m.attributes?.price)}</span>
                                     <span>{m.attributes.discount_note}</span>
                                   </Button>
                                 </div>
@@ -2403,6 +2420,27 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>}
+              <div className="w-full">
+              <Controller
+                    name="doctor_in_charge"
+                    control={control}
+                    render={({ field: { value, ref } }) => (
+                      <Select
+                        // isDisabled={true}
+                        placeholder="Bác sĩ phụ trách"
+                        label="Bác sĩ phụ trách"
+                        name="doctor_in_charge"
+                        onChange={(e) => {
+                          console.log('eeeee', e)
+                          setDoctorInCharge(e)
+                        }}
+                        value={doctorInCharge}
+                        options={customersData}
+                        errors={errors?.address?.province?.message}
+                      />
+                    )}
+                  />
+                  </div>
           </div>
           <p className="text-xl font-semibold text-right">Tổng {numberWithCommas(total)}</p>
         </div>

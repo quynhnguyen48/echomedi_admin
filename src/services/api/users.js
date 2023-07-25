@@ -37,7 +37,7 @@ export const getListUsersByRole = (populate, role) => {
     filters: {
       role: {
         type: {
-          $eq: USER_ROLE.AUTHENTICATED,
+          $eq: role,
         },
       },
     },

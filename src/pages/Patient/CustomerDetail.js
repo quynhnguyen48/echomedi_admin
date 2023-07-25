@@ -85,6 +85,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
     }
   }, [data?.id])
 
+  console.log('data', data)
 
   return (
     <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll px-2`}>
@@ -120,7 +121,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           </Button>
         </div>}
       </div>
-      <div className="grid grid-cols-3 sm:grid-cols-1 grid-flow-row gap-y-8 mt-4">
+      <div className="grid grid-cols-3 sm:grid-cols-1 grid-flow-row gap-y-4 mt-4">
         <DataItem icon="user" title="Tên" value={`${data?.full_name}`} />
         <DataItem icon="message" title="Email" value={data?.email} />
         <DataItem icon="man" title="Giới tính" value={data?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />
@@ -131,6 +132,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         />
         <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
         <DataItem icon="call" title="Số điện thoại người thân" value={data?.relative_phone} />
+        <div className="col-span-3">
         <DataItem
           icon="location"
           title="Địa chỉ"
@@ -141,6 +143,16 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               : "-"
           }
         />
+        </div>
+        
+        
+        {data.start_date_membership && 
+        <DataItem
+          icon="cake"
+          title="Ngày bắt đầu membership"
+          value={dayjs(data?.start_date_membership).format("DD MMMM, YYYY")}
+        />}
+        {data.membership_profile_file.data && <a target="_blank" href={getStrapiMedia(data.membership_profile_file?.data?.attributes)}>Kế hoạch sức khoẻ</a>}
         <div className="my-4 mb-4 col-span-3">
           <div className="flex flex-row align-center">
             <span className="font-bold mr-4 mt-1">Các mối quan hệ:</span>

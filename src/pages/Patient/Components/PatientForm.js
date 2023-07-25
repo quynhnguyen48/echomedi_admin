@@ -30,16 +30,16 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [patientExist, setPatientExist] = useState(false);
 
   const validationSchema = yup.object({
-    phone: yup
-      .string()
-      .trim(),
-    address: yup.object({
-      province: yup.object().required("City is required").nullable(),
-      district: yup.object().required("District is required").nullable(),
-      ward: yup.object().required("Ward is required").nullable(),
-      address: yup.string().required("Address is required"),
-    }),
-    gender: yup.string().required("Gender is required"),
+    // phone: yup
+    //   .string()
+    //   .trim(),
+    // address: yup.object({
+    // province: yup.object().required("City is required").nullable(),
+    // district: yup.object().required("District is required").nullable(),
+    // ward: yup.object().required("Ward is required").nullable(),
+    // address: yup.string().required("Address is required"),
+    // }),
+    // gender: yup.string().required("Gender is required"),
   })
 
   const {
@@ -124,6 +124,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       if (data?.id) {
         await updatePatient(data?.id, { data: payload })
         toast.success("Customer updated successfully")
+        navigate(-1)
       } else {
         const password = randomPassword()
         const res = await createNewUser({ ...payload, password, tmpPassword: password })
@@ -131,14 +132,16 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           if (fromCheckIn) {
             onUpdateGuestUserCheckin(res.data.user)
           } else {
-            navigate(-1)
             toast.success("Customer updated successfully")
+            navigate(-1)
+
           }
         }
       }
     } catch (error) {
       toast.error(getErrorMessage(error))
     } finally {
+
       setLoading(false)
     }
   }
@@ -181,7 +184,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       }
     })
 
-    console.log('dataaa', data)
+  console.log('dataaa', data)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -457,7 +460,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               />
             )}
           />
-          <label className="font-bold">Hồ sơ sức khỏe</label>
+          <label className="font-bold">Kế hoạch sức khoẻ</label>
           {data.membership_profile_file.data && <div className="relative">
             <a href={getStrapiMedia(data.membership_profile_file?.data?.attributes)} target="_blank" rel="noreferrer">
               {data?.mime?.startsWith("image") ? (
