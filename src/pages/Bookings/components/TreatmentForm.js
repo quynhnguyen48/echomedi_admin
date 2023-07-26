@@ -831,7 +831,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
             }
-            if ((data.patient.membership == "gold" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
+            if ((data.patient.membership == "platinum" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
               s.attributes["discount_note"] = "Thành viên bạch kim";
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
