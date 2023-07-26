@@ -31,10 +31,10 @@ export const initializeFirebase = async () => {
 
     onMessage(messaging, (payload) => {
         console.log('onMessage')
-        const notificationTitle = payload.notification.title;
+        const notificationTitle = payload.data.title;
         const notificationOptions = {
-            body: payload.notification.body,
-            icon: payload.notification.icon,
+            body: payload.data.body,
+            icon: payload.data.icon,
         };
 
         if (!("Notification" in window)) {
