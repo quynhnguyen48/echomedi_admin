@@ -184,8 +184,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       }
     })
 
-  console.log('dataaa', data)
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">
