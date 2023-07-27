@@ -28,7 +28,7 @@ export const getMedicalRecords = (pagination, filters = {}) => {
   const query = qs.stringify({
     filters,
     populate,
-    publicationState: "preview",
+    publicationState: "live",
     pagination,
     sort: ["createdAt:DESC"],
   })
