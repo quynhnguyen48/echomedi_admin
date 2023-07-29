@@ -94,6 +94,8 @@ const CustomersTable = ({
     [activeRow?.id, onClickRow]
   )
 
+  console.log('data', data)
+
   const columns = useMemo(() => {
     const defaultColumns = [
       {
@@ -108,7 +110,7 @@ const CustomersTable = ({
           </span>
         ),
         collapse: true,
-        width: 100,
+        width: 50,
       },
       {
         Header: "Trạng thái",
@@ -158,7 +160,7 @@ const CustomersTable = ({
       {
         Header: "Giới tính",
         hidden: isModal,
-        accessor: (originalRow) => <span className="capitalize">{originalRow.gender}</span>,
+        accessor: (originalRow) => <span className="capitalize">{originalRow?.patient?.gender}</span>,
         collapse: true,
         width: 80,
       },
@@ -166,19 +168,13 @@ const CustomersTable = ({
         Header: "Năm sinh",
         collapse: true,
         width: 80,
-        accessor: (originalRow) => <span>{dayjs(originalRow.birthday).year()}</span>,
+        accessor: (originalRow) => originalRow?.patient?.birthday && <span>{formatDate(originalRow?.patient?.birthday, "DD MMMM, YYYY")} ({2023-dayjs(originalRow.birthday).year()})</span>,
       },
       {
         Header: "Số điện thoại",
         collapse: true,
-        width: 100,
-        accessor: (originalRow) => <span>{originalRow.phone}</span>,
-      },
-      {
-        Header: "Email",
-        accessor: "email",
-        collapse: true,
-        width: 150,
+        width: 80,
+        accessor: (originalRow) => <span>{originalRow?.patient?.phone}</span>,
       },
       {
         Header: "Thời gian",
