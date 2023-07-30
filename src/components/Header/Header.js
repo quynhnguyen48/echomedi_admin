@@ -70,7 +70,7 @@ const Header = ({ title, parentUrl }) => {
             </div>
 
           </div>
-          <Button shape="circle" className="bg-transparent w-[200px] text-[green]" onClick={() => navigate("/settings")}>
+          <Button shape="circle" className="bg-transparent w-[350px] text-[green]" onClick={() => navigate("/settings")}>
           {/* <Avatar
             size={40}
             round

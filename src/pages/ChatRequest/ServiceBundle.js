@@ -18,7 +18,6 @@ import { getErrorMessage } from "../../utils/error"
 import ImportExportHistory from "./components/ImportExportHistory"
 import ProductAnalytics from "./components/ProductAnalytics"
 import ProductsTable from "./components/ProductsTable"
-import ProductDetail from "./ProductDetail"
 import { io } from "socket.io-client";
 import axios from "../../services/axios";
 import { formatDate } from "utils/dateTime"

@@ -12,6 +12,6 @@ export const formatStrapiObj = (field) => {
 export const formatStrapiArr = (field) => {
   return (
     Array.isArray(field?.data) &&
-    field?.data?.map((obj) => formatStrapiObj(obj))
+    field?.data?.map((obj) => obj?.attributes ? formatStrapiObj(obj) : obj)
   );
 };

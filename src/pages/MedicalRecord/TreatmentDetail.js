@@ -148,7 +148,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       })
   }
 
-  console.log('data', data)
+  console.log('medicalServices', bundleServices)
 
 
   return (
@@ -216,7 +216,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       </div>
       <div className="mt-5">
         {bundleServices && bundleServices.length > 0 && <p className="underline text-xl font-bold">Gói dịch vụ:</p>}
-        {bundleServices &&
+        {bundleServices && Array.isArray(bundleServices) && 
           bundleServices.map((b) => (
             <div>
               <div className="flex flex-row justify-between	">
@@ -224,10 +224,10 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
                 <span>{numberWithCommas(b.attributes.price)}</span>
               </div>
               <table className="service w-full">
-              {b.attributes.medical_services?.data?.map((s) => (
+              {Array.isArray((b.attributes.medical_services.data || b.attributes.medical_services)) && (b.attributes.medical_services.data || b.attributes.medical_services)?.map((s) => (
                 // <p> - {s.attributes.label}</p>
                 <tr>
-            <th>- {s.attributes.label}</th>
+            <th>- {s?.attributes?.label || s?.label}</th>
             </tr>
               ))}
               </table>
@@ -303,7 +303,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           services={[
             ...(medicalServices || []),
             ...flatten(
-              bundleServices?.map((item) => item?.attributes?.medical_services?.data)
+              bundleServices?.map((item) => item?.attributes?.medical_services?.data ?? item?.attributes?.medical_services)
             ),
           ]}
           visibleModal={visibleTestResultModal}

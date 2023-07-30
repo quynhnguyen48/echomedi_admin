@@ -488,6 +488,26 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       gender: data?.patient?.gender || "",
       phone: data?.patient?.phone || "",
       status: data?.status || "",
+      noi_khoa: data?.noi_khoa || "Chưa ghi nhận",
+      ngoai_khoa: data?.ngoai_khoa || "Chưa ghi nhận",
+      san_khoa: data?.san_khoa || "Chưa ghi nhận",
+      tiem_chung: data?.tiem_chung || "Chưa ghi nhận",
+      di_ung: data?.di_ung || "Chưa ghi nhận",
+      thoi_quen: data?.thoi_quen || "Chưa ghi nhận",
+      nguy_co_khac: data?.nguy_co_khac || "Chưa ghi nhận",
+      van_de_khac: data?.van_de_khac || "Chưa ghi nhận",
+      tien_can_gia_dinh: data?.tien_can_gia_dinh || "Chưa ghi nhận",
+      tong_quat: data?.tong_quat || "Bệnh tỉnh, sinh hiệu ổn",
+      tim_mach: data?.tim_mach || "Tim đều",
+      ho_hap: data?.ho_hap || "Phổi trong",
+      tieu_hoa_tiet_nieu: data?.tieu_hoa_tiet_nieu || "Bụng mềm",
+      co_xuong_khop: data?.co_xuong_khop || "Chưa ghi nhận bất thường",
+      than_kinh: data?.than_kinh || "Chưa ghi nhận bất thường",
+      san_phu_khoa: data?.san_phu_khoa || "Chưa ghi nhận bất thường",
+      mat_tai_mui_hong: data?.mat_tai_mui_hong || "Chưa ghi nhận bất thường",
+      co_quan_khac: data?.co_quan_khac || "Chưa ghi nhận bất thường",
+      cac_thang_diem_can_danh_gia: data?.cac_thang_diem_can_danh_gia || "Chưa ghi nhận bất thường",
+      dinh_duong: data?.dinh_duong || "Chưa ghi nhận bất thường",
       reasons_to_get_hospitalized: isJson(data?.reasons_to_get_hospitalized) ? parseJson(data?.reasons_to_get_hospitalized) : data?.reasons_to_get_hospitalized,
       premise: isJson(data?.premise) ? parseJson(data?.premise) : data?.premise,
       past_medical_history: isJson(data?.past_medical_history) ? parseJson(data?.past_medical_history) : data?.past_medical_history,
@@ -758,8 +778,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     if (currentUser?.role?.type == "doctor") {
       setCustomersData([{
-                      value: currentUser?.id,
-              label: `${currentUser?.patient?.full_name}`,
+        value: currentUser?.id,
+        label: `${currentUser?.patient?.full_name}`,
       }]);
     } else {
       setCustomersData([]);
@@ -1555,7 +1575,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">3. Trạng thái</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full">
-                  
+
                   <div className="grid sm:grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 py-4">
                     <Controller
                       name="status"
@@ -1630,7 +1650,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     <div className="grid grid-cols-1 gap-6 py-4">
                       <div>
                         <p className="inline-block text-16 font-bold mb-2">Gói thành viên</p>
-                        
+
                         <div
                           style={{
                             maxHeight: "300px",
@@ -1700,8 +1720,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   onClick={() => addCliniqueService(m)}
                                 >
                                   {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
-                                    <span>{numberWithCommas(m.attributes?.price)}</span>
-                                    <span>{m.attributes.discount_note}</span>
+                                  <span>{numberWithCommas(m.attributes?.price)}</span>
+                                  <span>{m.attributes.discount_note}</span>
                                 </Button>
                               </div>
                             ))}
@@ -1738,8 +1758,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   onClick={() => removeCliniqueService(m)}
                                 >
                                   {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
-                                    <span>{numberWithCommas(m.attributes?.price)}</span>
-                                    <span>{m.attributes.discount_note}</span>
+                                  <span>{numberWithCommas(m.attributes?.price)}</span>
+                                  <span>{m.attributes.discount_note}</span>
                                 </Button>
                               </div>
                             ))}
@@ -1824,7 +1844,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               />
                             )}
                           />
-                          
+
                           <span className="m-auto">/</span>
                           <Controller
                             name="blood_pressure2"
@@ -1844,7 +1864,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               />
                             )}
                           />
-                          
+
                         </div>
                       </div>
                       <div className="">
@@ -1870,7 +1890,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               />
                             )}
                           />
-                          
+
                           <span className="m-auto">/</span>
                           <Controller
                             name="blood_pressure2"
@@ -1890,7 +1910,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               />
                             )}
                           />
-                          
+
                         </div>
                       </div>
                       <Controller
@@ -1997,7 +2017,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         <Textarea
                           id="reasons_to_get_hospitalized"
                           label={<div className="flex">
-                            <span className="mr-2">Lý do nhập viện</span>
+                            <span className="mr-2">Lý do đến khám</span>
                             <Button
                               btnSize="auto"
                               className="w-8 h-8"
@@ -2113,6 +2133,393 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     />
 
                   </div>
+                  <p  className="font-bold text-2xl">Tiền căn bản thân</p>
+                  <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
+                    <Controller
+                      name="noi_khoa"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="noi_khoa"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Nội khoa"
+                          name="noi_khoa"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="ngoai_khoa"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="ngoai_khoa"
+                          label="Ngoại khoa"
+                          size="large"
+                          name="ngoai_khoa"
+                          value={value}
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="san_khoa"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="san_khoa"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Sản khoa"
+                          name="san_khoa"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="tiem_chung"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="tiem_chung"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Tiêm chủng"
+                          name="tiem_chung"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="di_ung"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="di_ung"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Dị ứng"
+                          name="di_ung"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="thoi_quen"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="thoi_quen"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Thói quen"
+                          name="thoi_quen"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="nguy_co_khac"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="nguy_co_khac"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Nguy cơ khác"
+                          name="nguy_co_khac"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="van_de_khac"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="van_de_khac"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Vấn đề khác"
+                          name="van_de_khac"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+
+                    {/* <Controller
+                      name="main_diagnose"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="main_diagnose"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Bệnh chính"
+                          name="main_diagnose"
+                          value={value}
+                          onChange={onChange}
+                        // errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+
+                    <Controller
+                      name="other_diagnose"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="other_diagnose"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Bệnh kèm theo"
+                          name="other_diagnose"
+                          value={value}
+                          onChange={onChange}
+                        // errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    /> */}
+
+                  </div>
+                  <div className="mt-4"><Controller
+                    name="tien_can_gia_dinh"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Textarea
+                        id="tien_can_gia_dinh"
+                        disabled={readonly || currentUser?.role?.type == "nurse"}
+                        label="Tiền căn gia đình"
+                        name="tien_can_gia_dinh"
+                        value={value}
+                        onChange={onChange}
+                        errors={errors?.title?.en?.message}
+                      />
+                    )}
+                  />
+                  </div>
+                  <p className="font-bold text-2xl">Khám lâm sàng</p>
+                  <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
+                    <div className="col-span-2">
+                      <Controller
+                        name="tong_quat"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="tong_quat"
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            label="Tổng quát"
+                            name="tong_quat"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <Controller
+                      name="tim_mach"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="tim_mach"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Tim mạch"
+                          name="tim_mach"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="ho_hap"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="ho_hap"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Hô hấp"
+                          name="ho_hap"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="tieu_hoa_tiet_nieu"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="tieu_hoa_tiet_nieu"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Tiêu hóa tiết niệu"
+                          name="tieu_hoa_tiet_nieu"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="co_xuong_khop"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="co_xuong_khop"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Cơ xương khớp"
+                          name="co_xuong_khop"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="than_kinh"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="than_kinh"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Thần kinh"
+                          name="than_kinh"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="san_phu_khoa"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="san_phu_khoa"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Sản phụ khoa"
+                          name="san_phu_khoa"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="mat_tai_mui_hong"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="mat_tai_mui_hong"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Mắt - tai mũi họng - răng hàm mặt"
+                          name="mat_tai_mui_hong"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="co_quan_khac"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="co_quan_khac"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Cơ quan khác"
+                          name="co_quan_khac"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    <div className="col-span-2">
+                      <Controller
+                        name="cac_thang_diem_can_danh_gia"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="cac_thang_diem_can_danh_gia"
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            label="Các thang điểm cần đánh giá"
+                            name="cac_thang_diem_can_danh_gia"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <Controller
+                        name="dinh_duong"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="dinh_duong"
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            label="Dinh dưỡng"
+                            name="dinh_duong"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
+                    <div className="col-span-2">
+                      <Controller
+                        name="ket_qua_cls"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="ket_qua_cls"
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            label="Kết quả cận lâm sàng"
+                            name="ket_qua_cls"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
+                    <div className="col-span-2">
+                      <Controller
+                        name="chan_doan"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="chan_doan"
+                            disabled={readonly || currentUser?.role?.type == "nurse"}
+                            label="Chẩn đoán"
+                            name="chan_doan"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+
                   <div className="mt-4"><Controller
                     name="treatment_regimen"
                     control={control}
@@ -2420,32 +2827,32 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>}
-              <div className="w-full">
+            <div className="w-full">
               <Controller
+                name="doctor_in_charge"
+                control={control}
+                render={({ field: { value, ref } }) => (
+                  <Select
+                    // isDisabled={true}
+                    placeholder="Bác sĩ phụ trách"
+                    label="Bác sĩ phụ trách"
                     name="doctor_in_charge"
-                    control={control}
-                    render={({ field: { value, ref } }) => (
-                      <Select
-                        // isDisabled={true}
-                        placeholder="Bác sĩ phụ trách"
-                        label="Bác sĩ phụ trách"
-                        name="doctor_in_charge"
-                        onChange={(e) => {
-                          console.log('eeeee', e)
-                          setDoctorInCharge(e)
-                        }}
-                        value={doctorInCharge}
-                        options={customersData}
-                        errors={errors?.address?.province?.message}
-                      />
-                    )}
+                    onChange={(e) => {
+                      console.log('eeeee', e)
+                      setDoctorInCharge(e)
+                    }}
+                    value={doctorInCharge}
+                    options={customersData}
+                    errors={errors?.address?.province?.message}
                   />
-                  </div>
+                )}
+              />
+            </div>
           </div>
           <p className="text-xl font-semibold text-right">Tổng {numberWithCommas(total)}</p>
         </div>
 
-        <div className="flex gap-2 my-4 grid grid-cols-4 sm:grid-cols-1 mb-2">
+        <div className="flex gap-2 py-4 grid grid-cols-4 sm:grid-cols-1 mb-2">
           {!readonly && (
             <Button className="fill-primary" type="submit">
               Lưu
@@ -2569,7 +2976,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           services={[
             ...(usedMedicalServices || []),
             ...flatten(
-              usedBundleMedicalServices?.map((item) => item?.attributes?.medical_services?.data)
+              usedBundleMedicalServices?.map((item) => item?.attributes?.medical_services?.data ?? item?.attributes?.medical_services)
             ),
           ]}
           visibleModal={visibleTestResultModal}

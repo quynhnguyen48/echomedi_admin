@@ -73,6 +73,7 @@ const Treatments = () => {
                   name: { $containsi: searchKey },
                 },
               ],
+              publicationState: "live"
             }
           }
           const res = await getMedicalRecords(
@@ -84,6 +85,7 @@ const Treatments = () => {
           )
           if (res.data) {
             const listTreatments = formatStrapiArr(res.data)
+            console.log('lsitTreatments', listTreatments)
             setData(
               listTreatments?.map((treatment) => {
                 const booking = formatStrapiObj(treatment?.booking)
