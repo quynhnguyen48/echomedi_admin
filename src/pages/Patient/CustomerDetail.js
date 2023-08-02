@@ -45,8 +45,8 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
       ; (async () => {
         try {
           const res1 = await getRelationshipById(data?.id)
-          let rs = res1.data.relationships.map( r => {
-            let res = {...r};
+          let rs = res1.data.relationships.map(r => {
+            let res = { ...r };
             return res;
           })
           setRelationships(rs);
@@ -90,36 +90,36 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   return (
     <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll px-2`}>
       <div className="flex items-center gap-x-2">
-        {currentUser?.role?.type != "doctor" 
-        && currentUser?.role?.type != "nurse" 
-        && <div className="flex gap-x-2">
-          <Button
-            btnSize="auto"
-            className="w-10 h-10"
-            shape="circle"
-            onClick={() => navigate(`/patient/${data?.id}/edit`)}
-          >
-            <Icon name="edit" />
-          </Button>
-          <Button
-            icon={<Icon name="add-circle" className="fill-white" />}
-            onClick={async () => {
-              await createBookingWithPatient({
-                patient: data.id,
-                status: "confirmed",
-                createNewPatient: false,
-                bookingDate: moment().toDate(),
-                branch: localStorage.getItem(BRANCH),
-                dontShowOnCalendar: true,
-                notify: false,
-              });
+        {currentUser?.role?.type != "doctor"
+          && currentUser?.role?.type != "nurse"
+          && <div className="flex gap-x-2">
+            <Button
+              btnSize="auto"
+              className="w-10 h-10"
+              shape="circle"
+              onClick={() => navigate(`/patient/${data?.id}/edit`)}
+            >
+              <Icon name="edit" />
+            </Button>
+            <Button
+              icon={<Icon name="add-circle" className="fill-white" />}
+              onClick={async () => {
+                await createBookingWithPatient({
+                  patient: data.id,
+                  status: "confirmed",
+                  createNewPatient: false,
+                  bookingDate: moment().toDate(),
+                  branch: localStorage.getItem(BRANCH),
+                  dontShowOnCalendar: true,
+                  notify: false,
+                });
 
-              navigate("/today-patient")
-            }}
-          >
-            Đưa bệnh nhân vào danh sách tiếp đón
-          </Button>
-        </div>}
+                navigate("/today-patient")
+              }}
+            >
+              Đưa bệnh nhân vào danh sách tiếp đón
+            </Button>
+          </div>}
       </div>
       <div className="grid grid-cols-3 sm:grid-cols-1 grid-flow-row gap-y-4 mt-4">
         <DataItem icon="user" title="Tên" value={`${data?.full_name}`} />
@@ -133,32 +133,40 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
         <DataItem icon="call" title="Số điện thoại người thân" value={data?.relative_phone} />
         <div className="col-span-3">
-        <DataItem
-          icon="location"
-          title="Địa chỉ"
-          value={
-            data?.address
-              ? `${data?.address?.address || ""}, ${data?.address?.ward?.name || ""}, ${data?.address?.district?.name || ""
-              }, ${data?.address?.province?.name || ""}`
-              : "-"
-          }
-        />
+          <DataItem
+            icon="location"
+            title="Địa chỉ"
+            value={
+              data?.address
+                ? `${data?.address?.address || ""}, ${data?.address?.ward?.name || ""}, ${data?.address?.district?.name || ""
+                }, ${data?.address?.province?.name || ""}`
+                : "-"
+            }
+          />
         </div>
-        
-        
-        {data.start_date_membership && 
-        <DataItem
-          icon="cake"
-          title="Ngày bắt đầu membership"
-          value={dayjs(data?.start_date_membership).format("DD MMMM, YYYY")}
-        />}
-        {data.membership_profile_file.data && <a target="_blank" href={getStrapiMedia(data.membership_profile_file?.data?.attributes)}>Kế hoạch sức khoẻ</a>}
+
+
+        {data.start_date_membership &&
+          <DataItem
+            icon="cake"
+            title="Ngày bắt đầu membership"
+            value={dayjs(data?.start_date_membership).format("DD MMMM, YYYY")}
+          />}
+        {/* {data.membership_profile_file.data && <a target="_blank" href={getStrapiMedia(data.membership_profile_file?.data?.attributes)}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
+<path d="M12 14.5V17.5M12 11.5H12.01M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V9M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          Kế hoạch sức khoẻ</a>} */}
+        {data.membership_profile_file?.data && 
+        <a target="_blank" href={getStrapiMedia(data.membership_profile_file?.data?.attributes)}>
+          <DataItem icon="man" title="Kế hoạch sức khoẻ" value={data.membership_profile_file?.data?.attributes?.name} />
+        </a>}
         <div className="my-4 mb-4 col-span-3">
           <div className="flex flex-row align-center">
             <span className="font-bold mr-4 mt-1">Các mối quan hệ:</span>
-            {currentUser?.role?.type != "doctor" && 
-            currentUser?.role?.type != "nurse" &&
-            <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>}
+            {currentUser?.role?.type != "doctor" &&
+              currentUser?.role?.type != "nurse" &&
+              <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>}
           </div>
           {relationships?.map(item => <p>- {item?.label} : {item?.patient?.full_name}</p>)}
         </div>
@@ -173,7 +181,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           />
         )}
       </div>
-      
+
       <CustomerMedicalRecords
         userId={data?.id}
         openDrawer={openCustomerAccountBalanceDrawer}
