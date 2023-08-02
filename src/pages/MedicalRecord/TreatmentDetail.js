@@ -188,6 +188,11 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         />
         <DataItem icon="location" title="Chi nhánh" value={getDisplayBranchLabel(data?.booking?.branch)} />
         <DataItem icon="user" title="Tên" value={data?.patient?.full_name} />
+        <DataItem
+          icon="cake"
+          title="Ngày sinh"
+          value={dayjs(data?.patient?.birthday).format("DD MMMM, YYYY")}
+        />
         <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
         <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
         <DataItemJSON icon="calendar" title="Chẩn đoán" value={parseJson(data?.diagnose)} />
