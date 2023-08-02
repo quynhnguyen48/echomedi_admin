@@ -18,6 +18,7 @@ import ImportExportHistory from "./components/ImportExportHistory"
 import ProductAnalytics from "./components/ProductAnalytics"
 import ProductsTable from "./components/ProductsTable"
 import ProductDetail from "./ProductDetail"
+import { removeVietnameseTones } from "../../utils/string";
 
 const MedicalServices = () => {
   const dispatch = useDispatch()
@@ -40,7 +41,7 @@ const MedicalServices = () => {
       if (searchKey?.length) {
         filters = {
           $or: [
-            { label: { $containsi: searchKey } }, 
+            { label_i: { $containsi: searchKey } }, 
           ],
         }
       }
@@ -127,7 +128,7 @@ const MedicalServices = () => {
           className="flex-1"
           onSearch={(value) => {
             dispatch(resetPageIndex())
-            setSearchKey(value)
+            setSearchKey(removeVietnameseTones(value))
           }}
         />
         {currentUser?.role?.type == "admin" &&
