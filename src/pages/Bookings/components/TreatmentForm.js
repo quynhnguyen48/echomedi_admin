@@ -508,6 +508,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       co_quan_khac: data?.co_quan_khac || "Chưa ghi nhận bất thường",
       cac_thang_diem_can_danh_gia: data?.cac_thang_diem_can_danh_gia || "Chưa ghi nhận bất thường",
       dinh_duong: data?.dinh_duong || "Chưa ghi nhận bất thường",
+      ket_qua_cls: data?.ket_qua_cls || "",
+      chan_doan: data?.ket_qua_cls || "",
       reasons_to_get_hospitalized: isJson(data?.reasons_to_get_hospitalized) ? parseJson(data?.reasons_to_get_hospitalized) : data?.reasons_to_get_hospitalized,
       premise: isJson(data?.premise) ? parseJson(data?.premise) : data?.premise,
       past_medical_history: isJson(data?.past_medical_history) ? parseJson(data?.past_medical_history) : data?.past_medical_history,

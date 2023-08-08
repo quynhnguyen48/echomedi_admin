@@ -22,7 +22,6 @@ const Theme = () => {
   const [signaturePad, setSignaturePad] = useState(null);
   const currentUser = useSelector((state) => state.user.currentUser);
 
-  console.log('currentUser', currentUser)
 
   function dataURLtoFile(dataurl, filename) {
     var arr = dataurl.split(','),
@@ -52,12 +51,10 @@ const Theme = () => {
   const uploadFile = () =>
     new Promise(async (resolve, reject) => {
       const canvas = document.querySelector("canvas");
-      console.log('test', signaturePad.toDataURL())
 
       var file = dataURLtoFile(signaturePad.toDataURL(),'test.png');
       const toastId = toast.loading("Đang tải lên")
       
-      console.log('file', file)
 
       try {
         const uploadedFiles = [file]
@@ -85,7 +82,6 @@ const Theme = () => {
     const fetchData = async () => {
       const data = await getBase64FromUrl(process.env.REACT_APP_API_URL + currentUser.signature.url);
 
-      console.log('base64', data)
       signaturePad.fromDataURL(data, {width: 300, height: 150})
     }
 
