@@ -38,7 +38,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
       },
       {
         Header: "Tên",
-        accessor: (originalRow) => <span>{originalRow?.patient?.full_name}</span>,
+        accessor: (originalRow) => <div><h1>{originalRow?.patient?.full_name}</h1><h1>BS: {originalRow?.doctor_in_charge?.data?.attributes?.patient?.data?.attributes?.full_name}</h1></div>,
         collapse: true,
         width: 150,
       },

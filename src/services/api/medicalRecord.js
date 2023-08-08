@@ -19,6 +19,7 @@ const populate = [
   // "results.images",
   "patient",
   // "booking",
+  "doctor_in_charge.patient",
   "booking.patient",
   "prescription",
   "prescriptions",
