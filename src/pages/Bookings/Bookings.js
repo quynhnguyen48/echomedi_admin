@@ -358,7 +358,7 @@ const Bookings = () => {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 500 }}
+          style={{ height: '80vh' }}
           onSelectSlot={(slotInfo) => {
             setUpBooking(false)
             setCreateNewPatient(true)
