@@ -474,6 +474,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       temperature: data?.temperature || "",
       blood_pressure: data?.blood_pressure || "",
       blood_pressure2: data?.blood_pressure2 || "",
+      blood_pressure_1: data?.blood_pressure_1 || "",
+      blood_pressure2_1: data?.blood_pressure2_1 || "",
       respiratory_rate: data?.respiratory_rate || "",
       height: data?.height || "",
       weight: data?.weight || "",
@@ -729,6 +731,34 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     axios
       .post(
         "/product/downloadShortenMedicalRecord",
+        {
+          id: data.medical_record?.data?.id
+        },
+        {
+          responseType: "arraybuffer",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/pdf",
+          },
+        }
+      )
+      .then((response) => {
+        const b = new Blob([response.data], { type: "application/pdf" })
+        var url = window.URL.createObjectURL(b)
+        window.open(url)
+        setTimeout(() => window.URL.revokeObjectURL(url), 100)
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+      })
+  }
+
+  const downloadShortenPDFV2 = () => {
+    const toastId = toast.loading("Đang tải")
+    const patient = data.patient
+    axios
+      .post(
+        "/product/downloadShortenMedicalRecordV2",
         {
           id: data.medical_record?.data?.id
         },
@@ -1875,18 +1905,18 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         </p>
                         <div className="flex">
                           <Controller
-                            name="blood_pressure"
+                            name="blood_pressure_1"
                             control={control}
                             render={({ field: { onChange, value } }) => (
                               <Input
                                 disabled={readonly}
                                 onChange={onChange}
                                 value={value}
-                                name="blood_pressure"
+                                name="blood_pressure_1"
                                 placeholder={""}
                                 onFocus={() => {
                                   if (value == 0) {
-                                    setValue("blood_pressure", "");
+                                    setValue("blood_pressure_1", "");
                                   }
                                 }}
                               />
@@ -1895,18 +1925,18 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
                           <span className="m-auto">/</span>
                           <Controller
-                            name="blood_pressure2"
+                            name="blood_pressure2_1"
                             control={control}
                             render={({ field: { onChange, value } }) => (
                               <Input
                                 disabled={readonly}
                                 onChange={onChange}
                                 value={value}
-                                name="blood_pressure2"
+                                name="blood_pressure2_1"
                                 placeholder={""}
                                 onFocus={() => {
                                   if (value == 0) {
-                                    setValue("blood_pressure2", "");
+                                    setValue("blood_pressure2_1", "");
                                   }
                                 }}
                               />
@@ -2055,7 +2085,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         />
                       )}
                     />
-                    <Controller
+                    {/* <Controller
                       name="premise"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2132,7 +2162,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         // errors={errors?.title?.en?.message}
                         />
                       )}
-                    />
+                    /> */}
 
                   </div>
                   <p  className="font-bold text-2xl">Tiền căn bản thân</p>
@@ -2891,6 +2921,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               }}
             >
               Tải bệnh án tóm tắt
+            </Button>
+          )}
+          {readonly && currentUser?.role?.type != "care_concierge" && (
+            <Button
+              btnType="outline"
+              type="reset"
+              onClick={(e) => {
+                downloadShortenPDFV2()
+              }}
+            >
+              Tải bệnh án V2
             </Button>
           )}
           {readonly && (

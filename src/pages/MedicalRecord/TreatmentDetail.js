@@ -92,6 +92,34 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       })
   }
 
+  const downloadShortenMedicalRecordV2 = () => {
+    const toastId = toast.loading("Đang tải")
+    axios
+      .post(
+        "/product/downloadShortenMedicalRecordV2",
+        {
+          // axios2.post("http://localhost:1337/api/product/generatePhieuCLS", {
+          id: data.id,
+        },
+        {
+          responseType: "arraybuffer",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/pdf",
+          },
+        }
+      )
+      .then((response) => {
+        const b = new Blob([response.data], { type: "application/pdf" })
+        var url = window.URL.createObjectURL(b)
+        window.open(url)
+        setTimeout(() => window.URL.revokeObjectURL(url), 100)
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+      })
+  }
+
   const downloadPDF = () => {
     const toastId = toast.loading("Đang tải")
     axios
@@ -281,6 +309,15 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           }}
         >
           Tải bệnh án tóm tắt
+        </Button>}
+        {currentUser.role.type != "pharmacist" &&<Button
+          btnSize="small"
+          className="mt-2"
+          onClick={(e) => {
+            downloadShortenMedicalRecordV2()
+          }}
+        >
+          Tải bệnh án V2
         </Button>}
         {currentUser.role.type != "pharmacist" &&<Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
           Tải phiếu chỉ định
