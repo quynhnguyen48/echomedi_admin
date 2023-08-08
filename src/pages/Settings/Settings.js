@@ -23,6 +23,11 @@ const SETTINGS = [
     title: "Đổi mật khẩu",
     url: "/settings/change-password",
   },
+  {
+    icon: "coin",
+    title: "Chữ ký",
+    url: "/settings/signature",
+  },
 ]
 
 const Settings = () => {
