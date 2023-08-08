@@ -65,7 +65,7 @@ const Theme = () => {
           const formData = new FormData()
           formData.append("files", file)
           formData.append("ref", "plugin::users-permissions.user")
-          formData.append("refId", 1)
+          formData.append("refId", currentUser.id)
           formData.append("field", "signature")
           return uploadMedia(formData)
         })
