@@ -1151,7 +1151,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       })
   }
   const onSubmit = async (formData) => {
-    let circuit = 0, temperature = 0, respiratory_rate = 0, spo2 = 0, blood_pressure = 0, blood_pressure2 = 0;
+    let circuit = 0, temperature = 0, respiratory_rate = 0, spo2 = 0, blood_pressure = 0, blood_pressure2 = 0, blood_pressure2_1 = 0, blood_pressure_1 = 0;
     try {
       circuit = parseInt(formData.circuit);
       temperature = parseFloat(formData.temperature);
@@ -1159,6 +1159,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       spo2 = parseInt(formData.spo2);
       blood_pressure = parseInt(formData.blood_pressure);
       blood_pressure2 = parseInt(formData.blood_pressure2);
+      blood_pressure_1 = parseInt(formData.blood_pressure_1);
+      blood_pressure2_1 = parseInt(formData.blood_pressure2_1);
     } catch {
 
     }
