@@ -2984,14 +2984,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         </div>
       </form>
 
-      <div className="flex gap-2 py-4 grid grid-cols-4 sm:grid-cols-1 mb-2">
-          {!readonly && (
-            <Button className="fill-primary" type="submit">
-              Lưu
-            </Button>
-          )}
-          </div>
-
       <ChooseAssetsFromLibraryDrawer
         openDrawer={visibleChooseAssetsFromLibraryDrawer}
         onClose={() => setVisibleChooseAssetsFromLibraryDrawer(false)}
@@ -3000,13 +2992,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       />
 
       {visiblePrescriptionModal && (
-        // <PrescriptionModal
-        //   patientId={data?.patient?.id}
-
-        //   medicalRecordId={data?.medical_record?.data?.id}
-        //   visibleModal={visiblePrescriptionModal}
-        //   onClose={() => setVisiblePrescriptionModal(false)}
-        // />
 
         <PrescriptionModal
           patientId={data?.patient?.id}
