@@ -148,6 +148,24 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       })
   }
 
+  const updateMedicalStatus = (status) => {
+    const toastId = toast.loading("Đang tải")
+    axios
+      .post(
+        "/medical-record/updateMedicalRecordStatus/" + data.id,
+        {
+          // axios2.post("http://localhost:1337/api/product/generatePhieuCLS", {
+          status,
+        }
+      )
+      .then((response) => {
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+        window.location.reload();
+      })
+  }
+
   const generatePhieuChiDinh = () => {
     const toastId = toast.loading("Đang tải")
     axios
@@ -175,9 +193,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         toast.dismiss(toastId)
       })
   }
-
-  console.log('medicalServices', bundleServices)
-
 
   return (
     <div className="my-4 w-full max-h-[70vh]">
@@ -236,9 +251,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
 
         <div>
           <div
-            className={`bg-white justify-center items-center flex fixed inset-0 z-20 outline-none focus:outline-none transition-all ${
-              visibleModal ? "visible" : "invisible"
-            }`}
+            className={`bg-white justify-center items-center flex fixed inset-0 z-20 outline-none focus:outline-none transition-all ${visibleModal ? "visible" : "invisible"
+              }`}
           ></div>
         </div>
       </div>
@@ -249,7 +263,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       </div>
       <div className="mt-5">
         {bundleServices && bundleServices.length > 0 && <p className="underline text-xl font-bold">Gói dịch vụ:</p>}
-        {bundleServices && Array.isArray(bundleServices) && 
+        {bundleServices && Array.isArray(bundleServices) &&
           bundleServices.map((b) => (
             <div>
               <div className="flex flex-row justify-between	">
@@ -257,42 +271,41 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
                 <span>{numberWithCommas(b.attributes.price)}</span>
               </div>
               <table className="service w-full">
-              {Array.isArray((b.attributes.medical_services.data || b.attributes.medical_services)) && (b.attributes.medical_services.data || b.attributes.medical_services)?.map((s) => (
-                // <p> - {s.attributes.label}</p>
-                <tr>
-            <th>- {s?.attributes?.label || s?.label}</th>
-            </tr>
-              ))}
+                {Array.isArray((b.attributes.medical_services.data || b.attributes.medical_services)) && (b.attributes.medical_services.data || b.attributes.medical_services)?.map((s) => (
+                  // <p> - {s.attributes.label}</p>
+                  <tr>
+                    <th>- {s?.attributes?.label || s?.label}</th>
+                  </tr>
+                ))}
               </table>
             </div>
           ))}
         {medicalServices && medicalServices.length > 0 && <p className="underline text-xl font-bold mt-5">Dịch vụ:</p>}
         <table className="service w-full">
-        {medicalServices &&
-          medicalServices.map((b) => (
-            // <div className="flex flex-row justify-between	">
-            //   <p>{b.attributes.label}</p>
-            //   <span>{numberWithCommas(b.attributes.price)}</span>
-            // </div>
-            <tr>
-            <th>{b.attributes.label}</th>
-            <th className="price">{numberWithCommas(b.attributes.price)}</th>
-          </tr>
-          ))}
-          </table>
+          {medicalServices &&
+            medicalServices.map((b) => (
+              // <div className="flex flex-row justify-between	">
+              //   <p>{b.attributes.label}</p>
+              //   <span>{numberWithCommas(b.attributes.price)}</span>
+              // </div>
+              <tr>
+                <th>{b.attributes.label}</th>
+                <th className="price">{numberWithCommas(b.attributes.price)}</th>
+              </tr>
+            ))}
+        </table>
       </div>
       <div className="grid grid-cols-4 sm:grid-cols-1 gap-x-4 py-4">
-      {currentUser.role.type != "pharmacist" && <Button
+        {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
           onClick={() => {
-            console.log('data', data)
             navigate(`/bookings/medical-records/${data.booking.id}/edit`)
           }}
         >
           Sửa bệnh án
         </Button>}
-        {currentUser.role.type != "pharmacist" &&<Button
+        {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
@@ -301,7 +314,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         >
           Tải bệnh án
         </Button>}
-        {currentUser.role.type != "pharmacist" &&<Button
+        {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
@@ -310,7 +323,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         >
           Tải bệnh án tóm tắt
         </Button>}
-        {currentUser.role.type != "pharmacist" &&<Button
+        {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
@@ -319,14 +332,25 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         >
           Tải bệnh án V2
         </Button>}
-        {currentUser.role.type != "pharmacist" &&<Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
+        {currentUser.role.type != "pharmacist" && <Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
           Tải phiếu chỉ định
         </Button>}
-        {currentUser.role.type != "pharmacist" &&<Button btnSize="small" className="mt-2" onClick={() => setVisibleTestResultModal(true)}>
+        {currentUser.role.type != "pharmacist" && <Button btnSize="small" className="mt-2" onClick={() => setVisibleTestResultModal(true)}>
           Kết quả xét nghiệm
         </Button>}
         <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
           Đơn thuốc
+        </Button>
+      </div>
+      <div className="flex gap-2 py-4 grid grid-cols-4 sm:grid-cols-1 mb-2">
+        <Button btnType={data.status == "result_received" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_received")}>
+          Đã có kết quả xét nghiệm
+        </Button>
+        <Button btnType={data.status == "result_examined" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_examined")}>
+          Đã xem kết quả xét nghiệm
+        </Button>
+        <Button btnType={data.status == "result_done" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_done")}>
+          Hoàn thành bệnh án
         </Button>
       </div>
       {visiblePrescriptionModal && (
@@ -388,6 +412,6 @@ function parseJson(str) {
     let items = JSON.parse(str);
     return items.map(i => i.value).join("\n");
   } catch (e) {
-      return str;
+    return str;
   }
 }

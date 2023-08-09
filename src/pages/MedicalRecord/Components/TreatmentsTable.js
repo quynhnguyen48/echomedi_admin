@@ -8,6 +8,17 @@ import { CATEGORY_STATUS } from "constants/Category"
 import Price from "components/Price"
 import { formatDate } from "utils/dateTime"
 
+const translateStatus = (status) => {
+  switch (status) {
+    case "result_received":
+      return "Đã có KQXN";
+    case "result_examined":
+      return "Đã xem KQXN";
+    case "result_done":
+      return "Hoàn thành";
+  }
+}
+
 const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchData }) => {
   const handleClickRow = useCallback(
     (row) => {
@@ -57,6 +68,12 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
       //   collapse: true,
       //   width: 150,
       // },
+      {
+        Header: "Trạng thái",
+        collapse: true,
+        width: 50,
+        accessor: (originalRow) => <span>{translateStatus(originalRow.status)}</span>,
+      },
       {
         Header: "Năm sinh",
         collapse: true,

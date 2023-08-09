@@ -140,6 +140,9 @@ const Table = ({
                       "shadow-sm": !isModal,
                       [rowClassName]: true,
                     })}
+                    // style={{
+                    //   backgroundColor: "red"
+                    // }}
                   >
                     {row.cells.map((cell) => {
                       if (cell.column.hidden) return null

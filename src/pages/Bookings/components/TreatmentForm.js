@@ -2980,6 +2980,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         </div>
       </form>
 
+      <div className="flex gap-2 py-4 grid grid-cols-4 sm:grid-cols-1 mb-2">
+          {!readonly && (
+            <Button className="fill-primary" type="submit">
+              Lưu
+            </Button>
+          )}
+          </div>
+
       <ChooseAssetsFromLibraryDrawer
         openDrawer={visibleChooseAssetsFromLibraryDrawer}
         onClose={() => setVisibleChooseAssetsFromLibraryDrawer(false)}
