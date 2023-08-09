@@ -1185,6 +1185,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         spo2,
         blood_pressure,
         blood_pressure2,
+        blood_pressure_1,
+        blood_pressure2_1,
         weight,
         height,
         bmi,
