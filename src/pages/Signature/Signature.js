@@ -76,7 +76,7 @@ const Theme = () => {
   useEffect(() => {
     const canvas = document.querySelector("canvas");
 
-    let signaturePad = new SignaturePad(canvas);
+    let signaturePad = new SignaturePad(canvas, {penColor: '#000F55'});
     setSignaturePad(signaturePad);
 
     const fetchData = async () => {
