@@ -243,8 +243,8 @@ const InvoiceForm = ({
     return (
       <div class="grid grid-cols-1 divide-y">
         {fields?.map((item, index) => (
-          <div className="grid grid-cols-6 gap-2 py-4">
-            <p className="col-span-1">{item?.label}</p>
+          <div className="grid grid-cols-7 gap-2 py-4">
+            <p className="col-span-3">{item?.label}</p>
             {/* <div className="col-span-3 text-right"> */}
             <div>
               {!getValues(`${name}[${index}].discountFixedPrice`) && !getValues(`${name}[${index}].discountPercentage`) && <Price price={item?.price} priceClassName="text-secondary font-normal" />}
@@ -302,7 +302,7 @@ const InvoiceForm = ({
                 />
               )}
             />
-            <div className="col-span-2">
+            <div className="col-span-1">
               <Controller
                 name={`${name}[${index}].note`}
                 control={control}
@@ -391,8 +391,8 @@ const InvoiceForm = ({
   return (
     <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
       <div class="grid grid-cols-1 divide-y">
-        <div className="grid grid-cols-6 gap-2">
-          <p className="font-bold col-span-1">Dịch vụ thực hiện</p>
+        <div className="grid grid-cols-7 gap-2">
+          <p className="font-bold col-span-3">Dịch vụ thực hiện</p>
           <p className="font-bold col-span-1">Đơn giá</p>
           <p className="font-bold col-span-2">Giảm giá (VNĐ, %)</p>
           <p className="font-bold col-span-1">Ghi chú</p>
