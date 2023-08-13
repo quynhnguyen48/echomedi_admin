@@ -111,7 +111,7 @@ const CustomersTable = ({
       // },
       {
         Header: "Ngày tạo",
-        accessor: (originalRow) => originalRow?.createdAt && <div><p>{formatDate(originalRow?.createdAt, "DD MMMM")}</p><p>{formatDate(originalRow?.createdAt, "YYYY")}</p></div>,
+        accessor: (originalRow) => originalRow?.createdAt && <div><p>{formatDate(originalRow?.createdAt, "DD/MM/YYYY")}</p></div>,
         collapse: true,
         width: 80,
       },
@@ -123,7 +123,7 @@ const CustomersTable = ({
           </div>
         ),
         collapse: true,
-        width: 180,
+        width: 100,
       },
       
     ]
@@ -135,18 +135,18 @@ const CustomersTable = ({
         hidden: isModal,
         accessor: (originalRow) => <span className="capitalize">{originalRow.gender == "male" ? "Nam": "Nữ"}</span>,
         collapse: true,
-        width: 60,
+        width: 40,
       },
       {
         Header: "Năm sinh",
         collapse: true,
-        width: 80,
-        accessor: (originalRow) => originalRow?.birthday && <span>{formatDate(originalRow?.birthday, "DD MMMM, YYYY")} ({2023-dayjs(originalRow.birthday).year()})</span>,
+        width: 50,
+        accessor: (originalRow) => originalRow?.birthday && <span>{formatDate(originalRow?.birthday, "DD/MM/YYYY")}</span>,
       },
       {
         Header: "Số điện thoại",
         collapse: true,
-        width: 100,
+        width: 70,
         accessor: (originalRow) => <span>{originalRow.phone}</span>,
       },
       {
