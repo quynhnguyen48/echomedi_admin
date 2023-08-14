@@ -20,6 +20,21 @@ import Icon from "components/Icon"
 import { getStrapiMedia } from "utils/media"
 import { uploadMedia } from "services/api/mediaLibrary"
 
+const SOURCES = [
+  {
+    value: 'app',
+    label: 'APP'
+  },
+  {
+    value: 'web',
+    label: 'WEB'
+  },
+  {
+    value: 'other',
+    label: 'Khác'
+  }
+];
+
 const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseModal, readOnly }) => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -42,6 +57,8 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
     // gender: yup.string().required("Gender is required"),
   })
 
+  console.log('dataaa', data)
+
   const {
     handleSubmit,
     control,
@@ -60,6 +77,9 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       birthday: !!data?.birthday ? new Date(data?.birthday) : null,
       start_date_membership: !!data?.start_date_membership ? new Date(data?.start_date_membership) : null,
       membership: data?.membership || "",
+      source: data?.source ? {
+        id: data?.source,
+      } : null,
       address: {
         province: data?.address?.province || null,
         district: data?.address?.district || null,
@@ -113,11 +133,13 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   }
 
   const onSubmit = async (formData) => {
+    console.log('formData', formData)
     try {
       setLoading(true)
       const payload = {
         ...formData,
         username: formData.email,
+        source: formData?.source?.id,
         // referral: formData?.referral?.value,
         // customerTag: formData.customerTag === CUSTOMER_TAG.REFERRAL ? "referral" : "new",
       }
@@ -414,6 +436,30 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             />
           )}
         />
+        <Controller
+            name="source"
+            control={control}
+            render={({ field: { onChange, value, ref } }) => (
+              <Select
+                placeholder="Chọn nguồn"
+                label="Nguồn"
+                name="source"
+                options={SOURCES}
+                value={value && SOURCES.find((s) => s.value === value.id)}
+                onChange={(e) => {
+                  setValue(
+                    "source",
+                    { id: e.value },
+                    {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    }
+                  )
+                }}
+                errors={errors?.category?.message}
+              />
+            )}
+          />
         <div className="space-y-2">
           <label className="font-16 font-bold">Thành viên</label>
           <div className="grid grid-cols-4 gap-6">

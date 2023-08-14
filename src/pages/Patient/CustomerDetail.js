@@ -132,6 +132,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         />
         <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
         <DataItem icon="call" title="Số điện thoại người thân" value={data?.relative_phone} />
+        {data?.source && <DataItem icon="heart" title="Nguồn" value={data?.source} />}
         <div className="col-span-3">
           <DataItem
             icon="location"

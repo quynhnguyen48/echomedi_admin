@@ -430,7 +430,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             />
           )}
         />
-
+        
         {/* <div className="grid grid-cols-2 gap-x-6">
           <div className="space-y-2">
             <label className="font-16 font-bold">Customer Tag</label>
