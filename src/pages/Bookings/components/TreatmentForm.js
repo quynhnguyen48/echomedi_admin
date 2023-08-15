@@ -2905,7 +2905,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Huỷ
             </Button>
           )}
-          {readonly && currentUser?.role?.type != "care_concierge" && (
+          {/* {readonly && currentUser?.role?.type != "care_concierge" && (
             <Button
               btnType="outline"
               type="reset"
@@ -2926,7 +2926,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             >
               Tải bệnh án tóm tắt
             </Button>
-          )}
+          )} */}
           {readonly && currentUser?.role?.type != "care_concierge" && (
             <Button
               btnType="outline"
@@ -2935,7 +2935,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 downloadShortenPDFV2()
               }}
             >
-              Tải bệnh án V2
+              Tải bệnh án
             </Button>
           )}
           {readonly && (

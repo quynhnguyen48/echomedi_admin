@@ -305,7 +305,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         >
           Sửa bệnh án
         </Button>}
-        {currentUser.role.type != "pharmacist" && <Button
+        {/* {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
           onClick={(e) => {
@@ -322,7 +322,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           }}
         >
           Tải bệnh án tóm tắt
-        </Button>}
+        </Button>} */}
         {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
@@ -330,7 +330,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             downloadShortenMedicalRecordV2()
           }}
         >
-          Tải bệnh án V2
+          Tải bệnh án
         </Button>}
         {currentUser.role.type != "pharmacist" && <Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
           Tải phiếu chỉ định
