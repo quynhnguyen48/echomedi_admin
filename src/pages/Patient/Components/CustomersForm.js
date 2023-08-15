@@ -17,6 +17,25 @@ import { createNewPatient, getPatientByPhone } from "services/api/patient";
 import { randomPassword } from "utils/string"
 import { getErrorMessage } from "utils/error"
 
+const SOURCES = [
+  {
+    value: 'app',
+    label: 'APP'
+  },
+  {
+    value: 'web',
+    label: 'WEB'
+  },
+  {
+    value: 'app_be',
+    label: 'App BE'
+  },
+  {
+    value: 'other',
+    label: 'Khác'
+  }
+];
+
 const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseModal, slotInfo }) => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -73,6 +92,9 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         ward: data?.address?.ward || null,
         address: data?.address?.address || "",
       },
+      source: data?.source ? {
+        id: data?.source,
+      } : null,
       customerTag:
         data?.customerTag === "referral"
           ? CUSTOMER_TAG.REFERRAL
@@ -168,6 +190,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       setLoading(true)
       const payload = {
         ...formData,
+        source: formData?.source?.id,
         username: formData.email,
         referral: formData?.referral?.value,
         customerTag: formData.customerTag === CUSTOMER_TAG.REFERRAL ? "referral" : "new",
@@ -440,7 +463,30 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             />
           )}
         />
-
+        <Controller
+            name="source"
+            control={control}
+            render={({ field: { onChange, value, ref } }) => (
+              <Select
+                placeholder="Chọn nguồn"
+                label="Nguồn"
+                name="source"
+                options={SOURCES}
+                value={value && SOURCES.find((s) => s.value === value.id)}
+                onChange={(e) => {
+                  setValue(
+                    "source",
+                    { id: e.value },
+                    {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    }
+                  )
+                }}
+                errors={errors?.category?.message}
+              />
+            )}
+          />
         {/* <div className="grid grid-cols-2 gap-x-6">
           <div className="space-y-2">
             <label className="font-16 font-bold">Customer Tag</label>

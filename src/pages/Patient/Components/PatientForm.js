@@ -30,6 +30,10 @@ const SOURCES = [
     label: 'WEB'
   },
   {
+    value: 'app_be',
+    label: 'App BE'
+  },
+  {
     value: 'other',
     label: 'Khác'
   }
@@ -133,7 +137,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   }
 
   const onSubmit = async (formData) => {
-    console.log('formData', formData)
     try {
       setLoading(true)
       const payload = {

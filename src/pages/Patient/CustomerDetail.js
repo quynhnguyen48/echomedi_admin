@@ -132,7 +132,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         />
         <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
         <DataItem icon="call" title="Số điện thoại người thân" value={data?.relative_phone} />
-        {data?.source && <DataItem icon="heart" title="Nguồn" value={data?.source} />}
+        {data?.source && <DataItem icon="heart" title="Nguồn" value={translateSource(data?.source)} />}
         <div className="col-span-3">
           <DataItem
             icon="location"
@@ -193,3 +193,22 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
 }
 
 export default CustomerDetail
+
+
+const translateSource = (s) => {
+  switch (s) {
+    case "app":
+      return "APP";
+      break;
+    case "web":
+      return "WEB";
+      break;
+    case "app_be":
+      return "App be";
+      break;
+    case "other":
+      return "Khác";
+      break;
+  }
+  return "";
+}
