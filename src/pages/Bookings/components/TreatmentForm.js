@@ -2862,8 +2862,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>}
-            {currentUser?.role?.type != "care_concierge" &&
-              <div className="w-full">
+            <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-8" class="hidden" />
                 <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
@@ -2904,7 +2903,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     </div>
                   </div>
                 </div>
-              </div>}
+              </div>
             {
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-9" class="hidden" />
