@@ -62,6 +62,7 @@ table.service .price {
 .tagify {
   border-color: green !important;
   min-height: 55px;
+  --tag-inset-shadow-size: 2em !important;
 }
 
 .jsoneditor-menu {
