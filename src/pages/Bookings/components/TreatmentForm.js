@@ -116,11 +116,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [bookingDate, setBookingDate] = useState(null)
   const [bookingHour, setBookingHour] = useState("")
   const [doctorInCharge, setDoctorInCharge] = useState();
+  const [CCInCharge, setCCInCharge] = useState();
+  const [nurseInCharge, setNurseInCharge] = useState();
   const [districtList, setDistrictList] = useState([])
   const [wardList, setWardList] = useState([])
   const [membershipPackage, setMembershipPackages] = useState([])
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
+  const [CCData, setCCData] = useState([])
+  const [nurseData, setNurseData] = useState([])
   const [height, setHeight] = useState(data.height)
   const [weight, setWeight] = useState(data.weight)
   const [bmi, setBMI] = useState(data.bmi)
@@ -588,6 +592,22 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       })
     }
 
+    if (data.cc_in_charge) {
+      setCCInCharge({
+        value: data.cc_in_charge.data?.id,
+        label: data.cc_in_charge.data?.attributes?.email,
+      })
+    }
+
+    console.log('data2', data)
+
+    if (data.nurse_in_charge) {
+      setNurseInCharge({
+        value: data.nurse_in_charge.data?.id,
+        label: data.nurse_in_charge.data?.attributes?.email,
+      })
+    }
+
     if (data?.references) {
       setReferences(data.references);
     }
@@ -792,22 +812,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const loadDoctors = () => {
-    // getListUsersByRole(["patient"], "doctor")
-    //   .then((res) => {
-    //     if (res.data) {
-    //       setCustomersData(
-    //         res.data?.map((customer) => ({
-    //           value: customer?.id,
-    //           label: `${customer?.patient?.full_name}`,
-    //         }))
-    //       )
-    //     }
-    //     setLoadingCustomers(false)
-    //   })
-    //   .catch(() => {
-    //     setLoadingCustomers(false)
-    //   })
-
     if (currentUser?.role?.type == "doctor") {
       setCustomersData([{
         value: currentUser?.id,
@@ -815,6 +819,26 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       }]);
     } else {
       setCustomersData([]);
+    }
+
+    if (currentUser?.role?.type == "care_concierge") {
+      setCCData([{
+        value: currentUser?.id,
+        label: `${currentUser?.patient?.full_name}`,
+      }]);
+    } else {
+      setCCData([]);
+    }
+
+    console.log('currentUser', currentUser)
+
+    if (currentUser?.role?.type == "nurse") {
+      setNurseData([{
+        value: currentUser?.id,
+        label: `${currentUser?.patient?.full_name}`,
+      }]);
+    } else {
+      setNurseData([]);
     }
   }
 
@@ -1176,6 +1200,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         clinique_services: usedCliniqueServices,
         membership: data.patient.membership ? data.medical_record?.data?.attributes.membership : JSON.stringify(selectedMembership),
         doctor_in_charge: doctorInCharge?.value,
+        nurse_in_charge: nurseInCharge?.value,
+        cc_in_charge: CCInCharge?.value,
         patient: data.patient.id,
         total,
         booking: data.id,
@@ -1657,6 +1683,26 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">4. Tư vấn ban đầu</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
+                  <div className="w-full">
+                    <Controller
+                      name="cc_in_charge"
+                      control={control}
+                      render={({ field: { value, ref } }) => (
+                        <Select
+                          // isDisabled={true}
+                          placeholder="CC phụ trách"
+                          label="CC phụ trách"
+                          name="cc_in_charge"
+                          onChange={(e) => {
+                            setCCInCharge(e)
+                          }}
+                          value={CCInCharge}
+                          options={CCData}
+                          errors={errors?.address?.province?.message}
+                        />
+                      )}
+                    />
+                  </div>
                   {(readonly || data.patient.membership) && <div className="w-full">
                     {/* <Controller
                 name="address.ward"
@@ -1818,6 +1864,24 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full py-4">
+                  <Controller
+                      name="nurse_in_charge"
+                      control={control}
+                      render={({ field: { value, ref } }) => (
+                        <Select
+                          // isDisabled={true}
+                          placeholder="Điều dưỡng phụ trách"
+                          label="Điều dưỡng phụ trách"
+                          name="nurse_in_charge"
+                          onChange={(e) => {
+                            setNurseInCharge(e)
+                          }}
+                          value={nurseInCharge}
+                          options={nurseData}
+                          errors={errors?.address?.province?.message}
+                        />
+                      )}
+                    />
                     <div className="grid sm: grid-cols-2 grid-cols-4 gap-6">
                       <Controller
                         name="circuit"
@@ -2169,7 +2233,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     /> */}
 
                   </div>
-                  <p  className="font-bold text-2xl">Tiền căn bản thân</p>
+                  <p className="font-bold text-2xl">Tiền căn bản thân</p>
                   <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
                     <Controller
                       name="noi_khoa"
@@ -2798,8 +2862,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>}
-            {currentUser?.role?.type != "care_concierge" &&
-              <div className="w-full">
+            <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-8" class="hidden" />
                 <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
@@ -2840,7 +2903,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     </div>
                   </div>
                 </div>
-              </div>}
+              </div>
             {
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-9" class="hidden" />
@@ -2874,7 +2937,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     label="Bác sĩ phụ trách"
                     name="doctor_in_charge"
                     onChange={(e) => {
-                      console.log('eeeee', e)
                       setDoctorInCharge(e)
                     }}
                     value={doctorInCharge}
