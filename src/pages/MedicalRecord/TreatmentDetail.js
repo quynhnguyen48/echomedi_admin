@@ -223,7 +223,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <th>{data?.spo2}</th>
         </tr>
       </table>
-      <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
+      <div className="grid grid-cols-3 grid-flow-row gap-y-5 mt-2">
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"
@@ -237,12 +237,40 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           value={dayjs(data?.patient?.birthday).format("DD MMMM, YYYY")}
         />
         <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
+
+      </div>
+      <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
+
         <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
-        <DataItemJSON icon="calendar" title="Chẩn đoán" value={parseJson(data?.diagnose)} />
-        <DataItemJSON icon="calendar" title="Hướng điều trị" value={parseJson(data?.treatment_regimen)} />
-        <DataItemJSON icon="calendar" title="Khám bệnh" value={parseJson(data?.examination)} />
-        <DataItemJSON icon="calendar" title="Hỏi bệnh" value={parseJson(data?.inquiry)} />
-        <DataItem icon="calendar" title="Nội dung đặt lịch" value={data?.booking?.note} />
+        <DataItemJSON icon="box-tick" title="Bệnh sử" value={parseJson(data?.inquiry)} />
+        <DataItemJSON icon="box-tick" title="Khám bệnh" value={parseJson(data?.examination)} />
+        <DataItemJSON icon="box-tick" title="Hỏi bệnh" value={parseJson(data?.inquiry)} />
+        <p className="text-xl font-semibold">Tiền căn bản thân</p>
+        <DataItemJSON icon="box-tick" title="Nội khoa" value={parseJson(data?.noi_khoa)} />
+        <DataItemJSON icon="box-tick" title="Ngoại khoa" value={parseJson(data?.ngoai_khoa)} />
+        <DataItemJSON icon="box-tick" title="Sản khoa" value={parseJson(data?.san_khoa)} />
+        <DataItemJSON icon="box-tick" title="Tiêm chủng" value={parseJson(data?.tiem_chung)} />
+        <DataItemJSON icon="box-tick" title="Dị ứng" value={parseJson(data?.di_ung)} />
+        <DataItemJSON icon="box-tick" title="Thói quen" value={parseJson(data?.thoi_quen)} />
+        <DataItemJSON icon="box-tick" title="Nguy cơ khác" value={parseJson(data?.nguy_co_khac)} />
+        <DataItemJSON icon="box-tick" title="Vấn đề khác" value={parseJson(data?.van_de_khac)} />
+        <DataItemJSON icon="box-tick" title="Tiền căn gia đình" value={parseJson(data?.tien_can_gia_dinh)} />
+        <p className="text-xl font-semibold">Khám lâm sàng</p>
+        <DataItemJSON icon="box-tick" title="Tổng quát" value={parseJson(data?.tong_quat)} />
+        <DataItemJSON icon="box-tick" title="Tim mạch" value={parseJson(data?.tim_mach)} />
+        <DataItemJSON icon="box-tick" title="Hô hấp" value={parseJson(data?.ho_hap)} />
+        <DataItemJSON icon="box-tick" title="Tiêu hóa tiết niệu" value={parseJson(data?.tieu_hoa_tiet_nieu)} />
+        <DataItemJSON icon="box-tick" title="Cơ xương khớp" value={parseJson(data?.co_xuong_khop)} />
+        <DataItemJSON icon="box-tick" title="Thần kinh" value={parseJson(data?.than_kinh)} />
+        <DataItemJSON icon="box-tick" title="Sản phụ khoa" value={parseJson(data?.san_phu_khoa)} />
+        <DataItemJSON icon="box-tick" title="Mắt - tai mũi họng - răng hàm mặt" value={parseJson(data?.mat_tai_mui_hong)} />
+        <DataItemJSON icon="box-tick" title="Cơ quan khác" value={parseJson(data?.co_quan_khac)} />
+        <DataItemJSON icon="box-tick" title="Các thang điểm cần đánh giá" value={parseJson(data?.cac_thang_diem_can_danh_gia)} />
+        <DataItemJSON icon="box-tick" title="Dinh dưỡng" value={parseJson(data?.dinh_duong)} />
+        <DataItemJSON icon="box-tick" title="Kết quả cận lâm sàng" value={parseJson(data?.ket_qua_cls)} />
+        <DataItemJSON icon="box-tick" title="Chẩn đoán" value={parseJson(data?.chan_doan)} />
+        <DataItemJSON icon="box-tick" title="Hướng điều trị" value={parseJson(data?.treatment_regimen)} />
+        <DataItem icon="box-tick" title="Nội dung đặt lịch" value={data?.booking?.note} />
         {/* <DataItem
           icon="calendar"
           title="Tên"
