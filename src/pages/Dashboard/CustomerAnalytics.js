@@ -65,7 +65,7 @@ const CustomerAnalytics = ({ className }) => {
               value: getPercentageNumber(genders?.[GENDER.FEMALE], total),
             },
             {
-              name: "Unknow",
+              name: "Unknown",
               value: getPercentageNumber(
                 total - genders?.[GENDER.MALE] - genders?.[GENDER.FEMALE],
                 total
