@@ -406,6 +406,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   }, [tagifyWhitelist]);
 
+  console.log('medicalServices', medicalServices)
 
 
   const provincesList = REGION_DATA
@@ -2761,7 +2762,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2 flex">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse"}
+                                    disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
@@ -2770,6 +2771,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                     <span>{numberWithCommas(m.attributes?.price)}</span>
                                     <span>{m.attributes.discount_note}</span>
+                                    <span>{m.attributes?.paid ? '(Đã thanh toán)' : ''}</span>
                                   </Button>
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse"}
@@ -2819,7 +2821,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse"}
+                                    disabled={currentUser?.role?.type == "nurse" }
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
@@ -2856,7 +2858,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse"}
+                                    disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
@@ -2865,6 +2867,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                     <span>{numberWithCommas(m.attributes?.price)}</span>
                                     <span>{m.attributes.discount_note}</span>
+                                    <span>{m.attributes?.paid ? '(Đã thanh toán)' : ''}</span>
                                   </Button>
                                 </div>
                               ))}
