@@ -116,6 +116,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [bookingDate, setBookingDate] = useState(null)
   const [bookingHour, setBookingHour] = useState("")
   const [doctorInCharge, setDoctorInCharge] = useState();
+  const [cashierInCharge, setCashierInCharge] = useState();
   const [CCInCharge, setCCInCharge] = useState();
   const [nurseInCharge, setNurseInCharge] = useState();
   const [districtList, setDistrictList] = useState([])
@@ -124,6 +125,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
   const [CCData, setCCData] = useState([])
+  const [cashierData, setCashierData] = useState([]);
   const [nurseData, setNurseData] = useState([])
   const [height, setHeight] = useState(data.height)
   const [weight, setWeight] = useState(data.weight)
@@ -599,12 +601,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       })
     }
 
-    console.log('data2', data)
-
     if (data.nurse_in_charge) {
       setNurseInCharge({
         value: data.nurse_in_charge.data?.id,
         label: data.nurse_in_charge.data?.attributes?.email,
+      })
+    }
+
+    if (data.cashier_in_charge) {
+      setCashierInCharge({
+        value: data.cashier_in_charge.data?.id,
+        label: data.cashier_in_charge.data?.attributes?.email,
       })
     }
 
@@ -830,8 +837,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setCCData([]);
     }
 
-    console.log('currentUser', currentUser)
-
     if (currentUser?.role?.type == "nurse") {
       setNurseData([{
         value: currentUser?.id,
@@ -840,6 +845,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     } else {
       setNurseData([]);
     }
+
+    setCashierData([
+      {
+        value: currentUser?.id,
+        label: `${currentUser?.patient?.full_name}`,
+      }
+    ])
   }
 
   const loadMedicalServices2 = () => {
@@ -1202,6 +1214,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         doctor_in_charge: doctorInCharge?.value,
         nurse_in_charge: nurseInCharge?.value,
         cc_in_charge: CCInCharge?.value,
+        cashier_in_charge: cashierInCharge?.value,
         patient: data.patient.id,
         total,
         booking: data.id,
@@ -2941,6 +2954,26 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     }}
                     value={doctorInCharge}
                     options={customersData}
+                    errors={errors?.address?.province?.message}
+                  />
+                )}
+              />
+            </div>
+            <div className="w-full">
+              <Controller
+                name="cashier_in_charge"
+                control={control}
+                render={({ field: { value, ref } }) => (
+                  <Select
+                    // isDisabled={true}
+                    placeholder="Thu ngân phụ trách"
+                    label="Thu ngân phụ trách"
+                    name="cashier_in_charge"
+                    onChange={(e) => {
+                      setCashierInCharge(e)
+                    }}
+                    value={cashierInCharge}
+                    options={cashierData}
                     errors={errors?.address?.province?.message}
                   />
                 )}

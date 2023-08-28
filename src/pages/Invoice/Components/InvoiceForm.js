@@ -198,47 +198,6 @@ const InvoiceForm = ({
     }
   }
 
-  const markAsPaid = async (values) => {
-    try {
-      setIsLoading(true)
-      const toastId = toast.loading("Đang tải")
-      const res = await updateAndDownloadInvoiceById(
-        id,
-        {
-          data: {
-            ...values,
-            subTotal,
-            totalDiscount,
-            totalDiscountFixedPrice,
-            totalDiscountPercentage,
-            total: subTotal - totalDiscount,
-          },
-        },
-        {
-          responseType: "arraybuffer",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/pdf",
-          },
-        }
-      )
-        .then((response) => {
-          const b = new Blob([response.data], { type: "application/pdf" })
-          var url = window.URL.createObjectURL(b)
-          window.open(url)
-          setTimeout(() => window.URL.revokeObjectURL(url), 100)
-        })
-        .finally(() => {
-          toast.dismiss(toastId)
-        })
-
-    } catch (error) {
-      toast.error(getErrorMessage(error))
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   const renderFields = (fields, name) => {
     return (
       <div class="grid grid-cols-1 divide-y">
