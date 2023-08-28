@@ -19,6 +19,10 @@ import { getErrorMessage } from "utils/error"
 import Icon from "components/Icon"
 import { getStrapiMedia } from "utils/media"
 import { uploadMedia } from "services/api/mediaLibrary"
+import { formatStrapiArr, formatStrapiObj } from "utils/strapi";
+import {
+  getPatientSource,
+} from "services/api/patientSource";
 
 const SOURCES = [
   {
@@ -47,6 +51,33 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
   const [patientExist, setPatientExist] = useState(false);
+  const [patientSource, setPatientSource] = useState();
+
+  console.log('datadatadatadata', data)
+
+  useEffect(() => {
+    ; (async () => {
+      try {
+        const res = await getPatientSource()
+        const data = formatStrapiArr(res?.data);
+        // setPatientSource(data);
+
+        // console.log('dataaaa 2', data)
+        let rs = data.map(r => {
+          r.label = r.label;
+          r.value = r.value;
+          return r;
+        })
+        // reset({
+        //   relationship: rs
+        // })
+
+        console.log('rssss', rs)
+        setPatientSource(rs);
+        // setRelationship(res.data.relationships);
+      } catch (error) { }
+    })()
+  }, [])
 
   const validationSchema = yup.object({
     // phone: yup
@@ -60,8 +91,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
     // }),
     // gender: yup.string().required("Gender is required"),
   })
-
-  console.log('dataaa', data)
 
   const {
     handleSubmit,
@@ -83,6 +112,9 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       membership: data?.membership || "",
       source: data?.source ? {
         id: data?.source,
+      } : null,
+      patient_source: data?.patient_source ? {
+        id: data?.patient_source?.data?.id,
       } : null,
       address: {
         province: data?.address?.province || null,
@@ -143,6 +175,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         ...formData,
         username: formData.email,
         source: formData?.source?.id,
+        patient_source: formData?.patient_source?.id,
         // referral: formData?.referral?.value,
         // customerTag: formData.customerTag === CUSTOMER_TAG.REFERRAL ? "referral" : "new",
       }
@@ -159,7 +192,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           } else {
             toast.success("Customer updated successfully")
             navigate(-1)
-
           }
         }
       }
@@ -440,19 +472,19 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           )}
         />
         <Controller
-            name="source"
+            name="patient_source"
             control={control}
             render={({ field: { onChange, value, ref } }) => (
               <Select
                 placeholder="Chọn nguồn"
                 label="Nguồn"
-                name="source"
-                options={SOURCES}
-                value={value && SOURCES.find((s) => s.value === value.id)}
+                name="patient_source"
+                options={patientSource}
+                value={value && patientSource?.find((s) => s.id === value.id)}
                 onChange={(e) => {
                   setValue(
-                    "source",
-                    { id: e.value },
+                    "patient_source",
+                    { id: e.id },
                     {
                       shouldValidate: true,
                       shouldDirty: true,

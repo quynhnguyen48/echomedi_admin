@@ -12,7 +12,8 @@ export const getListPatients = (pagination, filters, populate) => {
       ...filters,
     },
     populate: populate || [
-      "membership_profile_file"
+      "membership_profile_file",
+      "patient_source"
       // "role",
       // "transactions",
       // "bookings",
@@ -51,7 +52,7 @@ export const getPatientByPhone = (phone) => {
 
 export const getPatientById = (id) => {
   const query = qs.stringify({
-    populate: ["role", "referral", "check_ins", "membership_profile_file"],
+    populate: ["role", "referral", "check_ins", "membership_profile_file", "patient_source"],
   })
 
   return axios.get(`/patients/${id}?${query}`)
