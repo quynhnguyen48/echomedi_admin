@@ -89,9 +89,7 @@ const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, 
     const payload = {
       relationship
     }
-
-
-
+    
     try {
       setLoading(true)
       if (patientId) {
@@ -100,6 +98,7 @@ const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, 
             ...patient,
             relationships: relationship.map(r => {
               return {
+                "id": r.id,
                 "label": r.ten,
                 "patient": r.value
               }
@@ -178,8 +177,6 @@ const PrescriptionModal = ({ bundleServiceId, patient, patientId, visibleModal, 
 
   useEffect(() => {
     if (relationship) {
-      // const { message, reExaminationDate, medical_services } = bundleService;
-      console.log('relat', relationship)
       let rs = relationship.map(r => {
         r.ten = r.label;
         r.label = r.patient?.full_name;
