@@ -406,9 +406,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   }, [tagifyWhitelist]);
 
-  console.log('medicalServices', medicalServices)
-
-
   const provincesList = REGION_DATA
 
   useEffect(() => {
@@ -568,19 +565,24 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setBundleServicesData(bundleServicesData_)
       setUsedBundleMedicalServices(bundleServicesData_)
 
+      console.log('bundleServicesData_', bundleServicesData_)
       bundleServicesData_.forEach(s => {
-        s.attributes.medical_services.data?.forEach(ss => {
+        s.attributes.medical_services?.forEach(ss => {
           newExistServices[ss.id] = true;
         })
       });
 
     }
     if (data.services) {
+      console.log('data.services', data.services)
       const servicesData_ = JSON.parse(data.services)
+      console.log('services', servicesData_)
       setServicesData(servicesData_)
       setUsedMedicalServices(servicesData_)
 
       servicesData_.forEach(s => newExistServices[s.id] = true);
+
+      console.log('newExistServices', newExistServices)
     }
     if (data.clinique_services) {
       const cliniqueServicesData = data.clinique_services;
@@ -1044,8 +1046,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const addMedicalService = (m) => {
+    console.log('mmm', m)
     if (m.id in existServices) {
-      toast.error("Không thể thêm dịch vụ này vì bị trùng.")
+      toast.error("Không thể thêm dịch vụ này vì bị trùng. " + m.attributes.label)
     } else {
       let a = [...usedMedicalServices]
       a.concat(m)
@@ -1067,7 +1070,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const addCliniqueService = (m) => {
     if (m.id in existServices) {
-      toast.error("Không thể thêm dịch vụ này vì bị trùng.")
+      toast.error("Không thể thêm dịch vụ này vì bị trùng. " + m.label)
     } else {
       let a = [...usedCliniqueServices]
       a.concat(m)
@@ -1092,8 +1095,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
 
+    console.log('mssss', ms)
+
     if (exist) {
-      toast.error("Không thể thêm dịch vụ này vì bị trùng.")
+      toast.error("Không thể thêm dịch vụ này vì bị trùng: " + ms.filter(s => s.id in existServices).map(s => s.label).join(", "))
     } else {
       let newExistServices = { ...existServices }
       ms.forEach((s) => (newExistServices[s.id] = true))
