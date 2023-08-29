@@ -88,7 +88,7 @@ const PrescriptionFormItem = ({
 
   return (
     <div className="flex flex-col gap-2" key={item.id}>
-      <div className="grid grid-cols-10 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <Controller
           name={`relationship[${index}].label`}
           label="Tên"
