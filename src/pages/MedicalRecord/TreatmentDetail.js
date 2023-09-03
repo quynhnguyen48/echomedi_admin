@@ -245,17 +245,29 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <DataItemJSON icon="box-tick" title="Bệnh sử" value={parseJson(data?.inquiry)} />
         <DataItemJSON icon="box-tick" title="Khám bệnh" value={parseJson(data?.examination)} />
         <DataItemJSON icon="box-tick" title="Hỏi bệnh" value={parseJson(data?.inquiry)} />
-        <p className="text-xl font-semibold">Tiền căn bản thân</p>
-        <DataItemJSON icon="box-tick" title="Nội khoa" value={parseJson(data?.noi_khoa)} />
-        <DataItemJSON icon="box-tick" title="Ngoại khoa" value={parseJson(data?.ngoai_khoa)} />
-        <DataItemJSON icon="box-tick" title="Sản khoa" value={parseJson(data?.san_khoa)} />
-        <DataItemJSON icon="box-tick" title="Tiêm chủng" value={parseJson(data?.tiem_chung)} />
-        <DataItemJSON icon="box-tick" title="Dị ứng" value={parseJson(data?.di_ung)} />
-        <DataItemJSON icon="box-tick" title="Thói quen" value={parseJson(data?.thoi_quen)} />
-        <DataItemJSON icon="box-tick" title="Nguy cơ khác" value={parseJson(data?.nguy_co_khac)} />
-        <DataItemJSON icon="box-tick" title="Vấn đề khác" value={parseJson(data?.van_de_khac)} />
-        <DataItemJSON icon="box-tick" title="Tiền căn gia đình" value={parseJson(data?.tien_can_gia_dinh)} />
-        <p className="text-xl font-semibold">Khám lâm sàng</p>
+        <div className="w-full">
+          <input type="checkbox" name="panel" id="panel-7" class="hidden" />
+          <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">Tiền căn bản thân</label>
+          <div class="accordion__content overflow-scroll bg-grey-lighter">
+            <div className="w-full py-4">
+
+              <DataItemJSON icon="box-tick" title="Nội khoa" value={parseJson(data?.noi_khoa)} />
+              <DataItemJSON icon="box-tick" title="Ngoại khoa" value={parseJson(data?.ngoai_khoa)} />
+              <DataItemJSON icon="box-tick" title="Sản khoa" value={parseJson(data?.san_khoa)} />
+              <DataItemJSON icon="box-tick" title="Tiêm chủng" value={parseJson(data?.tiem_chung)} />
+              <DataItemJSON icon="box-tick" title="Dị ứng" value={parseJson(data?.di_ung)} />
+              <DataItemJSON icon="box-tick" title="Thói quen" value={parseJson(data?.thoi_quen)} />
+              <DataItemJSON icon="box-tick" title="Nguy cơ khác" value={parseJson(data?.nguy_co_khac)} />
+              <DataItemJSON icon="box-tick" title="Vấn đề khác" value={parseJson(data?.van_de_khac)} />
+              <DataItemJSON icon="box-tick" title="Tiền căn gia đình" value={parseJson(data?.tien_can_gia_dinh)} />
+            </div>
+          </div>
+        </div>
+        <div className="w-full">
+          <input type="checkbox" name="panel" id="panel-1" class="hidden" />
+          <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">Khám lâm sàng</label>
+          <div class="accordion__content overflow-scroll bg-grey-lighter">
+            <div className="w-full py-4"></div>
         <DataItemJSON icon="box-tick" title="Tổng quát" value={parseJson(data?.tong_quat)} />
         <DataItemJSON icon="box-tick" title="Tim mạch" value={parseJson(data?.tim_mach)} />
         <DataItemJSON icon="box-tick" title="Hô hấp" value={parseJson(data?.ho_hap)} />
@@ -271,6 +283,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <DataItemJSON icon="box-tick" title="Chẩn đoán" value={parseJson(data?.chan_doan)} />
         <DataItemJSON icon="box-tick" title="Hướng điều trị" value={parseJson(data?.treatment_regimen)} />
         <DataItem icon="box-tick" title="Nội dung đặt lịch" value={data?.booking?.note} />
+        </div>
+        </div>
         {/* <DataItem
           icon="calendar"
           title="Tên"
