@@ -77,7 +77,7 @@ const Theme = () => {
           data={[
             { name: "Male", value: 17 },
             { name: "Female", value: 56 },
-            { name: "Unknow", value: 27 },
+            { name: "Unknown", value: 27 },
           ]}
           colors={["#27AE60", "#F2C94C", "#EB5757"]}
           hideInfo={false}

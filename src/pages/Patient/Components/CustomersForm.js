@@ -16,6 +16,10 @@ import { createNewUser, getListUsers, updateUser } from "services/api/users"
 import { createNewPatient, getPatientByPhone } from "services/api/patient";
 import { randomPassword } from "utils/string"
 import { getErrorMessage } from "utils/error"
+import {
+  getPatientSource,
+} from "services/api/patientSource";
+import { formatStrapiArr, formatStrapiObj } from "utils/strapi";
 
 const SOURCES = [
   {
@@ -45,6 +49,28 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [customersData, setCustomersData] = useState([])
   const [bookingHour, setBookingHour] = useState("");
   const [patientExist, setPatientExist] = useState(false);
+  const [patientSource, setPatientSource] = useState();
+
+  useEffect(() => {
+    ; (async () => {
+      try {
+        const res = await getPatientSource()
+        const data = formatStrapiArr(res?.data);
+        setPatientSource(data);
+
+        console.log('dataaaa 2', data)
+        let rs = data.map(r => {
+          r.label = r.label;
+          r.value = r.value;
+          return r;
+        })
+        reset({
+          relationship: rs
+        })
+        // setRelationship(res.data.relationships);
+      } catch (error) { }
+    })()
+  }, [])
 
   const validationSchema = yup.object({
     // email: yup

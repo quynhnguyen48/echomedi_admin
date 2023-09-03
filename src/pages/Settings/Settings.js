@@ -28,6 +28,11 @@ const SETTINGS = [
     title: "Chữ ký",
     url: "/settings/signature",
   },
+  {
+    icon: "coin",
+    title: "Nguồn khách hàng",
+    url: "/settings/patient-source",
+  },
 ]
 
 const Settings = () => {

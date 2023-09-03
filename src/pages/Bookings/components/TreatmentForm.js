@@ -116,6 +116,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [bookingDate, setBookingDate] = useState(null)
   const [bookingHour, setBookingHour] = useState("")
   const [doctorInCharge, setDoctorInCharge] = useState();
+  const [cashierInCharge, setCashierInCharge] = useState();
   const [CCInCharge, setCCInCharge] = useState();
   const [nurseInCharge, setNurseInCharge] = useState();
   const [districtList, setDistrictList] = useState([])
@@ -124,6 +125,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
   const [CCData, setCCData] = useState([])
+  const [cashierData, setCashierData] = useState([]);
   const [nurseData, setNurseData] = useState([])
   const [height, setHeight] = useState(data.height)
   const [weight, setWeight] = useState(data.weight)
@@ -404,8 +406,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   }, [tagifyWhitelist]);
 
-
-
   const provincesList = REGION_DATA
 
   useEffect(() => {
@@ -565,19 +565,24 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setBundleServicesData(bundleServicesData_)
       setUsedBundleMedicalServices(bundleServicesData_)
 
+      console.log('bundleServicesData_', bundleServicesData_)
       bundleServicesData_.forEach(s => {
-        s.attributes.medical_services.data?.forEach(ss => {
+        s.attributes.medical_services?.forEach(ss => {
           newExistServices[ss.id] = true;
         })
       });
 
     }
     if (data.services) {
+      console.log('data.services', data.services)
       const servicesData_ = JSON.parse(data.services)
+      console.log('services', servicesData_)
       setServicesData(servicesData_)
       setUsedMedicalServices(servicesData_)
 
       servicesData_.forEach(s => newExistServices[s.id] = true);
+
+      console.log('newExistServices', newExistServices)
     }
     if (data.clinique_services) {
       const cliniqueServicesData = data.clinique_services;
@@ -599,12 +604,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       })
     }
 
-    console.log('data2', data)
-
     if (data.nurse_in_charge) {
       setNurseInCharge({
         value: data.nurse_in_charge.data?.id,
         label: data.nurse_in_charge.data?.attributes?.email,
+      })
+    }
+
+    if (data.cashier_in_charge) {
+      setCashierInCharge({
+        value: data.cashier_in_charge.data?.id,
+        label: data.cashier_in_charge.data?.attributes?.email,
       })
     }
 
@@ -830,8 +840,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setCCData([]);
     }
 
-    console.log('currentUser', currentUser)
-
     if (currentUser?.role?.type == "nurse") {
       setNurseData([{
         value: currentUser?.id,
@@ -840,6 +848,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     } else {
       setNurseData([]);
     }
+
+    setCashierData([
+      {
+        value: currentUser?.id,
+        label: `${currentUser?.patient?.full_name}`,
+      }
+    ])
   }
 
   const loadMedicalServices2 = () => {
@@ -1031,8 +1046,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const addMedicalService = (m) => {
+    console.log('mmm', m)
     if (m.id in existServices) {
-      toast.error("Không thể thêm dịch vụ này vì bị trùng.")
+      toast.error("Không thể thêm dịch vụ này vì bị trùng. " + m.attributes.label)
     } else {
       let a = [...usedMedicalServices]
       a.concat(m)
@@ -1054,7 +1070,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const addCliniqueService = (m) => {
     if (m.id in existServices) {
-      toast.error("Không thể thêm dịch vụ này vì bị trùng.")
+      toast.error("Không thể thêm dịch vụ này vì bị trùng. " + m.label)
     } else {
       let a = [...usedCliniqueServices]
       a.concat(m)
@@ -1079,8 +1095,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
 
+    console.log('mssss', ms)
+
     if (exist) {
-      toast.error("Không thể thêm dịch vụ này vì bị trùng.")
+      toast.error("Không thể thêm dịch vụ này vì bị trùng: " + ms.filter(s => s.id in existServices).map(s => s.label).join(", "))
     } else {
       let newExistServices = { ...existServices }
       ms.forEach((s) => (newExistServices[s.id] = true))
@@ -1202,6 +1220,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         doctor_in_charge: doctorInCharge?.value,
         nurse_in_charge: nurseInCharge?.value,
         cc_in_charge: CCInCharge?.value,
+        cashier_in_charge: cashierInCharge?.value,
         patient: data.patient.id,
         total,
         booking: data.id,
@@ -2748,7 +2767,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2 flex">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse"}
+                                    disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
@@ -2757,6 +2776,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                     <span>{numberWithCommas(m.attributes?.price)}</span>
                                     <span>{m.attributes.discount_note}</span>
+                                    <span>{m.attributes?.paid ? '(Đã thanh toán)' : ''}</span>
                                   </Button>
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse"}
@@ -2806,7 +2826,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse"}
+                                    disabled={currentUser?.role?.type == "nurse" }
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
@@ -2843,7 +2863,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse"}
+                                    disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
                                     className={"inline"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
@@ -2852,6 +2872,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                     <span>{numberWithCommas(m.attributes?.price)}</span>
                                     <span>{m.attributes.discount_note}</span>
+                                    <span>{m.attributes?.paid ? '(Đã thanh toán)' : ''}</span>
                                   </Button>
                                 </div>
                               ))}
@@ -2941,6 +2962,26 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     }}
                     value={doctorInCharge}
                     options={customersData}
+                    errors={errors?.address?.province?.message}
+                  />
+                )}
+              />
+            </div>
+            <div className="w-full">
+              <Controller
+                name="cashier_in_charge"
+                control={control}
+                render={({ field: { value, ref } }) => (
+                  <Select
+                    // isDisabled={true}
+                    placeholder="Thu ngân phụ trách"
+                    label="Thu ngân phụ trách"
+                    name="cashier_in_charge"
+                    onChange={(e) => {
+                      setCashierInCharge(e)
+                    }}
+                    value={cashierInCharge}
+                    options={cashierData}
                     errors={errors?.address?.province?.message}
                   />
                 )}

@@ -37,6 +37,7 @@ const FAQs = React.lazy(() => import("pages/FAQs"))
 const Theme = React.lazy(() => import("pages/Theme"))
 const PasswordChange = React.lazy(() => import("pages/PasswordChange"))
 const Signature = React.lazy(() => import("pages/Signature"))
+const PatientSource = React.lazy(() => import("pages/PatientSource"))
 const Transactions = React.lazy(() => import("pages/Transactions"))
 const ServiceCard = React.lazy(() => import("pages/ServiceCard"))
 const EditServiceCard = React.lazy(() => import("pages/ServiceCard/EditServiceCard"))
@@ -165,6 +166,7 @@ const MainRoutes = () => {
         <Route path="/theme" element={<Theme />} />
         <Route path="/settings/change-password" element={<PasswordChange />} />
         <Route path="/settings/signature" element={<Signature />} />
+        <Route path="/settings/patient-source" element={<PatientSource />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/transactions/create" element={<UpsertTransaction />} />
         <Route path="/reports" element={<Reports />} />

@@ -13,7 +13,7 @@ import {
   getPrescriptionById,
   updatePrescription,
 } from "services/api/prescriptions"
-import { 
+import {
   updateServiceBundle
 } from "services/api/serviceBundle";
 import { useCallback, useEffect, useState } from "react"
@@ -55,7 +55,7 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      
+
     },
   })
 
@@ -114,32 +114,32 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
         medicalRecord: formatStrapiObj(data.medicalRecord),
         medical_services: data?.medical_services?.map((item) => ({ ...item, drug: formatStrapiObj(item.drug) })),
       })
-    } catch (error) {}
+    } catch (error) { }
   }, [])
 
   const handlePrint = () => {
     setIsPrinting(true)
     try {
       const toastId = toast.loading("Đang tải");
-    axios.post("/product/generatePrescription", {
-    // axios2.post("http://localhost:1337/api/product/generatePrescription", {
-      "id": bundleServiceId,
-    }, {
-      responseType: 'arraybuffer',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/pdf'
-      }
-    })
-      .then((response) => {
-        const b = new Blob([response.data], { type: 'application/pdf' })
-        var url = window.URL.createObjectURL(b)
-        window.open(url)
-        setTimeout(() => window.URL.revokeObjectURL(url), 100)
+      axios.post("/product/generatePrescription", {
+        // axios2.post("http://localhost:1337/api/product/generatePrescription", {
+        "id": bundleServiceId,
+      }, {
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/pdf'
+        }
       })
-      .finally(() => {
-        toast.dismiss(toastId);
-      });
+        .then((response) => {
+          const b = new Blob([response.data], { type: 'application/pdf' })
+          var url = window.URL.createObjectURL(b)
+          window.open(url)
+          setTimeout(() => window.URL.revokeObjectURL(url), 100)
+        })
+        .finally(() => {
+          toast.dismiss(toastId);
+        });
     } catch (error) {
       toast.error(getErrorMessage(error))
     } finally {
@@ -148,7 +148,7 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (medicalRecord?.prescription?.id) {
         fetchPrescriptionData(medicalRecord?.prescription?.id)
       }
@@ -179,13 +179,13 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
 
   useEffect(() => {
     if (bundleServiceId) {
-      ;(async () => {
+      ; (async () => {
         try {
           const res = await getServiceBundleById(bundleServiceId)
           const data = formatStrapiObj(res.data.data)
           // setMedicalRecord({ ...data, prescription: formatStrapiObj(data?.prescription) })
-          setBundleService({ ...data, medical_services: formatStrapiArr(data?.medical_services)})
-        } catch (error) {}
+          setBundleService({ ...data, medical_services: formatStrapiArr(data?.medical_services) })
+        } catch (error) { }
       })()
     }
   }, [bundleServiceId])
@@ -257,7 +257,7 @@ const PrescriptionModal = ({ bundleServiceId, patientId, visibleModal, onClose }
               <span className="text-16 text-primary">Thêm dịch vụ mới</span>
             </Button>
             <div className="mt-10 self-end flex gap-x-4">
-            <Button className="fill-primary self-end" type="submit" loading={loading}>
+              <Button className="fill-primary self-end" type="submit" loading={loading}>
                 Lưu
               </Button>
               {/* <Button

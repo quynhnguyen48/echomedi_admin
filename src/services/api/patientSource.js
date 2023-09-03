@@ -12,8 +12,7 @@ export const getListPatients = (pagination, filters, populate) => {
       ...filters,
     },
     populate: populate || [
-      "membership_profile_file",
-      "patient_source"
+      "membership_profile_file"
       // "role",
       // "transactions",
       // "bookings",
@@ -52,7 +51,7 @@ export const getPatientByPhone = (phone) => {
 
 export const getPatientById = (id) => {
   const query = qs.stringify({
-    populate: ["role", "referral", "check_ins", "membership_profile_file", "patient_source"],
+    populate: ["role", "referral", "check_ins", "membership_profile_file"],
   })
 
   return axios.get(`/patients/${id}?${query}`)
@@ -101,7 +100,15 @@ export const createDebtColectionReminder = (data) => {
   return axios.post(`/debt-collection-reminders`, { data })
 }
 
-export const getRelationshipById = (id) => {
-  return axios.get(`/patient/getRelationship/${id}`, {
+export const getPatientSource = (id) => {
+  return axios.get(`/patient-sources`, {
   })
+}
+
+export const updatePatientSource = (id, payload) => {
+  return axios.put(`/patient-sources/${id}`, payload)
+}
+
+export const createPatientSource = (payload) => {
+  return axios.post("/patient-sources", payload)
 }
