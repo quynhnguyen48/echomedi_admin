@@ -56,21 +56,45 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       try {
         const res = await getPatientSource()
         const data = formatStrapiArr(res?.data);
-        setPatientSource(data);
+        // setPatientSource(data);
 
-        console.log('dataaaa 2', data)
+        // console.log('dataaaa 2', data)
         let rs = data.map(r => {
           r.label = r.label;
           r.value = r.value;
           return r;
         })
-        reset({
-          relationship: rs
-        })
+        // reset({
+        //   relationship: rs
+        // })
+
+        console.log('rssss123', rs)
+        setPatientSource(rs);
         // setRelationship(res.data.relationships);
       } catch (error) { }
     })()
   }, [])
+
+  // useEffect(() => {
+  //   ; (async () => {
+  //     try {
+  //       const res = await getPatientSource()
+  //       const data = formatStrapiArr(res?.data);
+  //       setPatientSource(data);
+
+  //       console.log('dataaaa 2', data)
+  //       let rs = data.map(r => {
+  //         r.label = r.label;
+  //         r.value = r.value;
+  //         return r;
+  //       })
+  //       reset({
+  //         relationship: rs
+  //       })
+  //       // setRelationship(res.data.relationships);
+  //     } catch (error) { }
+  //   })()
+  // }, [])
 
   const validationSchema = yup.object({
     // email: yup
@@ -216,10 +240,10 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       setLoading(true)
       const payload = {
         ...formData,
-        source: formData?.source?.id,
         username: formData.email,
         referral: formData?.referral?.value,
         customerTag: formData.customerTag === CUSTOMER_TAG.REFERRAL ? "referral" : "new",
+        patient_source: formData?.patient_source?.id,
       }
       if (data?.id) {
         await updateUser(data?.id, payload)
@@ -490,19 +514,19 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           )}
         />
         <Controller
-            name="source"
+            name="patient_source"
             control={control}
             render={({ field: { onChange, value, ref } }) => (
               <Select
                 placeholder="Chọn nguồn"
                 label="Nguồn"
-                name="source"
-                options={SOURCES}
-                value={value && SOURCES.find((s) => s.value === value.id)}
+                name="patient_source"
+                options={patientSource}
+                value={value && patientSource?.find((s) => s.id === value.id)}
                 onChange={(e) => {
                   setValue(
-                    "source",
-                    { id: e.value },
+                    "patient_source",
+                    { id: e.id },
                     {
                       shouldValidate: true,
                       shouldDirty: true,
