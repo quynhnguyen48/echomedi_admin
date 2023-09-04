@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import { Controller } from "react-hook-form"
 
 import Input from "components/Input"
@@ -8,6 +8,9 @@ import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
 import Icon from "components/Icon"
 import { getValue } from "@testing-library/user-event/dist/utils"
 import { getListPatients } from "services/api/patient"
+import { uploadMedia } from "services/api/mediaLibrary"
+import { toast } from "react-toastify"
+import { getStrapiMedia } from "utils/media"
 
 function removeVietnameseTones(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
@@ -54,7 +57,9 @@ const PrescriptionFormItem = ({
 }) => {
   const [listDrugs, setListDrugs] = useState([])
   const [loading, setLoading] = useState(false)
+  const ref = useRef()
 
+  console.log('item', item.image)
 
   const handleSearchPatients = (value) => {
     // setLoadingCustomers(true)
@@ -86,16 +91,65 @@ const PrescriptionFormItem = ({
       })
   }
 
+  const onFinish = useCallback(
+    async (id, files) => {
+      let payload = cloneDeep(testResults)
+      if (payload?.[id]) {
+        payload[id] = [...payload[id], ...files]
+      } else {
+        payload = {
+          ...payload,
+          [id]: files,
+        }
+      }
+      window.location.reload();
+      // await updateMedicalRecord(medicalRecordId, {
+      //   testResults: payload,
+      // })
+      // await fetchData()
+    },
+    []
+  )
+  
+  const uploadAssets = useCallback(
+    async (id, e) => {
+      const toastId = toast.loading("Đang tải lên")
+      try {
+        const uploadedFiles = [...e.target.files]
+        const promises = uploadedFiles?.map((file) => {
+          const formData = new FormData()
+          formData.append("files", file)
+          formData.append("ref", "api::patient-source.patient-source")
+          formData.append("refId", item.uid)
+          formData.append("field", "image")
+          return uploadMedia(formData)
+        })
+        const response = await Promise.all(promises)
+        
+        const files = flatten(response?.map((item) => item.data))
+        if (files) {
+          onFinish(id, files)
+        }
+      } catch (error) {
+        // toast.error(getErrorMessage(error));
+      } finally {
+        toast.dismiss(toastId)
+        window.location.reload();
+      }
+    },
+    [onFinish]
+  )
+
   return (
     <div className="flex flex-col gap-2" key={item.id}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <Controller
           name={`relationship[${index}].label`}
           label="Tên"
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
-            
+
               label={'Tên'}
               onChange={e => {
                 setValue(`relationship[${index}].label`, e.target.value, {
@@ -114,7 +168,7 @@ const PrescriptionFormItem = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <Input
-            
+
               label={'Code'}
               onChange={e => {
                 setValue(`relationship[${index}].value`, e.target.value, {
@@ -127,6 +181,20 @@ const PrescriptionFormItem = ({
             />
           )}
         />
+        <div>
+        <p>Logo</p>
+        <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1">
+          <img src={getStrapiMedia(item.image.data?.attributes)} width={"100px"}/>
+          <input
+            ref={ref}
+            type="file"
+            className="h-full w-full opacity-0 cursor-pointer absolute z-20"
+          onChange={(e) => uploadAssets(item.id, e)}
+          // multiple
+          />
+          <p>Tải lên</p>
+        </div>
+        </div>
         {/* <div className="col-span-1 flex gap-2 justify-between">
           <button type="button" className="mb-4" onClick={() => remove(index)}>
             <Icon name="trash" className="fill-red" />

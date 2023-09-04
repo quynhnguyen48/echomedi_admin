@@ -53,28 +53,18 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [patientExist, setPatientExist] = useState(false);
   const [patientSource, setPatientSource] = useState();
 
-  console.log('datadatadatadata', data)
-
   useEffect(() => {
     ; (async () => {
       try {
         const res = await getPatientSource()
         const data = formatStrapiArr(res?.data);
-        // setPatientSource(data);
-
-        // console.log('dataaaa 2', data)
         let rs = data.map(r => {
           r.label = r.label;
           r.value = r.value;
           return r;
         })
-        // reset({
-        //   relationship: rs
-        // })
 
-        console.log('rssss', rs)
         setPatientSource(rs);
-        // setRelationship(res.data.relationships);
       } catch (error) { }
     })()
   }, [])
