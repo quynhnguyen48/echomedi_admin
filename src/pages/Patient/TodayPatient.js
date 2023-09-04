@@ -90,7 +90,7 @@ const Treatments = () => {
   const fetchIdRef = useRef(0);
   const [patients, setPatients] = useState([]);
   const [startDate, setStartDate] = 
-    useState(dayjs().hour(7).minute(0).toDate());
+    useState(dayjs().hour(7).minute(0).second(0).millisecond(0).subtract(7, 'hour').toDate());
   const [endDate, setEndDate] = useState(dayjs().hour(7).minute(0).add(1, 'day').toDate());
 
   useEffect(() => {
