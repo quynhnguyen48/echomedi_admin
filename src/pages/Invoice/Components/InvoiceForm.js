@@ -323,7 +323,7 @@ const InvoiceForm = ({
       reset({
         bundleServices: invoiceData?.bundleServices?.filter(ms => !ms["paid"]),
         medicalServices: invoiceData?.medicalServices?.filter(ms => !ms["paid"]),
-        cliniqueServices: invoiceData?.cliniqueServices,
+        cliniqueServices: invoiceData?.cliniqueServices?.filter(ms => !ms["paid"]),
         membership: invoiceData?.membership,
         note: invoiceData?.note,
       })
@@ -361,7 +361,8 @@ const InvoiceForm = ({
             discountPercentage: item.attributes["discount_percentage"],
             note: item?.attributes?.discount_note
           })),
-        cliniqueServices: cliniqueServices?.map((item) => ({
+        cliniqueServices: cliniqueServices?.filter(item => !item["attributes"]["paid"])
+        .map((item) => ({
           id: item?.id,
           price: item?.attributes?.price,
           label: item?.attributes?.label,
