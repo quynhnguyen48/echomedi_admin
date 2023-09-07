@@ -72,26 +72,26 @@ const Invoice = () => {
           )
           if (res.data) {
             const listTreatments = formatStrapiArr(res.data)
-            setData(
-              listTreatments?.map((treatment) => {
-                const booking = formatStrapiObj(treatment?.booking)
-                return {
-                  ...treatment,
-                  areaImage: formatStrapiObj(treatment?.areaImage),
-                  background: formatStrapiObj(treatment?.background),
-                  thumbnail: formatStrapiObj(treatment?.thumbnail),
-                  categories: formatStrapiArr(treatment?.categories),
-                  bookings: formatStrapiArr(treatment?.bookings),
-                  transactions: formatStrapiArr(treatment?.transactions),
-                  patient: formatStrapiObj(booking?.patient),
-                  medicalRecord: formatStrapiObj(booking?.medical_record),
-                  prescription: formatStrapiObj(treatment?.prescription),
-                  booking,
-                  treatmentHistories: formatStrapiArr(treatment?.treatmentHistories),
-                }
-              })
-            )
+            let data2 = listTreatments?.map((treatment) => {
+              const booking = formatStrapiObj(treatment?.booking)
+              return {
+                ...treatment,
+                cashier_in_charge: formatStrapiObj(treatment?.cashier_in_charge),
+                areaImage: formatStrapiObj(treatment?.areaImage),
+                background: formatStrapiObj(treatment?.background),
+                thumbnail: formatStrapiObj(treatment?.thumbnail),
+                categories: formatStrapiArr(treatment?.categories),
+                bookings: formatStrapiArr(treatment?.bookings),
+                transactions: formatStrapiArr(treatment?.transactions),
+                patient: formatStrapiObj(booking?.patient),
+                medicalRecord: formatStrapiObj(booking?.medical_record),
+                prescription: formatStrapiObj(treatment?.prescription),
+                booking,
+                treatmentHistories: formatStrapiArr(treatment?.treatmentHistories),
+              }
+            });
 
+            setData(data2);
             setPageCount(res?.data?.meta?.pagination?.pageCount)
           }
         } catch (error) {
@@ -141,6 +141,8 @@ const Invoice = () => {
     },
     [data]
   )
+
+  console.log('detailData', detailData)
 
   return (
     <Page

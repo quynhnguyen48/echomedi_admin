@@ -2967,26 +2967,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 )}
               />
             </div>
-            <div className="w-full">
-              <Controller
-                name="cashier_in_charge"
-                control={control}
-                render={({ field: { value, ref } }) => (
-                  <Select
-                    // isDisabled={true}
-                    placeholder="Thu ngân phụ trách"
-                    label="Thu ngân phụ trách"
-                    name="cashier_in_charge"
-                    onChange={(e) => {
-                      setCashierInCharge(e)
-                    }}
-                    value={cashierInCharge}
-                    options={cashierData}
-                    errors={errors?.address?.province?.message}
-                  />
-                )}
-              />
-            </div>
           </div>
           <p className="text-xl font-semibold text-right">Tổng {numberWithCommas(total)}</p>
         </div>

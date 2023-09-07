@@ -94,8 +94,6 @@ const CustomersTable = ({
     [activeRow?.id, onClickRow]
   )
 
-  console.log('data', data)
-
   const columns = useMemo(() => {
     const defaultColumns = [
       {

@@ -85,8 +85,6 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
     }
   }, [data?.id])
 
-  console.log('data', data)
-
   return (
     <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll px-2`}>
       <div className="flex items-center gap-x-2">

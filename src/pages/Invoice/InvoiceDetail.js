@@ -65,8 +65,6 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
       })
   }
 
-  console.log('data', data)
-
   return (
     <div className="my-10 w-full">
       <div className="flex items-center gap-x-2"></div>
@@ -101,6 +99,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
         <InvoiceForm
           id={data?.id}
           invoiceData={data?.data}
+          cashier_in_charge={data?.cashier_in_charge}
           published={!!data?.publishedAt}
           bundleServices={bundleServices}
           medicalServices={medicalServices}
