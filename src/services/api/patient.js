@@ -13,7 +13,8 @@ export const getListPatients = (pagination, filters, populate) => {
     },
     populate: populate || [
       "membership_profile_file",
-      "patient_source"
+      "patient_source",
+      "patient_source.image",
       // "role",
       // "transactions",
       // "bookings",

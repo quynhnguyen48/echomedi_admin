@@ -68,6 +68,8 @@ const CustomersTable = ({
     [activeRow?.id, onClickRow]
   )
 
+  console.log('data123', data)
+
   const columns = useMemo(() => {
     const defaultColumns = [
       {
@@ -87,6 +89,7 @@ const CustomersTable = ({
                         originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.membership)} text-${getMembershipColor(originalRow?.membership)}`
                       }`}/>
             )}
+            {getStrapiMedia(originalRow?.patient_source.data?.attributes.image.data?.attributes) && <img src={getStrapiMedia(originalRow?.patient_source.data?.attributes.image.data?.attributes)} alt="Product" className="w-30" />}
           </span>
         ),
         collapse: true,
