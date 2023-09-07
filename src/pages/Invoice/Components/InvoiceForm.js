@@ -194,7 +194,8 @@ const InvoiceForm = ({
       toast.error(getErrorMessage(error))
     } finally {
       setIsLoading(false);
-      togglePublish();
+      if (!published) togglePublish();
+      window.location.reload();
     }
   }
 
@@ -288,7 +289,6 @@ const InvoiceForm = ({
 
   useEffect(() => {
     if (invoiceData) {
-      console.log('medicalServices', invoiceData?.bundleServices)
       setTotalDiscountFixedPrice(invoiceData?.totalDiscountFixedPrice)
       setTotalDiscountPercentage(invoiceData?.totalDiscountPercentage)
       reset({

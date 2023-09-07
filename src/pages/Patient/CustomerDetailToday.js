@@ -279,11 +279,6 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
       >
         Tải bệnh án
       </Button>}
-      {/* {data.booking.medical_record &&  <Button
-        onClick={() => downloadPDF()}
-      >
-        Tải hoá đơn
-      </Button>} */}
       {data.medical_record &&  <Button
         onClick={() => generatePhieuChiDinh()}
       >

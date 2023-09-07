@@ -114,13 +114,13 @@ const Invoice = () => {
           ...oldDetailData,
           publishedAt: updatedData?.publishedAt,
         }))
-        setData((oldData) => {
-          const pos = oldData.findIndex((t) => t.id === detailData?.id)
-          if (pos > -1) {
-            oldData[pos].publishedAt = updatedData?.publishedAt
-          }
-          return oldData
-        })
+        // setData((oldData) => {
+        //   const pos = oldData.findIndex((t) => t.id === detailData?.id)
+        //   if (pos > -1) {
+        //     oldData[pos].publishedAt = updatedData?.publishedAt
+        //   }
+        //   return oldData
+        // })
         toast.success(
           `Thành công`
         )
