@@ -22,6 +22,7 @@ import ProductsTable from "./components/ProductsTable"
 import ProductDetail from "./ProductDetail"
 import { io } from "socket.io-client";
 import axios from "../../services/axios";
+import dayjs from 'dayjs';
 
 const Message = () => <li className="flex justify-start">
   <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
@@ -187,7 +188,7 @@ const ServiceBundles = () => {
 
   const sendMesssage = () => {
     var email = currentUser?.email;
-    socket.emit("chatMessage", { "user": "user", "message": `${email}|room${id}|${message}|${new Date().toISOString()}` });
+    socket.emit("chatMessage", { "user": "user", "message": `${email}|room${id}|${message}|${dayjs().add(7, 'hour').toISOString()}` });
     refInput.current.value = "";
   }
 
