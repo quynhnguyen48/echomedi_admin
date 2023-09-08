@@ -188,6 +188,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
       phone: data?.patient?.phone || "",
       status: data?.status || "",
       note: data?.note || "",
+      type: data?.type,
       birthday: !!data?.patient?.birthday ? new Date(data?.patient?.birthday) : null,
       address: {
         province: data?.patient?.address?.province || null,
@@ -333,8 +334,6 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
   const loadBooking = () => {
 
   }
-
-  console.log('data', data)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -123,15 +123,6 @@ const ServiceBundles = () => {
     }
   }
 
-  // useEffect(() => {
-
-  //   loadConversation();
-
-  //   var socket = io();
-  // }, []);
-
-  console.log('data', data)
-
   return (
     <Page
       title="Nhắn tin"

@@ -1853,6 +1853,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             ).map((m) => (
                               <div className="mb-2 flex">
                                 <Button
+                                  disabled={m.attributes?.paid}
                                   type="button"
                                   className={"inline"}
                                   icon={<Icon name="close-circle" className="fill-white" />}
@@ -1861,6 +1862,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
                                   <span>{numberWithCommas(m.attributes?.price)}</span>
                                   <span>{m.attributes.discount_note}</span>
+                                  <span>{m.attributes?.paid ? '(Đã thanh toán)' : ''}</span>
                                 </Button>
                               </div>
                             ))}
@@ -2962,26 +2964,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     }}
                     value={doctorInCharge}
                     options={customersData}
-                    errors={errors?.address?.province?.message}
-                  />
-                )}
-              />
-            </div>
-            <div className="w-full">
-              <Controller
-                name="cashier_in_charge"
-                control={control}
-                render={({ field: { value, ref } }) => (
-                  <Select
-                    // isDisabled={true}
-                    placeholder="Thu ngân phụ trách"
-                    label="Thu ngân phụ trách"
-                    name="cashier_in_charge"
-                    onChange={(e) => {
-                      setCashierInCharge(e)
-                    }}
-                    value={cashierInCharge}
-                    options={cashierData}
                     errors={errors?.address?.province?.message}
                   />
                 )}

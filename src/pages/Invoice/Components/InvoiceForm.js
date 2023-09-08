@@ -17,10 +17,13 @@ import axios2 from "axios"
 import "@yaireo/tagify/dist/tagify.css" // imports tagify SCSS file from within
 import { getDiscountSettings } from "services/api/settings"
 import { formatPrice } from "utils/number";
+import Select from "components/Select"
+import { useSelector } from "react-redux";
 
 const InvoiceForm = ({
   id,
   invoiceData,
+  cashier_in_charge,
   published,
   bundleServices,
   medicalServices,
@@ -38,6 +41,9 @@ const InvoiceForm = ({
   const [totalDiscountFixedPrice, setTotalDiscountFixedPrice] = useState(0);
   const [totalDiscountPercentage, setTotalDiscountPercentage] = useState(0);
   const [paid, setPaid] = useState(false);
+  const [cashierInCharge, setCashierInCharge] = useState();
+  const [cashierData, setCashierData] = useState([]);
+  const currentUser = useSelector((state) => state.user.currentUser)
 
   const {
     handleSubmit,
@@ -133,10 +139,32 @@ const InvoiceForm = ({
 
   useEffect(() => {
     loadTagifyWhitelist()
+
+    setCashierData([
+      {
+        value: currentUser?.id,
+        label: `${currentUser?.patient?.full_name}`,
+      }
+    ])
+
+    console.log('invoiceData', invoiceData)
+    if (cashier_in_charge) {
+      setCashierInCharge({
+        value: cashier_in_charge.id,
+        label: cashier_in_charge.email,
+      })
+    }
   }, [])
 
   useEffect(() => {
     setDoneLoadTagify(false)
+    console.log('invoiceData', invoiceData)
+    if (cashier_in_charge) {
+      setCashierInCharge({
+        value: cashier_in_charge.id,
+        label: cashier_in_charge.email,
+      })
+    }
   }, [id])
 
   const loadTagifyWhitelist = () => {
@@ -170,6 +198,7 @@ const InvoiceForm = ({
             totalDiscountFixedPrice,
             totalDiscountPercentage,
             total: subTotal - totalDiscount,
+            cashier_in_charge: cashierInCharge?.value,
           },
         },
         {
@@ -195,7 +224,7 @@ const InvoiceForm = ({
     } finally {
       setIsLoading(false);
       if (!published) togglePublish();
-      window.location.reload();
+      // window.location.reload();
     }
   }
 
@@ -294,7 +323,7 @@ const InvoiceForm = ({
       reset({
         bundleServices: invoiceData?.bundleServices?.filter(ms => !ms["paid"]),
         medicalServices: invoiceData?.medicalServices?.filter(ms => !ms["paid"]),
-        cliniqueServices: invoiceData?.cliniqueServices,
+        cliniqueServices: invoiceData?.cliniqueServices?.filter(ms => !ms["paid"]),
         membership: invoiceData?.membership,
         note: invoiceData?.note,
       })
@@ -314,25 +343,26 @@ const InvoiceForm = ({
       // })), cliniqueServices)
       reset({
         bundleServices: bundleServices?.filter(item => !item["attributes"]["paid"])
-        
-        .map((item) => ({
-          id: item?.id,
-          price: item?.attributes?.original_price ?? item?.attributes?.price,
-          label: item?.attributes?.label,
-          discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
-          discountPercentage: item.attributes["discount_percentage"],
-          note: item?.attributes?.discount_note
-        })),
+
+          .map((item) => ({
+            id: item?.id,
+            price: item?.attributes?.original_price ?? item?.attributes?.price,
+            label: item?.attributes?.label,
+            discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
+            discountPercentage: item.attributes["discount_percentage"],
+            note: item?.attributes?.discount_note
+          })),
         medicalServices: medicalServices?.filter(item => !item["attributes"]["paid"])
+          .map((item) => ({
+            id: item?.id,
+            price: item?.attributes?.original_price ?? item?.attributes?.price,
+            label: item?.attributes?.label,
+            discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
+            discountPercentage: item.attributes["discount_percentage"],
+            note: item?.attributes?.discount_note
+          })),
+        cliniqueServices: cliniqueServices?.filter(item => !item["attributes"]["paid"])
         .map((item) => ({
-          id: item?.id,
-          price: item?.attributes?.original_price ?? item?.attributes?.price,
-          label: item?.attributes?.label,
-          discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
-          discountPercentage: item.attributes["discount_percentage"],
-          note: item?.attributes?.discount_note
-        })),
-        cliniqueServices: cliniqueServices?.map((item) => ({
           id: item?.id,
           price: item?.attributes?.price,
           label: item?.attributes?.label,
@@ -456,6 +486,21 @@ const InvoiceForm = ({
         <div className="col-span-1">
           <Price price={subTotal - totalDiscount - totalDiscountFixedPrice} />
         </div>
+      </div>
+      <div className="w-full">
+
+        <Select
+          // isDisabled={true}
+          placeholder="Thu ngân phụ trách"
+          label="Thu ngân phụ trách"
+          name="cashier_in_charge"
+          onChange={(e) => {
+            setCashierInCharge(e)
+          }}
+          value={cashierInCharge}
+          options={cashierData}
+          errors={errors?.address?.province?.message}
+        />
       </div>
       <div className="flex gap-x-4 !mt-5 justify-end">
         <Button type="submit" loading={isLoading}>
