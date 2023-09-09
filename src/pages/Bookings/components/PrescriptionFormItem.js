@@ -81,7 +81,7 @@ const PrescriptionFormItem = ({
 
   return (
     <div className="flex flex-col gap-2" key={item.id}>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-1">
         <Controller
           name={`Drugs[${index}].drug`}
           control={control}
@@ -89,7 +89,7 @@ const PrescriptionFormItem = ({
             <Select
               isLoading={loading}
               className="rounded-lg"
-              wrapperClassName="col-span-4"
+              wrapperClassName="col-span-1"
               placeholder="Tên thuốc"
               label={`${index + 1}. Tên thuốc`}
               name={`Drugs[${index}].drug`}
@@ -111,7 +111,23 @@ const PrescriptionFormItem = ({
             />
           )}
         />
-        <div className="col-span-6 flex gap-2 justify-between">
+        <Controller
+            name={`Drugs[${index}].usage`}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Textarea
+                className="flex-1"
+                inputClassName=""
+                name={`Drugs[${index}].usage`}
+                onChange={onChange}
+                value={value}
+                label={"Cách dùng"}
+                placeholder="Nhập cách dùng"
+                errors={errors.Drugs?.[index]?.usage?.message}
+              />
+            )}
+          />
+        <div className="col-span-7 flex gap-2 justify-between">
         <Controller
           name={`Drugs[${index}].morningAmount`}
           control={control}
@@ -245,28 +261,16 @@ const PrescriptionFormItem = ({
             />
           )}
         />
-        </div>
-        <div className="col-span-2 flex items-end gap-x-2">
-          <Controller
-            name={`Drugs[${index}].usage`}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Textarea
-                className="flex-1"
-                inputClassName=""
-                name={`Drugs[${index}].usage`}
-                onChange={onChange}
-                value={value}
-                label={"Cách dùng"}
-                placeholder="Nhập cách dùng"
-                errors={errors.Drugs?.[index]?.usage?.message}
-              />
-            )}
-          />
-          <button type="button" className="mb-4" onClick={() => remove(index)}>
+        <button type="button" className="mb-4" onClick={() => remove(index)}>
             <Icon name="trash" className="fill-red" />
           </button>
         </div>
+        {/* <div className="col-span-2 flex items-end gap-x-2">
+          
+          <button type="button" className="mb-4" onClick={() => remove(index)}>
+            <Icon name="trash" className="fill-red" />
+          </button>
+        </div> */}
       </div>
     </div>
   )

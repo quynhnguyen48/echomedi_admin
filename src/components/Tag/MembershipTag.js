@@ -17,9 +17,25 @@ const Tag = ({ name, className, secondary = false, color, backgroundColor }) => 
       <span style={{
         color,
         textAlign: "center"
-      }}>{name}</span>
+      }}>{translateMembershipLabel(name)}</span>
     </p>
   );
 };
+
+const translateMembershipLabel = (label) => {
+  switch (label) {
+    case 'medical_provider':
+      return "Medical Provider";
+      break;
+    case 'medical_provider_gold':
+      return "Medical Provider Gold";
+      break;
+    case 'medical_provider_platinum':
+      return "Medical Provider Platinum";
+      break;
+  }
+
+  return label;
+}
 
 export default Tag;

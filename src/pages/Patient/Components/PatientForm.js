@@ -493,7 +493,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               control={control}
               render={({ field: { onChange, value } }) => (
                 <>
-                  {["gold", "platinum", "family", "business", "non-resident", "foreigner"]?.map((gender) => (
+                  {["gold", "platinum", "medical_provider", "medical_provider_gold", "medical_provider_platinum"]?.map((gender) => (
                     <Button
                       key={gender}
                       onChange={onchange}

@@ -19,7 +19,7 @@ const DataItem = ({ title, value, icon, footer, valueClassName = "" }) => {
       </div>
       <div className="flex-1 overflow-x-hidden">
         <p className="text-12 font-bold text-secondary/[0.56]">{title}</p>
-        <pre className={`text-16 ${valueClassName}`}>{parseJson(value)}</pre>
+        <prev className={`text-16 ${valueClassName}`}>{parseJson(value)}</prev>
         {footer}
       </div>
     </div>

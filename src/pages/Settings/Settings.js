@@ -40,7 +40,7 @@ const Settings = () => {
 
   return (
     <Page title="Cài đặt">
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid sm:grid-cols-1 grid-cols-4 gap-6">
         {SETTINGS.map((item, index) => (
           <button
             key={index}

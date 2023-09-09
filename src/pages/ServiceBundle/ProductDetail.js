@@ -42,11 +42,24 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
   const [disabledBD, setDisabledBD] = useState(false);
   const [label, setLabel] = useState("");
   const [goldPercentage, setGoldPercentage] = useState(0);
-  const [platinumPercentage, setPlatinumPercentage] = useState(0);
   const [monthlyGold, setMonthlyGold] = useState(0);
-  const [monthlyPlatinum, setMonthlyPlatinum] = useState(0);
   const [yearlyGold, setYearlyGold] = useState(0);
+  const [platinumPercentage, setPlatinumPercentage] = useState(0);
+  const [monthlyPlatinum, setMonthlyPlatinum] = useState(0);
   const [yearlyPlatinum, setYearlyPlatinum] = useState(0);
+
+  const [medicalProviderPercentage, setMedicalProviderPercentage] = useState(0);
+  const [monthlyMedicalProvider, setMonthlyMedicalProvider] = useState(0);
+  const [yearlyMedicalProvider, setYearlyMedicalProvider] = useState(0);
+
+  const [medicalProviderGoldPercentage, setMedicalProviderGoldPercentage] = useState(0);
+  const [monthlyMedicalProviderGold, setMonthlyMedicalProviderGold] = useState(0);
+  const [yearlyMedicalProviderGold, setYearlyMedicalProviderGold] = useState(0);
+
+  const [medicalProviderPlatinumPercentage, setMedicalProviderPlatinumPercentage] = useState(0);
+  const [monthlyMedicalProviderPlatinum, setMonthlyMedicalProviderPlatinum] = useState(0);
+  const [yearlyMedicalProviderPlatinum, setYearlyMedicalProviderPlatinum] = useState(0);
+  
 
   useEffect(() => {
     setPrice(data?.price);
@@ -61,8 +74,22 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
     setPlatinumPercentage(data?.membership_discount?.platinum_percentage);
     setMonthlyGold(data?.membership_discount?.gold_monthly);
     setMonthlyPlatinum(data?.membership_discount?.platinum_monthly);
-    setYearlyGold(data?.membership_discount?.gold_yearly)
-    setYearlyPlatinum(data?.membership_discount?.platinum_yearly)
+    setYearlyGold(data?.membership_discount?.gold_yearly);
+    setYearlyPlatinum(data?.membership_discount?.platinum_yearly);
+
+    setMedicalProviderPercentage(data?.membership_discount?.medical_provider_percentage);
+    setMonthlyMedicalProvider(data?.membership_discount?.medical_provider_monthly);
+    setYearlyMedicalProvider(data?.membership_discount?.medical_provider_yearly);
+
+    setMedicalProviderGoldPercentage(data?.membership_discount?.medical_provider_gold_percentage);
+    setMonthlyMedicalProviderGold(data?.membership_discount?.medical_provider_gold_monthly);
+    setYearlyMedicalProviderGold(data?.membership_discount?.medical_provider_gold_yearly);
+
+    setMedicalProviderPlatinumPercentage(data?.membership_discount?.medical_provider_platinum_percentage);
+    setMonthlyMedicalProviderPlatinum(data?.membership_discount?.medical_provider_platinum_monthly);
+    setYearlyMedicalProviderPlatinum(data?.membership_discount?.medical_provider_platinum_yearly);
+
+
     if (data.Locations) {
       data.Locations?.forEach(l => {
         if (l["location"] == "q2") {
@@ -95,7 +122,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
 
   return (
     <div className="my-10 w-full">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <Controller
           name="code"
           label="Tên"
@@ -115,7 +142,9 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
           <span className="font-bold mr-4 mt-1">Các dịch vụ con:</span>
           {editable && <Button onClick={e => setVisiblePrescriptionModal(true)}>Thay đổi dịch vụ</Button>}
         </div>
-        {Array.isArray(data?.medical_services) && data?.medical_services?.map(item => <p>- {item.label}</p>)}
+        <ol style={{ listStyleType: "decimal", marginLeft: "30px" }}>
+          {Array.isArray(data?.medical_services) && data?.medical_services?.map(item => <li>{item.label}</li>)}
+        </ol>
       </div>
       {visiblePrescriptionModal && (
         <PrescriptionModal
@@ -143,7 +172,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
         )}
       /> */}
       <div className="mt-6 space-y-6 flex-1 overflow-y-auto">
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           <Controller
             name="code"
             control={control}
@@ -158,8 +187,8 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 label={<div>
                   <span className="mr-5">Giá tại CN quận 2</span>
                   <div className="flex inline flex-row items-center">
-                  <input onChange={e => setDisabledQ2(!disabledQ2)} className="w-5 h-5 mr-1 accent-green" type="checkbox" checked={!disabledQ2}></input>
-                  <span>active</span>
+                    <input onChange={e => setDisabledQ2(!disabledQ2)} className="w-5 h-5 mr-1 accent-green" type="checkbox" checked={!disabledQ2}></input>
+                    <span>active</span>
                   </div>
                 </div>}
                 name="code"
@@ -181,8 +210,8 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 label={<div>
                   <span className="mr-5">Giá tại CN quận 7</span>
                   <div className="flex inline flex-row items-center">
-                  <input onChange={e => setDisabledQ7(!disabledQ7)} className="w-5 h-5 mr-1  accent-green" type="checkbox" checked={!disabledQ7}></input>
-                  <span>active</span>
+                    <input onChange={e => setDisabledQ7(!disabledQ7)} className="w-5 h-5 mr-1  accent-green" type="checkbox" checked={!disabledQ7}></input>
+                    <span>active</span>
                   </div>
                 </div>}
                 name="code"
@@ -204,9 +233,9 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 label={<div>
                   <span className="mr-5">Giá tại CN Bình Dương</span>
                   <div className="flex inline flex-row items-center">
-                  <input onChange={e => setDisabledBD(!disabledBD)}
-                    className="w-5 h-5 mr-1  accent-green" type="checkbox" checked={!disabledBD}></input>
-                  <span>active</span>
+                    <input onChange={e => setDisabledBD(!disabledBD)}
+                      className="w-5 h-5 mr-1  accent-green" type="checkbox" checked={!disabledBD}></input>
+                    <span>active</span>
                   </div>
                 </div>}
                 name="code"
@@ -244,6 +273,57 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 value={platinumPercentage}
                 label={<div>
                   <span className="mr-5">Thành viên bạch kim (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                onChange={e => {
+                  setMedicalProviderPercentage(e.target.value);
+                }}
+                value={medicalProviderPercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên medical provider (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                onChange={e => {
+                  setMedicalProviderGoldPercentage(e.target.value);
+                }}
+                value={medicalProviderGoldPercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên medical provider GOLD (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                onChange={e => {
+                  setMedicalProviderPlatinumPercentage(e.target.value);
+                }}
+                value={medicalProviderPlatinumPercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên medical provider PLATINUM (%)</span>
                 </div>}
                 name="code"
                 suffix={"%"}
@@ -318,6 +398,112 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               />
             )}
           />
+
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setMonthlyMedicalProvider(e.target.value);
+                }}
+                value={monthlyMedicalProvider}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên medical provider</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyMedicalProvider(e.target.value);
+                }}
+                value={yearlyMedicalProvider}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên medical provider</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+
+
+<Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setMonthlyMedicalProviderGold(e.target.value);
+                }}
+                value={monthlyMedicalProviderGold}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên medical provider GOLD</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyMedicalProviderGold(e.target.value);
+                }}
+                value={yearlyMedicalProviderGold}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên medical provider GOLD</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+
+<Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setMonthlyMedicalProviderPlatinum(e.target.value);
+                }}
+                value={monthlyMedicalProviderPlatinum}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên medical provider PLATINUM</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyMedicalProviderPlatinum(e.target.value);
+                }}
+                value={yearlyMedicalProviderPlatinum}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên medical provider PLATINUM</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
         </div>
       </div>
       {editable && <Button className="mt-4" type="button" onClick={async () => {
@@ -347,7 +533,16 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             gold_monthly: monthlyGold,
             platinum_monthly: monthlyPlatinum,
             gold_yearly: yearlyGold,
-            platinum_yearly: yearlyPlatinum
+            platinum_yearly: yearlyPlatinum,
+            medical_provider_percentage: medicalProviderPercentage,
+            medical_provider_monthly: monthlyMedicalProvider,
+            medical_provider_yearly: yearlyMedicalProvider,
+            medical_provider_gold_percentage: medicalProviderGoldPercentage,
+            medical_provider_gold_monthly: monthlyMedicalProviderGold,
+            medical_provider_gold_yearly: yearlyMedicalProviderGold,
+            medical_provider_platinum_percentage: medicalProviderPlatinumPercentage,
+            medical_provider_platinum_monthly: monthlyMedicalProviderPlatinum,
+            medical_provider_platinum_yearly: yearlyMedicalProviderPlatinum,
           }
         };
 

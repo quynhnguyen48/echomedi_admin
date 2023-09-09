@@ -202,12 +202,14 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <th>Mạch(lần/phút)</th>
           <th>Nhiệt độ(*C)</th>
           <th>Huyết áp(mmHg)</th>
+          <th>Huyết áp lần 2(mmHg)</th>
           <th>Nhịp thở(Lần/phút)</th>
         </tr>
         <tr>
           <th>{data?.circuit}</th>
           <th>{data?.temperature}</th>
           <th>{data?.blood_pressure}/{data?.blood_pressure2}</th>
+          <th>{data?.blood_pressure_1}/{data?.blood_pressure2_1}</th>
           <th>{data?.respiratory_rate}</th>
         </tr>
         <tr>
@@ -223,7 +225,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <th>{data?.spo2}</th>
         </tr>
       </table>
-      <div className="grid grid-cols-3 grid-flow-row gap-y-5 mt-2">
+      <div className="grid grid-cols-4 grid-flow-row gap-y-5 mt-2">
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"

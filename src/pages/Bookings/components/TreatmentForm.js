@@ -889,11 +889,29 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
             }
-            if ((data.patient.membership == "platinum" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
+            else if ((data.patient.membership == "platinum" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
               s.attributes["discount_note"] = "Thành viên bạch kim";
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+            }
+            else if ((selectedMembership?.value == "medical_provider" || data.patient.membership == "medical_provider") && s.attributes["membership_discount"].medical_provider_percentage) {
+              s.attributes["discount_note"] = "Thành viên Medical Provider";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
+            }
+            else if ((selectedMembership?.value == "medical_provider_gold" || data.patient.membership == "medical_provider_gold") && s.attributes["membership_discount"].medical_provider_gold_percentage) {
+              s.attributes["discount_note"] = "Thành viên Medical Provider GOLD";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_gold_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_gold_percentage) / 100;
+            }
+            else if ((selectedMembership?.value == "medical_provider_platinum" || data.patient.membership == "medical_provider_platinum") && s.attributes["membership_discount"].medical_provider_platinum_percentage) {
+              s.attributes["discount_note"] = "Thành viên Medical Provider PLATINUM";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_platinum_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_platinum_percentage) / 100;
             }
           }
 
@@ -919,11 +937,29 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].gold_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].gold_percentage) / 100;
             }
-            if ((data.patient.membership == "platinum" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
+            else if ((data.patient.membership == "platinum" || selectedMembership?.value == "platinum") && s.attributes["membership_discount"].platinum_percentage) {
               s.attributes["discount_note"] = "Thành viên bạch kim";
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+            }
+            else if ((selectedMembership?.value == "medical_provider" || data.patient.membership == "medical_provider") && s.attributes["membership_discount"].medical_provider_percentage) {
+              s.attributes["discount_note"] = "Thành viên Medical Provider";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
+            }
+            else if ((selectedMembership?.value == "medical_provider_gold" || data.patient.membership == "medical_provider_gold") && s.attributes["membership_discount"].medical_provider_gold_percentage) {
+              s.attributes["discount_note"] = "Thành viên Medical Provider GOLD";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_gold_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_gold_percentage) / 100;
+            }
+            else if ((selectedMembership?.value == "medical_provider_platinum" || data.patient.membership == "medical_provider_platinum") && s.attributes["membership_discount"].medical_provider_platinum_percentage) {
+              s.attributes["discount_note"] = "Thành viên Medical Provider PLATINUM";
+              s.attributes["original_price"] = s.attributes["price"];
+              s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_platinum_percentage;
+              s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_platinum_percentage) / 100;
             }
           }
           return s;
@@ -993,6 +1029,22 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+              } else if ((selectedMembership?.value == "medical_provider" || data.patient.membership == "medical_provider") && s.attributes["membership_discount"].medical_provider_percentage) {
+                s.attributes["discount_note"] = "Thành viên Medical Provider";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
+              } else if ((selectedMembership?.value == "medical_provider_gold" || data.patient.membership == "medical_provider_gold") && s.attributes["membership_discount"].medical_provider_gold_percentage) {
+                s.attributes["discount_note"] = "Thành viên Medical Provider GOLD";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_gold_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_gold_percentage) / 100;
+              }
+              else if ((selectedMembership?.value == "medical_provider_platinum" || data.patient.membership == "medical_provider_platinum") && s.attributes["membership_discount"].medical_provider_platinum_percentage) {
+                s.attributes["discount_note"] = "Thành viên Medical Provider PLATINUM";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_platinum_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_platinum_percentage) / 100;
               }
             }
 
@@ -1026,6 +1078,22 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].platinum_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].platinum_percentage) / 100;
+              } else if ((selectedMembership?.value == "medical_provider" || data.patient.membership == "medical_provider") && s.attributes["membership_discount"].medical_provider_percentage) {
+                s.attributes["discount_note"] = "Thành viên Medical Provider";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
+              } else if ((selectedMembership?.value == "medical_provider_gold" || data.patient.membership == "medical_provider_gold") && s.attributes["membership_discount"].medical_provider_gold_percentage) {
+                s.attributes["discount_note"] = "Thành viên Medical Provider GOLD";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_gold_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_gold_percentage) / 100;
+              }
+              else if ((selectedMembership?.value == "medical_provider_platinum" || data.patient.membership == "medical_provider_platinum") && s.attributes["membership_discount"].medical_provider_platinum_percentage) {
+                s.attributes["discount_note"] = "Thành viên Medical Provider PLATINUM";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_platinum_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_platinum_percentage) / 100;
               }
             }
 

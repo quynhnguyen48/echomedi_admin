@@ -16,14 +16,20 @@ const getMembershipColor = (v) => {
       return "#EDF325";
     case "platinum":
       return "#E5E4E2";
-    case "family": 
+    case "medical_provider": 
       return "#FFC300";
-    case "business":
+    case "medical_provider_gold":
       return "#DAF7A6";
-    case "non-resident":
+    case "medical_provider_platinum":
       return "#581845";
     case "foreigner":
       return "#25F3BB";
+    case "medical_provider":
+      return "Medical provider";
+    case "medical_provider_gold":
+      return "Medical provider + Membership Gold";
+    case "medical_provider_platinum":
+      return "Medical provider + Membership Platinum"
   }
 }
 
@@ -35,11 +41,11 @@ const getMembershipBackgroundColor = (v) => {
       return "#607d8b";
     case "platinum":
       return "grey";
-    case "family": 
+    case "medical_provider": 
       return "#607d8b";
-    case "business":
+    case "medical_provider_gold":
       return "#607d8b";
-    case "non-resident":
+    case "medical_provider_platinum":
       return "#607d8b";
     case "foreigner":
       return "#25F3BB";
