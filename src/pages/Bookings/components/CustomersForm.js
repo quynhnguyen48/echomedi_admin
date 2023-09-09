@@ -335,6 +335,20 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
 
   }
 
+  const translateBookingType = (type) => {
+    switch (type) {
+      case "at_clinic":
+        return "Tại phòng khám"
+        break;
+      case "home_visit":
+        return "Tại nhà"
+        break;
+      case "telemedicine":
+        return "Khám từ xa"
+        break;
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">
@@ -689,6 +703,8 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
             />
           )}
         />
+        {data.type && 
+        <p><span className="font-bold">Loại:</span> {translateBookingType(data.type)}</p>}
 
         <Controller
           name="note"

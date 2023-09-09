@@ -10,6 +10,20 @@ import Button from "components/Button";
 import Icon from "components/Icon";
 import { BRANCH } from "constants/Authentication"
 
+const translateBookingType = (type) => {
+  switch (type) {
+    case "at_clinic":
+      return "Tại phòng khám"
+      break;
+    case "home_visit":
+      return "Tại nhà"
+      break;
+    case "telemedicine":
+      return "Khám từ xa"
+      break;
+  }
+}
+
 const LatestBookings = () => {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
@@ -90,6 +104,9 @@ const translate = (t) => {
               <p className="text-16 font-bold">
                 Lời nhắn: {booking?.note || ""}
               </p>
+              <p className="text-16 font-bold">
+                Loại: {translateBookingType(booking?.type) || ""}
+              </p>
               <Button
                 btnSize="small"
                 className="mt-2"
@@ -99,7 +116,7 @@ const translate = (t) => {
               </Button>
             </div>
           ))}
-      </div>
+      </div>  
     </div>
   );
 };
