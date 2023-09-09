@@ -565,7 +565,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setBundleServicesData(bundleServicesData_)
       setUsedBundleMedicalServices(bundleServicesData_)
 
-      console.log('bundleServicesData_', bundleServicesData_)
       bundleServicesData_.forEach(s => {
         s.attributes.medical_services?.forEach(ss => {
           newExistServices[ss.id] = true;
@@ -574,18 +573,16 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     }
     if (data.services) {
-      console.log('data.services', data.services)
       const servicesData_ = JSON.parse(data.services)
-      console.log('services', servicesData_)
       setServicesData(servicesData_)
       setUsedMedicalServices(servicesData_)
 
       servicesData_.forEach(s => newExistServices[s.id] = true);
 
-      console.log('newExistServices', newExistServices)
     }
     if (data.clinique_services) {
       const cliniqueServicesData = data.clinique_services;
+      cliniqueServicesData.forEach(s => newExistServices[s.id] = true);
       setUsedCliniqueServices(cliniqueServicesData);
       setCliniqueServices(cliniqueServicesData);
     }
@@ -1046,7 +1043,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const addMedicalService = (m) => {
-    console.log('mmm', m)
     if (m.id in existServices) {
       toast.error("Không thể thêm dịch vụ này vì bị trùng. " + m.attributes.label)
     } else {
@@ -1095,7 +1091,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
 
-    console.log('mssss', ms)
 
     if (exist) {
       toast.error("Không thể thêm dịch vụ này vì bị trùng: " + ms.filter(s => s.id in existServices).map(s => s.label).join(", "))
