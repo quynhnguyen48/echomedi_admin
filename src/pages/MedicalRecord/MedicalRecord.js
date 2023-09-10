@@ -221,7 +221,7 @@ const Treatments = () => {
             }}
           />
         </div>
-        <div className="ml-6">
+        <div className="ml-6 flex">
           <Button
             onClick={() => {
               search();
@@ -229,9 +229,8 @@ const Treatments = () => {
           >
             Tìm kiếm
           </Button>
-        </div>
-        <div className="ml-6">
           <Button
+            className={"ml-4"}
             onClick={() => {
               downloadReport();
             }}

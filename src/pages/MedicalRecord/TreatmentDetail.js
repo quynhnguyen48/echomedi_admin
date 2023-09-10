@@ -314,14 +314,12 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
                 <p className="font-semibold"> + {b.attributes.label}</p>
                 <span>{numberWithCommas(b.attributes.price)}</span>
               </div>
-              <table className="service w-full">
+              <ol className="service w-full" style={{ listStyleType: "decimal", marginLeft: "20px"}}>
                 {Array.isArray((b.attributes.medical_services.data || b.attributes.medical_services)) && (b.attributes.medical_services.data || b.attributes.medical_services)?.map((s) => (
                   // <p> - {s.attributes.label}</p>
-                  <tr>
-                    <th>- {s?.attributes?.label || s?.label}</th>
-                  </tr>
+                    <li>{s?.attributes?.label || s?.label}</li>
                 ))}
-              </table>
+              </ol>
             </div>
           ))}
         {medicalServices && medicalServices.length > 0 && <p className="underline text-xl font-bold mt-5">Dịch vụ:</p>}

@@ -2771,7 +2771,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
-                                    className={"inline"}
+                                    className={"inline text-xs"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addBundleMedicalService(m)}
                                   >
@@ -2787,7 +2787,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       className="ml-2" shape="circle">i</Button> */}
                                   <Button
                                     type="button"
-                                    className={"inline ml-1"}
+                                    className={"inline ml-1 text-xs"}
                                     disabled={currentUser?.role?.type == "nurse"}
                                     onClick={(e) => {
                                       toast.success(
@@ -2834,7 +2834,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
-                                    className={"inline"}
+                                    className={"inline text-xs"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
                                     onClick={() => removeBundleMedicalService(m)}
                                   >
@@ -2893,7 +2893,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse" }
                                     type="button"
-                                    className={"inline"}
+                                    className={"inline text-xs"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addMedicalService(m)}
                                   >
@@ -2930,7 +2930,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
-                                    className={"inline"}
+                                    className={"inline text-xs"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
                                     onClick={() => removeMedicalService(m)}
                                   >
