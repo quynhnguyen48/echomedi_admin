@@ -414,8 +414,8 @@ const InvoiceForm = ({
           )}
         />
       </div>
-      <div className="grid grid-cols-6 gap-2  border-t-1 pt-2">
-        <p className="font-bold col-span-1">Tổng chi phí</p>
+      <div className="grid grid-cols-7 gap-2  border-t-1 pt-2">
+        <p className="font-bold col-span-3">Tổng chi phí</p>
         <div className="col-span-1">
           <Price price={subTotal} />
         </div>
@@ -475,14 +475,14 @@ const InvoiceForm = ({
           )}
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
-        <p className="font-bold col-span-1">Tổng giảm giá</p>
+      <div className="grid grid-cols-7 gap-2">
+        <p className="font-bold col-span-3">Tổng giảm giá</p>
         <div className="col-span-1">
           <Price price={totalDiscount + totalDiscountFixedPrice} />
         </div>
       </div>
-      <div className="grid grid-cols-6 gap-2">
-        <p className="font-bold col-span-1">Tổng thanh toán</p>
+      <div className="grid grid-cols-7 gap-2">
+        <p className="font-bold col-span-3">Tổng thanh toán</p>
         <div className="col-span-1">
           <Price price={subTotal - totalDiscount - totalDiscountFixedPrice} />
         </div>
