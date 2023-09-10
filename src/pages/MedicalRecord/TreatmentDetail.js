@@ -246,7 +246,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
         <DataItemJSON icon="box-tick" title="Bệnh sử" value={parseJson(data?.inquiry)} />
         <DataItemJSON icon="box-tick" title="Khám bệnh" value={parseJson(data?.examination)} />
-        <DataItemJSON icon="box-tick" title="Hỏi bệnh" value={parseJson(data?.inquiry)} />
         <div className="w-full">
           <input type="checkbox" name="panel" id="panel-7" class="hidden" />
           <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">Tiền căn bản thân</label>
