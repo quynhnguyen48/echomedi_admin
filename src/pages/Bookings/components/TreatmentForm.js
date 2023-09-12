@@ -1163,7 +1163,19 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
 
     if (exist) {
-      toast.error("Không thể thêm dịch vụ này vì bị trùng: " + ms.filter(s => s.id in existServices).map(s => s.label).join(", "))
+      // toast.error("Không thể thêm dịch vụ này vì bị trùng: " + ms.filter(s => s.id in existServices).map(s => s.label).join(", "))
+      // toast.error("Không thể thêm dịch vụ này vị bị trùng: " + )
+      toast.error(
+        <div>
+          <p>Không thể thêm dịch vụ này vị bị trùng</p>
+          { ms.filter(s => s.id in existServices).map(s => <p>{s.label}</p>)}
+          {/* {m.attributes.medical_services.map((a) => (
+            <p>{a.label}</p>
+
+          ))} */}
+        </div>,
+        { progress: 1, className: "w-[500px] left-[-177px]" }
+      )
     } else {
       let newExistServices = { ...existServices }
       ms.forEach((s) => (newExistServices[s.id] = true))
@@ -2773,13 +2785,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
-                                    className={"inline text-xs"}
+                                    className={"inline text-xs h-16"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addBundleMedicalService(m)}
                                   >
-                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
-                                    <span>{numberWithCommas(m.attributes?.price)}</span>
-                                    <span>{m.attributes.discount_note}</span>
+                                     <div className="flex flex-col">
+                                    <div>{m.attributes?.label}</div>
+                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                    <div><span>{m.attributes.discount_note}</span></div>
+                                    </div>
                                   </Button>
                                   {/* <Button 
                         onClick={e => {
@@ -2789,7 +2803,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       className="ml-2" shape="circle">i</Button> */}
                                   <Button
                                     type="button"
-                                    className={"inline ml-1 text-xs"}
+                                    className={"inline ml-1 text-xs h-16"}
                                     disabled={currentUser?.role?.type == "nurse"}
                                     onClick={(e) => {
                                       toast.success(
@@ -2836,14 +2850,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
-                                    className={"inline text-xs"}
+                                    className={"inline text-xs h-16"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
                                     onClick={() => removeBundleMedicalService(m)}
                                   >
-                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
-                                    <span>{numberWithCommas(m.attributes?.price)}</span>
-                                    <span>{m.attributes.discount_note}</span>
-                                    <span>{m.attributes?.paid ? '(Đã thanh toán)' : ''}</span>
+                                    <div className="flex flex-col">
+                                    <div>{m.attributes?.label}</div>
+                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                    <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
+                                    </div>
                                   </Button>
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse"}
@@ -2895,13 +2910,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse" }
                                     type="button"
-                                    className={"inline text-xs"}
+                                    className={"inline text-xs flex-col flex h-16"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addMedicalService(m)}
                                   >
-                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
-                                    <span>{numberWithCommas(m.attributes?.price)}</span>
-                                    <span>{m.attributes.discount_note}</span>
+                                    <div className="flex flex-col">
+                                    <div>{m.attributes?.label}</div>
+                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                    <div><span>{m.attributes.discount_note}</span></div>
+                                    </div>
                                   </Button>
                                 </div>
                               ))}
@@ -2932,14 +2949,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   <Button
                                     disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
                                     type="button"
-                                    className={"inline text-xs"}
+                                    className={"inline text-xs h-16"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
                                     onClick={() => removeMedicalService(m)}
                                   >
-                                    {m.attributes?.label} - <del>{m.attributes?.original_price}</del>
-                                    <span>{numberWithCommas(m.attributes?.price)}</span>
-                                    <span>{m.attributes.discount_note}</span>
-                                    <span>{m.attributes?.paid ? '(Đã thanh toán)' : ''}</span>
+                                     <div className="flex flex-col">
+                                    <div>{m.attributes?.label}</div>
+                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                    <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
+                                    </div>
                                   </Button>
                                 </div>
                               ))}
@@ -3216,7 +3234,7 @@ function removeVietnameseTones(str) {
 }
 
 function numberWithCommas(x) {
-  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? '0'
 }
 
 const bookingStatus = ["scheduled", "confirmed", "waiting", "postpone", "finished", "cancelled"];

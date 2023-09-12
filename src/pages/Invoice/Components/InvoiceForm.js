@@ -368,6 +368,7 @@ const InvoiceForm = ({
           label: item?.attributes?.label,
           discountFixedPrice: "",
           discountPercentage: "",
+          note: item?.attributes?.discount_note
         })),
         membership: membership ? [{
           id: membership?.id,
