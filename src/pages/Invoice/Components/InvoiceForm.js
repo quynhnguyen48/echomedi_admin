@@ -364,10 +364,10 @@ const InvoiceForm = ({
         cliniqueServices: cliniqueServices?.filter(item => !item["attributes"]["paid"])
         .map((item) => ({
           id: item?.id,
-          price: item?.attributes?.price,
+          price: item?.attributes?.original_price ?? item?.attributes?.price,
           label: item?.attributes?.label,
-          discountFixedPrice: "",
-          discountPercentage: "",
+          discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
+            discountPercentage: item.attributes["discount_percentage"],
           note: item?.attributes?.discount_note
         })),
         membership: membership ? [{
