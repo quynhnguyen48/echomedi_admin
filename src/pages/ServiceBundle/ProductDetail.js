@@ -24,6 +24,10 @@ import * as yup from "yup"
 import {
   updateServiceBundle
 } from "services/api/serviceBundle";
+import Tagify from '@yaireo/tagify'
+import '@yaireo/tagify/dist/tagify.css' // imports tagify SCSS file from within
+import Textarea from "components/Textarea"
+import TagifyInput from "components/TagifyInput"
 
 const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => {
   const navigate = useNavigate()
@@ -59,7 +63,8 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
   const [medicalProviderPlatinumPercentage, setMedicalProviderPlatinumPercentage] = useState(0);
   const [monthlyMedicalProviderPlatinum, setMonthlyMedicalProviderPlatinum] = useState(0);
   const [yearlyMedicalProviderPlatinum, setYearlyMedicalProviderPlatinum] = useState(0);
-  
+
+  const [tag, setTag] = useState(null);
 
   useEffect(() => {
     setPrice(data?.price);
@@ -89,6 +94,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
     setMonthlyMedicalProviderPlatinum(data?.membership_discount?.medical_provider_platinum_monthly);
     setYearlyMedicalProviderPlatinum(data?.membership_discount?.medical_provider_platinum_yearly);
 
+    setTag(JSON.stringify(data?.tags ?? []))
 
     if (data.Locations) {
       data.Locations?.forEach(l => {
@@ -108,6 +114,8 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
     }
   }, [data]);
 
+  console.log('taggg', tag)
+
   const {
     handleSubmit,
     control,
@@ -117,8 +125,11 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
     setValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: {},
+    defaultValues: {
+    },
   })
+
+  console.log('tagg', tag)
 
   return (
     <div className="my-10 w-full">
@@ -154,6 +165,18 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
           onClose={() => setVisiblePrescriptionModal(false)}
         />
       )}
+      {tag != null && <TagifyInput
+            whiteList={tags}
+            className="flex-1"
+            inputClassName="test"
+            name={`tags`}
+            onChange={e => {
+              setTag(e.target.value);
+            }}
+            value={tag}
+            placeholder="Nhập ghi chú"
+            errors={errors?.[name]?.[index]?.note?.message}
+          />}
       {/* <Controller
         name="code"
         control={control}
@@ -435,7 +458,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
           />
 
 
-<Controller
+          <Controller
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -470,7 +493,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             )}
           />
 
-<Controller
+          <Controller
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -504,6 +527,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               />
             )}
           />
+          
         </div>
       </div>
       {editable && <Button className="mt-4" type="button" onClick={async () => {
@@ -527,6 +551,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               disabled: disabledBD,
             }
           ],
+          tags: JSON.parse(tag),
           membership_discount: {
             gold_percentage: goldPercentage,
             platinum_percentage: platinumPercentage,
@@ -555,4 +580,461 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
   )
 }
 
+
+const tags = [
+  { value: "Nam | 18-39 | Gói khám | Không có bệnh", searchBy: "nam_18_39_khong_co_benh", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Không có bệnh", searchBy: "nam_18_39_khong_co_benh", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Không có bệnh", searchBy: "nam_18_39_khong_co_benh", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Không có bệnh", searchBy: "nam_18_39_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Không có bệnh", searchBy: "nam_18_39_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Không có bệnh", searchBy: "nam_18_39_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Không có bệnh", searchBy: "nu_18_39_khong_co_benh", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Không có bệnh", searchBy: "nu_18_39_khong_co_benh", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Không có bệnh", searchBy: "nu_18_39_khong_co_benh", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Không có bệnh", searchBy: "nu_18_39_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Không có bệnh", searchBy: "nu_18_39_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Không có bệnh", searchBy: "nu_18_39_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nam | 18-39 | Gói khám | Thần kinh", searchBy: "nam_18_39_than_kinh", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Thần kinh", searchBy: "nam_18_39_than_kinh", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Thần kinh", searchBy: "nam_18_39_than_kinh", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Thần kinh", searchBy: "nam_18_39_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Thần kinh", searchBy: "nam_18_39_than_kinh", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Thần kinh", searchBy: "nam_18_39_than_kinh", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Thần kinh", searchBy: "nu_18_39_than_kinh", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Thần kinh", searchBy: "nu_18_39_than_kinh", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Thần kinh", searchBy: "nu_18_39_than_kinh", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Thần kinh", searchBy: "nu_18_39_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Thần kinh", searchBy: "nu_18_39_than_kinh", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Thần kinh", searchBy: "nu_18_39_than_kinh", group: "Tầm soát" },
+
+  { value: "Nam | 18-39 | Gói khám | Hô hấp", searchBy: "nam_18_39_ho_hap", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Hô hấp", searchBy: "nam_18_39_ho_hap", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Hô hấp", searchBy: "nam_18_39_ho_hap", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Hô hấp", searchBy: "nam_18_39_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Hô hấp", searchBy: "nam_18_39_ho_hap", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Hô hấp", searchBy: "nam_18_39_ho_hap", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Hô hấp", searchBy: "nu_18_39_ho_hap", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Hô hấp", searchBy: "nu_18_39_ho_hap", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Hô hấp", searchBy: "nu_18_39_ho_hap", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Hô hấp", searchBy: "nu_18_39_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Hô hấp", searchBy: "nu_18_39_ho_hap", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Hô hấp", searchBy: "nu_18_39_ho_hap", group: "Tầm soát" },
+
+  { value: "Nam | 18-39 | Gói khám | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Tim mạch", searchBy: "nam_18_39_tim_mach", group: "Tầm soát" },
+
+  { value: "Nam | 18-39 | Gói khám | Thận - tiết niệu", searchBy: "nam_18_39_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Thận - tiết niệu", searchBy: "nam_18_39_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Thận - tiết niệu", searchBy: "nam_18_39_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nam_18_39_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Thận - tiết niệu", searchBy: "nam_18_39_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Thận - tiết niệu", searchBy: "nam_18_39_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Thận - tiết niệu", searchBy: "nu_18_39_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Thận - tiết niệu", searchBy: "nu_18_39_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Thận - tiết niệu", searchBy: "nu_18_39_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nu_18_39_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Thận - tiết niệu", searchBy: "nu_18_39_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Thận - tiết niệu", searchBy: "nu_18_39_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nam | 18-39 | Gói khám | Cơ xương khớp", searchBy: "nam_18_39_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Cơ xương khớp", searchBy: "nam_18_39_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Cơ xương khớp", searchBy: "nam_18_39_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nam_18_39_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Cơ xương khớp", searchBy: "nam_18_39_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Cơ xương khớp", searchBy: "nam_18_39_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Cơ xương khớp", searchBy: "nu_18_39_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Cơ xương khớp", searchBy: "nu_18_39_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Cơ xương khớp", searchBy: "nu_18_39_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nu_18_39_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Cơ xương khớp", searchBy: "nu_18_39_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Cơ xương khớp", searchBy: "nu_18_39_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nam | 18-39 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nam_18_39_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nam_18_39_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nam_18_39_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nam_18_39_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nam_18_39_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nam_18_39_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nu_18_39_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nu_18_39_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nu_18_39_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nu_18_39_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nu_18_39_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nu_18_39_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nam | 18-39 | Gói khám | Tiêu hóa", searchBy: "nam_18_39_tieu_hoa", group: "Gói khám" },
+  { value: "Nam | 18-39 | Gói dược | Tiêu hóa", searchBy: "nam_18_39_tieu_hoa", group: "Gói dược" },
+  { value: "Nam | 18-39 | Gói gene | Tiêu hóa", searchBy: "nam_18_39_tieu_hoa", group: "Gói gene" },
+  { value: "Nam | 18-39 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nam_18_39_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 18-39 | Gói Vaccine | Tiêu hóa", searchBy: "nam_18_39_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nam | 18-39 | Tầm soát | Tiêu hóa", searchBy: "nam_18_39_tieu_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 18-39 | Gói khám | Tiêu hóa", searchBy: "nu_18_39_tieu_hoa", group: "Gói khám" },
+  { value: "Nữ | 18-39 | Gói dược | Tiêu hóa", searchBy: "nu_18_39_tieu_hoa", group: "Gói dược" },
+  { value: "Nữ | 18-39 | Gói gene | Tiêu hóa", searchBy: "nu_18_39_tieu_hoa", group: "Gói gene" },
+  { value: "Nữ | 18-39 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nu_18_39_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 18-39 | Gói Vaccine | Tiêu hóa", searchBy: "nu_18_39_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 18-39 | Tầm soát | Tiêu hóa", searchBy: "nu_18_39_tieu_hoa", group: "Tầm soát" },
+
+
+  // 40-49
+  { value: "Nam | 40-49 | Gói khám | Không có bệnh", searchBy: "nam_40_49_khong_co_benh", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Không có bệnh", searchBy: "nam_40_49_khong_co_benh", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Không có bệnh", searchBy: "nam_40_49_khong_co_benh", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Không có bệnh", searchBy: "nam_40_49_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Không có bệnh", searchBy: "nam_40_49_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Không có bệnh", searchBy: "nam_40_49_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Không có bệnh", searchBy: "nu_40_49_khong_co_benh", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Không có bệnh", searchBy: "nu_40_49_khong_co_benh", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Không có bệnh", searchBy: "nu_40_49_khong_co_benh", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Không có bệnh", searchBy: "nu_40_49_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Không có bệnh", searchBy: "nu_40_49_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Không có bệnh", searchBy: "nu_40_49_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nam | 40-49 | Gói khám | Thần kinh", searchBy: "nam_40_49_than_kinh", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Thần kinh", searchBy: "nam_40_49_than_kinh", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Thần kinh", searchBy: "nam_40_49_than_kinh", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Thần kinh", searchBy: "nam_40_49_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Thần kinh", searchBy: "nam_40_49_than_kinh", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Thần kinh", searchBy: "nam_40_49_than_kinh", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Thần kinh", searchBy: "nu_40_49_than_kinh", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Thần kinh", searchBy: "nu_40_49_than_kinh", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Thần kinh", searchBy: "nu_40_49_than_kinh", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Thần kinh", searchBy: "nu_40_49_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Thần kinh", searchBy: "nu_40_49_than_kinh", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Thần kinh", searchBy: "nu_40_49_than_kinh", group: "Tầm soát" },
+
+  { value: "Nam | 40-49 | Gói khám | Hô hấp", searchBy: "nam_40_49_ho_hap", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Hô hấp", searchBy: "nam_40_49_ho_hap", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Hô hấp", searchBy: "nam_40_49_ho_hap", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Hô hấp", searchBy: "nam_40_49_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Hô hấp", searchBy: "nam_40_49_ho_hap", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Hô hấp", searchBy: "nam_40_49_ho_hap", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Hô hấp", searchBy: "nu_40_49_ho_hap", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Hô hấp", searchBy: "nu_40_49_ho_hap", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Hô hấp", searchBy: "nu_40_49_ho_hap", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Hô hấp", searchBy: "nu_40_49_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Hô hấp", searchBy: "nu_40_49_ho_hap", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Hô hấp", searchBy: "nu_40_49_ho_hap", group: "Tầm soát" },
+
+  { value: "Nam | 40-49 | Gói khám | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Tim mạch", searchBy: "nam_40_49_tim_mach", group: "Tầm soát" },
+
+  { value: "Nam | 40-49 | Gói khám | Thận - tiết niệu", searchBy: "nam_40_49_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Thận - tiết niệu", searchBy: "nam_40_49_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Thận - tiết niệu", searchBy: "nam_40_49_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nam_40_49_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Thận - tiết niệu", searchBy: "nam_40_49_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Thận - tiết niệu", searchBy: "nam_40_49_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Thận - tiết niệu", searchBy: "nu_40_49_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Thận - tiết niệu", searchBy: "nu_40_49_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Thận - tiết niệu", searchBy: "nu_40_49_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nu_40_49_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Thận - tiết niệu", searchBy: "nu_40_49_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Thận - tiết niệu", searchBy: "nu_40_49_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nam | 40-49 | Gói khám | Cơ xương khớp", searchBy: "nam_40_49_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Cơ xương khớp", searchBy: "nam_40_49_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Cơ xương khớp", searchBy: "nam_40_49_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nam_40_49_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Cơ xương khớp", searchBy: "nam_40_49_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Cơ xương khớp", searchBy: "nam_40_49_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Cơ xương khớp", searchBy: "nu_40_49_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Cơ xương khớp", searchBy: "nu_40_49_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Cơ xương khớp", searchBy: "nu_40_49_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nu_40_49_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Cơ xương khớp", searchBy: "nu_40_49_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Cơ xương khớp", searchBy: "nu_40_49_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nam | 40-49 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nam_40_49_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nam_40_49_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nam_40_49_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nam_40_49_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nam_40_49_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nam_40_49_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nu_40_49_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nu_40_49_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nu_40_49_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nu_40_49_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nu_40_49_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nu_40_49_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nam | 40-49 | Gói khám | Tiêu hóa", searchBy: "nam_40_49_tieu_hoa", group: "Gói khám" },
+  { value: "Nam | 40-49 | Gói dược | Tiêu hóa", searchBy: "nam_40_49_tieu_hoa", group: "Gói dược" },
+  { value: "Nam | 40-49 | Gói gene | Tiêu hóa", searchBy: "nam_40_49_tieu_hoa", group: "Gói gene" },
+  { value: "Nam | 40-49 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nam_40_49_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 40-49 | Gói Vaccine | Tiêu hóa", searchBy: "nam_40_49_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nam | 40-49 | Tầm soát | Tiêu hóa", searchBy: "nam_40_49_tieu_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 40-49 | Gói khám | Tiêu hóa", searchBy: "nu_40_49_tieu_hoa", group: "Gói khám" },
+  { value: "Nữ | 40-49 | Gói dược | Tiêu hóa", searchBy: "nu_40_49_tieu_hoa", group: "Gói dược" },
+  { value: "Nữ | 40-49 | Gói gene | Tiêu hóa", searchBy: "nu_40_49_tieu_hoa", group: "Gói gene" },
+  { value: "Nữ | 40-49 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nu_40_49_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 40-49 | Gói Vaccine | Tiêu hóa", searchBy: "nu_40_49_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 40-49 | Tầm soát | Tiêu hóa", searchBy: "nu_40_49_tieu_hoa", group: "Tầm soát" },
+
+  // 50 - 64
+  { value: "Nam | 50-64 | Gói khám | Không có bệnh", searchBy: "nam_50_64_khong_co_benh", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Không có bệnh", searchBy: "nam_50_64_khong_co_benh", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Không có bệnh", searchBy: "nam_50_64_khong_co_benh", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Không có bệnh", searchBy: "nam_50_64_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Không có bệnh", searchBy: "nam_50_64_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Không có bệnh", searchBy: "nam_50_64_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Không có bệnh", searchBy: "nu_50_64_khong_co_benh", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Không có bệnh", searchBy: "nu_50_64_khong_co_benh", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Không có bệnh", searchBy: "nu_50_64_khong_co_benh", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Không có bệnh", searchBy: "nu_50_64_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Không có bệnh", searchBy: "nu_50_64_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Không có bệnh", searchBy: "nu_50_64_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nam | 50-64 | Gói khám | Thần kinh", searchBy: "nam_50_64_than_kinh", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Thần kinh", searchBy: "nam_50_64_than_kinh", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Thần kinh", searchBy: "nam_50_64_than_kinh", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Thần kinh", searchBy: "nam_50_64_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Thần kinh", searchBy: "nam_50_64_than_kinh", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Thần kinh", searchBy: "nam_50_64_than_kinh", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Thần kinh", searchBy: "nu_50_64_than_kinh", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Thần kinh", searchBy: "nu_50_64_than_kinh", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Thần kinh", searchBy: "nu_50_64_than_kinh", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Thần kinh", searchBy: "nu_50_64_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Thần kinh", searchBy: "nu_50_64_than_kinh", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Thần kinh", searchBy: "nu_50_64_than_kinh", group: "Tầm soát" },
+
+  { value: "Nam | 50-64 | Gói khám | Hô hấp", searchBy: "nam_50_64_ho_hap", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Hô hấp", searchBy: "nam_50_64_ho_hap", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Hô hấp", searchBy: "nam_50_64_ho_hap", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Hô hấp", searchBy: "nam_50_64_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Hô hấp", searchBy: "nam_50_64_ho_hap", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Hô hấp", searchBy: "nam_50_64_ho_hap", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Hô hấp", searchBy: "nu_50_64_ho_hap", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Hô hấp", searchBy: "nu_50_64_ho_hap", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Hô hấp", searchBy: "nu_50_64_ho_hap", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Hô hấp", searchBy: "nu_50_64_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Hô hấp", searchBy: "nu_50_64_ho_hap", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Hô hấp", searchBy: "nu_50_64_ho_hap", group: "Tầm soát" },
+
+  { value: "Nam | 50-64 | Gói khám | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Tim mạch", searchBy: "nam_50_64_tim_mach", group: "Tầm soát" },
+
+  { value: "Nam | 50-64 | Gói khám | Thận - tiết niệu", searchBy: "nam_50_64_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Thận - tiết niệu", searchBy: "nam_50_64_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Thận - tiết niệu", searchBy: "nam_50_64_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nam_50_64_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Thận - tiết niệu", searchBy: "nam_50_64_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Thận - tiết niệu", searchBy: "nam_50_64_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Thận - tiết niệu", searchBy: "nu_50_64_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Thận - tiết niệu", searchBy: "nu_50_64_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Thận - tiết niệu", searchBy: "nu_50_64_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nu_50_64_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Thận - tiết niệu", searchBy: "nu_50_64_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Thận - tiết niệu", searchBy: "nu_50_64_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nam | 50-64 | Gói khám | Cơ xương khớp", searchBy: "nam_50_64_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Cơ xương khớp", searchBy: "nam_50_64_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Cơ xương khớp", searchBy: "nam_50_64_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nam_50_64_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Cơ xương khớp", searchBy: "nam_50_64_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Cơ xương khớp", searchBy: "nam_50_64_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Cơ xương khớp", searchBy: "nu_50_64_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Cơ xương khớp", searchBy: "nu_50_64_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Cơ xương khớp", searchBy: "nu_50_64_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nu_50_64_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Cơ xương khớp", searchBy: "nu_50_64_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Cơ xương khớp", searchBy: "nu_50_64_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nam | 50-64 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nam_50_64_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nam_50_64_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nam_50_64_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nam_50_64_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nam_50_64_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nam_50_64_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nu_50_64_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nu_50_64_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nu_50_64_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nu_50_64_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nu_50_64_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nu_50_64_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nam | 50-64 | Gói khám | Tiêu hóa", searchBy: "nam_50_64_tieu_hoa", group: "Gói khám" },
+  { value: "Nam | 50-64 | Gói dược | Tiêu hóa", searchBy: "nam_50_64_tieu_hoa", group: "Gói dược" },
+  { value: "Nam | 50-64 | Gói gene | Tiêu hóa", searchBy: "nam_50_64_tieu_hoa", group: "Gói gene" },
+  { value: "Nam | 50-64 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nam_50_64_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 50-64 | Gói Vaccine | Tiêu hóa", searchBy: "nam_50_64_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nam | 50-64 | Tầm soát | Tiêu hóa", searchBy: "nam_50_64_tieu_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 50-64 | Gói khám | Tiêu hóa", searchBy: "nu_50_64_tieu_hoa", group: "Gói khám" },
+  { value: "Nữ | 50-64 | Gói dược | Tiêu hóa", searchBy: "nu_50_64_tieu_hoa", group: "Gói dược" },
+  { value: "Nữ | 50-64 | Gói gene | Tiêu hóa", searchBy: "nu_50_64_tieu_hoa", group: "Gói gene" },
+  { value: "Nữ | 50-64 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nu_50_64_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 50-64 | Gói Vaccine | Tiêu hóa", searchBy: "nu_50_64_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 50-64 | Tầm soát | Tiêu hóa", searchBy: "nu_50_64_tieu_hoa", group: "Tầm soát" },
+
+  // 65
+  { value: "Nam | 65 | Gói khám | Không có bệnh", searchBy: "nam_65_khong_co_benh", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Không có bệnh", searchBy: "nam_65_khong_co_benh", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Không có bệnh", searchBy: "nam_65_khong_co_benh", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Không có bệnh", searchBy: "nam_65_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Không có bệnh", searchBy: "nam_65_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Không có bệnh", searchBy: "nam_65_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Không có bệnh", searchBy: "nu_65_khong_co_benh", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Không có bệnh", searchBy: "nu_65_khong_co_benh", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Không có bệnh", searchBy: "nu_65_khong_co_benh", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Không có bệnh", searchBy: "nu_65_khong_co_benh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Không có bệnh", searchBy: "nu_65_khong_co_benh", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Không có bệnh", searchBy: "nu_65_khong_co_benh", group: "Tầm soát" },
+
+  { value: "Nam | 65 | Gói khám | Thần kinh", searchBy: "nam_65_than_kinh", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Thần kinh", searchBy: "nam_65_than_kinh", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Thần kinh", searchBy: "nam_65_than_kinh", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Thần kinh", searchBy: "nam_65_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Thần kinh", searchBy: "nam_65_than_kinh", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Thần kinh", searchBy: "nam_65_than_kinh", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Thần kinh", searchBy: "nu_65_than_kinh", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Thần kinh", searchBy: "nu_65_than_kinh", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Thần kinh", searchBy: "nu_65_than_kinh", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Thần kinh", searchBy: "nu_65_than_kinh", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Thần kinh", searchBy: "nu_65_than_kinh", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Thần kinh", searchBy: "nu_65_than_kinh", group: "Tầm soát" },
+
+  { value: "Nam | 65 | Gói khám | Hô hấp", searchBy: "nam_65_ho_hap", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Hô hấp", searchBy: "nam_65_ho_hap", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Hô hấp", searchBy: "nam_65_ho_hap", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Hô hấp", searchBy: "nam_65_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Hô hấp", searchBy: "nam_65_ho_hap", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Hô hấp", searchBy: "nam_65_ho_hap", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Hô hấp", searchBy: "nu_65_ho_hap", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Hô hấp", searchBy: "nu_65_ho_hap", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Hô hấp", searchBy: "nu_65_ho_hap", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Hô hấp", searchBy: "nu_65_ho_hap", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Hô hấp", searchBy: "nu_65_ho_hap", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Hô hấp", searchBy: "nu_65_ho_hap", group: "Tầm soát" },
+
+  { value: "Nam | 65 | Gói khám | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Tim mạch", searchBy: "nam_65_tim_mach", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Tim mạch", searchBy: "nam_65_tim_mach", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Tim mạch", searchBy: "nam_65_tim_mach", group: "Tầm soát" },
+
+  { value: "Nam | 65 | Gói khám | Thận - tiết niệu", searchBy: "nam_65_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Thận - tiết niệu", searchBy: "nam_65_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Thận - tiết niệu", searchBy: "nam_65_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nam_65_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Thận - tiết niệu", searchBy: "nam_65_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Thận - tiết niệu", searchBy: "nam_65_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Thận - tiết niệu", searchBy: "nu_65_than_tiet_nieu", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Thận - tiết niệu", searchBy: "nu_65_than_tiet_nieu", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Thận - tiết niệu", searchBy: "nu_65_than_tiet_nieu", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Thận - tiết niệu", searchBy: "nu_65_than_tiet_nieu", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Thận - tiết niệu", searchBy: "nu_65_than_tiet_nieu", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Thận - tiết niệu", searchBy: "nu_65_than_tiet_nieu", group: "Tầm soát" },
+
+  { value: "Nam | 65 | Gói khám | Cơ xương khớp", searchBy: "nam_65_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Cơ xương khớp", searchBy: "nam_65_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Cơ xương khớp", searchBy: "nam_65_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nam_65_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Cơ xương khớp", searchBy: "nam_65_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Cơ xương khớp", searchBy: "nam_65_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Cơ xương khớp", searchBy: "nu_65_noi_co_xuong_khop", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Cơ xương khớp", searchBy: "nu_65_noi_co_xuong_khop", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Cơ xương khớp", searchBy: "nu_65_noi_co_xuong_khop", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Cơ xương khớp", searchBy: "nu_65_noi_co_xuong_khop", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Cơ xương khớp", searchBy: "nu_65_noi_co_xuong_khop", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Cơ xương khớp", searchBy: "nu_65_noi_co_xuong_khop", group: "Tầm soát" },
+
+  { value: "Nam | 65 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nam_65_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nam_65_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nam_65_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nam_65_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nam_65_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nam_65_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Nội tiết/ chuyển hoá", searchBy: "nu_65_noi_tiet_chuyen_hoa", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Nội tiết/ chuyển hoá", searchBy: "nu_65_noi_tiet_chuyen_hoa", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Nội tiết/ chuyển hoá", searchBy: "nu_65_noi_tiet_chuyen_hoa", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Nội tiết/ chuyển hoá", searchBy: "nu_65_noi_tiet_chuyen_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Nội tiết/ chuyển hoá", searchBy: "nu_65_noi_tiet_chuyen_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Nội tiết/ chuyển hoá", searchBy: "nu_65_noi_tiet_chuyen_hoa", group: "Tầm soát" },
+
+  { value: "Nam | 65 | Gói khám | Tiêu hóa", searchBy: "nam_65_tieu_hoa", group: "Gói khám" },
+  { value: "Nam | 65 | Gói dược | Tiêu hóa", searchBy: "nam_65_tieu_hoa", group: "Gói dược" },
+  { value: "Nam | 65 | Gói gene | Tiêu hóa", searchBy: "nam_65_tieu_hoa", group: "Gói gene" },
+  { value: "Nam | 65 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nam_65_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nam | 65 | Gói Vaccine | Tiêu hóa", searchBy: "nam_65_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nam | 65 | Tầm soát | Tiêu hóa", searchBy: "nam_65_tieu_hoa", group: "Tầm soát" },
+
+  { value: "Nữ | 65 | Gói khám | Tiêu hóa", searchBy: "nu_65_tieu_hoa", group: "Gói khám" },
+  { value: "Nữ | 65 | Gói dược | Tiêu hóa", searchBy: "nu_65_tieu_hoa", group: "Gói dược" },
+  { value: "Nữ | 65 | Gói gene | Tiêu hóa", searchBy: "nu_65_tieu_hoa", group: "Gói gene" },
+  { value: "Nữ | 65 | Gói dinh dưỡng | Tiêu hóa", searchBy: "nu_65_tieu_hoa", group: "Gói dinh dưỡng" },
+  { value: "Nữ | 65 | Gói Vaccine | Tiêu hóa", searchBy: "nu_65_tieu_hoa", group: "Gói vaccine" },
+  { value: "Nữ | 65 | Tầm soát | Tiêu hóa", searchBy: "nu_65_tieu_hoa", group: "Tầm soát" },
+];
+
+
 export default ProductDetail
+

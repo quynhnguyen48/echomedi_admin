@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState, useRef } from "react"
+import { useCallback, useEffect, useState, useRef, useMemo } from "react"
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import cloneDeep from "lodash/cloneDeep"
 import keys from "lodash/keys"
 import classNames from "classnames"
 import { toast } from "react-toastify"
@@ -38,11 +37,11 @@ import moment from "moment"
 import PrescriptionModal from "./PrescriptionModal"
 import AdditionalPrescriptionModal from "./AdditionalPrescriptionModal"
 import TestResultsModal from "./TestResultsModal"
-import { flatten } from "lodash"
 import Tagify from '@yaireo/tagify'
 import '@yaireo/tagify/dist/tagify.css' // imports tagify SCSS file from within
 import { useSelector } from "react-redux";
 import { JWT_TOKEN, BRANCH } from "../../../constants/Authentication"
+import { cloneDeep, flatten, groupBy } from "lodash"
 const branch = localStorage.getItem(BRANCH);
 
 const PROCEDURE_ITEM_DEFAULT = {
@@ -140,6 +139,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const currentUser = useSelector((state) => state.user.currentUser)
   const [selectedMembership, setSelectedMembership] = useState();
   const [references, setReferences] = useState([]);
+  const [searchTerms, setSearchTerms] = useState([]);
+  const [searchData, setSearchData] = useState();
 
   useEffect(() => {
     setMembershipPackages(MEMBERSHIP_PKGS);
@@ -921,7 +922,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         ms = ms.filter(s => !s.attributes["disabled"]);
 
         let cs = services.filter(s => s.attributes.group_service == "Khám lâm sàng");
-        console.log('serrvicess', cs)
         cs = cs.map(s => {
           if (Array.isArray(s.attributes["Locations"])) {
             s.attributes["Locations"].forEach(sl => {
@@ -966,7 +966,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           return s;
         });
         cs = cs.filter(s => !s.attributes["disabled"]);
-        console.log('cssss', cs)
         if (!data.services) {
           setMedicalServices(ms);
           setCliniqueServices(cs);
@@ -1168,7 +1167,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       toast.error(
         <div>
           <p>Không thể thêm dịch vụ này vị bị trùng</p>
-          { ms.filter(s => s.id in existServices).map(s => <p>{s.label}</p>)}
+          {ms.filter(s => s.id in existServices).map(s => <p>{s.label}</p>)}
           {/* {m.attributes.medical_services.map((a) => (
             <p>{a.label}</p>
 
@@ -1400,6 +1399,40 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
   }, [data])
 
+  useEffect(() => {
+    
+    const searchTermss = searchTerms.map(s => 'nam_18_39_' + s);
+    if (searchTerms.length == 0) {
+      setSearchData({});
+      return;
+    }
+    const toastId = toast.loading("Đang tìm kiếm")
+    axios
+      .get(
+        "/medical-service/search/" + searchTerms.map(s => 'nam_18_39_' + s).join('|'),
+      )
+      .then((response) => {
+        let data = {};
+        response.data.forEach(s => {
+          let found = false;
+          s.tags.forEach(t => {
+            if (searchTermss.indexOf(t.searchBy) > -1 && !found) {
+              if (!data[t.group]) {
+                data[t.group] = [];
+              }
+              data[t.group].push(s);
+              found = true;
+            }
+          });
+
+        });
+        setSearchData(data);
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+      })
+  }, [searchTerms]);
+
   const onFinish = async (id, files) => {
     let payload = cloneDeep(references)
     payload = [...payload, ...files]
@@ -1443,6 +1476,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     },
     [onFinish]
   )
+
+  // const dataService = useMemo(() => {
+  //   const formatServices = groupBy(searchData, "group")
+  //   console.log('formatServices', formatServices)
+  //   return Object.entries(searchData)
+  //     .map(([serviceName, service]) => {
+  //       if (!AVAILABLE_TEST_RESULT.includes(serviceName)) return null
+  //       return service
+  //     })
+  //     ?.filter((service) => !!service)
+  // }, [searchData])
 
   return (
     <>
@@ -1962,7 +2006,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full py-4">
-                  <Controller
+                    <Controller
                       name="nurse_in_charge"
                       control={control}
                       render={({ field: { value, ref } }) => (
@@ -2741,7 +2785,57 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-7" class="hidden" />
                 <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
+
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
+                  <div className="w-full">
+                    
+                    <div className="grid sm:grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 py-4">
+                      <Controller
+                        name="searchTerm"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            {serviceGroups.map((searchTerm) => (
+                              <Button
+                                disabled={readonly}
+                                key={searchTerm}
+                                onChange={onchange}
+                                type="button"
+                                className={classNames(
+                                  "text-center w-full h-14 pl-2 !justify-start capitalize",
+                                  {
+                                    "bg-primary text-white font-bold": searchTerms.indexOf(searchTerm) != -1,
+                                    "bg-primary/10 text-primary font-normal": searchTerms.indexOf(searchTerm) == -1,
+                                  }
+                                )}
+                                onClick={() => {
+                                  let newSearchTerms = [...searchTerms];
+                                  const index = newSearchTerms.indexOf(searchTerm);
+                                  if (index != -1) {
+                                    newSearchTerms.splice(index, 1);
+                                  } else {
+                                    newSearchTerms.push(searchTerm);
+                                  }
+                                  setSearchTerms(newSearchTerms);
+                                }}
+                              >
+                                {translateServiceGroup(searchTerm)}
+                              </Button>
+                            ))}
+                            {errors?.status?.message && (
+                              <p className="text-12 text-error mt-1">{errors?.status?.message}</p>
+                            )}
+                          </>
+                        )}
+                      />
+                    </div>
+                    {searchData && Object.entries(searchData)
+                      .map(([serviceName, service]) => {
+                        console.log('serviceName', serviceName, service)
+                        return <div><h1 className="font-bold">- {serviceName}</h1>{service.map(s => <p>{s.label}</p>)}</div>
+                      })
+                    }
+                  </div>
                   <div className="w-full py-4">
                     <div>
                       {readonly && servicesData && servicesData.length > 0 && <p className="underline text-xl font-bold">Dịch vụ:</p>}
@@ -2789,10 +2883,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addBundleMedicalService(m)}
                                   >
-                                     <div className="flex flex-col">
-                                    <div>{m.attributes?.label}</div>
-                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
-                                    <div><span>{m.attributes.discount_note}</span></div>
+                                    <div className="flex flex-col">
+                                      <div>{m.attributes?.label}</div>
+                                      <div><span><del>{numberWithCommas(m.attributes?.original_price)}đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span>{m.attributes.discount_note}</span></div>
                                     </div>
                                   </Button>
                                   {/* <Button 
@@ -2855,9 +2949,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={() => removeBundleMedicalService(m)}
                                   >
                                     <div className="flex flex-col">
-                                    <div>{m.attributes?.label}</div>
-                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
-                                    <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
+                                      <div>{m.attributes?.label}</div>
+                                      <div><span><del>{numberWithCommas(m.attributes?.original_price)}đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
                                     </div>
                                   </Button>
                                   <Button
@@ -2908,16 +3002,16 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse" }
+                                    disabled={currentUser?.role?.type == "nurse"}
                                     type="button"
                                     className={"inline text-xs flex-col flex h-16"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={() => addMedicalService(m)}
                                   >
                                     <div className="flex flex-col">
-                                    <div>{m.attributes?.label}</div>
-                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
-                                    <div><span>{m.attributes.discount_note}</span></div>
+                                      <div>{m.attributes?.label}</div>
+                                      <div><span><del>{numberWithCommas(m.attributes?.original_price)}đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span>{m.attributes.discount_note}</span></div>
                                     </div>
                                   </Button>
                                 </div>
@@ -2953,10 +3047,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     icon={<Icon name="close-circle" className="fill-white" />}
                                     onClick={() => removeMedicalService(m)}
                                   >
-                                     <div className="flex flex-col">
-                                    <div>{m.attributes?.label}</div>
-                                    <div><span><del>{numberWithCommas(m.attributes?.original_price) }đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
-                                    <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
+                                    <div className="flex flex-col">
+                                      <div>{m.attributes?.label}</div>
+                                      <div><span><del>{numberWithCommas(m.attributes?.original_price)}đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
                                     </div>
                                   </Button>
                                 </div>
@@ -2969,47 +3063,47 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 </div>
               </div>}
             <div className="w-full">
-                <input type="checkbox" name="panel" id="panel-8" class="hidden" />
-                <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
-                <div class="accordion__content overflow-scroll bg-grey-lighter">
-                  <div className="w-full py-4">
-                    <div className="flex items-center gap-x-4 pl-4">
-                      {references?.map((item, index) => (
-                        <div key={index} className="relative">
-                          <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
-                            {item?.mime?.startsWith("image") ? (
-                              <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
-                            ) : (
-                              <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-30 w-30 relative border-primary border-1">
-                                {item?.name}
-                              </div>
-                            )}
-                          </a>
-                          <div
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              onRemove(item)
-                            }}
-                            className="absolute cursor-pointer -top-2 -right-2 z-20"
-                          >
-                            <Icon name="close-circle" className="fill-red bg-white rounded-full" />
-                          </div>
+              <input type="checkbox" name="panel" id="panel-8" class="hidden" />
+              <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
+              <div class="accordion__content overflow-scroll bg-grey-lighter">
+                <div className="w-full py-4">
+                  <div className="flex items-center gap-x-4 pl-4">
+                    {references?.map((item, index) => (
+                      <div key={index} className="relative">
+                        <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
+                          {item?.mime?.startsWith("image") ? (
+                            <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
+                          ) : (
+                            <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-30 w-30 relative border-primary border-1">
+                              {item?.name}
+                            </div>
+                          )}
+                        </a>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onRemove(item)
+                          }}
+                          className="absolute cursor-pointer -top-2 -right-2 z-20"
+                        >
+                          <Icon name="close-circle" className="fill-red bg-white rounded-full" />
                         </div>
-                      ))}
-                      <div className="inline-flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
-                        <input
-                          // ref={ref}
-                          type="file"
-                          className="h-full w-full opacity-0 cursor-pointer absolute z-20"
-                          onChange={(e) => uploadAssets(data?.id, e)}
-                          multiple
-                        />
-                        <p>Tải lên</p>
                       </div>
+                    ))}
+                    <div className="inline-flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
+                      <input
+                        // ref={ref}
+                        type="file"
+                        className="h-full w-full opacity-0 cursor-pointer absolute z-20"
+                        onChange={(e) => uploadAssets(data?.id, e)}
+                        multiple
+                      />
+                      <p>Tải lên</p>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
             {
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-9" class="hidden" />
@@ -3235,6 +3329,37 @@ function removeVietnameseTones(str) {
 
 function numberWithCommas(x) {
   return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? '0'
+}
+
+// const serviceLabels = ['Không có bệnh', 'Thần kinh', 'Hô hấp', 'Tim mạch', 'Thận tiết niệu', 'Cơ xương khớp', 'Nội tiết - chuyển hoá', 'Tiêu hoá'];
+const serviceGroups = ['khong_co_benh', 'than_kinh', 'ho_hap', 'tim_mach', 'than_tiet_nieu', 'co_xuong_khop', 'noi_tiet_chuyen_hoa', 'tieu_hoa'];
+const translateServiceGroup = (t) => {
+  switch (t) {
+    case "khong_co_benh":
+      return "Không có bệnh"
+      break;
+    case "than_kinh":
+      return "Thần kinh"
+      break;
+    case "ho_hap":
+      return "Hô hấp"
+      break;
+    case "tim_mach":
+      return "Tim mạch"
+      break;
+    case "than_tiet_nieu":
+      return "Thận tiết niệu"
+      break;
+    case "co_xuong_khop":
+      return "Cơ xương khớp"
+      break;
+    case "noi_tiet_chuyen_hoa":
+      return "Nội tiết chuyển hoá"
+      break;
+    case "tieu_hoa":
+      return "Tiêu hoá"
+      break;
+  }
 }
 
 const bookingStatus = ["scheduled", "confirmed", "waiting", "postpone", "finished", "cancelled"];

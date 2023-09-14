@@ -18,6 +18,10 @@ import { createMedicalService } from "services/api/medicalService";
 import { createServiceBundle } from "services/api/serviceBundle";
 import { randomPassword } from "utils/string"
 import { getErrorMessage } from "utils/error"
+import Tagify from '@yaireo/tagify'
+import '@yaireo/tagify/dist/tagify.css' // imports tagify SCSS file from within
+import Textarea from "components/Textarea"
+import TagifyInput from "components/TagifyInput"
 
 const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseModal, slotInfo }) => {
   const navigate = useNavigate()
@@ -223,6 +227,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               />
             )}
           />
+
           
         </div>
       </div>
