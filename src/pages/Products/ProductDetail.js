@@ -46,7 +46,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
             btnSize="auto"
             className="w-10 h-10"
             shape="circle"
-            onClick={() => navigate(`/products/${data?.id}/edit`)}
+            onClick={() => navigate(`/products/${data?.slug}/edit`)}
           >
             <Icon name="edit" />
           </Button>

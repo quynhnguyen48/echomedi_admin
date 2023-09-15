@@ -17,10 +17,11 @@ const UpsertProduct = () => {
       if (id) {
         try {
           const res = await getProductById(id);
+          console.log('resss', res)
           if (res.data) {
             const product = formatStrapiObj(res.data);
             setProductData({
-              ...product,
+              ...res.data.product,
               images: formatStrapiArr(product?.images),
               brand: formatStrapiObj(product?.brand),
               category: formatStrapiObj(product?.category),

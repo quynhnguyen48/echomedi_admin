@@ -567,9 +567,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setUsedBundleMedicalServices(bundleServicesData_)
 
       bundleServicesData_.forEach(s => {
-        s.attributes.medical_services?.forEach(ss => {
+        if (Array.isArray(s.attributes?.medical_services)) {
+        s.attributes?.medical_services?.forEach(ss => {
           newExistServices[ss.id] = true;
         })
+      }
       });
 
     }

@@ -86,7 +86,7 @@ export const getProductById = (id) => {
     populate: ["brand", "category", "images", "variants", "inventory_histories.variants"],
   })
 
-  return axios.get(`/products/${id}?${query}`)
+  return axios.get(`/product/findOne/${id}?${query}`)
 }
 
 export const createProduct = (data) => {
