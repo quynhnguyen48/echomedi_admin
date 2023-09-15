@@ -1402,8 +1402,21 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }, [data])
 
   useEffect(() => {
-    
-    const searchTermss = searchTerms.map(s => 'nam_18_39_' + s);
+    let prefix = (data?.patient?.gender == 'male' ? 'nam' : 'nu'); // + '_18_39_';
+
+    const age = getAge(data?.patient?.birthday);
+
+    if (age >= 18 && age <= 39) {
+      prefix = prefix + '_18_39_';
+    } else if (age >= 40 && age <= 49) {
+      prefix = prefix + '_40_49_';
+    } else if (age >= 50 && age <= 64) {
+      prefix = prefix + '_50_64_';
+    } else if (age >= 65) {
+      prefix = prefix + '_65_';
+    }
+
+    const searchTermss = searchTerms.map(s => prefix + s);
     if (searchTerms.length == 0) {
       setSearchData({});
       return;
@@ -1411,7 +1424,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     const toastId = toast.loading("Đang tìm kiếm")
     axios
       .get(
-        "/medical-service/search/" + searchTerms.map(s => 'nam_18_39_' + s).join('|'),
+        "/medical-service/search/" + searchTerms.map(s => prefix + s).join('|'),
       )
       .then((response) => {
         let data = {};
@@ -3404,6 +3417,17 @@ function parseJson(str) {
   } catch (e) {
     return str;
   }
+}
+
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+  }
+  return age;
 }
 
 export default TreatmentForm
