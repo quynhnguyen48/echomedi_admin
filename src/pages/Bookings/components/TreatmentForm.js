@@ -568,10 +568,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
       bundleServicesData_.forEach(s => {
         if (Array.isArray(s.attributes?.medical_services)) {
-        s.attributes?.medical_services?.forEach(ss => {
-          newExistServices[ss.id] = true;
-        })
-      }
+          s.attributes?.medical_services?.forEach(ss => {
+            newExistServices[ss.id] = true;
+          })
+        }
       });
 
     }
@@ -1158,6 +1158,16 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
   }
 
+  const addBundleMedicalServiceById = (id) => {
+    const bs = bundleServices.find(b => b.id == id);
+    if (usedBundleMedicalServices.find(us => us.id == id)) {
+      const bs = usedBundleMedicalServices.find(b => b.id == id);
+      removeBundleMedicalService(bs);
+    } else {
+      addBundleMedicalService(bs);
+    }
+  }
+
   const addBundleMedicalService = (m) => {
     const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
@@ -1441,6 +1451,47 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           });
 
         });
+
+        if (bmi >= 23) {
+          if (!data["Gói dược"]) {
+            data["Gói dược"] = [];
+          }
+          data["Gói dược"].push({
+            label: "Gói hỗ trợ giảm cân",
+          });
+
+          if (!data["Gói dinh dưỡng"]) {
+            data["Gói dinh dưỡng"] = [];
+          }
+          data["Gói dinh dưỡng"].push({
+            label: "Béo phì",
+          });
+
+          if (!data["Gói gene"]) {
+            data["Gói gene"] = [];
+          }
+          data["Gói gene"].push({
+            label: "Vitamin cho cuộc sức sống tràn đầy U-Vita",
+          });
+          data["Gói gene"].push({
+            label: "Xua tan phiền não về cân nặng U-Weight",
+          });
+          
+          if (!data["Gói khám"]) {
+            data["Gói khám"] = [];
+          }
+          data["Gói khám"].push({
+            label: "QUẢN LÝ BỆNH BÉO PHÌ",
+            type: "service-bundle",
+            id: 62,
+          });
+        } else if (bmi < 18) {
+          data["Gói dinh dưỡng"] = [];
+          data["Gói dinh dưỡng"].push({
+            label: "Suy Dinh dưỡng",
+          });
+        }
+
         setSearchData(data);
       })
       .finally(() => {
@@ -2803,7 +2854,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full">
-                    
+                    <h1>GỢI Ý:</h1>
+                    <h1>BN {data?.patient?.gender == "male" ? "nam" : "nữ"}, {getAge(data?.patient?.birthday)} tuổi, BMI {bmi}, có các vấn đề sức khoẻ:</h1>
                     <div className="grid sm:grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 py-4">
                       <Controller
                         name="searchTerm"
@@ -2847,7 +2899,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     {searchData && Object.entries(searchData)
                       .map(([serviceName, service]) => {
                         console.log('serviceName', serviceName, service)
-                        return <div><h1 className="font-bold">- {serviceName}</h1>{service.map(s => <p>{s.label}</p>)}</div>
+                        return <div><h1 className="font-bold">- {serviceName}</h1>
+                          {service.map(s => <p className="flex">{s.type == "service-bundle" && 
+                          <Button
+                          type="button"
+                          className={"inline text-xs h-8 mr-4"}
+                          icon={<Icon name="add-circle" className="fill-white" />}
+                          onClick={e => addBundleMedicalServiceById(s.id)}
+                        >
+                          {usedBundleMedicalServices.find(us => us.id == s.id) ? 'Bỏ' : "Thêm"}
+                        </Button>} {s.label} </p>)}
+                        </div>
                       })
                     }
                   </div>
@@ -2900,16 +2962,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   >
                                     <div className="flex flex-col">
                                       <div>{m.attributes?.label}</div>
-                                      <div><span><del>{numberWithCommas(m.attributes?.original_price)}đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span><del>{m.attributes?.original_price && numberWithCommas(m.attributes?.original_price) + 'đ'}</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
                                       <div><span>{m.attributes.discount_note}</span></div>
                                     </div>
                                   </Button>
-                                  {/* <Button 
-                        onClick={e => {
-                          // toast.success(<div>{m.attributes.medical_services.data.map(a => <p>{a.attributes.label}</p>)}</div>, 
-                          // {progress: 1, className: "w-[500px] left-[-177px]"})
-                        }}
-                      className="ml-2" shape="circle">i</Button> */}
                                   <Button
                                     type="button"
                                     className={"inline ml-1 text-xs h-16"}
@@ -3025,7 +3081,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   >
                                     <div className="flex flex-col">
                                       <div>{m.attributes?.label}</div>
-                                      <div><span><del>{numberWithCommas(m.attributes?.original_price)}đ</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span><del>{m.attributes?.original_price && numberWithCommas(m.attributes?.original_price) + 'đ'}</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
                                       <div><span>{m.attributes.discount_note}</span></div>
                                     </div>
                                   </Button>
@@ -3425,7 +3481,7 @@ function getAge(dateString) {
   var age = today.getFullYear() - birthDate.getFullYear();
   var m = today.getMonth() - birthDate.getMonth();
   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
+    age--;
   }
   return age;
 }
