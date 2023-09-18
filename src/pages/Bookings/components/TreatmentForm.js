@@ -593,28 +593,28 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     if (data.doctor_in_charge) {
       setDoctorInCharge({
         value: data.doctor_in_charge.data?.id,
-        label: data.doctor_in_charge.data?.attributes?.email,
+        label: data.doctor_in_charge.data?.attributes?.patient?.data?.attributes?.full_name,
       })
     }
 
     if (data.cc_in_charge) {
       setCCInCharge({
         value: data.cc_in_charge.data?.id,
-        label: data.cc_in_charge.data?.attributes?.email,
+        label: data.cc_in_charge.data?.attributes?.patient?.data?.attributes?.full_name,
       })
     }
 
     if (data.nurse_in_charge) {
       setNurseInCharge({
         value: data.nurse_in_charge.data?.id,
-        label: data.nurse_in_charge.data?.attributes?.email,
+        label: data.nurse_in_charge.data?.attributes?.patient?.data?.attributes?.full_name,
       })
     }
 
     if (data.cashier_in_charge) {
       setCashierInCharge({
         value: data.cashier_in_charge.data?.id,
-        label: data.cashier_in_charge.data?.attributes?.email,
+        label: data.cashier_in_charge.data?.attributes?.patient?.data?.attributes?.full_name,
       })
     }
 
@@ -3197,13 +3197,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   </div>
                 </div>
               </div>}
-            <div className="w-full">
+            <div className="w-full flex flex-row">
               <Controller
                 name="doctor_in_charge"
                 control={control}
                 render={({ field: { value, ref } }) => (
                   <Select
-                    // isDisabled={true}
+                    isDisabled={readonly}
                     placeholder="Bác sĩ phụ trách"
                     label="Bác sĩ phụ trách"
                     name="doctor_in_charge"

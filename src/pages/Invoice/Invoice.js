@@ -57,9 +57,6 @@ const Invoice = () => {
                 {
                   idu: { $containsi: searchKey },
                 },
-                // {
-                //   name: { $containsi: searchKey },
-                // },
               ],
             }
           }
@@ -141,8 +138,6 @@ const Invoice = () => {
     },
     [data]
   )
-
-  console.log('detailData', detailData)
 
   return (
     <Page

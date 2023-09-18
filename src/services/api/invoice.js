@@ -22,7 +22,8 @@ const populate = [
   "booking.patient",
   "booking.medical_record",
   "prescription",
-  "cashier_in_charge"
+  "cashier_in_charge",
+  "cashier_in_charge.patient",
 ]
 
 export const getInvoices = (pagination, filters = {}) => {

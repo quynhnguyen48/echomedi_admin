@@ -147,23 +147,24 @@ const InvoiceForm = ({
       }
     ])
 
-    console.log('invoiceData', invoiceData)
+    console.log('invoiceData', cashier_in_charge)
     if (cashier_in_charge) {
       setCashierInCharge({
         value: cashier_in_charge.id,
-        label: cashier_in_charge.email,
+        label: cashier_in_charge?.patient?.data?.attributes?.full_name,
       })
     }
   }, [])
 
   useEffect(() => {
     setDoneLoadTagify(false)
-    console.log('invoiceData', invoiceData)
     if (cashier_in_charge) {
       setCashierInCharge({
         value: cashier_in_charge.id,
-        label: cashier_in_charge.email,
+        label: cashier_in_charge?.patient?.data?.attributes?.full_name,
       })
+    } else {
+      setCashierInCharge(null)
     }
   }, [id])
 
