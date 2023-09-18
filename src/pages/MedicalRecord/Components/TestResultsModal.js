@@ -121,7 +121,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
           )
         },
         collapse: true,
-        width: 150,
+        width: 300,
       },
       {
         Header: "Kết quả",
@@ -133,7 +133,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                   {item?.mime?.startsWith("image") ? (
                     <img className="rounded-xl w-14 h-14" src={getStrapiMedia(item)} alt="name" />
                   ) : (
-                    <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold p-4 relative border-primary border-1">
+                    <div className="w-32 inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold p-4 relative border-primary border-1">
                       {item?.name}{item?.ext}
                     </div>
                   )}

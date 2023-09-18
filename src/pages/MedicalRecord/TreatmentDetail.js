@@ -10,6 +10,7 @@ import PrescriptionModal from "./Components/PrescriptionModal"
 import TestResultsModal from "./Components/TestResultsModal"
 import { flatten } from "lodash"
 import { useDispatch, useSelector } from "react-redux";
+import { isMobile } from "react-device-detect";
 
 const TreatmentDetail = ({ data, onTogglePublish }) => {
   const navigate = useNavigate()
@@ -195,7 +196,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
   }
 
   return (
-    <div className="my-4 w-full max-h-[70vh]">
+    <div className={`my-4 w-full max-h-[78vh] ${!isMobile && 'overflow-scroll'}`}>
       <div className="flex items-center gap-x-2"></div>
       <table className="table-auto sinh_hieu w-full">
         <tr>

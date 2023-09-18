@@ -13,8 +13,8 @@ const Page = ({
   return (
     <div className="flex flex-col h-screen">
       <Header title={title} parentUrl={parentUrl}/>
-      <div className={`sm:block flex sm:p-0 px-6 flex-1 ${!isMobile && 'overflow-y-auto'} ${className}`} id="pageContent">
-        <div className={`flex-1 sm:px-2 pb-6 pr-6 w-[100vw] py-2 ${contentClassName}`}>
+      <div className={`sm:block flex sm:p-0 flex-1 ${!isMobile && 'overflow-y-auto'} ${className}`} id="pageContent">
+        <div className={`flex-1 pr-4 w-[100vw] py-2 ${contentClassName}`}>
           {children}
         </div>
         {rightContent && (

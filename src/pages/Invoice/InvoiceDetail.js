@@ -10,6 +10,7 @@ import PrescriptionModal from "./Components/PrescriptionModal"
 import TestResultsModal from "./Components/TestResultsModal"
 import { flatten } from "lodash"
 import InvoiceForm from "./Components/InvoiceForm"
+import { isMobile } from "react-device-detect";
 
 const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   const [medicalServices, setMedicalServices] = useState([])
@@ -66,7 +67,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   }
 
   return (
-    <div className="my-10 w-full">
+    <div className={`my-10 w-full max-h-[78vh] ${!isMobile && 'overflow-scroll'}`}>
       <div className="flex items-center gap-x-2"></div>
       <div className="grid grid-cols-3 grid-flow-row gap-y-5">
         <DataItem
