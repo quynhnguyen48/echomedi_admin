@@ -184,7 +184,7 @@ const PrescriptionFormItem = ({
         <div>
         <p>Logo</p>
         <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1">
-          <img src={getStrapiMedia(item.image.data?.attributes)} width={"100px"}/>
+          <img src={getStrapiMedia(item.image?.data?.attributes)} width={"100px"}/>
           <input
             ref={ref}
             type="file"
