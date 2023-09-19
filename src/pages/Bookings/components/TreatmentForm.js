@@ -535,6 +535,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       },
       note: data?.note || "",
       cc_note: data?.medical_record?.data?.attributes?.cc_note || "",
+      status: data?.status || "",
     },
   })
   // useScrollToError(errors)
