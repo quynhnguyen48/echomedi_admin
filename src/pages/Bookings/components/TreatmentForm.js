@@ -2917,7 +2917,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           {service.map(s => <p className="flex">{s.type == "service-bundle" &&
                             <Button
                               type="button"
-                              className={"inline text-xs h-8 mr-4"}
+                              className={"inline text-xs h-8 mr-4 mt-1"}
                               icon={<Icon name="add-circle" className="fill-white" />}
                               onClick={e => addBundleMedicalServiceById(s.id)}
                             >
