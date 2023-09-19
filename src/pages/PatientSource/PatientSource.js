@@ -163,7 +163,6 @@ const Theme = () => {
       try {
         const res = await getPatientSource()
         const data = formatStrapiArr(res?.data);
-        console.log('dataa 2', data)
         setPatientSource(data);
         let rs = data.map(r => {
           r.uid = r.id;

@@ -249,7 +249,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <DataItemJSON icon="box-tick" title="Khám bệnh" value={parseJson(data?.examination)} />
         <div className="w-full">
           <input type="checkbox" name="panel" id="panel-7" class="hidden" />
-          <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">Tiền căn bản thân</label>
+          <label for="panel-7" class="relative block bg-green p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">Tiền căn bản thân  &#62;</label>
           <div class="accordion__content overflow-scroll bg-grey-lighter">
             <div className="w-full py-4">
 
@@ -267,7 +267,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         </div>
         <div className="w-full">
           <input type="checkbox" name="panel" id="panel-1" class="hidden" />
-          <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">Khám lâm sàng</label>
+          <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">Khám lâm sàng  &#62;</label>
           <div class="accordion__content overflow-scroll bg-grey-lighter">
             <div className="w-full py-4"></div>
         <DataItemJSON icon="box-tick" title="Tổng quát" value={parseJson(data?.tong_quat)} />

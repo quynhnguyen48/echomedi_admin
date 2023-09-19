@@ -94,6 +94,7 @@ const Select = ({
   className,
   wrapperClassName,
   filterOption,
+  icon,
 }) => {
   return (
     <div className={`flex flex-col ${wrapperClassName}`}>
@@ -105,6 +106,8 @@ const Select = ({
       <div
         className={`rounded-lg ${isSecondary ? "bg-primary md:bg-gray2" : "bg-white md:bg-gray2"}`}
       >
+        <div className="flex flex-row items-center" >
+          {icon}
         <ReactSelect
           name={name}
           placeholder={<span className="text-secondary/30">{placeholder}</span>}
@@ -134,6 +137,7 @@ const Select = ({
             Option,
           }}
         />
+        </div>
       </div>
       {showError && errors && <p className="text-12 text-error mt-1">{errors}</p>}
     </div>

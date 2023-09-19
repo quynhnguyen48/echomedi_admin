@@ -13,7 +13,7 @@ const TYPES = {
 const SIZES = {
   default: "text-14 font-bold h-10 rounded-lg px-4",
   medium: "text-16 font-bold h-14 rounded-lg px-6 bg-darkPrimary",
-  small: "text-14 font-bold h-7 rounded-lg px-2",
+  small: "text-14 font-bold h-10 rounded-lg px-2",
   auto: "",
 }
 

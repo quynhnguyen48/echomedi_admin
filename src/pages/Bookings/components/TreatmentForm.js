@@ -1476,7 +1476,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           data["Gói gene"].push({
             label: "Xua tan phiền não về cân nặng U-Weight",
           });
-          
+
           if (!data["Gói khám"]) {
             data["Gói khám"] = [];
           }
@@ -1562,7 +1562,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-1" class="hidden" />
-              <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">1. Hành chính</label>
+              <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary font-bold text-white ">1. Hành chính &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="grid sm:grid-cols-1 grid-cols-2 gap-x-6 gap-y-4 py-4">
                   <Controller
@@ -1778,7 +1778,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-2" class="hidden" />
-              <label for="panel-2" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer bg-form font-bold">2. Thông tin lịch hẹn</label>
+              <label for="panel-2" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer bg-primary text-white font-bold">2. Thông tin lịch hẹn &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="grid col-span-2 sm:grid-cols-1 grid-cols-2 gap-x-6 gap-y-4 py-4">
                   <Controller
@@ -1840,7 +1840,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-3" class="hidden" />
-              <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">3. Trạng thái</label>
+              <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">3. Trạng thái &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full">
 
@@ -1886,7 +1886,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-4" class="hidden" />
-              <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">4. Tư vấn ban đầu</label>
+              <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">4. Tư vấn ban đầu &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="w-full">
@@ -1895,7 +1895,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       control={control}
                       render={({ field: { value, ref } }) => (
                         <Select
-                          // isDisabled={true}
+                        isDisabled={readonly}
+                          icon={<svg className="inline" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xmlSpace="preserve">
+                        <path fill="#507C5C" d="M256,288.24c-68.519,0-124.264-55.744-124.264-124.264V107.12c0-8.208,6.653-14.861,14.861-14.861  c8.208,0,14.861,6.653,14.861,14.861v56.857c0,52.129,42.412,94.541,94.541,94.541s94.541-42.412,94.541-94.541  c0-8.208,6.653-14.861,14.861-14.861c8.208,0,14.861,6.653,14.861,14.861C380.264,232.495,324.519,288.24,256,288.24z" />
+                        <path fill="#CFF09E" d="M365.402,107.12H146.598c0,0,0-42.777,0-61.911c0-40.462,218.805-40.462,218.805,0  C365.402,64.341,365.402,107.12,365.402,107.12z" />
+                        <path fill="#507C5C" d="M365.402,121.981H146.598c-8.208,0-14.861-6.653-14.861-14.861V45.207C131.736,4.405,218.637,0,256,0  s124.264,4.405,124.264,45.207v61.913C380.264,115.328,373.61,121.981,365.402,121.981z M161.459,92.258h189.08V46.331  c-5.265-6.069-36.943-16.608-94.539-16.608s-89.274,10.538-94.541,16.608L161.459,92.258L161.459,92.258z" />
+                        <path fill="#CFF09E" d="M319.904,326.235H192.096c-38.576,0-69.849,31.273-69.849,69.849v101.055h267.506V396.084  C389.753,357.507,358.48,326.235,319.904,326.235z M337.736,437.943H265.41v-50.281h72.326L337.736,437.943L337.736,437.943z" />
+                        <path fill="#507C5C" d="M389.753,512H122.247c-8.208,0-14.861-6.653-14.861-14.861V396.084  c0-46.709,38.001-84.71,84.71-84.71h127.808c46.709,0,84.71,38.001,84.71,84.71v101.055C404.614,505.347,397.961,512,389.753,512z   M137.109,482.277h237.783v-86.193c0-30.32-24.667-54.987-54.987-54.987H192.096c-30.32,0-54.987,24.667-54.987,54.987  L137.109,482.277L137.109,482.277z M337.736,452.804H265.41c-8.208,0-14.861-6.653-14.861-14.861v-50.281  c0-8.208,6.653-14.861,14.861-14.861h72.326c8.208,0,14.861,6.653,14.861,14.861v50.281  C352.598,446.15,345.944,452.804,337.736,452.804z M280.273,423.081h42.603v-20.558h-42.603V423.081z" />
+                      </svg>}
                           placeholder="CC phụ trách"
                           label="CC phụ trách"
                           name="cc_in_charge"
@@ -2069,7 +2076,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             {currentUser?.role?.type != "care_concierge" &&
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-5" class="hidden" />
-                <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">5. Sinh hiệu</label>
+                <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">5. Sinh hiệu &#62;</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full py-4">
                     <Controller
@@ -2077,7 +2084,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       control={control}
                       render={({ field: { value, ref } }) => (
                         <Select
-                          // isDisabled={true}
+                        isDisabled={readonly}
+                        icon={<svg className="inline" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xmlSpace="preserve">
+                        <path fill="#507C5C" d="M256,288.24c-68.519,0-124.264-55.744-124.264-124.264V107.12c0-8.208,6.653-14.861,14.861-14.861  c8.208,0,14.861,6.653,14.861,14.861v56.857c0,52.129,42.412,94.541,94.541,94.541s94.541-42.412,94.541-94.541  c0-8.208,6.653-14.861,14.861-14.861c8.208,0,14.861,6.653,14.861,14.861C380.264,232.495,324.519,288.24,256,288.24z" />
+                        <path fill="#CFF09E" d="M365.402,107.12H146.598c0,0,0-42.777,0-61.911c0-40.462,218.805-40.462,218.805,0  C365.402,64.341,365.402,107.12,365.402,107.12z" />
+                        <path fill="#507C5C" d="M365.402,121.981H146.598c-8.208,0-14.861-6.653-14.861-14.861V45.207C131.736,4.405,218.637,0,256,0  s124.264,4.405,124.264,45.207v61.913C380.264,115.328,373.61,121.981,365.402,121.981z M161.459,92.258h189.08V46.331  c-5.265-6.069-36.943-16.608-94.539-16.608s-89.274,10.538-94.541,16.608L161.459,92.258L161.459,92.258z" />
+                        <path fill="#CFF09E" d="M319.904,326.235H192.096c-38.576,0-69.849,31.273-69.849,69.849v101.055h267.506V396.084  C389.753,357.507,358.48,326.235,319.904,326.235z M337.736,437.943H265.41v-50.281h72.326L337.736,437.943L337.736,437.943z" />
+                        <path fill="#507C5C" d="M389.753,512H122.247c-8.208,0-14.861-6.653-14.861-14.861V396.084  c0-46.709,38.001-84.71,84.71-84.71h127.808c46.709,0,84.71,38.001,84.71,84.71v101.055C404.614,505.347,397.961,512,389.753,512z   M137.109,482.277h237.783v-86.193c0-30.32-24.667-54.987-54.987-54.987H192.096c-30.32,0-54.987,24.667-54.987,54.987  L137.109,482.277L137.109,482.277z M337.736,452.804H265.41c-8.208,0-14.861-6.653-14.861-14.861v-50.281  c0-8.208,6.653-14.861,14.861-14.861h72.326c8.208,0,14.861,6.653,14.861,14.861v50.281  C352.598,446.15,345.944,452.804,337.736,452.804z M280.273,423.081h42.603v-20.558h-42.603V423.081z" />
+                      </svg>}
                           placeholder="Điều dưỡng phụ trách"
                           label="Điều dưỡng phụ trách"
                           name="nurse_in_charge"
@@ -2314,7 +2328,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               </div>}
             {currentUser?.role?.type != "care_concierge" && <div className="w-full">
               <input type="checkbox" name="panel" id="panel-6" class="hidden" />
-              <label for="panel-6" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">6. Khám</label>
+              <label for="panel-6" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">6. Khám</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="grid grid-cols-1 gap-6">
@@ -2850,7 +2864,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             {currentUser?.role?.type != "care_concierge" &&
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-7" class="hidden" />
-                <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
+                <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
 
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full">
@@ -2900,15 +2914,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       .map(([serviceName, service]) => {
                         console.log('serviceName', serviceName, service)
                         return <div><h1 className="font-bold">- {serviceName}</h1>
-                          {service.map(s => <p className="flex">{s.type == "service-bundle" && 
-                          <Button
-                          type="button"
-                          className={"inline text-xs h-8 mr-4"}
-                          icon={<Icon name="add-circle" className="fill-white" />}
-                          onClick={e => addBundleMedicalServiceById(s.id)}
-                        >
-                          {usedBundleMedicalServices.find(us => us.id == s.id) ? 'Bỏ' : "Thêm"}
-                        </Button>} {s.label} </p>)}
+                          {service.map(s => <p className="flex">{s.type == "service-bundle" &&
+                            <Button
+                              type="button"
+                              className={"inline text-xs h-8 mr-4"}
+                              icon={<Icon name="add-circle" className="fill-white" />}
+                              onClick={e => addBundleMedicalServiceById(s.id)}
+                            >
+                              {usedBundleMedicalServices.find(us => us.id == s.id) ? 'Bỏ' : "Thêm"}
+                            </Button>} {s.label} </p>)}
                         </div>
                       })
                     }
@@ -3135,7 +3149,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               </div>}
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-8" class="hidden" />
-              <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">8. Các giấy tờ liên quan</label>
+              <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">8. Các giấy tờ liên quan &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="flex items-center gap-x-4 pl-4">
@@ -3178,7 +3192,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             {
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-9" class="hidden" />
-                <label for="panel-9" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-form font-bold">9. CC note</label>
+                <label for="panel-9" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">9. CC note</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="col-span-2">
                     <Controller
@@ -3202,18 +3216,29 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 name="doctor_in_charge"
                 control={control}
                 render={({ field: { value, ref } }) => (
-                  <Select
-                    isDisabled={readonly}
-                    placeholder="Bác sĩ phụ trách"
-                    label="Bác sĩ phụ trách"
-                    name="doctor_in_charge"
-                    onChange={(e) => {
-                      setDoctorInCharge(e)
-                    }}
-                    value={doctorInCharge}
-                    options={customersData}
-                    errors={errors?.address?.province?.message}
-                  />
+                  <div>
+                    <Select
+                      isDisabled={readonly}
+                      icon={<svg className="inline" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xmlSpace="preserve">
+                        <path fill="#507C5C" d="M256,288.24c-68.519,0-124.264-55.744-124.264-124.264V107.12c0-8.208,6.653-14.861,14.861-14.861  c8.208,0,14.861,6.653,14.861,14.861v56.857c0,52.129,42.412,94.541,94.541,94.541s94.541-42.412,94.541-94.541  c0-8.208,6.653-14.861,14.861-14.861c8.208,0,14.861,6.653,14.861,14.861C380.264,232.495,324.519,288.24,256,288.24z" />
+                        <path fill="#CFF09E" d="M365.402,107.12H146.598c0,0,0-42.777,0-61.911c0-40.462,218.805-40.462,218.805,0  C365.402,64.341,365.402,107.12,365.402,107.12z" />
+                        <path fill="#507C5C" d="M365.402,121.981H146.598c-8.208,0-14.861-6.653-14.861-14.861V45.207C131.736,4.405,218.637,0,256,0  s124.264,4.405,124.264,45.207v61.913C380.264,115.328,373.61,121.981,365.402,121.981z M161.459,92.258h189.08V46.331  c-5.265-6.069-36.943-16.608-94.539-16.608s-89.274,10.538-94.541,16.608L161.459,92.258L161.459,92.258z" />
+                        <path fill="#CFF09E" d="M319.904,326.235H192.096c-38.576,0-69.849,31.273-69.849,69.849v101.055h267.506V396.084  C389.753,357.507,358.48,326.235,319.904,326.235z M337.736,437.943H265.41v-50.281h72.326L337.736,437.943L337.736,437.943z" />
+                        <path fill="#507C5C" d="M389.753,512H122.247c-8.208,0-14.861-6.653-14.861-14.861V396.084  c0-46.709,38.001-84.71,84.71-84.71h127.808c46.709,0,84.71,38.001,84.71,84.71v101.055C404.614,505.347,397.961,512,389.753,512z   M137.109,482.277h237.783v-86.193c0-30.32-24.667-54.987-54.987-54.987H192.096c-30.32,0-54.987,24.667-54.987,54.987  L137.109,482.277L137.109,482.277z M337.736,452.804H265.41c-8.208,0-14.861-6.653-14.861-14.861v-50.281  c0-8.208,6.653-14.861,14.861-14.861h72.326c8.208,0,14.861,6.653,14.861,14.861v50.281  C352.598,446.15,345.944,452.804,337.736,452.804z M280.273,423.081h42.603v-20.558h-42.603V423.081z" />
+                      </svg>}
+                      placeholder="Bác sĩ phụ trách"
+                      label="Bác sĩ phụ trách"
+                      name="doctor_in_charge"
+                      onChange={(e) => {
+                        setDoctorInCharge(e)
+                      }}
+                      value={doctorInCharge}
+                      options={customersData}
+                      errors={errors?.address?.province?.message}
+                    >
+
+                    </Select>
+                  </div>
                 )}
               />
             </div>
