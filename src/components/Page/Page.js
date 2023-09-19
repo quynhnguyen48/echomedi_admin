@@ -14,7 +14,7 @@ const Page = ({
     <div className="flex flex-col h-screen">
       <Header title={title} parentUrl={parentUrl}/>
       <div className={`sm:block flex sm:p-0 flex-1 ${!isMobile && 'overflow-y-auto'} ${className}`} id="pageContent">
-        <div className={`flex-1 pr-4 w-[100vw] py-2 ${contentClassName}`}>
+        <div className={`flex-1 pr-1 pl-1 w-[100vw] py-2 ${contentClassName}`}>
           {children}
         </div>
         {rightContent && (

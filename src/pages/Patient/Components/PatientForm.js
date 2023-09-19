@@ -234,7 +234,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-1">
           <Controller
             name="email"
             control={control}
@@ -346,7 +346,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-x-6">
+        <div className="grid grid-cols-3 gap-x-6 sm:grid-cols-1">
           <div className="w-full">
             <Controller
               name="address.province"
@@ -487,7 +487,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           />
         <div className="space-y-2">
           <label className="font-16 font-bold">Thành viên</label>
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-4 gap-6 sm:grid-cols-1">
             <Controller
               name="membership"
               control={control}

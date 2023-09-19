@@ -58,7 +58,7 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
 
   return (
     <div className="mt-8 space-y-4">
-      <p>Lịch sử bệnh án</p>
+      <p className="font-bold mr-4 mt-1">Lịch sử bệnh án:</p>
       {loading ? <Loading className="!border-primary !border-2 w-10 h-10" /> :
         Array.isArray(transactions) &&
         transactions

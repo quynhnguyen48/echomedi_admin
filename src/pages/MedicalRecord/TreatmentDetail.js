@@ -196,9 +196,21 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
   }
 
   return (
-    <div className={`my-4 w-full max-h-[78vh] ${!isMobile && 'overflow-scroll'}`}>
-      <div className="flex items-center gap-x-2"></div>
-      <table className="table-auto sinh_hieu w-full">
+    <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`}>
+      <div className="flex items-center gap-x-2 overflow-scroll"></div>
+      {isMobile ? 
+        <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row gap-y-5 mt-2">
+          <div>Mạch {data?.circuit} (lần/phút)</div>
+          <div>Nhiệt độ {data?.temperature} (*C)</div>
+          <div>Huyết áp {data?.blood_pressure}/{data?.blood_pressure2} (mmHg)</div>
+          <div>Huyết áp lần {data?.blood_pressure_1}/{data?.blood_pressure2_1} (mmHg)</div>
+          <div>Nhịp thở(Lần/phút)</div>
+          <div>Chiều cao {data?.height} (Cm)</div>
+          <div> Cân nặng {data?.weight} (Kg) </div>
+          <div>BMI {data?.bmi}</div>
+          <div>SPO2 {data?.spo2}</div>
+      </div> :
+        <table className="table-auto sinh_hieu w-full">
         <tr>
           <th>Mạch(lần/phút)</th>
           <th>Nhiệt độ(*C)</th>
@@ -225,28 +237,20 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <th>{data?.bmi}</th>
           <th>{data?.spo2}</th>
         </tr>
-      </table>
-      <div className="grid grid-cols-4 grid-flow-row gap-y-5 mt-2">
+      </table>}
+      <div className="grid grid-cols-2 sm:grid-cols-1 grid-flow-row gap-y-5 mt-2">
+        <DataItem icon="user" title="Tên" value={`${data?.patient?.full_name} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD MMMM, YYYY")}`} />
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"
           value={dayjs(data?.booking?.bookingDate).format("DD MMMM, YYYY, h:mm")}
         />
         <DataItem icon="location" title="Chi nhánh" value={getDisplayBranchLabel(data?.booking?.branch)} />
-        <DataItem icon="user" title="Tên" value={data?.patient?.full_name} />
-        <DataItem
-          icon="cake"
-          title="Ngày sinh"
-          value={dayjs(data?.patient?.birthday).format("DD MMMM, YYYY")}
-        />
-        <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
-
       </div>
       <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
 
         <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
         <DataItemJSON icon="box-tick" title="Bệnh sử" value={parseJson(data?.inquiry)} />
-        <DataItemJSON icon="box-tick" title="Khám bệnh" value={parseJson(data?.examination)} />
         <div className="w-full">
           <input type="checkbox" name="panel" id="panel-7" class="hidden" />
           <label for="panel-7" class="relative block bg-green p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">Tiền căn bản thân  &#62;</label>
@@ -270,22 +274,22 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">Khám lâm sàng  &#62;</label>
           <div class="accordion__content overflow-scroll bg-grey-lighter">
             <div className="w-full py-4"></div>
-        <DataItemJSON icon="box-tick" title="Tổng quát" value={parseJson(data?.tong_quat)} />
-        <DataItemJSON icon="box-tick" title="Tim mạch" value={parseJson(data?.tim_mach)} />
-        <DataItemJSON icon="box-tick" title="Hô hấp" value={parseJson(data?.ho_hap)} />
-        <DataItemJSON icon="box-tick" title="Tiêu hóa tiết niệu" value={parseJson(data?.tieu_hoa_tiet_nieu)} />
-        <DataItemJSON icon="box-tick" title="Cơ xương khớp" value={parseJson(data?.co_xuong_khop)} />
-        <DataItemJSON icon="box-tick" title="Thần kinh" value={parseJson(data?.than_kinh)} />
-        <DataItemJSON icon="box-tick" title="Sản phụ khoa" value={parseJson(data?.san_phu_khoa)} />
-        <DataItemJSON icon="box-tick" title="Mắt - tai mũi họng - răng hàm mặt" value={parseJson(data?.mat_tai_mui_hong)} />
-        <DataItemJSON icon="box-tick" title="Cơ quan khác" value={parseJson(data?.co_quan_khac)} />
-        <DataItemJSON icon="box-tick" title="Các thang điểm cần đánh giá" value={parseJson(data?.cac_thang_diem_can_danh_gia)} />
-        <DataItemJSON icon="box-tick" title="Dinh dưỡng" value={parseJson(data?.dinh_duong)} />
-        <DataItemJSON icon="box-tick" title="Kết quả cận lâm sàng" value={parseJson(data?.ket_qua_cls)} />
-        <DataItemJSON icon="box-tick" title="Chẩn đoán" value={parseJson(data?.chan_doan)} />
-        <DataItemJSON icon="box-tick" title="Hướng điều trị" value={parseJson(data?.treatment_regimen)} />
-        <DataItem icon="box-tick" title="Nội dung đặt lịch" value={data?.booking?.note} />
-        </div>
+            <DataItemJSON icon="box-tick" title="Tổng quát" value={parseJson(data?.tong_quat)} />
+            <DataItemJSON icon="box-tick" title="Tim mạch" value={parseJson(data?.tim_mach)} />
+            <DataItemJSON icon="box-tick" title="Hô hấp" value={parseJson(data?.ho_hap)} />
+            <DataItemJSON icon="box-tick" title="Tiêu hóa tiết niệu" value={parseJson(data?.tieu_hoa_tiet_nieu)} />
+            <DataItemJSON icon="box-tick" title="Cơ xương khớp" value={parseJson(data?.co_xuong_khop)} />
+            <DataItemJSON icon="box-tick" title="Thần kinh" value={parseJson(data?.than_kinh)} />
+            <DataItemJSON icon="box-tick" title="Sản phụ khoa" value={parseJson(data?.san_phu_khoa)} />
+            <DataItemJSON icon="box-tick" title="Mắt - tai mũi họng - răng hàm mặt" value={parseJson(data?.mat_tai_mui_hong)} />
+            <DataItemJSON icon="box-tick" title="Cơ quan khác" value={parseJson(data?.co_quan_khac)} />
+            <DataItemJSON icon="box-tick" title="Các thang điểm cần đánh giá" value={parseJson(data?.cac_thang_diem_can_danh_gia)} />
+            <DataItemJSON icon="box-tick" title="Dinh dưỡng" value={parseJson(data?.dinh_duong)} />
+            <DataItemJSON icon="box-tick" title="Kết quả cận lâm sàng" value={parseJson(data?.ket_qua_cls)} />
+            <DataItemJSON icon="box-tick" title="Chẩn đoán" value={parseJson(data?.chan_doan)} />
+            <DataItemJSON icon="box-tick" title="Hướng điều trị" value={parseJson(data?.treatment_regimen)} />
+            <DataItem icon="box-tick" title="Nội dung đặt lịch" value={data?.booking?.note} />
+          </div>
         </div>
         {/* <DataItem
           icon="calendar"
@@ -314,10 +318,10 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
                 <p className="font-semibold"> + {b.attributes.label}</p>
                 <span>{numberWithCommas(b.attributes.price)}</span>
               </div>
-              <ol className="service w-full" style={{ listStyleType: "decimal", marginLeft: "20px"}}>
+              <ol className="service w-full" style={{ listStyleType: "decimal", marginLeft: "20px" }}>
                 {Array.isArray((b.attributes.medical_services.data || b.attributes.medical_services)) && (b.attributes.medical_services.data || b.attributes.medical_services)?.map((s) => (
                   // <p> - {s.attributes.label}</p>
-                    <li>{s?.attributes?.label || s?.label}</li>
+                  <li>{s?.attributes?.label || s?.label}</li>
                 ))}
               </ol>
             </div>
@@ -337,7 +341,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             ))}
         </table>
       </div>
-      <div className="grid grid-cols-4 sm:grid-cols-1 gap-x-4 py-4">
+      <div className="fixed bottom-0 sm:relative">
+      <div className="grid grid-cols-5 sm:grid-cols-1 gap-x-4">
         {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
@@ -347,24 +352,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         >
           Sửa bệnh án
         </Button>}
-        {/* {currentUser.role.type != "pharmacist" && <Button
-          btnSize="small"
-          className="mt-2"
-          onClick={(e) => {
-            downloadMedicalRecord()
-          }}
-        >
-          Tải bệnh án
-        </Button>}
-        {currentUser.role.type != "pharmacist" && <Button
-          btnSize="small"
-          className="mt-2"
-          onClick={(e) => {
-            downloadShortenMedicalRecord()
-          }}
-        >
-          Tải bệnh án tóm tắt
-        </Button>} */}
         {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"
@@ -384,7 +371,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           Đơn thuốc
         </Button>
       </div>
-      <div className="flex gap-2 py-4 grid grid-cols-4 sm:grid-cols-1 mb-2">
+      <div className="flex gap-2 py-2 grid grid-cols-4 sm:grid-cols-1 mb-2">
         <Button btnType={data.status == "result_received" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_received")}>
           Đã có kết quả xét nghiệm
         </Button>
@@ -394,6 +381,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         <Button btnType={data.status == "result_done" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_done")}>
           Hoàn thành bệnh án
         </Button>
+      </div>
       </div>
       {visiblePrescriptionModal && (
         <PrescriptionModal

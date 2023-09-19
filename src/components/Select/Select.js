@@ -119,7 +119,7 @@ const Select = ({
           isMulti={isMulti}
           isDisabled={isDisabled}
           isSearchable={isSearchable}
-          className={className}
+          className={'w-full'}
           filterOption={filterOption}
           onInputChange={debounce((newValue) => onInputChange?.(newValue), 300)}
           components={{
