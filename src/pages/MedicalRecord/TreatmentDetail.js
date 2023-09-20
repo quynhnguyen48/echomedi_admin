@@ -342,7 +342,16 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         </table>
       </div>
       <div className="fixed bottom-0 sm:relative">
-      <div className="grid grid-cols-5 sm:grid-cols-1 gap-x-4">
+      <div className="grid grid-cols-6 sm:grid-cols-1 gap-x-4">
+      {currentUser.role.type != "pharmacist" && <Button
+          btnSize="small"
+          className="mt-2"
+          onClick={() => {
+            navigate(`/bookings/medical-records/${data.booking.id}/view`)
+          }}
+        >
+          Xem bệnh án
+        </Button>}
         {currentUser.role.type != "pharmacist" && <Button
           btnSize="small"
           className="mt-2"

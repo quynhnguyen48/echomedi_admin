@@ -298,6 +298,7 @@ const InvoiceForm = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <TagifyInput
+                    disabled={published}
                     whiteList={discountReasons}
                     className="flex-1"
                     inputClassName="test"
@@ -404,6 +405,7 @@ const InvoiceForm = ({
           control={control}
           render={({ field: { onChange, value } }) => (
             <TagifyInput
+              disabled={published}
               whiteList={discountReasons}
               className="flex-1"
               inputClassName="test"

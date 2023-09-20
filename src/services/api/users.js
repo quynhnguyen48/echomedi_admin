@@ -17,6 +17,7 @@ export const getListUsers = (pagination, filters = {}, populate) => {
       },
     },
     populate: populate || [
+      'patient'
       // "role",
       // "transactions",
       // "bookings",

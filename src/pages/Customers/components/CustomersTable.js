@@ -28,6 +28,8 @@ const CustomersTable = ({
     [activeRow?.id, onClickRow]
   )
 
+  console.log('dataa', data)
+
   const columns = useMemo(() => {
     const defaultColumns = [
       // {
@@ -51,11 +53,11 @@ const CustomersTable = ({
             {!isModal && (
               <Avatar
                 src={getStrapiMedia({ url: originalRow.avatar })}
-                name={`${originalRow?.firstName} ${originalRow?.lastName}`}
+                name={`${originalRow?.patient?.full_name}`}
                 className={originalRow?.id === activeRow?.id && "!bg-white !text-primary"}
               />
             )}
-            <span>{`${originalRow?.firstName} ${originalRow?.lastName}`}</span>
+            <span>{`${originalRow?.patient?.full_name}`}</span>
           </div>
         ),
         collapse: true,

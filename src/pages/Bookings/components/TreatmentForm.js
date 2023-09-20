@@ -3255,7 +3255,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           )}
           {!readonly && (
             <Button
-              btnType="outline"
+              btnType="primary"
               type="reset"
               onClick={(e) => {
                 navigate(-1)
@@ -3264,31 +3264,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Huỷ
             </Button>
           )}
-          {/* {readonly && currentUser?.role?.type != "care_concierge" && (
-            <Button
-              btnType="outline"
-              type="reset"
-              onClick={(e) => {
-                downloadPDF()
-              }}
-            >
-              Tải bệnh án
-            </Button>
-          )}
           {readonly && currentUser?.role?.type != "care_concierge" && (
             <Button
-              btnType="outline"
-              type="reset"
-              onClick={(e) => {
-                downloadShortenPDF()
-              }}
-            >
-              Tải bệnh án tóm tắt
-            </Button>
-          )} */}
-          {readonly && currentUser?.role?.type != "care_concierge" && (
-            <Button
-              btnType="outline"
+              btnType="primary"
               type="reset"
               onClick={(e) => {
                 downloadShortenPDFV2()
@@ -3299,7 +3277,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           )}
           {readonly && (
             <Button
-              btnType="outline"
+              btnType="primary"
               type="reset"
               onClick={(e) => {
                 window.location.href = `/bookings/medical-records/${data.id}/edit`
@@ -3310,7 +3288,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           )}
           {readonly && currentUser?.role?.type != "doctor" && currentUser?.role?.type != "nurse" && (
             <Button
-              btnType="outline"
+              btnType="primary"
               type="reset"
               onClick={(e) => {
                 // downloadInvoice()
@@ -3322,7 +3300,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           )}
           {readonly && currentUser?.role?.type != "care_concierge" && (
             <Button
-              btnType="outline"
+              btnType="primary"
               type="reset"
               onClick={(e) => {
                 generatePhieuChiDinh()
@@ -3331,13 +3309,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải phiếu chỉ định
             </Button>
           )}
-          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="outline" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
+          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
             Đơn thuốc
           </Button>)}
-          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="outline" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
+          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
             Tư vấn TPCN
           </Button>)}
-          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="outline" type="reset" onClick={() => setVisibleTestResultModal(true)}>
+          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleTestResultModal(true)}>
             Kết quả xét nghiệm
           </Button>)}
         </div>
