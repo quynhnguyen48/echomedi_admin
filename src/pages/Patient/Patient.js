@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify"
 
+import Select from "components/Select"
 import Button from "components/Button";
 import Icon from "components/Icon";
 import Page from "components/Page";
@@ -28,6 +29,9 @@ import TreatmentForm from "./Components/CustomersForm";
 import { getListPatients } from "services/api/patient";
 import CustomersTable from './Components/CustomersTable';
 import CustomerDetail from './CustomerDetail';
+import {
+  getPatientSource,
+} from "services/api/patientSource";
 
 const locales = {
   'vi': viVN,
@@ -54,6 +58,28 @@ const Treatments = () => {
   const fetchIdRef = useRef(0);
   const [patients, setPatients] = useState([]);
   const currentUser = useSelector((state) => state.user.currentUser);
+  const [patientSource, setPatientSource] = useState();
+  const [source, setSource] = useState();
+
+  useEffect(() => {
+    ; (async () => {
+      try {
+        const res = await getPatientSource()
+        const data = formatStrapiArr(res?.data);
+        let rs = data.map(r => {
+          r.label = r.label;
+          r.value = r.value;
+          return r;
+        })
+
+        rs.unshift({
+          label: "Không",
+        });
+
+        setPatientSource(rs);
+      } catch (error) { }
+    })()
+  }, [])
 
   useEffect(() => {
     (async () => {
@@ -90,20 +116,25 @@ const Treatments = () => {
           $null: true,
         }
       };
-      if (searchKey?.length) {
+      // if (searchKey?.length ) {
         filters = {
-          $or: [
-            { full_name: { $containsi: searchKey } },
-            { full_name_i: { $containsi: searchKey } },
-            { uid: { $containsi: searchKey } },
-            { email: { $containsi: searchKey } },
-            { phone: { $containsi: searchKey } }
+          $and: [
+            { $or: [
+              { full_name: { $containsi: searchKey } },
+              { full_name_i: { $containsi: searchKey } },
+              { uid: { $containsi: searchKey } },
+              { email: { $containsi: searchKey } },
+              { phone: { $containsi: searchKey } }
+            ]},
+            {
+              patient_source: source?.id
+            }
           ],
           internal: {
             $null: true,
           }
         }
-      }
+      // }
 
       const res = await getListPatients(
         {
@@ -126,7 +157,7 @@ const Treatments = () => {
       setLoading(false);
 
     },
-    [patients, searchKey]
+    [patients, searchKey, source]
   );
 
   const togglePublish = useCallback(async () => {
@@ -158,7 +189,7 @@ const Treatments = () => {
     <Page
       title="Danh sách khách hàng"
     >
-      <div className="w-full grid grid-cols-2 sm:grid-cols-1 items-center gap-x-9">
+      <div className="w-full grid grid-cols-3 sm:grid-cols-1 items-center gap-x-9">
 
         <SearchInput
           placeholder="Tìm khách hàng bằng ID / Tên / Email / SDT"
@@ -168,6 +199,17 @@ const Treatments = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
+        <Select
+        placeholder="Chọn nguồn"
+        label="Nguồn"
+        name="patient_source"
+        options={patientSource}
+        value={source && patientSource?.find((s) => s.id === source.id)}
+        onChange={(e) => {
+          console.log('eeee', e)
+          setSource(e);
+        }}
+      />
         {currentUser?.role?.type != "doctor"
           && currentUser?.role?.type != "nurse"
           && <Button
@@ -178,7 +220,9 @@ const Treatments = () => {
           >
             Tạo bệnh nhân mới
           </Button>}
+          
       </div>
+      
       <div className="mt-4">
       </div>
       <Modal contentClassName="bg-modal" visibleModal={modalVisible} showCloseButton={true} onClose={() => setModalVisible(false)}>
