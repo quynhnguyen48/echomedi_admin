@@ -2376,7 +2376,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       )}
                     />
                   </div>
-                  <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
+                  <div className="grid sm:grid-cols-1 grid-cols-1 gap-6 mt-4">
                     <Controller
                       name="inquiry"
                       control={control}
