@@ -535,7 +535,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       },
       note: data?.note || "",
       cc_note: data?.medical_record?.data?.attributes?.cc_note || "",
-      status: data?.medical_record?.data?.attributes?.status || "",
+      // status: data?.medical_record?.data?.attributes?.status || "",
     },
   })
   // useScrollToError(errors)
@@ -1310,6 +1310,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         nurse_in_charge: nurseInCharge?.value,
         cc_in_charge: CCInCharge?.value,
         cashier_in_charge: cashierInCharge?.value,
+        status: data?.medical_record?.data?.attributes?.status || "",
         patient: data.patient.id,
         total,
         booking: data.id,
@@ -1341,8 +1342,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         const result = await createNewTreatment(payload)
       }
 
-      if (data?.status != payload.status) {
-        await updateStatusBooking(data.id, payload.status)
+      if (data?.status != formData.status) {
+        await updateStatusBooking(data.id, formData.status)
       }
 
       toast.success("Lưu hồ sơ bệnh án thành công")
