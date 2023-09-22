@@ -359,7 +359,7 @@ class DBPedia extends Component {
 		let iAge = parseInt(age.value);
 
 
-		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_65' : '65'))}`;
+		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_64' : '65'))}`;
 
 		const queryUrl = `https://api.echomedi.com/api/medical-service/search/${searchKey}_${self.state.terms[0]}`;
 
