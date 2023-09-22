@@ -85,7 +85,7 @@ class DBPedia extends Component {
 		labels.emptyText = (options && options.emptyText) ? options.emptyText : 'Select an option';
 		labels.selectedText = (options && options.selectedText) ? options.selectedText : 'Selected';
 		labels.selectedAllText = (options && options.selectedAllText) ? options.selectedAllText : 'Select All';
-		labels.title = (options && options.title) ? options.title : 'Field';
+		labels.title = (options && options.title) ? options.title : 'Chọn vấn đề sức khoẻ:';
 	
 		//define the elements
 		var container = document.createElement("div");
