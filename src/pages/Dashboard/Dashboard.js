@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Component, createRef} from "react";
 import { isMobile } from "react-device-detect"
 import { useNavigate } from "react-router-dom"
 
@@ -14,31 +14,509 @@ import LatestBookings from "./LatestBookings";
 import TreatementAnalytics from "./TreatementAnalytics";
 import axios from "axios";
 import { getListConversationQueues } from "services/api/conversationQueue"
-import ChatBot from 'react-simple-chatbot';
+import ChatBot, { Loading } from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
+
+class Review extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			name: '',
+			gender: '',
+			age: '',
+		};
+	}
+
+	componentWillMount() {
+		const { steps } = this.props;
+		const { name, gender, age } = steps;
+
+		this.setState({ name, gender, age });
+	}
+
+
+	render() {
+		const { name, gender, age } = this.state;
+		return (
+			<div style={{ width: '100%' }}>
+				<h3>Summary</h3>
+				<table>
+					<tbody>
+						<tr>
+							<td>Name</td>
+							<td>{name.value}</td>
+						</tr>
+						<tr>
+							<td>Gender</td>
+							<td>{gender.value}</td>
+						</tr>
+						<tr>
+							<td>Age</td>
+							<td>{age.value}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		);
+	}
+}
+
+class DBPedia extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			loading: true,
+			result: '',
+			trigger: false,
+			terms: [],
+		};
+
+		this.triggetNext = this.triggetNext.bind(this);
+		this.search = this.search.bind(this);
+		this.textInput = createRef();
+	}
+
+	createMultiselect = function (element, data, selectCb, options) {
+
+		var labels = {};
+	
+		labels.emptyText = (options && options.emptyText) ? options.emptyText : 'Select an option';
+		labels.selectedText = (options && options.selectedText) ? options.selectedText : 'Selected';
+		labels.selectedAllText = (options && options.selectedAllText) ? options.selectedAllText : 'Select All';
+		labels.title = (options && options.title) ? options.title : 'Field';
+	
+		//define the elements
+		var container = document.createElement("div");
+		var multiselectLabel = document.createElement("div");
+		var dataContainer = document.createElement("div");
+		var button = document.createElement("button");
+		var searchField = document.createElement("input");
+		var clearSelection = document.createElement('span');
+		var carret = document.createElement("b");
+		var list = document.createElement("ul");
+	
+		//set the ids
+		var timestamp = Math.round(new Date().getTime() * Math.random());
+		container.setAttribute('id', 'multiselect_container_' + timestamp);
+		dataContainer.setAttribute('id', 'multiselect_datacontainer_' + timestamp);
+		multiselectLabel.setAttribute('id', 'multiselect_label_' + timestamp);
+		button.setAttribute('id', 'multiselect_button_' + timestamp);
+		list.setAttribute('id', 'multiselect_list_' + timestamp);
+	
+		var _fnIsChild = function (element, parent) {
+			var node = element.parentNode;
+			while (node) {
+				if (node === parent) {
+					return true;
+				}
+				node = node.parentNode;
+			}
+			return false;
+		}
+	
+		var _selectionText = function (element) {
+			var text = "";
+			var selection = element.querySelectorAll("input:checked");
+			if (selection.length === 0) {
+				text = labels.emptyText;
+			} else if (selection.length > 3) {
+				text = selection.length + " " + labels.selectedText;
+			} else {
+				var arr = [];
+				for (var i = 0; i < selection.length; i++) {
+					arr.push(selection[i].parentNode.textContent);
+				}
+				text = arr.join(",");
+			}
+			return text;
+		};
+	
+		var _openList = function (e) {
+			list.style.display = "block";
+			e.srcElement.children[0].focus();
+		};
+	
+		var _selectItem = function (e) {
+			var text = _selectionText(container);
+			container
+				.getElementsByTagName("button")[0]
+				.children[0].setAttribute("placeholder", text);
+	
+			if (selectCb) {
+				var selectionElements = container.querySelectorAll("input:checked");
+				var selection = [];
+				for (var i = 0; i < selectionElements.length; i++) {
+					selection.push(selectionElements[i].value);
+				}
+				selectCb(selection);
+			}
+	
+		};
+	
+		var _clearSearch = function () {
+			var elements = container.getElementsByTagName("li");
+			for (var i = 0; i < elements.length; i++) {
+				elements[i].style.display = "";
+			}
+		};
+	
+		var _performSearch = function (e) {
+			if (e.which != 13 && e.which != 38 && e.which != 40) {
+				var active = list.getElementsByClassName("multiselect-label--active");
+				if (active.length > 0) {
+					active[0].classList.remove("multiselect-label--active");
+				}
+				var first = true;
+				var filter = e.srcElement.value.toUpperCase();
+				var elements = container.getElementsByTagName("li");
+				for (var i = 0; i < elements.length; i++) {
+					var cb = elements[i].getElementsByTagName("label")[0].textContent;
+					if (cb.toUpperCase().indexOf(filter) !== -1) {
+						if (first) {
+							first = false;
+							elements[i].children[0].children[0].classList.add("multiselect-label--active");
+						}
+						elements[i].style.display = "";
+					} else {
+						elements[i].style.display = "none";
+					}
+				}
+			}
+		};
+	
+		var _fnClearSelection = function (e) {
+			var inputs = list.getElementsByTagName('input');
+			for (var i = 0; i < inputs.length; i++) {
+				if (inputs[i].checked) {
+					inputs[i].parentNode.click();
+				}
+			}
+			e.stopPropagation();
+		};
+	
+		var _fnSelectAll = function (e) {
+			var inputs = list.getElementsByTagName('input');
+			for (var i = 0; i < inputs.length; i++) {
+				if (!inputs[i].checked) {
+					inputs[i].parentNode.click();
+				}
+			}
+			e.stopPropagation();
+		};
+	
+		container.classList.add("multiselect-container");
+		multiselectLabel.classList.add("multiselect-label");
+		multiselectLabel.innerHTML = labels.title;
+		dataContainer.classList.add("multiselect-data-container");
+		button.classList.add("multiselect-button");
+	
+		searchField.setAttribute("type", "text");
+		searchField.setAttribute("placeholder", labels.emptyText);
+		searchField.classList.add("multiselect-text");
+		searchField.addEventListener("keyup", _performSearch);
+	
+		clearSelection.classList.add('multiselect-clear');
+		clearSelection.innerHTML = 'X';
+		clearSelection.addEventListener("click", _fnClearSelection);
+	
+		carret.classList.add("carret");
+	
+		button.appendChild(searchField);
+		button.appendChild(clearSelection);
+		button.appendChild(carret);
+	
+		button.addEventListener("click", _openList);
+	
+		list.classList.add("multiselect-list");
+	
+		for (var i = -1; i < data.length; i++) {
+			var item = document.createElement("li");
+			var a = document.createElement("a");
+			var label = document.createElement("label");
+			var input = document.createElement("input");
+	
+			a.setAttribute("tabindex", "0");
+	
+			label.classList.add("multiselect-item-label");
+	
+			if (i == -1) {
+				a.addEventListener("click", _fnSelectAll);
+				label.appendChild(document.createTextNode("Select all"));
+				label.classList.add('multiselect-item-label--select-all');
+			}
+			else {
+				if (i == 0) {
+					label.classList.add("multiselect-item-label--active");
+				}
+				input.setAttribute("type", "checkbox");
+				input.setAttribute("class", "multiselect-checkbox");
+				label.appendChild(input);
+				input.setAttribute("value", data[i].value);
+				input.addEventListener("change", _selectItem);
+				label.appendChild(document.createTextNode(data[i].label));
+			}
+			a.appendChild(label);
+			item.appendChild(a);
+			list.appendChild(item);
+		}
+	
+		dataContainer.appendChild(button);
+		dataContainer.appendChild(list);
+		container.appendChild(multiselectLabel);
+		container.appendChild(dataContainer);
+		element.appendChild(container);
+	
+		//Change to the specific window
+		document.addEventListener("click", function (e) {
+			if (!_fnIsChild(e.target, container)) {
+				list.style.display = "none";
+				searchField.value = "";
+				_clearSearch();
+			}
+		});
+	
+		document.addEventListener("keyup", function (e) {
+			if (list.style.display == 'block') {
+				//mouse down
+				if (e.which === 40) {
+					var active = list.getElementsByClassName(
+						"multiselect-label--active"
+					)[0];
+					var next = active.parentNode.parentNode.nextSibling;
+					//Find the next visible element
+					while (next && next.style && next.style.display == 'none') {
+						next = next.nextSibling;
+					}
+					if (next) {
+						active.classList.remove("multiselect-label--active");
+						next
+							.getElementsByClassName("multiselect-label")[0]
+							.classList.add("multiselect-label--active");
+						next.children[0].focus();
+						searchField.focus();
+						e.preventDefault();
+					}
+				} else if (e.which === 38) {
+					//mouse up
+					var active = list.getElementsByClassName(
+						"multiselect-label--active"
+					)[0];
+					var prev = active.parentNode.parentNode.previousSibling;
+					//Find the previous visible element
+					while (prev && prev.style && prev.style.display === 'none') {
+						prev = prev.previousSibling;
+					}
+					if (prev) {
+						active.classList.remove("multiselect-label--active");
+						prev
+							.getElementsByClassName("multiselect-label")[0]
+							.classList.add("multiselect-label--active");
+						prev.children[0].focus();
+						searchField.focus();
+						e.preventDefault();
+					}
+				} else if (e.which === 13) {
+					// enter
+					list.getElementsByClassName("multiselect-label--active")[0].click();
+					e.preventDefault();
+				}
+			}
+		});
+	};
+
+	componentDidMount() {
+		var self = this;
+		var data = [
+			{ label: "Không có bệnh", value: "khong_co_benh" },
+			{ label: "Thần kinh", value: "than_kinh" },
+			{ label: "Hô hấp", value: "ho_hap" },
+			{ label: "Tim mạch", value: "tim_mach" },
+			{ label: "Thận tiết niệu", value: "than_tiet_nieu" },
+			{ label: "Cơ xương khớp", value: "co_xuong_khop" },
+			{ label: "Nội tiết chuyển hoá", value: "noi_tiet_chuyen_hoa" },
+			{ label: "Tiêu hoá", value: "tieu_hoa" },
+		];
+		// var element = document.getElementById("multiselect__container");
+		// var element2 = document.getElementById("multiselect__container2");
+
+		var select = function(data){
+			self.setState({terms: data})
+		}
+
+		this.createMultiselect(this.textInput.current, data, select);
+		// createMultiselect(element2, data, select);
+	}
+
+	search() {
+		const self = this;
+		const { steps } = this.props;
+		const { name, gender, age } = steps;
+		const { terms } = self.state;
+
+
+		let iAge = parseInt(age.value);
+
+
+		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_65' : '65'))}`;
+
+		const queryUrl = `https://api.echomedi.com/api/medical-service/search/${searchKey}_${self.state.terms[0]}`;
+
+		const xhr = new XMLHttpRequest();
+
+		xhr.addEventListener('readystatechange', readyStateChange);
+
+		function readyStateChange() {
+			if (this.readyState === 4) {
+				const data = JSON.parse(this.responseText);
+
+
+				// const bindings = data.results.bindings;
+				if (data && data.length > 0) {
+					self.setState({ loading: false, result: data });
+				} else {
+					self.setState({ loading: false, result: 'Not found.' });
+				}
+			}
+		}
+
+		xhr.open('GET', queryUrl);
+		xhr.send();
+	}
+
+	triggetNext() {
+		this.setState({ trigger: true }, () => {
+			this.props.triggerNextStep();
+		});
+	}
+
+	render() {
+		const { trigger, loading, result } = this.state;
+		const { steps } = this.props;
+		const { name, gender, age } = steps;
+
+		return (
+			<div className="dbpedia">
+				<div>
+							<div id="multiselect__container" ref={this.textInput} >
+							</div>
+						</div>
+						<button onClick={e => this.search()}>Search</button>
+				{loading ? <Loading /> :
+					<div>
+						
+						<p>Kết quả ({name?.value} {age?.value} {gender?.value})</p>
+						{result.map(r => <p>{r.label}</p>)}</div>
+				}
+			</div>
+		);
+	}
+}
 
 const steps = [
 	{
 		id: '1',
-		message: 'What number I am thinking?',
-		trigger: '2',
+		message: 'Tên của bạn là gì ?',
+		trigger: 'name',
 	},
 	{
-		id: '2',
-		options: [
-			{ value: 1, label: 'Number 1', trigger: '4' },
-			{ value: 2, label: 'Number 2', trigger: '3' },
-			{ value: 3, label: 'Number 3', trigger: '3' },
-		],
+		id: 'name',
+		user: true,
+		trigger: '3',
 	},
 	{
 		id: '3',
-		message: 'Wrong answer, try again.',
-		trigger: '2',
+		message: 'Xin chào {previousValue}! Giới tính của bạn ?',
+		trigger: 'gender',
 	},
 	{
-		id: '4',
-		message: 'Awesome! You are a telepath!',
+		id: 'gender',
+		options: [
+			{ value: 'nam', label: 'Nam', trigger: '5' },
+			{ value: 'nu', label: 'Nữ', trigger: '5' },
+		],
+	},
+	{
+		id: '5',
+		message: 'Bạn bao nhiêu tuổi ?',
+		trigger: 'age',
+	},
+	{
+		id: 'age',
+		user: true,
+		trigger: '7',
+		validator: (value) => {
+			if (isNaN(value)) {
+				return 'value must be a number';
+			} else if (value < 0) {
+				return 'value must be positive';
+			} else if (value > 120) {
+				return `${value}? Come on!`;
+			}
+
+			return true;
+		},
+	},
+	{
+		id: 'search',
+		user: true,
+		trigger: '7',
+	},
+	{
+		id: '7',
+		component: <DBPedia />,
+		waitAction: true,
+	},
+	{
+		id: 'review',
+		component: <Review />,
+		asMessage: true,
+		trigger: 'update',
+	},
+	{
+		id: 'update',
+		message: 'Would you like to update some field?',
+		trigger: 'update-question',
+	},
+	{
+		id: 'update-question',
+		options: [
+			{ value: 'yes', label: 'Yes', trigger: 'update-yes' },
+			{ value: 'no', label: 'No', trigger: 'end-message' },
+		],
+	},
+	{
+		id: 'update-yes',
+		message: 'What field would you like to update?',
+		trigger: 'update-fields',
+	},
+	{
+		id: 'update-fields',
+		options: [
+			{ value: 'name', label: 'Name', trigger: 'update-name' },
+			{ value: 'gender', label: 'Gender', trigger: 'update-gender' },
+			{ value: 'age', label: 'Age', trigger: 'update-age' },
+		],
+	},
+	{
+		id: 'update-name',
+		update: 'name',
+		trigger: '7',
+	},
+	{
+		id: 'update-gender',
+		update: 'gender',
+		trigger: '7',
+	},
+	{
+		id: 'update-age',
+		update: 'age',
+		trigger: '7',
+	},
+	{
+		id: 'end-message',
+		message: 'Thanks! Your data was submitted successfully!',
 		end: true,
 	},
 ];
@@ -54,7 +532,12 @@ const theme = {
 	botFontColor: '#fff',
 	userBubbleColor: '#fff',
 	userFontColor: '#4a4a4a',
+	width: 500
 };
+
+var Motus = {};
+
+
 
 const Dashboard = () => {
 	const [dashboardData, setDashboardData] = useState([]);
@@ -63,7 +546,6 @@ const Dashboard = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				console.log('load')
 				const allResponses = await Promise.all([
 					countNewBookings(),
 					countNewOrders(),
@@ -71,7 +553,6 @@ const Dashboard = () => {
 					// countNewConversationQueues(),
 				]);
 				setDashboardData(allResponses?.map((response) => response.data));
-				console.log('load')
 				const res = await getListConversationQueues(
 					{
 						pageSize: 10,
@@ -80,7 +561,6 @@ const Dashboard = () => {
 					{},
 					"preview"
 				)
-				console.log('resss', res)
 				if (res.data) {
 					setConversationQueueCnt(res?.data?.meta?.pagination?.total);
 				}
@@ -89,44 +569,54 @@ const Dashboard = () => {
 		})();
 	}, []);
 
+	const handleEnd = ({ steps, values }) => {
+	}
+
 	return (
 		<Page title="Bảng thông tin" rightContent={<LatestBookings />}>
 			<div className="rounded-t-2xl">
+
 				<div className="grid grid-cols-2 sm:block grid-flow-col gap-x-4">
-					<div className="rounded-xl shadow-sm p-4">
+					<div className="mt-4 flex items-start space-x-4 sm:block">
+						<ThemeProvider theme={theme} >
+							<ChatBot steps={steps} headerTitle="ECHO MEDI" handleEnd={handleEnd} />
+						</ThemeProvider>
+						{/* <CheckinAnalytics />
+					<TreatementAnalytics className="w-fit" /> */}
+					</div>
+					{/* <div className="rounded-xl shadow-sm p-4">
 						<AnalysItem
 							iconName="calendar-tick"
 							title="Lịch đặt hẹn mới"
 							value={dashboardData?.[0] || 0}
 						/>
-					</div>
+						
+					</div> */}
 					<div className="rounded-xl shadow-sm p-4">
 						<AnalysItem
 							iconName="calendar-tick"
 							title="Yêu cầu hội thoại mới"
 							value={conversationQueueCnt || 0}
 						/>
-					</div>
-					{/* <div className="rounded-xl shadow-sm p-4">
+						<AnalysItem
+							iconName="calendar-tick"
+							title="Lịch đặt hẹn mới"
+							value={dashboardData?.[0] || 0}
+						/>
 						<AnalysItem iconName="box-tick" title="Đơn hàng mới" value={dashboardData?.[1] || 0} />
-					</div>
-					<div className="rounded-xl shadow-sm p-4">
 						<AnalysItem
 							iconName="coin"
 							title="Doanh thu"
 							value={`${abbreviateNumber(dashboardData?.[2]?.[0]?.total || 0)}`}
 							valueClassName="text-pink"
 						/>
-					</div> */}
+						<CustomerAnalytics />
+					</div>
+
 				</div>
-				<CustomerAnalytics />
-				<div className="mt-4 flex items-start space-x-4 sm:block">
-					<ThemeProvider theme={theme} >
-						<ChatBot steps={steps} headerTitle="ECHO MEDI" />
-					</ThemeProvider>
-					<CheckinAnalytics />
-					<TreatementAnalytics className="w-fit" />
-				</div>
+
+				{/* <CustomerAnalytics /> */}
+
 			</div>
 		</Page>
 	);
