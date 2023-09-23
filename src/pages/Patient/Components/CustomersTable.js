@@ -156,7 +156,7 @@ const CustomersTable = ({
         Header: "Số điện thoại",
         collapse: true,
         width: 70,
-        accessor: (originalRow) => <span>{originalRow.phone.replace('+84', '0')}</span>,
+        accessor: (originalRow) => <span>{originalRow.phone?.replace('+84', '0')}</span>,
       },
       {
         Header: "Email",
