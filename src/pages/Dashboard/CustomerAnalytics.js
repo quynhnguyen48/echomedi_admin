@@ -96,9 +96,10 @@ const CustomerAnalytics = ({ className }) => {
   }, [])
 
   return (
-    <div className={`rounded-t-xl p-4 bg-white mt-4 flex flex-col sm:block items-start justify-between ${className}`}>
-      <div>
+    <div className={`col-span-2 rounded-t-xl p-4 bg-white mt-4 sm:block items-start justify-between ${className}`}>
+      <div className="grid grid-cols-2">
         <AnalysItem iconName="user" title="Lượng khách hàng" value={total} />
+        <div>
         <CustomerAnalyticsItem
           className="mt-6"
           name="Khách hàng mới"
@@ -113,7 +114,7 @@ const CustomerAnalytics = ({ className }) => {
           value={oldCustomers}
           color="bg-red"
         />
-      </div>
+        </div>
       {data?.gender && (
         <PieChart
           className="-mt-5"
@@ -134,6 +135,7 @@ const CustomerAnalytics = ({ className }) => {
           colors={["#27AE60", "#F2C94C", "#EB5757", "#2F80ED"]}
         />
       )}
+      </div>
     </div>
   )
 }

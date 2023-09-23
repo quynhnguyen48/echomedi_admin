@@ -1,4 +1,4 @@
-import { useEffect, useState, Component, createRef} from "react";
+import { useEffect, useState, Component, createRef } from "react";
 import { isMobile } from "react-device-detect"
 import { useNavigate } from "react-router-dom"
 
@@ -16,6 +16,7 @@ import axios from "axios";
 import { getListConversationQueues } from "services/api/conversationQueue"
 import ChatBot, { Loading } from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
+import Button from "components/Button"
 
 class Review extends Component {
 	constructor(props) {
@@ -25,6 +26,7 @@ class Review extends Component {
 			name: '',
 			gender: '',
 			age: '',
+			data: {}
 		};
 	}
 
@@ -81,12 +83,12 @@ class DBPedia extends Component {
 	createMultiselect = function (element, data, selectCb, options) {
 
 		var labels = {};
-	
-		labels.emptyText = (options && options.emptyText) ? options.emptyText : 'Select an option';
+
+		labels.emptyText = (options && options.emptyText) ? options.emptyText : 'Chọn';
 		labels.selectedText = (options && options.selectedText) ? options.selectedText : 'Selected';
-		labels.selectedAllText = (options && options.selectedAllText) ? options.selectedAllText : 'Select All';
+		labels.selectedAllText = (options && options.selectedAllText) ? options.selectedAllText : 'Chọn tất cả';
 		labels.title = (options && options.title) ? options.title : 'Chọn vấn đề sức khoẻ:';
-	
+
 		//define the elements
 		var container = document.createElement("div");
 		var multiselectLabel = document.createElement("div");
@@ -96,7 +98,7 @@ class DBPedia extends Component {
 		var clearSelection = document.createElement('span');
 		var carret = document.createElement("b");
 		var list = document.createElement("ul");
-	
+
 		//set the ids
 		var timestamp = Math.round(new Date().getTime() * Math.random());
 		container.setAttribute('id', 'multiselect_container_' + timestamp);
@@ -104,7 +106,7 @@ class DBPedia extends Component {
 		multiselectLabel.setAttribute('id', 'multiselect_label_' + timestamp);
 		button.setAttribute('id', 'multiselect_button_' + timestamp);
 		list.setAttribute('id', 'multiselect_list_' + timestamp);
-	
+
 		var _fnIsChild = function (element, parent) {
 			var node = element.parentNode;
 			while (node) {
@@ -115,7 +117,7 @@ class DBPedia extends Component {
 			}
 			return false;
 		}
-	
+
 		var _selectionText = function (element) {
 			var text = "";
 			var selection = element.querySelectorAll("input:checked");
@@ -132,18 +134,18 @@ class DBPedia extends Component {
 			}
 			return text;
 		};
-	
+
 		var _openList = function (e) {
 			list.style.display = "block";
 			e.srcElement.children[0].focus();
 		};
-	
+
 		var _selectItem = function (e) {
 			var text = _selectionText(container);
 			container
 				.getElementsByTagName("button")[0]
 				.children[0].setAttribute("placeholder", text);
-	
+
 			if (selectCb) {
 				var selectionElements = container.querySelectorAll("input:checked");
 				var selection = [];
@@ -152,16 +154,16 @@ class DBPedia extends Component {
 				}
 				selectCb(selection);
 			}
-	
+
 		};
-	
+
 		var _clearSearch = function () {
 			var elements = container.getElementsByTagName("li");
 			for (var i = 0; i < elements.length; i++) {
 				elements[i].style.display = "";
 			}
 		};
-	
+
 		var _performSearch = function (e) {
 			if (e.which != 13 && e.which != 38 && e.which != 40) {
 				var active = list.getElementsByClassName("multiselect-label--active");
@@ -185,7 +187,7 @@ class DBPedia extends Component {
 				}
 			}
 		};
-	
+
 		var _fnClearSelection = function (e) {
 			var inputs = list.getElementsByTagName('input');
 			for (var i = 0; i < inputs.length; i++) {
@@ -195,7 +197,7 @@ class DBPedia extends Component {
 			}
 			e.stopPropagation();
 		};
-	
+
 		var _fnSelectAll = function (e) {
 			var inputs = list.getElementsByTagName('input');
 			for (var i = 0; i < inputs.length; i++) {
@@ -205,45 +207,45 @@ class DBPedia extends Component {
 			}
 			e.stopPropagation();
 		};
-	
+
 		container.classList.add("multiselect-container");
 		multiselectLabel.classList.add("multiselect-label");
 		multiselectLabel.innerHTML = labels.title;
 		dataContainer.classList.add("multiselect-data-container");
 		button.classList.add("multiselect-button");
-	
+
 		searchField.setAttribute("type", "text");
 		searchField.setAttribute("placeholder", labels.emptyText);
 		searchField.classList.add("multiselect-text");
 		searchField.addEventListener("keyup", _performSearch);
-	
+
 		clearSelection.classList.add('multiselect-clear');
 		clearSelection.innerHTML = 'X';
 		clearSelection.addEventListener("click", _fnClearSelection);
-	
+
 		carret.classList.add("carret");
-	
+
 		button.appendChild(searchField);
 		button.appendChild(clearSelection);
 		button.appendChild(carret);
-	
+
 		button.addEventListener("click", _openList);
-	
+
 		list.classList.add("multiselect-list");
-	
+
 		for (var i = -1; i < data.length; i++) {
 			var item = document.createElement("li");
 			var a = document.createElement("a");
 			var label = document.createElement("label");
 			var input = document.createElement("input");
-	
+
 			a.setAttribute("tabindex", "0");
-	
+
 			label.classList.add("multiselect-item-label");
-	
+
 			if (i == -1) {
 				a.addEventListener("click", _fnSelectAll);
-				label.appendChild(document.createTextNode("Select all"));
+				label.appendChild(document.createTextNode("Chọn tất cả"));
 				label.classList.add('multiselect-item-label--select-all');
 			}
 			else {
@@ -261,13 +263,13 @@ class DBPedia extends Component {
 			item.appendChild(a);
 			list.appendChild(item);
 		}
-	
+
 		dataContainer.appendChild(button);
 		dataContainer.appendChild(list);
 		container.appendChild(multiselectLabel);
 		container.appendChild(dataContainer);
 		element.appendChild(container);
-	
+
 		//Change to the specific window
 		document.addEventListener("click", function (e) {
 			if (!_fnIsChild(e.target, container)) {
@@ -276,7 +278,7 @@ class DBPedia extends Component {
 				_clearSearch();
 			}
 		});
-	
+
 		document.addEventListener("keyup", function (e) {
 			if (list.style.display == 'block') {
 				//mouse down
@@ -328,21 +330,26 @@ class DBPedia extends Component {
 
 	componentDidMount() {
 		var self = this;
+		const { steps } = this.props;
+		const { name, gender, age } = steps;
+		let iAge = parseInt(age.value);
+		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_64' : '65'))}`;
+
 		var data = [
-			{ label: "Không có bệnh", value: "khong_co_benh" },
-			{ label: "Thần kinh", value: "than_kinh" },
-			{ label: "Hô hấp", value: "ho_hap" },
-			{ label: "Tim mạch", value: "tim_mach" },
-			{ label: "Thận tiết niệu", value: "than_tiet_nieu" },
-			{ label: "Cơ xương khớp", value: "co_xuong_khop" },
-			{ label: "Nội tiết chuyển hoá", value: "noi_tiet_chuyen_hoa" },
-			{ label: "Tiêu hoá", value: "tieu_hoa" },
+			{ label: "Không có bệnh", value: searchKey + "_khong_co_benh" },
+			{ label: "Thần kinh", value: searchKey +  "_than_kinh" },
+			{ label: "Hô hấp", value: searchKey +  "_ho_hap" },
+			{ label: "Tim mạch", value: searchKey +  "_tim_mach" },
+			{ label: "Thận tiết niệu", value: searchKey +  "_than_tiet_nieu" },
+			{ label: "Cơ xương khớp", value: searchKey +  "_co_xuong_khop" },
+			{ label: "Nội tiết chuyển hoá", value: searchKey +  "_noi_tiet_chuyen_hoa" },
+			{ label: "Tiêu hoá", value: searchKey +  "_tieu_hoa" },
 		];
 		// var element = document.getElementById("multiselect__container");
 		// var element2 = document.getElementById("multiselect__container2");
 
-		var select = function(data){
-			self.setState({terms: data})
+		var select = function (data) {
+			self.setState({ terms: data })
 		}
 
 		this.createMultiselect(this.textInput.current, data, select);
@@ -361,7 +368,7 @@ class DBPedia extends Component {
 
 		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_64' : '65'))}`;
 
-		const queryUrl = `https://api.echomedi.com/api/medical-service/search/${searchKey}_${self.state.terms[0]}`;
+		const queryUrl = `https://api.echomedi.com/api/medical-service/search/${self.state.terms.join('|')}`;
 
 		const xhr = new XMLHttpRequest();
 
@@ -374,7 +381,25 @@ class DBPedia extends Component {
 
 				// const bindings = data.results.bindings;
 				if (data && data.length > 0) {
-					self.setState({ loading: false, result: data });
+
+					let searchData = {};
+					data.forEach(s => {
+						let found = false;
+						s.tags.forEach(t => {
+							if (self.state.terms.indexOf(t.searchBy) > -1 && !found) {
+								if (!searchData[t.group]) {
+									searchData[t.group] = [];
+								}
+								searchData[t.group].push(s);
+								found = true;
+							}
+						});
+
+					});
+
+					console.log('searchData', searchData, data, self.state.terms)
+
+					self.setState({ loading: false, result: data, data: searchData });
 				} else {
 					self.setState({ loading: false, result: 'Not found.' });
 				}
@@ -392,27 +417,50 @@ class DBPedia extends Component {
 	}
 
 	render() {
-		const { trigger, loading, result } = this.state;
+		const { trigger, loading, result, data } = this.state;
 		const { steps } = this.props;
 		const { name, gender, age } = steps;
 
 		return (
-			<div className="dbpedia">
+			<div className="dbpedia w-full">
 				<div>
-							<div id="multiselect__container" ref={this.textInput} >
-							</div>
-						</div>
-						<button onClick={e => this.search()}>Search</button>
+					<div id="multiselect__container" ref={this.textInput} >
+					</div>
+				</div>
+				<Button
+					className={"w-full"}
+					btnType="primary"
+					type="reset"
+					onClick={e => this.search()}
+				>
+					Tìm kiếm
+				</Button>
 				{loading ? <Loading /> :
 					<div>
-						
-						<p>Kết quả ({name?.value} {age?.value} {gender?.value})</p>
-						{result.map(r => <p>{r.label}</p>)}</div>
+
+						<p>Kết quả ({name?.value} {age?.value} {gender?.value}):</p>
+						{data && Object.entries(data)
+                      .map(([serviceName, service]) => {
+                        console.log('serviceName', serviceName, service)
+                        return <div><h1 className="font-bold">- {serviceName}</h1>
+                          {service.map(s => <p className="flex">
+                            {s.label} 
+                            <div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
+                            </p>)}
+                        </div>
+                      })
+                    }
+					</div>
 				}
 			</div>
 		);
 	}
 }
+
+
+function numberWithCommas(x) {
+	return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? '0'
+  }
 
 const steps = [
 	{
@@ -592,7 +640,7 @@ const Dashboard = () => {
 						/>
 						
 					</div> */}
-					<div className="rounded-xl shadow-sm p-4">
+					<div className="grid grid-cols-2">
 						<AnalysItem
 							iconName="calendar-tick"
 							title="Yêu cầu hội thoại mới"
@@ -612,7 +660,7 @@ const Dashboard = () => {
 						/>
 						<CustomerAnalytics />
 					</div>
-
+					{/* <CustomerAnalytics /> */}
 				</div>
 
 				{/* <CustomerAnalytics /> */}
