@@ -2927,6 +2927,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         )}
                       />
                     </div>
+                    <div className="grid grid-cols-2 gap-x-2">
                     {searchData && Object.entries(searchData)
                       .map(([serviceName, service]) => {
                         console.log('serviceName', serviceName, service)
@@ -2958,6 +2959,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         </div>
                       })
                     }
+                    </div>
                   </div>
                   <div className="w-full py-4">
                     <div>

@@ -124,14 +124,14 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
       {
         Header: "Kết quả",
         accessor: (originalRow) => (
-          <div className="flex items-center gap-x-4 pl-4">
+          <div className="flex flex-col gap-y-1">
             {testResults?.[originalRow?.id]?.map((item, index) => (
               <div key={index} className="relative">
                 <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
                   {item?.mime?.startsWith("image") ? (
                     <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
                   ) : (
-                    <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold p-4 relative border-primary border-1">
+                    <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold p-4 relative border-primary border-1 w-full!">
                       {item?.name}
                     </div>
                   )}
