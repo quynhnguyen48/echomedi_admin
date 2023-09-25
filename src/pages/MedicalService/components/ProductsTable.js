@@ -23,20 +23,20 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
 
   const columns = useMemo(() => {
     const defaultColumns = [
-      // {
-      //   Header: "ID",
-      //   accessor: (originalRow) => (
-      //     <span
-      //       className={`font-bold ${
-      //         originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
-      //       }`}
-      //     >
-      //       {originalRow?.code}
-      //     </span>
-      //   ),
-      //   collapse: true,
-      //   width: 100,
-      // },
+      {
+        Header: "ID",
+        accessor: (originalRow) => (
+          <span
+            className={`font-bold ${
+              originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
+            }`}
+          >
+            {originalRow?.id}
+          </span>
+        ),
+        collapse: true,
+        width: 50,
+      },
       {
         Header: "Tên",
         accessor: (originalRow) => (

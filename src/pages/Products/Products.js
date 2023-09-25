@@ -113,7 +113,7 @@ const Products = () => {
 
   return (
     <Page
-      title="Product Management"
+      title="Quản lý sản phẩm"
       // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
       <div className="w-full flex items-center gap-x-9">

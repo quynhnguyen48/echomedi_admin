@@ -100,7 +100,6 @@ const ServiceBundles = () => {
   // }
 
   const createConversation = async (c) => {
-    console.log('c', c)
     c.second_person = currentUser.id;
     await axios.put("/conversation-queues/" + c.id, { data: c })
       .then((response) => {

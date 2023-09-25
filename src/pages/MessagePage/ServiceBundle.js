@@ -173,10 +173,10 @@ const ServiceBundles = () => {
     sc.on('chatMessage', function (msg) {
       var msgs = msg.split("|");
       var doc = document.createElement("li");
-      doc.className = msgs[0] == currentUser?.email ? "flex justify-end" : "flex justify-start";
+      doc.className = msgs[0] == currentUser?.id ? "flex justify-end" : "flex justify-start";
       doc.innerHTML =
         `<div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-        <span class="block">${msgs[2]}</span>
+        <span style="white-space: pre-line;">${msgs[2]}</span>
       </div>`;
       ref.current.appendChild(doc);
       ref.current.parentNode.scrollTop = 999999;
@@ -239,7 +239,7 @@ const ServiceBundles = () => {
                       } else {
                         return <li class={(userId != messages[0]) ? "flex justify-end" : "flex justify-start"}>
                           <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                            <span class="block">{messages[2]}</span>
+                          <span style={{whiteSpace: "pre-line"}}>{messages[2]}</span>
                           </div>
                         </li>
                       }
@@ -264,7 +264,7 @@ const ServiceBundles = () => {
                     </svg>
                   </button>
 
-                  <input
+                  <textarea
                     ref={refInput}
                     onChange={e => setMessage(e.target.value)}
                     onKeyUp={e => {
@@ -273,7 +273,7 @@ const ServiceBundles = () => {
                       }
                     }}
                     type="text" placeholder="Message"
-                    class="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
+                    class="block w-full py-2 pl-4 mx-3 bg-gray-100 outline-none focus:text-gray-700 h-40"
                     name="message" required />
                   <button>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24"

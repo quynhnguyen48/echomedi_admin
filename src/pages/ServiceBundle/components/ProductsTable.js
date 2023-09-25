@@ -24,6 +24,20 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
   const columns = useMemo(() => {
     const defaultColumns = [
       {
+        Header: "ID",
+        accessor: (originalRow) => (
+          <span
+            className={`font-bold ${
+              originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
+            }`}
+          >
+            {originalRow?.id}
+          </span>
+        ),
+        collapse: true,
+        width: 50,
+      },
+      {
         Header: "Tên dịch vụ",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
