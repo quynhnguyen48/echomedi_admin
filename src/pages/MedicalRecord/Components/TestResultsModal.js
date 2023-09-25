@@ -107,12 +107,12 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
   const columns = useMemo(() => {
     return [
       {
-        Header: "Tên xét nghiệm",
+        // Header: "Tên xét nghiệm",
         accessor: (originalRow) => {
           return (
             <div className="text-secondary">
               <p className="font-bold">{originalRow?.id}</p>
-              <ul className="list-disc ml-4 space-y-1">
+              <ul className="list-decimal ml-4">
                 {originalRow?.service?.map((item) => (
                   <li>{item.label}</li>
                 ))}
@@ -124,7 +124,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
         width: 300,
       },
       {
-        Header: "Kết quả",
+        // Header: "Kết quả",
         accessor: (originalRow) => (
           <div className="flex flex-col gap-y-1">
             {testResults?.[originalRow?.id]?.map((item) => (

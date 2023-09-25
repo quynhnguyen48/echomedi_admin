@@ -110,7 +110,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
           return (
             <div className="text-secondary">
               <p className="font-bold">{originalRow?.id}</p>
-              <ul className="list-disc ml-4 space-y-1">
+              <ul className="list-decimal ml-4">
                 {originalRow?.service?.map((item) => (
                   <li>{item.label}</li>
                 ))}
