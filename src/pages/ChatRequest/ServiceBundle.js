@@ -101,9 +101,15 @@ const ServiceBundles = () => {
 
   const createConversation = async (c) => {
     c.second_person = currentUser.id;
-    await axios.put("/conversation-queues/" + c.id, { data: c })
+    await axios.post("/conversation-queue/supportClient/" + c.id, c)
       .then((response) => {
-        navigate(`/chat/${c?.id}/${c.user?.data.attributes.email}`)
+        console.log('response', response)
+        if (response.data.ok) {
+          navigate(`/chat/${c?.id}/${c.user?.data.attributes.email}`)
+        } else {
+          toast.error("Đã có người hỗ trợ. Hãy F5");
+        }
+        // navigate(`/chat/${c?.id}/${c.user?.data.attributes.email}`)
       })
       .finally(() => {
         // toast.dismiss(toastId);

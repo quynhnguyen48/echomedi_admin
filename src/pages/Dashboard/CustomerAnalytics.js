@@ -37,7 +37,7 @@ const CustomerAnalytics = ({ className }) => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       try {
         const users = await getListUsers()
         const listUsers = users?.data
@@ -57,15 +57,15 @@ const CustomerAnalytics = ({ className }) => {
           },
           gender: [
             {
-              name: "Male",
+              name: "Nam",
               value: getPercentageNumber(genders?.[GENDER.MALE], total),
             },
             {
-              name: "Female",
+              name: "Nữ",
               value: getPercentageNumber(genders?.[GENDER.FEMALE], total),
             },
             {
-              name: "Unknown",
+              name: "Khác",
               value: getPercentageNumber(
                 total - genders?.[GENDER.MALE] - genders?.[GENDER.FEMALE],
                 total
@@ -91,15 +91,14 @@ const CustomerAnalytics = ({ className }) => {
             },
           ],
         })
-      } catch (error) {}
+      } catch (error) { }
     })()
   }, [])
 
   return (
-    <div className={`col-span-2 rounded-t-xl p-4 bg-white mt-4 sm:block items-start justify-between ${className}`}>
-      <div className="grid grid-cols-2">
+    <div className={`col-span-2 rounded-t-xl bg-white sm:block items-start justify-between ${className}`}>
+      <div className="grid grid-cols-3 sm:grid-cols-1">
         <AnalysItem iconName="user" title="Lượng khách hàng" value={total} />
-        <div>
         <CustomerAnalyticsItem
           className="mt-6"
           name="Khách hàng mới"
@@ -114,27 +113,29 @@ const CustomerAnalytics = ({ className }) => {
           value={oldCustomers}
           color="bg-red"
         />
-        </div>
-      {data?.gender && (
-        <PieChart
-          className="-mt-5"
-          width={188}
-          height={188}
-          title="Khách hàng theo giới tính"
-          data={data?.gender}
-          colors={["#27AE60", "#F2C94C", "#EB5757"]}
-        />
-      )}
-      {data?.age && (
-        <PieChart
-          className="-mt-5"
-          width={188}
-          height={188}
-          title="Khách hàng theo độ tuổi"
-          data={data?.age}
-          colors={["#27AE60", "#F2C94C", "#EB5757", "#2F80ED"]}
-        />
-      )}
+
+      </div>
+      <div className="grid grid-cols-2 gap-x-4 sm:grid-cols-1">
+        {data?.gender && (
+          <PieChart
+            className="-mt-5"
+            width={188}
+            height={188}
+            title="Khách hàng theo giới tính"
+            data={data?.gender}
+            colors={["#27AE60", "#F2C94C", "#EB5757"]}
+          />
+        )}
+        {data?.age && (
+          <PieChart
+            className="-mt-5"
+            width={188}
+            height={188}
+            title="Khách hàng theo độ tuổi"
+            data={data?.age}
+            colors={["#27AE60", "#F2C94C", "#EB5757", "#2F80ED"]}
+          />
+        )}
       </div>
     </div>
   )
