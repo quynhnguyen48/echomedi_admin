@@ -303,6 +303,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             control={control}
             render={({ field: { onChange, value } }) => (
               <TagifyInput
+              label="Health finder tags"
                 whiteList={tags}
                 className="flex-1"
                 inputClassName="test"
