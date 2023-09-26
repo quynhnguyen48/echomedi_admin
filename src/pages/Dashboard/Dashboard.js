@@ -687,7 +687,7 @@ const Dashboard = () => {
 			<div className="rounded-t-2xl">
 
 				<div className="grid grid-cols-2 sm:block grid-flow-col gap-x-4">
-					<div className="mt-4 flex items-start space-x-4 sm:block">
+					<div className="flex items-start space-x-2 sm:block">
 						<ThemeProvider theme={theme} >
 							<ChatBot steps={steps} headerTitle="ECHO MEDI" handleEnd={handleEnd} />
 						</ThemeProvider>
@@ -702,7 +702,7 @@ const Dashboard = () => {
 						/>
 						
 					</div> */}
-					<div className="grid grid-cols-2">
+					<div className="grid grid-cols-2 sm:p-4">
 						<AnalysItem
 							iconName="calendar-tick"
 							title="Yêu cầu hội thoại mới"
