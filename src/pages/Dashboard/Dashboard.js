@@ -17,6 +17,37 @@ import { getListConversationQueues } from "services/api/conversationQueue"
 import ChatBot, { Loading } from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import Button from "components/Button"
+import classNames from "classnames"
+
+const serviceGroups = ['khong_co_benh', 'than_kinh', 'ho_hap', 'tim_mach', 'than_tiet_nieu', 'co_xuong_khop', 'noi_tiet_chuyen_hoa', 'tieu_hoa'];
+const translateServiceGroup = (t) => {
+	switch (t) {
+		case "khong_co_benh":
+			return "Không có bệnh"
+			break;
+		case "than_kinh":
+			return "Thần kinh"
+			break;
+		case "ho_hap":
+			return "Hô hấp"
+			break;
+		case "tim_mach":
+			return "Tim mạch"
+			break;
+		case "than_tiet_nieu":
+			return "Thận tiết niệu"
+			break;
+		case "co_xuong_khop":
+			return "Cơ xương khớp"
+			break;
+		case "noi_tiet_chuyen_hoa":
+			return "Nội tiết chuyển hoá"
+			break;
+		case "tieu_hoa":
+			return "Tiêu hoá"
+			break;
+	}
+}
 
 class Review extends Component {
 	constructor(props) {
@@ -73,6 +104,7 @@ class DBPedia extends Component {
 			result: '',
 			trigger: false,
 			terms: [],
+			searchTerms: [],
 		};
 
 		this.triggetNext = this.triggetNext.bind(this);
@@ -332,8 +364,11 @@ class DBPedia extends Component {
 		var self = this;
 		const { steps } = this.props;
 		const { name, gender, age } = steps;
+		const { terms, searchTerms } = self.state;
 		let iAge = parseInt(age.value);
 		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_64' : '65'))}`;
+
+		let te = searchTerms.map(t => searchKey + "_" + t);
 
 		var data = [
 			{ label: "Không có bệnh", value: searchKey + "_khong_co_benh" },
@@ -352,7 +387,7 @@ class DBPedia extends Component {
 			self.setState({ terms: data })
 		}
 
-		this.createMultiselect(this.textInput.current, data, select);
+		// this.createMultiselect(this.textInput.current, data, select);
 		// createMultiselect(element2, data, select);
 	}
 
@@ -360,15 +395,15 @@ class DBPedia extends Component {
 		const self = this;
 		const { steps } = this.props;
 		const { name, gender, age } = steps;
-		const { terms } = self.state;
-
+		const { terms, searchTerms } = self.state;
 
 		let iAge = parseInt(age.value);
 
 
 		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_64' : '65'))}`;
+		let te = searchTerms.map(t => searchKey + "_" + t);
 
-		const queryUrl = `https://api.echomedi.com/api/medical-service/search/${self.state.terms.join('|')}`;
+		const queryUrl = `https://api.echomedi.com/api/medical-service/search/${te.join('|')}`;
 
 		const xhr = new XMLHttpRequest();
 
@@ -386,7 +421,7 @@ class DBPedia extends Component {
 					data.forEach(s => {
 						let found = false;
 						s.tags.forEach(t => {
-							if (self.state.terms.indexOf(t.searchBy) > -1 && !found) {
+							if (te.indexOf(t.searchBy) > -1 && !found) {
 								if (!searchData[t.group]) {
 									searchData[t.group] = [];
 								}
@@ -397,7 +432,6 @@ class DBPedia extends Component {
 
 					});
 
-					console.log('searchData', searchData, data, self.state.terms)
 
 					self.setState({ loading: false, result: data, data: searchData });
 				} else {
@@ -417,15 +451,43 @@ class DBPedia extends Component {
 	}
 
 	render() {
-		const { trigger, loading, result, data } = this.state;
+		const self = this;
+		const { trigger, loading, result, data, searchTerms } = this.state;
 		const { steps } = this.props;
 		const { name, gender, age } = steps;
 
 		return (
 			<div className="dbpedia w-full">
-				<div>
-					<div id="multiselect__container" ref={this.textInput} >
-					</div>
+				<div className="grid sm:grid-cols-2 grid-cols-4 gap-x-6 gap-y-4 py-4">
+					{serviceGroups.map((searchTerm) => (
+						<Button
+							key={searchTerm}
+							onChange={onchange}
+							type="button"
+							className={classNames(
+								"text-center w-full h-14 pl-2 !justify-start capitalize",
+								{
+									"bg-primary text-white font-bold": searchTerms.indexOf(searchTerm) != -1,
+									"bg-primary/10 text-primary font-normal": searchTerms.indexOf(searchTerm) == -1,
+								}
+							)}
+							onClick={() => {
+								let newSearchTerms = [...searchTerms];
+								const index = newSearchTerms.indexOf(searchTerm);
+								if (index != -1) {
+									newSearchTerms.splice(index, 1);
+								} else {
+									newSearchTerms.push(searchTerm);
+								}
+								//   setSearchTerms(newSearchTerms);
+								self.setState({
+									searchTerms: newSearchTerms
+								})
+							}}
+						>
+							{translateServiceGroup(searchTerm)}
+						</Button>
+					))}
 				</div>
 				<Button
 					className={"w-full"}
