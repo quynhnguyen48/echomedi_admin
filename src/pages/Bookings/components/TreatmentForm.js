@@ -1450,8 +1450,12 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
     const toastId = toast.loading("Đang tìm kiếm")
     axios
-      .get(
-        "/medical-service/search/" + searchTerms.map(s => prefix + s).join('|'),
+      .post(
+        "/medical-service/searchV2",
+        {
+          searchTerm: searchTerms.map(s => prefix + s).join('|'),
+          bmi,
+        }
       )
       .then((response) => {
         let data = {};
@@ -1469,53 +1473,58 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
         });
 
-        if (bmi >= 23) {
-          if (!data["Gói dược"]) {
-            data["Gói dược"] = [];
-          }
-          data["Gói dược"].push({
-            label: "Gói hỗ trợ giảm cân",
-            type: "product",
-            id: 17,
-          });
+        // if (bmi >= 23) {
+        //   if (!data["Gói dược"]) {
+        //     data["Gói dược"] = [];
+        //   }
+        //   data["Gói dược"].push({
+        //     label: "Gói hỗ trợ giảm cân",
+        //     type: "product",
+        //     id: 17,
+        //   });
 
-          if (!data["Gói dinh dưỡng"]) {
-            data["Gói dinh dưỡng"] = [];
-          }
-          data["Gói dinh dưỡng"].push({
-            label: "Dinh dưỡng giảm cân",
-            type: "service-bundle",
-            id: 94,
-          });
+        //   if (!data["Gói dinh dưỡng"]) {
+        //     data["Gói dinh dưỡng"] = [];
+        //   }
+        //   data["Gói dinh dưỡng"].push({
+        //     label: "Dinh dưỡng giảm cân",
+        //     type: "service-bundle",
+        //     id: 94,
+        //   });
 
-          if (!data["Gói gene"]) {
-            data["Gói gene"] = [];
-          }
-          data["Gói gene"].push({
-            label: "Vitamin cho cuộc sức sống tràn đầy U-Vita",
-            type: "service-bundle",
-            id: 107,
-          });
-          data["Gói gene"].push({
-            label: "Xua tan phiền não về cân nặng U-Weight",
-            type: "service-bundle",
-            id: 108,
-          });
+        //   if (!data["Gói gene"]) {
+        //     data["Gói gene"] = [];
+        //   }
 
-          if (!data["Gói khám"]) {
-            data["Gói khám"] = [];
-          }
-          data["Gói khám"].push({
-            label: "QUẢN LÝ BỆNH BÉO PHÌ",
-            type: "service-bundle",
-            id: 62,
-          });
-        } else if (bmi < 18) {
-          data["Gói dinh dưỡng"] = [];
-          data["Gói dinh dưỡng"].push({
-            label: "Suy Dinh dưỡng",
-          });
-        }
+        //   if (!data["Gói gene"].find(s => s.id == 107)) {
+        //     data["Gói gene"].push({
+        //       label: "Vitamin cho cuộc sức sống tràn đầy U-Vita",
+        //       type: "service-bundle",
+        //       id: 107,
+        //     });
+        //   }
+        //   if (!data["Gói gene"].find(s => s.id == 108)) {
+        //     data["Gói gene"].push({
+        //       label: "Xua tan phiền não về cân nặng U-Weight",
+        //       type: "service-bundle",
+        //       id: 108,
+        //     });
+        //   }
+
+        //   if (!data["Gói khám"]) {
+        //     data["Gói khám"] = [];
+        //   }
+        //   data["Gói khám"].push({
+        //     label: "QUẢN LÝ BỆNH BÉO PHÌ",
+        //     type: "service-bundle",
+        //     id: 62,
+        //   });
+        // } else if (bmi < 18) {
+        //   data["Gói dinh dưỡng"] = [];
+        //   data["Gói dinh dưỡng"].push({
+        //     label: "Suy Dinh dưỡng",
+        //   });
+        // }
 
         setSearchData(data);
       })
