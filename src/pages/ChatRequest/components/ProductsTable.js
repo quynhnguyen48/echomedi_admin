@@ -70,7 +70,7 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
         Header: "Lưu ý",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            <span>{getDisplayBranchLabel(originalRow?.note)}</span>
+            <span>{originalRow?.note}</span>
           </div>
         ),
         collapse: true,

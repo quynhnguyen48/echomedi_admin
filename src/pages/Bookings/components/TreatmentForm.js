@@ -1163,7 +1163,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     // toast.success("Đang tải lên");
     toast.error(
       <div>
-        <p>Gói dược {p.label } gồm: </p>
+        <p>Gói dược {p.label} gồm: </p>
         {p.medicines.map(s => <p>{s.label}</p>)}
         {/* {m.attributes.medical_services.map((a) => (
           <p>{a.label}</p>
@@ -1475,13 +1475,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           }
           data["Gói dược"].push({
             label: "Gói hỗ trợ giảm cân",
+            type: "product",
+            id: 17,
           });
 
           if (!data["Gói dinh dưỡng"]) {
             data["Gói dinh dưỡng"] = [];
           }
           data["Gói dinh dưỡng"].push({
-            label: "Béo phì",
+            label: "Dinh dưỡng giảm cân",
+            type: "service-bundle",
+            id: 94,
           });
 
           if (!data["Gói gene"]) {
@@ -1489,9 +1493,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           }
           data["Gói gene"].push({
             label: "Vitamin cho cuộc sức sống tràn đầy U-Vita",
+            type: "service-bundle",
+            id: 107,
           });
           data["Gói gene"].push({
             label: "Xua tan phiền não về cân nặng U-Weight",
+            type: "service-bundle",
+            id: 108,
           });
 
           if (!data["Gói khám"]) {
@@ -2928,37 +2936,40 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-x-2">
-                    {searchData && Object.entries(searchData)
-                      .map(([serviceName, service]) => {
-                        console.log('serviceName', serviceName, service)
-                        return <div><h1 className="font-bold">- {serviceName}</h1>
-                          {service.map(s => <p className="flex">
-                            {s.type == "service-bundle" &&
-                            <Button
-                              type="button"
-                              className={"inline text-xs h-8 mr-4 mt-1"}
-                              icon={<Icon name="add-circle" className="fill-white" />}
-                              onClick={e => addBundleMedicalServiceById(s.id)}
-                            >
-                              {usedBundleMedicalServices.find(us => us.id == s.id) ? 'Bỏ' : "Thêm"}
-                            </Button>}
+                      {searchData && Object.entries(searchData)
+                        .map(([serviceName, service]) => {
+                          return <div><h1 className="font-bold">- {serviceName}</h1>
+                            {service.map(s => {
+                              const usedBS = usedBundleMedicalServices.find(us => us.id == s.id);
+                              return <p className="flex">
+                                {s.type == "service-bundle" &&
+                                  <Button
+                                    disabled={usedBS?.attributes?.paid}
+                                    type="button"
+                                    className={"inline text-xs h-8 mr-4 mt-1"}
+                                    icon={<Icon name="add-circle" className="fill-white" />}
+                                    onClick={e => addBundleMedicalServiceById(s.id)}
+                                  >
+                                    {usedBS ? 'Bỏ' : "Thêm"}
+                                  </Button>}
 
-                            {s.type == "product" &&
-                            <Button
-                              type="button"
-                              className={"inline text-xs h-8 mr-4 mt-1"}
-                              icon={<Icon name="add-circle" className="fill-white" />}
-                              onClick={e => showProductDetail(s)}
-                            >
-                              Chi tiết
-                            </Button>}
-                            
-                            {s.label} 
-                            <div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
-                            </p>)}
-                        </div>
-                      })
-                    }
+                                {s.type == "product" &&
+                                  <Button
+                                    type="button"
+                                    className={"inline text-xs h-8 mr-4 mt-1"}
+                                    icon={<Icon name="add-circle" className="fill-white" />}
+                                    onClick={e => showProductDetail(s)}
+                                  >
+                                    Chi tiết
+                                  </Button>}
+
+                                {s.label}
+                                <div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
+                              </p>
+                            })}
+                          </div>
+                        })
+                      }
                     </div>
                   </div>
                   <div className="w-full py-4">
