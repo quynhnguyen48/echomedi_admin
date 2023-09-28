@@ -458,7 +458,8 @@ class DBPedia extends Component {
 
 		return (
 			<div className="dbpedia w-full">
-				<div className="grid sm:grid-cols-2 grid-cols-4 gap-x-6 gap-y-4 py-4">
+				<p>Vấn đề sức khoẻ:</p>
+				<div className="grid sm:grid-cols-2 grid-cols-2 gap-x-6 gap-y-4 py-4">
 					{serviceGroups.map((searchTerm) => (
 						<Button
 							key={searchTerm}
@@ -527,7 +528,7 @@ function numberWithCommas(x) {
 const steps = [
 	{
 		id: '1',
-		message: 'Tên của bạn là gì ?',
+		message: 'ECHO MEDI xin chào bạn, cho mình hỏi tên của bạn là gì ?',
 		trigger: 'name',
 	},
 	{
