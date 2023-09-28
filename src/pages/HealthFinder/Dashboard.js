@@ -679,11 +679,10 @@ const Dashboard = () => {
 	}
 
 	return (
-		<Page title="">
-			<div className="rounded-t-2xl">
+			<div className="rounded-t-2xl w-full">
 
-				<div className="grid grid-cols-2 sm:block grid-flow-col gap-x-4">
-					<div className="mt-4 flex items-start space-x-4 sm:block">
+				<div className="grid grid-cols-1 sm:block grid-flow-col gap-x-4">
+					<div className="flex items-start space-x-4 sm:block">
 						<ThemeProvider theme={theme} >
 							<ChatBot steps={steps} headerTitle="ECHO MEDI" handleEnd={handleEnd} />
 						</ThemeProvider>
@@ -724,7 +723,6 @@ const Dashboard = () => {
 				{/* <CustomerAnalytics /> */}
 
 			</div>
-		</Page>
 	);
 };
 
