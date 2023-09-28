@@ -166,6 +166,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
         />
       )}
       {tag != null && <TagifyInput
+          label="Health finder tags"
             whiteList={tags}
             className="flex-1"
             inputClassName="test"
@@ -551,7 +552,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               disabled: disabledBD,
             }
           ],
-          tags: JSON.parse(tag),
+          tags: tag ? JSON.parse(tag) : null,
           membership_discount: {
             gold_percentage: goldPercentage,
             platinum_percentage: platinumPercentage,

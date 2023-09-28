@@ -50,7 +50,7 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
         Header: "Supporter",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            <span>{originalRow?.supporter}</span>
+            <span>{originalRow?.supporter == "doctor" ? "Bác sĩ" : "care concierge"}</span>
           </div>
         ),
         collapse: true,
@@ -61,6 +61,16 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
             <span>{getDisplayBranchLabel(originalRow?.branch)}</span>
+          </div>
+        ),
+        collapse: true,
+        width: 50,
+      },
+      {
+        Header: "Lưu ý",
+        accessor: (originalRow) => (
+          <div className="flex items-center gap-x-4">
+            <span>{originalRow?.note}</span>
           </div>
         ),
         collapse: true,
