@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import classNames from "classnames"
 import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "components/Button"
 import Input from "components/Input"
@@ -52,6 +53,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [customersData, setCustomersData] = useState([])
   const [patientExist, setPatientExist] = useState(false);
   const [patientSource, setPatientSource] = useState();
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     ; (async () => {
@@ -171,7 +173,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       }
       if (data?.id) {
         await updatePatient(data?.id, { data: payload })
-        toast.success("Customer updated successfully")
+        toast.success("Cập nhật khách hàng thành công")
         navigate(-1)
       } else {
         const password = randomPassword()
@@ -180,7 +182,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           if (fromCheckIn) {
             onUpdateGuestUserCheckin(res.data.user)
           } else {
-            toast.success("Customer updated successfully")
+            toast.success("Cập nhật khách hàng thành công")
             navigate(-1)
           }
         }
@@ -485,7 +487,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               />
             )}
           />
-        <div className="space-y-2">
+        {currentUser.role.type == "admin" && <div className="space-y-2">
           <label className="font-16 font-bold">Thành viên</label>
           <div className="grid grid-cols-4 gap-6 sm:grid-cols-1">
             <Controller
@@ -493,7 +495,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               control={control}
               render={({ field: { onChange, value } }) => (
                 <>
-                  {["gold", "platinum", "medical_provider", "medical_provider_gold", "medical_provider_platinum"]?.map((gender) => (
+                  {["gold", "platinum", "medical_provider"]?.map((gender) => (
                     <Button
                       key={gender}
                       onChange={onchange}
@@ -502,7 +504,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
                         "bg-primary text-white font-bold": value === gender,
                         "bg-primary/10 text-primary font-normal": value !== gender,
                       })}
-                      onClick={() => { if (!readOnly) setValue("membership", gender); }}
+                      onClick={() => { if (!readOnly) setValue("membership", value == gender ? "" : gender); }}
                     >
                       {gender}
                     </Button>
@@ -551,7 +553,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             />
             <p>Tải lên</p>
           </div>
-        </div>
+        </div>}
       </div>
 
 
