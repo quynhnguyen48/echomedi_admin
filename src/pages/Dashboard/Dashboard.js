@@ -454,11 +454,15 @@ class DBPedia extends Component {
 		const self = this;
 		const { trigger, loading, result, data, searchTerms } = this.state;
 		const { steps } = this.props;
-		const { name, gender, age } = steps;
+		const { name, gender, age, height, weight } = steps;
+
+		const fHeight = parseFloat(height.value) / 100;
+		const fWeight = parseFloat(weight.value);
 
 		return (
 			<div className="dbpedia w-full">
-				<div className="grid sm:grid-cols-2 grid-cols-4 gap-x-6 gap-y-4 py-4">
+				<p> {name?.value} {age?.value} {gender?.value}, BMI {(fWeight/fHeight/fHeight).toFixed(2)}. Vấn đề sức khoẻ:</p>
+				<div className="grid sm:grid-cols-2 grid-cols-2 gap-x-6 gap-y-4 py-4">
 					{serviceGroups.map((searchTerm) => (
 						<Button
 							key={searchTerm}
@@ -499,8 +503,7 @@ class DBPedia extends Component {
 				</Button>
 				{loading ? <Loading /> :
 					<div>
-
-						<p>Kết quả ({name?.value} {age?.value} {gender?.value}):</p>
+						<p>Kết quả:</p>
 						{data && Object.entries(data)
                       .map(([serviceName, service]) => {
                         console.log('serviceName', serviceName, service)
@@ -527,7 +530,7 @@ function numberWithCommas(x) {
 const steps = [
 	{
 		id: '1',
-		message: 'Tên của bạn là gì ?',
+		message: 'ECHO MEDI xin chào bạn, cho mình hỏi tên của bạn là gì ?',
 		trigger: 'name',
 	},
 	{
@@ -555,7 +558,7 @@ const steps = [
 	{
 		id: 'age',
 		user: true,
-		trigger: '7',
+		trigger: '6',
 		validator: (value) => {
 			if (isNaN(value)) {
 				return 'value must be a number';
@@ -563,6 +566,46 @@ const steps = [
 				return 'value must be positive';
 			} else if (value > 120) {
 				return `${value}? Come on!`;
+			}
+
+			return true;
+		},
+	},
+	{
+		id: '6',
+		message: 'Bạn nặng bao nhiêu kg ?',
+		trigger: 'weight',
+	},
+	{
+		id: 'weight',
+		user: true,
+		trigger: '100',
+		validator: (value) => {
+			if (isNaN(value)) {
+				return 'value must be a number';
+			} else if (value < 0) {
+				return 'value must be positive';
+			} else if (value > 120) {
+				return `${value}? Come on!`;
+			}
+
+			return true;
+		},
+	},
+	{
+		id: '100',
+		message: 'Bạn cao nhiêu cm ?',
+		trigger: 'height',
+	},
+	{
+		id: 'height',
+		user: true,
+		trigger: '7',
+		validator: (value) => {
+			if (isNaN(value)) {
+				return 'value must be a number';
+			} else if (value < 0) {
+				return 'value must be positive';
 			}
 
 			return true;

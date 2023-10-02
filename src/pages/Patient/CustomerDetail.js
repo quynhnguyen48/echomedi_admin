@@ -132,7 +132,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
           <DataItem icon="call" title="Số điện thoại người thân" value={data?.relative_phone} />
           {data?.patient_source && <DataItem icon="heart" title="Nguồn" value={data?.patient_source?.data?.attributes?.label} />}
-          <div className="col-span-1 w-[200px]">
+          <div className="col-span-1">
             <DataItem
               icon="location"
               title="Địa chỉ"
@@ -169,7 +169,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               currentUser?.role?.type != "nurse" &&
               <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>}
           </div>
-          {relationships?.map(item => <p>- {item?.label} : {item?.patient?.full_name}</p>)}
+          {relationships?.map(item => <p>- {item?.label} : {item?.patient?.uid} - {item?.patient?.full_name} <a target="_blank" href={`/patient/${item?.patient?.id}/view`}><svg className="inline" fill="#000000" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg></a></p>)}
 
           <CustomerMedicalRecords
         userId={data?.id}
