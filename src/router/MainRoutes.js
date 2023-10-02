@@ -23,6 +23,7 @@ const MediaLibrary = React.lazy(() => import("pages/MediaLibrary"))
 const Settings = React.lazy(() => import("pages/Settings"))
 const ShippingSetting = React.lazy(() => import("pages/Settings/ShippingSetting"))
 const AbbreviationSetting = React.lazy(() => import("pages/Settings/AbbreviationSetting"))
+const GlobalSetting = React.lazy(() => import("pages/Settings/GlobalSetting"))
 const RoleSetting = React.lazy(() => import("pages/Settings/RoleSetting"))
 const StaffInterestSetting = React.lazy(() => import("pages/Settings/StaffInterestSetting"))
 const DiscountSetting = React.lazy(() => import("pages/Settings/DiscountSetting"))
@@ -151,6 +152,7 @@ const MainRoutes = () => {
         <Route path="/media-library" element={<MediaLibrary />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/abbreviation" element={<AbbreviationSetting />} />
+        <Route path="/settings/global-setting" element={<GlobalSetting />} />
         <Route path="/settings/shipping" element={<ShippingSetting />} />
         <Route path="/settings/role" element={<RoleSetting />} />
         <Route path="/settings/staff-interest" element={<StaffInterestSetting />} />

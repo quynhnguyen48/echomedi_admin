@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import classNames from "classnames"
 import { toast } from "react-toastify"
+import TagifyInput from "components/TagifyInput"
 
 import Button from "components/Button"
 import Input from "components/Input"
@@ -23,25 +24,8 @@ import { formatStrapiArr, formatStrapiObj } from "utils/strapi";
 import {
   getPatientSource,
 } from "services/api/patientSource";
-
-const SOURCES = [
-  {
-    value: 'app',
-    label: 'APP'
-  },
-  {
-    value: 'web',
-    label: 'WEB'
-  },
-  {
-    value: 'app_be',
-    label: 'App BE'
-  },
-  {
-    value: 'other',
-    label: 'Khác'
-  }
-];
+import '@yaireo/tagify/dist/tagify.css' // imports tagify SCSS file from within
+import axios from "../../../services/axios"
 
 const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseModal, readOnly }) => {
   const navigate = useNavigate()
@@ -52,6 +36,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   const [customersData, setCustomersData] = useState([])
   const [patientExist, setPatientExist] = useState(false);
   const [patientSource, setPatientSource] = useState();
+  const [discount, setDiscount] = useState(null);
 
   useEffect(() => {
     ; (async () => {
@@ -65,6 +50,23 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         })
 
         setPatientSource(rs);
+      } catch (error) { }
+
+      try {
+        setLoading(true)
+        axios
+          .get("/global-setting")
+          .then((response) => {
+            console.log('response.data.data.attributes.data.discount', response.data.data.attributes.data.discount)
+            setDiscount(response.data.data.attributes.data.discount)
+          })
+          .catch((e) => {
+            console.log('e', e)
+            toast.error("Có lỗi xảy ra")
+          })
+          .finally(() => {
+            setLoading(false)
+          })
       } catch (error) { }
     })()
   }, [])
@@ -100,6 +102,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       birthday: !!data?.birthday ? new Date(data?.birthday) : null,
       start_date_membership: !!data?.start_date_membership ? new Date(data?.start_date_membership) : null,
       membership: data?.membership || "",
+      discount: data?.discount,
       source: data?.source ? {
         id: data?.source,
       } : null,
@@ -462,29 +465,47 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           )}
         />
         <Controller
-            name="patient_source"
+          name="patient_source"
+          control={control}
+          render={({ field: { onChange, value, ref } }) => (
+            <Select
+              placeholder="Chọn nguồn"
+              label="Nguồn"
+              name="patient_source"
+              options={patientSource}
+              value={value && patientSource?.find((s) => s.id === value.id)}
+              onChange={(e) => {
+                setValue(
+                  "patient_source",
+                  { id: e.id },
+                  {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  }
+                )
+              }}
+              errors={errors?.category?.message}
+            />
+          )}
+        />
+        <div className="col-span-1">
+          <p className="font-bold mb-2">Khuyến mãi:</p>
+          <Controller
+            name={`discount`}
             control={control}
-            render={({ field: { onChange, value, ref } }) => (
-              <Select
-                placeholder="Chọn nguồn"
-                label="Nguồn"
-                name="patient_source"
-                options={patientSource}
-                value={value && patientSource?.find((s) => s.id === value.id)}
-                onChange={(e) => {
-                  setValue(
-                    "patient_source",
-                    { id: e.id },
-                    {
-                      shouldValidate: true,
-                      shouldDirty: true,
-                    }
-                  )
-                }}
-                errors={errors?.category?.message}
-              />
-            )}
+            render={({ field: { onChange, value } }) => (
+              <TagifyInput
+                disabled={false}
+                whiteList={discount}
+                className="flex-1"
+                inputClassName="test"
+                name={`note`}
+                onChange={onChange}
+                value={value}
+                placeholder="Nhập ghi chú"
+              />)}
           />
+        </div>
         <div className="space-y-2">
           <label className="font-16 font-bold">Thành viên</label>
           <div className="grid grid-cols-4 gap-6 sm:grid-cols-1">

@@ -33,6 +33,11 @@ const SETTINGS = [
     title: "Nguồn khách hàng",
     url: "/settings/patient-source",
   },
+  {
+    icon: "coin",
+    title: "Cài đặt chung",
+    url: "/settings/global-setting",
+  },
 ]
 
 const Settings = () => {
