@@ -142,7 +142,7 @@ const CustomersTable = ({
       {
         Header: "Giới tính",
         hidden: isModal,
-        accessor: (originalRow) => <span className="capitalize">{originalRow.gender == "male" ? "Nam": "Nữ"}</span>,
+        accessor: (originalRow) => <span className="capitalize">{originalRow.gender == "male" ? "Nam": originalRow.gender == "female" ? "Nữ" : ""}</span>,
         collapse: true,
         width: 40,
       },
