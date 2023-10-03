@@ -38,7 +38,7 @@ const getColorBookingStatus = (t) => {
     case "cancelled":
       return "Huỷ"
       break;
-    case "postpone": 
+    case "postpone":
       return "Hoãn lịch"
       break;
     case "waiting":
@@ -62,7 +62,7 @@ const translate = (t) => {
     case "cancelled":
       return "Huỷ"
       break;
-    case "postpone": 
+    case "postpone":
       return "Hoãn lịch"
       break;
     case "waiting":
@@ -108,11 +108,11 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
     // email: yup
     //   .string()
     //   .trim()
-      // .when([], {
-      //   is: () => !getValues("user"),
-      //   then: yup.string().trim().required('email is required').matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
-      //   otherwise: yup.string().notRequired(),
-      // }),
+    // .when([], {
+    //   is: () => !getValues("user"),
+    //   then: yup.string().trim().required('email is required').matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
+    //   otherwise: yup.string().notRequired(),
+    // }),
     // .required("Email is required")
     // .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
     full_name: yup.string()
@@ -244,7 +244,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           setCustomersData([{
             value: res.data.id,
             label: `${res.data?.uid} | ${res.data?.full_name} | ${res.data?.phone}`,
-            }])
+          }])
         }
         setLoadingCustomers(false)
       })
@@ -451,7 +451,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
               <Input
                 disabled={readonly || updateBooking || !!getValues("user")}
                 onChange={onChange}
-                
+
                 value={getValues("user")?.phone || value}
                 name="phone"
                 label="Số điện thoại"
@@ -703,8 +703,8 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
             />
           )}
         />
-        {data.type && 
-        <p><span className="font-bold">Loại:</span> {translateBookingType(data.type)}</p>}
+        {data.type &&
+          <p><span className="font-bold">Loại:</span> {translateBookingType(data.type)}</p>}
 
         <Controller
           name="note"
@@ -717,20 +717,20 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
               placeholder={"Nhập nội dung đặt lịch"}
               value={getValues("user")?.note || value}
               onChange={onChange}
-              // errors={errors?.address?.address?.message}
+            // errors={errors?.address?.address?.message}
             />
           )}
         />
 
         {/* <a target="_blank" href={`https://maps.google.com/?q=${data.latitude},${data.longitude}`}>Vị trí</a> */}
         {data.latitude && data.longitude && <Button
-                        type={"button"}
-                        onClick={() => {
-                          window.open(`https://maps.google.com/?q=${data.latitude},${data.longitude}`);
-                        }}
-                      >
-                        Mở google maps vị trí
-                      </Button>}
+          type={"button"}
+          onClick={() => {
+            window.open(`https://maps.google.com/?q=${data.latitude},${data.longitude}`);
+          }}
+        >
+          Mở google maps vị trí
+        </Button>}
 
         {/* <div className="grid grid-cols-2 gap-x-6">
           <div className="space-y-2">
@@ -815,13 +815,13 @@ export default CustomersForm
 
 
 function removeVietnameseTones(str) {
-  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
-  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
-  str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
-  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
-  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
-  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
-  str = str.replace(/đ/g,"d");
+  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+  str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+  str = str.replace(/đ/g, "d");
   str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
   str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
   str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
@@ -835,10 +835,10 @@ function removeVietnameseTones(str) {
   str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
   // Remove extra spaces
   // Bỏ các khoảng trắng liền nhau
-  str = str.replace(/ + /g," ");
+  str = str.replace(/ + /g, " ");
   str = str.trim();
   // Remove punctuations
   // Bỏ dấu câu, kí tự đặc biệt
-  str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g," ");
+  str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
   return str;
 }

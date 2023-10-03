@@ -169,6 +169,20 @@ const Bookings = () => {
     [searchKey]
   )
 
+  const translateBookingType = (type) => {
+    switch (type) {
+      case "at_clinic":
+        return "Tại phòng khám"
+        break;
+      case "home_visit":
+        return "Tại nhà"
+        break;
+      case "telemedicine":
+        return "Khám từ xa"
+        break;
+    }
+  }
+
   const loadBookings = () => {
     const id = toast.loading("Đang tải dữ liệu")
     axios
@@ -190,7 +204,7 @@ const Bookings = () => {
             status: b.status,
             ...b,
             id: b.id,
-            title: (b.type ?? "") + " " + b.patient?.uid + " | " + b.patient?.full_name,
+            title: (translateBookingType(b.type) ?? "") + " " + b.patient?.uid + " | " + b.patient?.full_name,
           }
         })
         setEvents(bks)
