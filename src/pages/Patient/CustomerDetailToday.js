@@ -209,47 +209,11 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               : "-"
           }
         />
-        {/* <DataItem
-          icon="coin"
-          title="Bệnh án"
-          footer={
-            <Button
-              btnSize="small"
-              className="mt-2"
-              onClick={() => setOpenCustomerAccountBalanceDrawer(true)}
-            >
-              Xem lịch sử hồ sơ bệnh án
-            </Button>
+        {data?.patient?.discount && JSON.parse(data?.patient?.discount) &&
+            <DataItem icon="man" title="Khuyến mãi" value={JSON.parse(data?.patient?.discount)?.map(e => <p>{e.value}</p>)} />
           }
-        /> */}
-        {/* <DataItem
-          icon="coin"
-          title="Debt Balance"
-          value={`${formatPrice(totalDebt)} vnđ`}
-          footer={
-            <Button
-              btnSize="small"
-              className="mt-2"
-              onClick={() => setOpenCustomerDebtDrawer(true)}
-            >
-              View Detail
-            </Button>
-          }
-        /> */}
       </div>
-      {/* <CustomerDebt
-        userId={data?.id}
-        totalDebt={totalDebt}
-        openDrawer={openCustomerDebtDrawer}
-        onClose={() => setOpenCustomerDebtDrawer(false)}
-      /> */}
-      {/* <CustomerAccountBalance
-        cardIds={listActiveMemberCard?.map((card) => card?.id)}
-        userId={data?.id}
-        accountBalance={accountBalance}
-        openDrawer={openCustomerAccountBalanceDrawer}
-        onClose={() => setOpenCustomerAccountBalanceDrawer(false)}
-      /> */}
+      
       
       <div className="flex space-x-1 mt-4 justify-between">
       {data.medical_record ?  <Button

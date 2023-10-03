@@ -144,23 +144,19 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               }
             />
           </div>
-
-
           {data.start_date_membership &&
             <DataItem
               icon="cake"
               title="Ngày bắt đầu membership"
               value={dayjs(data?.start_date_membership).format("DD MMMM, YYYY")}
             />}
-          {/* {data.membership_profile_file.data && <a target="_blank" href={getStrapiMedia(data.membership_profile_file?.data?.attributes)}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none">
-<path d="M12 14.5V17.5M12 11.5H12.01M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V9M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-          Kế hoạch sức khoẻ</a>} */}
           {data.membership_profile_file?.data &&
             <a target="_blank" href={getStrapiMedia(data.membership_profile_file?.data?.attributes)}>
               <DataItem icon="man" title="Kế hoạch sức khoẻ" value={data.membership_profile_file?.data?.attributes?.name} />
             </a>}
+          {data.discount && JSON.parse(data.discount) &&
+            <DataItem icon="man" title="Khuyến mãi" value={JSON.parse(data.discount)?.map(e => <p>{e.value}</p>)} />
+          }
         </div>
         <div className="my-4 w-1/2">
           <div className="flex flex-row align-center">
@@ -169,13 +165,13 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               currentUser?.role?.type != "nurse" &&
               <Button onClick={e => setVisiblePrescriptionModal(true)}>Cập nhật</Button>}
           </div>
-          {relationships?.map(item => <p>- {item?.label} : {item?.patient?.uid} - {item?.patient?.full_name} <a target="_blank" href={`/patient/${item?.patient?.id}/view`}><svg className="inline" fill="#000000" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg></a></p>)}
+          {relationships?.map(item => <p>- {item?.label} : {item?.patient?.uid} - {item?.patient?.full_name} <a target="_blank" href={`/patient/${item?.patient?.id}/view`}><svg className="inline" fill="#000000" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z" /></svg></a></p>)}
 
           <CustomerMedicalRecords
-        userId={data?.id}
-        openDrawer={openCustomerAccountBalanceDrawer}
-        onClose={() => setOpenCustomerAccountBalanceDrawer(false)}
-      />
+            userId={data?.id}
+            openDrawer={openCustomerAccountBalanceDrawer}
+            onClose={() => setOpenCustomerAccountBalanceDrawer(false)}
+          />
         </div>
         {visiblePrescriptionModal && (
           <PrescriptionModal
@@ -189,7 +185,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         )}
       </div>
 
-      
+
     </div>
   )
 }

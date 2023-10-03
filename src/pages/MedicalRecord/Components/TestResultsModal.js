@@ -27,7 +27,6 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
   const [testResults, setTestResults] = useState({})
   const ref = useRef()
 
-  console.log('servicesservicesservices', services)
 
   const fetchData = useCallback(async () => {
     const toastId = toast.loading("Đang tải dữ liệu")
@@ -168,12 +167,9 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
   }, [testResults, uploadAssets])
 
   const servicesData = useMemo(() => {
-    console.log('dataa', formatStrapiArr({ data: services }))
     const formatServices = groupBy(formatStrapiArr({ data: services }), "group_service")
-    // console.log('formatServices', formatStrapiArr({ data: services }))
     return Object.entries(formatServices)
       .map(([serviceName, service]) => {
-        // console.log('serviceName', serviceName, service)
         if (!AVAILABLE_TEST_RESULT.includes(serviceName)) return null
         return service
       })

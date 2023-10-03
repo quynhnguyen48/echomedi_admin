@@ -7,6 +7,7 @@ import Tag from "components/Tag"
 import { CATEGORY_STATUS } from "constants/Category"
 import Price from "components/Price"
 import { formatDate } from "utils/dateTime"
+import MembershipTag from "components/Tag/MembershipTag"
 
 const translateStatus = (status) => {
   switch (status) {
@@ -16,6 +17,50 @@ const translateStatus = (status) => {
       return "Đã xem KQXN";
     case "result_done":
       return "Hoàn thành";
+  }
+}
+
+const getMembershipColor = (v) => {
+  switch (v) {
+    case "silver":
+      return "#BDBDBD";
+    case "gold":
+      return "#EDF325";
+    case "platinum":
+      return "#E5E4E2";
+    case "medical_provider": 
+      return "#FFC300";
+    case "medical_provider_gold":
+      return "#DAF7A6";
+    case "medical_provider_platinum":
+      return "#581845";
+    case "foreigner":
+      return "#25F3BB";
+    case "medical_provider":
+      return "Medical provider";
+    case "medical_provider_gold":
+      return "Medical provider + Membership Gold";
+    case "medical_provider_platinum":
+      return "Medical provider + Membership Platinum"
+  }
+}
+
+const getMembershipBackgroundColor = (v) => {
+  switch (v) {
+    case "silver":
+      return "#607d8b";
+    case "gold":
+      return "#607d8b";
+    case "platinum":
+      return "grey";
+    case "medical_provider": 
+      return "#607d8b";
+    case "medical_provider_gold":
+      return "#607d8b";
+    case "medical_provider_platinum":
+      return "#607d8b";
+    case "foreigner":
+      return "#25F3BB";
   }
 }
 
@@ -41,6 +86,14 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
               originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
             }`}
           >
+            {originalRow?.patient?.membership && (
+              <MembershipTag 
+              color={getMembershipColor(originalRow?.patient?.membership)}
+              backgroundColor={getMembershipBackgroundColor(originalRow?.patient?.membership)}
+              name={originalRow?.patient?.membership} className={`font-bold ${
+                        originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.patient?.membership)} text-${getMembershipColor(originalRow?.patient?.membership)}`
+                      }`}/>
+            )}
             {originalRow?.uid}
           </span>
         ),
