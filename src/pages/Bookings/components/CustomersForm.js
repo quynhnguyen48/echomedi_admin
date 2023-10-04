@@ -71,6 +71,19 @@ const translate = (t) => {
   }
 }
 
+const translateBookingType = (type) => {
+  switch (type) {
+    case "at_clinic":
+      return "Tại phòng khám"
+      break;
+    case "home_visit":
+      return "Tại nhà"
+      break;
+    case "telemedicine":
+      return "Khám từ xa"
+      break;
+  }
+}
 
 const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onUpdateGuestUserCheckin, onCloseModal, onClose }) => {
   const navigate = useNavigate()
@@ -173,6 +186,8 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
     return result;
   }
 
+  console.log('data', data)
+
   const {
     handleSubmit,
     control,
@@ -188,7 +203,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
       phone: data?.patient?.phone || "",
       status: data?.status || "",
       note: data?.note || "",
-      type: data?.type,
+      type: data?.type ? { value: data?.type, label: translateBookingType(data?.type) } : { value: "at_clinic", label: "Tại phòng khám" },
       birthday: !!data?.patient?.birthday ? new Date(data?.patient?.birthday) : null,
       address: {
         province: data?.patient?.address?.province || null,
@@ -303,6 +318,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
         branch: localStorage.getItem(BRANCH),
         bookingDate: mergeDateAndHour(bookingDate, bookingHour.value),
         dontShowOnCalendar: false,
+        type: formData?.type?.value,
       }
 
       if (!!getValues("user")) {
@@ -314,13 +330,14 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           dontShowOnCalendar: false,
           status: "scheduled",
           notify: true,
+          type: formData?.type?.value,
         }
         delete payload.id;
-        await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient: false })
+        await createBookingWithPatient({ ...payload, createNewPatient: false })
       } else if (updateBooking) {
         await updateBookingWithPatient({ ...payload, id: data.id, patient: data?.patient.id, createNewPatient })
       } else {
-        await createBookingWithPatient({ ...payload, type: "at_clinic", createNewPatient })
+        await createBookingWithPatient({ ...payload, createNewPatient })
       }
 
       window.location.href = "/bookings";
@@ -335,19 +352,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
 
   }
 
-  const translateBookingType = (type) => {
-    switch (type) {
-      case "at_clinic":
-        return "Tại phòng khám"
-        break;
-      case "home_visit":
-        return "Tại nhà"
-        break;
-      case "telemedicine":
-        return "Khám từ xa"
-        break;
-    }
-  }
+  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -718,6 +723,27 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
               value={getValues("user")?.note || value}
               onChange={onChange}
             // errors={errors?.address?.address?.message}
+            />
+          )}
+        />
+
+        <Controller
+          name="type"
+          control={control}
+          render={({ field: { value, ref, onChange } }) => (
+            <Select
+              isDisabled={readonly || updateBooking}
+              placeholder="Loại đặt hẹn"
+              label="Loại đặt hẹn"
+              name="type"
+              onChange={onChange}
+              value={value}
+              options={[
+                { value: "at_clinic", label: "Tại phòng khám" },
+                { value: "home_visit", label: "Tại nhà" },
+                { value: "telemedicine", label: "Từ xa" }
+              ]}
+            // errors={errors?.address?.province?.message}
             />
           )}
         />
