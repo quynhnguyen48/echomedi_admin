@@ -509,7 +509,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           />
         </div>
         <div className="space-y-2">
-        {currentUser.role.type == "admin" && <div className="space-y-2">
+        <div className="space-y-2">
           <label className="font-16 font-bold">Thành viên</label>
           <div className="grid grid-cols-4 gap-6 sm:grid-cols-1">
             <Controller
@@ -575,7 +575,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             />
             <p>Tải lên</p>
           </div>
-        </div>}
+        </div>
       </div>
 
 
