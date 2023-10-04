@@ -44,6 +44,12 @@ export const SIDEBAR_ITEMS = [
     controllerKey: "booking",
   },
   {
+    id: "conversation",
+    name: "Hội thoại",
+    icon: "sidebar/conversation",
+    url: "/conversation-queues",
+  },
+  {
     id: "chat",
     name: "Nhắn tin",
     icon: "sidebar/conversation",
