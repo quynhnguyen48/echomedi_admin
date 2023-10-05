@@ -1160,11 +1160,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const showProductDetail = (p) => {
-    // toast.success("Đang tải lên");
-    toast.error(
+    toast.info(
       <div>
         <p>Gói dược {p.label} gồm: </p>
-        {p.medicines.map(s => <p>{s.label}</p>)}
+        {p.medicines.map((s,i) => <p> {i + 1}. {s.label}</p>)}
         {/* {m.attributes.medical_services.map((a) => (
           <p>{a.label}</p>
 
@@ -1172,6 +1171,21 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       </div>,
       { progress: 1, className: "w-[500px] left-[-177px]" }
     )
+  }
+
+  const addToPrescriptions = (p) => {
+    axios
+      .post("medical-record/addProduct", {
+        id: data.medical_record?.data?.id,
+        productId: p.id
+    })
+      .then((response) => {
+        toast.success("Thêm gói dược vào đơn thuốc");
+        setVisibleAdditionalPrescriptionModal(true);
+      })
+      .finally(() => {
+        toast.dismiss(id)
+      })
   }
 
   const addBundleMedicalServiceById = (id) => {
@@ -2950,7 +2964,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           return <div><h1 className="font-bold">- {serviceName}</h1>
                             {service.map(s => {
                               const usedBS = usedBundleMedicalServices.find(us => us.id == s.id);
-                              return <p className="flex">
+                              return <p className="flex items-center">
                                 {s.type == "service-bundle" &&
                                   <Button
                                     disabled={usedBS?.attributes?.paid}
@@ -2970,6 +2984,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={e => showProductDetail(s)}
                                   >
                                     Chi tiết
+                                  </Button>}
+                                  {s.type == "product" &&
+                                  <Button
+                                    type="button"
+                                    className={"inline text-xs h-8 mr-4 mt-1"}
+                                    icon={<Icon name="add-circle" className="fill-white" />}
+                                    onClick={e => addToPrescriptions(s)}
+                                  >
+                                    Thêm vào đơn thuốc
                                   </Button>}
 
                                 {s.label}
@@ -3362,10 +3385,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải phiếu chỉ định
             </Button>
           )}
-          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
+          {currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
             Đơn thuốc
           </Button>)}
-          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
+          {currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
             Tư vấn TPCN
           </Button>)}
           {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleTestResultModal(true)}>
@@ -3382,7 +3405,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       />
 
       {visiblePrescriptionModal && (
-
         <PrescriptionModal
           patientId={data?.patient?.id}
           data={formatStrapiObj(data?.medical_record?.data)}
@@ -3394,7 +3416,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       {visibleAdditionalPrescriptionModal && (
         <AdditionalPrescriptionModal
           patientId={data?.patient?.id}
-
           medicalRecordId={data?.medical_record?.data?.id}
           visibleModal={visibleAdditionalPrescriptionModal}
           onClose={() => setVisibleAdditionalPrescriptionModal(false)}

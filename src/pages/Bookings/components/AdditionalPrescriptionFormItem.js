@@ -78,7 +78,7 @@ const PrescriptionFormItem = ({
   }
   return (
     <div className="flex flex-col gap-2" key={item.id}>
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-7 gap-4">
         <Controller
           name={`additional_drugs[${index}].drug`}
           control={control}
@@ -86,9 +86,9 @@ const PrescriptionFormItem = ({
             <Select
               isLoading={loading}
               className="rounded-lg"
-              wrapperClassName="col-span-3"
+              wrapperClassName="col-span-7"
               placeholder="Tên thuốc"
-              label={index >= 1 ? "" : "Tên thuốc"}
+              label={`${index + 1}. Tên thuốc:`}
               name={`additional_drugs[${index}].drug`}
               filterOption={() => true}
               onChange={(e) => {
@@ -241,7 +241,7 @@ const PrescriptionFormItem = ({
             />
           )}
         />
-        <div className="col-span-2 flex items-end gap-x-2">
+        <div className="col-span-7 flex items-end gap-x-2">
           <Controller
             name={`additional_drugs[${index}].usage`}
             control={control}
