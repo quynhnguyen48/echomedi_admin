@@ -3064,9 +3064,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
-                                          {m.attributes.medical_services.map((a) => (
-                                            <p>{a.label}</p>
-
+                                          <p>Gói dịch vụ {m.attributes.label} gồm: </p>
+                                          {m.attributes.medical_services.map((a, i) => (
+                                            <p>{i + 1}. {a.label}</p>
                                           ))}
                                         </div>,
                                         { progress: 1, className: "w-[500px] left-[-177px]" }
@@ -3123,8 +3123,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
-                                          {m.attributes.medical_services.map((a) => (
-                                            <p>{a.label}</p>
+                                          <p>Gói dịch vụ {m.attributes.label} gồm: </p>
+                                          {m.attributes.medical_services.map((a, i) => (
+                                            <p>{i + 1}. {a.label}</p>
                                           ))}
                                         </div>,
                                         { progress: 1, className: "w-[500px] left-[-177px]" }
