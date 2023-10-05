@@ -80,12 +80,14 @@ export const renderTransactionCheckinStatusColor = (status) => {
 
 export function getDisplayBranchLabel(value) {
 	switch (value) {
-	  case "q7":
-		return "Quận 7"
-	  case "q2":
-		return "Quận 2"
-	  case "binhduong":
-		return "Bình Dương"
+		case "q7":
+			return "Quận 7"
+		case "q2":
+			return "Quận 2"
+		case "binhduong":
+			return "Bình Dương"
+		case "bd":
+			return "Bình Dương"
 	}
   }
   
