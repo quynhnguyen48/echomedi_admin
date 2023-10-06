@@ -33,6 +33,28 @@ export const getListUsers = (pagination, filters = {}, populate) => {
   return axios.get(`/users?${query}`)
 }
 
+export const getListEmployee = (pagination, filters = {}, populate) => {
+  const query = qs.stringify({
+    filters: {
+      ...filters,
+    },
+    populate: populate || [
+      'patient'
+      // "role",
+      // "transactions",
+      // "bookings",
+      // "treatment_histories",
+      // "orders",
+      // "referral",
+      // "treatment_histories.treatment",
+    ],
+    pagination,
+    sort: ["createdAt:DESC"],
+  })
+
+  return axios.get(`/users?${query}`)
+}
+
 export const getListUsersByRole = (populate, role) => {
   const query = qs.stringify({
     filters: {

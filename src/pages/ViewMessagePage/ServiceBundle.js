@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 import { JWT_TOKEN, BRANCH } from "../../constants/Authentication"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
-
+import Select from "components/Select"
 import Button from "components/Button"
 import Icon from "components/Icon"
 import Page from "components/Page"
@@ -23,6 +23,7 @@ import ProductDetail from "./ProductDetail"
 import { io } from "socket.io-client";
 import axios from "../../services/axios";
 import dayjs from 'dayjs';
+import { getListEmployee } from "services/api/users"
 
 const Message = () => <li className="flex justify-start">
   <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
@@ -47,12 +48,35 @@ const ServiceBundles = () => {
   const [patientId, setPatientId] = useState(0);
   const [userId, setUserId] = useState();
   const [socket, setSocket] = useState();
+  const [secondPerson, setSecondPerson] = useState();
   const ref = useRef();
   const refInput = useRef();
   const fetchIdRef = useRef(0)
   const { id, email } = useParams();
+  const [employee, setEmployee] = useState([]);
+  const [supporter, setSupporter] = useState({});
+  const [status, setStatus] = useState();
 
   let chats;
+
+  useEffect(() => {
+    getListEmployee(
+      { pageSize: 1000 },
+      {
+        isDoctor: true
+      }
+    )
+      .then((res) => {
+        setEmployee(res.data.map(r => {
+          return {
+            value: r.id,
+            label: r.fullname
+          }
+        }))
+      })
+      .catch(() => {
+      })
+  }, [])
 
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
@@ -141,6 +165,9 @@ const ServiceBundles = () => {
     await axios.get(`/conversation-queue/getMessages/${id}`, {
     })
       .then((response) => {
+        setSecondPerson(response.data.second_person)
+        setSupporter({value: response.data.id, label: response.data.second_person.patient.full_name})
+        setStatus({value: response.data.status, label: response.data.status})
         setUserId(response.data.user.id)
         setPatient(response.data.user);
         setPatientId(response.data.user.patient?.id);
@@ -192,7 +219,41 @@ const ServiceBundles = () => {
     refInput.current.value = "";
   }
 
-  console.log('conversations', conversations)
+  const onSubmit = async () => {
+    try {
+      const toastId = toast.loading("Đang tải");
+      await axios.post("/conversation-queue/updateSecondPerson", {
+        "id": id,
+        "pid": supporter.value,
+      })
+        .then((response) => {
+          window.location.reload();
+        })
+        .finally(() => {
+          window.location.reload();
+        });
+    } catch (error) {
+    } finally {
+    }
+  }
+
+  const onSubmitStatus = async () => {
+    try {
+      const toastId = toast.loading("Đang tải");
+      await axios.post("/conversation-queue/updateStatus", {
+        "id": id,
+        "status": status.value,
+      })
+        .then((response) => {
+          window.location.reload();
+        })
+        .finally(() => {
+          window.location.reload();
+        });
+    } catch (error) {
+    } finally {
+    }
+  }
 
   return (
     <Page
@@ -241,7 +302,7 @@ const ServiceBundles = () => {
                       } else {
                         return <li class={(userId != messages[0]) ? "flex justify-end" : "flex justify-start"}>
                           <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                          <span style={{whiteSpace: "pre-line"}}>{messages[2]}</span>
+                            <span style={{ whiteSpace: "pre-line" }}>{messages[2]}</span>
                           </div>
                         </li>
                       }
@@ -252,6 +313,36 @@ const ServiceBundles = () => {
               </div>
             </div>
           </div>
+          <Select
+            placeholder="Nhân viên hỗ trợ"
+            label="Nhân viên hỗ trợ"
+            name="patient_source"
+            options={employee}
+            value={supporter}
+            onChange={(e) => {
+              setSupporter(e)
+            }}
+          />
+          <Button onClick={onSubmit} className="fill-primary" type="button" loading={loading}>
+            Lưu
+          </Button>
+          <Select
+            placeholder="Trạng thái"
+            label="Trạng thái"
+            name="status"
+            options={[
+              {value: "incomplete", label: "incomplete", },
+              {value: "complete", label: "complete", }
+            ]}
+            value={status}
+            onChange={(e) => {
+              setStatus(e)
+            }}
+          />
+          
+          <Button onClick={onSubmitStatus} className="fill-primary" type="button" loading={loading}>
+            Lưu
+          </Button>
         </div>
       </div>
     </Page>

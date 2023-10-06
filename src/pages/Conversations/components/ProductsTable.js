@@ -97,6 +97,16 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
         width: 70,
       },
       {
+        Header: "Trạng thái",
+        accessor: (originalRow) => (
+          <div className="flex items-center gap-x-4">
+            {originalRow.status}
+          </div>
+        ),
+        collapse: true,
+        width: 70,
+      },
+      {
         Header: "Hành động",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
