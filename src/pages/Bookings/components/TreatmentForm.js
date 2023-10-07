@@ -2898,7 +2898,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full">
                     <h1>GỢI Ý:</h1>
-                    <h1>BN {data?.patient?.gender == "male" ? "nam" : "nữ"}, {getAge(data?.patient?.birthday)} tuổi, BMI {bmi}, có các vấn đề sức khoẻ:</h1>
+                    <h1>Khách hàng {data?.patient?.gender == "male" ? "nam" : "nữ"}, {getAge(data?.patient?.birthday)} tuổi, BMI {bmi}, có các vấn đề sức khoẻ:</h1>
                     <div className="grid sm:grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 py-4">
                       <Controller
                         name="searchTerm"
@@ -2907,8 +2907,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           <>
                             {serviceGroups.map((searchTerm) => (
                               <Button
-                                disabled={readonly}
-                                key={searchTerm}
+                                  key={searchTerm}
                                 onChange={onchange}
                                 type="button"
                                 className={classNames(
@@ -2948,7 +2947,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               return <p className="flex items-center">
                                 {s.type == "service-bundle" &&
                                   <Button
-                                    disabled={usedBS?.attributes?.paid}
+                                    disabled={usedBS?.attributes?.paid || readonly}
                                     type="button"
                                     className={"inline text-xs h-8 mr-4 mt-1"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
@@ -3333,8 +3332,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải bệnh án
             </Button>
           )}
-          {readonly && (
-            <Button
+          {currentUser.role.type != "pharmacist" && <Button
               btnType="primary"
               type="reset"
               onClick={(e) => {
@@ -3343,7 +3341,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             >
               Sửa bệnh án
             </Button>
-          )}
+          }
           {readonly && currentUser?.role?.type != "doctor" && currentUser?.role?.type != "nurse" && (
             <Button
               btnType="primary"
