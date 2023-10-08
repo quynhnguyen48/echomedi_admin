@@ -100,7 +100,7 @@ export const getListConversationQueueByUser = (userId, pagination) => {
   const query = qs.stringify({
     pagination
   })
-  return axios.get(`/conversation-queues?sort[0]=createdAt%3Adesc&populate[user][populate]=*&populate[second_person][populate]=*&filters[second_person]=${userId}&${query}`)
+  return axios.get(`/conversation-queues?sort[0]=createdAt%3Adesc&populate[user][populate]=*&populate[second_person][populate]=*&filters[\$or][0][status][\$ne]=complete&filters[\$or][1][status][\$null]=true&filters[second_person]=${userId}&${query}`)
 }
 
 export const getProductById = (id) => {
