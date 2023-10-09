@@ -147,7 +147,7 @@ const InvoiceForm = ({
       }
     ])
 
-    console.log('invoiceData', cashier_in_charge)
+    console.log('invoiceData', membership)
     if (cashier_in_charge) {
       setCashierInCharge({
         value: cashier_in_charge.id,
@@ -319,6 +319,7 @@ const InvoiceForm = ({
   }
 
   useEffect(() => {
+    console.log('membership', membership)
     if (invoiceData) {
       setTotalDiscountFixedPrice(invoiceData?.totalDiscountFixedPrice)
       setTotalDiscountPercentage(invoiceData?.totalDiscountPercentage)
@@ -372,7 +373,7 @@ const InvoiceForm = ({
             discountPercentage: item.attributes["discount_percentage"],
           note: item?.attributes?.discount_note
         })),
-        membership: membership ? [{
+        membership: membership && !membership["paid"] ? [{
           id: membership?.id,
           price: membership?.price,
           label: membership?.label,

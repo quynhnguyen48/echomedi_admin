@@ -343,7 +343,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       </div>
       <div className="fixed bottom-0 sm:relative">
       <div className="grid grid-cols-6 sm:grid-cols-1 gap-x-4">
-      {currentUser.role.type != "pharmacist" && <Button
+      {<Button
           btnSize="small"
           className="mt-2"
           onClick={() => {

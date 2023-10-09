@@ -1010,6 +1010,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     axios2
       .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
+        console.log('response', response)
         if (!data.bundle_services) {
           let ms = response.data.data;
           ms = ms.map(s => {
@@ -1038,17 +1039,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
-              } else if ((selectedMembership?.value == "medical_provider_gold" || data.patient.membership == "medical_provider_gold") && s.attributes["membership_discount"].medical_provider_gold_percentage) {
-                s.attributes["discount_note"] = "Thành viên Medical Provider GOLD";
-                s.attributes["original_price"] = s.attributes["price"];
-                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_gold_percentage;
-                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_gold_percentage) / 100;
-              }
-              else if ((selectedMembership?.value == "medical_provider_platinum" || data.patient.membership == "medical_provider_platinum") && s.attributes["membership_discount"].medical_provider_platinum_percentage) {
-                s.attributes["discount_note"] = "Thành viên Medical Provider PLATINUM";
-                s.attributes["original_price"] = s.attributes["price"];
-                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_platinum_percentage;
-                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_platinum_percentage) / 100;
               }
             }
 
@@ -1062,7 +1052,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           const usedIdMedicalServices = bundleServicesData_.map((ud) => ud.id)
           let ms = response.data.data;
           ms = ms.map(s => {
-            if (Array.isArray(s.attributes["Locations"])) {
+            if (Array.isArray(s.attributes["Locations"]) && !s.attributes["membership_gold"]) {
               s.attributes["Locations"].forEach(sl => {
                 if (sl["location"] == branch) {
                   s.attributes["disabled"] = sl["disabled"];
@@ -1070,6 +1060,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 }
               })
             }
+
+            if (s["id"] == 42) console.log('selectedMembership', selectedMembership, s)
 
             if (s.attributes["membership_discount"] && !s.attributes["membership_gold"]) {
               if ((selectedMembership?.value == "gold" || data.patient.membership == "gold") && s.attributes["membership_discount"].gold_percentage) {
@@ -1087,17 +1079,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
-              } else if ((selectedMembership?.value == "medical_provider_gold" || data.patient.membership == "medical_provider_gold") && s.attributes["membership_discount"].medical_provider_gold_percentage) {
-                s.attributes["discount_note"] = "Thành viên Medical Provider GOLD";
-                s.attributes["original_price"] = s.attributes["price"];
-                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_gold_percentage;
-                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_gold_percentage) / 100;
-              }
-              else if ((selectedMembership?.value == "medical_provider_platinum" || data.patient.membership == "medical_provider_platinum") && s.attributes["membership_discount"].medical_provider_platinum_percentage) {
-                s.attributes["discount_note"] = "Thành viên Medical Provider PLATINUM";
-                s.attributes["original_price"] = s.attributes["price"];
-                s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_platinum_percentage;
-                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_platinum_percentage) / 100;
               }
             }
 
@@ -1160,11 +1141,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const showProductDetail = (p) => {
-    // toast.success("Đang tải lên");
-    toast.error(
+    toast.info(
       <div>
         <p>Gói dược {p.label} gồm: </p>
-        {p.medicines.map(s => <p>{s.label}</p>)}
+        {p.medicines.map((s,i) => <p> {i + 1}. {s.label}</p>)}
         {/* {m.attributes.medical_services.map((a) => (
           <p>{a.label}</p>
 
@@ -1172,6 +1152,21 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       </div>,
       { progress: 1, className: "w-[500px] left-[-177px]" }
     )
+  }
+
+  const addToPrescriptions = (p) => {
+    axios
+      .post("medical-record/addProduct", {
+        id: data.medical_record?.data?.id,
+        productId: p.id
+    })
+      .then((response) => {
+        toast.success("Thêm gói dược vào đơn thuốc");
+        setVisibleAdditionalPrescriptionModal(true);
+      })
+      .finally(() => {
+        toast.dismiss(id)
+      })
   }
 
   const addBundleMedicalServiceById = (id) => {
@@ -2903,7 +2898,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full">
                     <h1>GỢI Ý:</h1>
-                    <h1>BN {data?.patient?.gender == "male" ? "nam" : "nữ"}, {getAge(data?.patient?.birthday)} tuổi, BMI {bmi}, có các vấn đề sức khoẻ:</h1>
+                    <h1>Khách hàng {data?.patient?.gender == "male" ? "nam" : "nữ"}, {getAge(data?.patient?.birthday)} tuổi, BMI {bmi}, có các vấn đề sức khoẻ:</h1>
                     <div className="grid sm:grid-cols-1 grid-cols-4 gap-x-6 gap-y-4 py-4">
                       <Controller
                         name="searchTerm"
@@ -2912,8 +2907,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           <>
                             {serviceGroups.map((searchTerm) => (
                               <Button
-                                disabled={readonly}
-                                key={searchTerm}
+                                  key={searchTerm}
                                 onChange={onchange}
                                 type="button"
                                 className={classNames(
@@ -2950,10 +2944,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           return <div><h1 className="font-bold">- {serviceName}</h1>
                             {service.map(s => {
                               const usedBS = usedBundleMedicalServices.find(us => us.id == s.id);
-                              return <p className="flex">
+                              return <p className="flex items-center">
                                 {s.type == "service-bundle" &&
                                   <Button
-                                    disabled={usedBS?.attributes?.paid}
+                                    disabled={usedBS?.attributes?.paid || readonly}
                                     type="button"
                                     className={"inline text-xs h-8 mr-4 mt-1"}
                                     icon={<Icon name="add-circle" className="fill-white" />}
@@ -2970,6 +2964,15 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={e => showProductDetail(s)}
                                   >
                                     Chi tiết
+                                  </Button>}
+                                  {s.type == "product" &&
+                                  <Button
+                                    type="button"
+                                    className={"inline text-xs h-8 mr-4 mt-1"}
+                                    icon={<Icon name="add-circle" className="fill-white" />}
+                                    onClick={e => addToPrescriptions(s)}
+                                  >
+                                    Thêm vào đơn thuốc
                                   </Button>}
 
                                 {s.label}
@@ -3041,9 +3044,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
-                                          {m.attributes.medical_services.map((a) => (
-                                            <p>{a.label}</p>
-
+                                          <p>Gói dịch vụ {m.attributes.label} gồm: </p>
+                                          {m.attributes.medical_services.map((a, i) => (
+                                            <p>{i + 1}. {a.label}</p>
                                           ))}
                                         </div>,
                                         { progress: 1, className: "w-[500px] left-[-177px]" }
@@ -3100,8 +3103,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
-                                          {m.attributes.medical_services.map((a) => (
-                                            <p>{a.label}</p>
+                                          <p>Gói dịch vụ {m.attributes.label} gồm: </p>
+                                          {m.attributes.medical_services.map((a, i) => (
+                                            <p>{i + 1}. {a.label}</p>
                                           ))}
                                         </div>,
                                         { progress: 1, className: "w-[500px] left-[-177px]" }
@@ -3328,8 +3332,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải bệnh án
             </Button>
           )}
-          {readonly && (
-            <Button
+          {currentUser.role.type != "pharmacist" && <Button
               btnType="primary"
               type="reset"
               onClick={(e) => {
@@ -3338,7 +3341,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             >
               Sửa bệnh án
             </Button>
-          )}
+          }
           {readonly && currentUser?.role?.type != "doctor" && currentUser?.role?.type != "nurse" && (
             <Button
               btnType="primary"
@@ -3362,10 +3365,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải phiếu chỉ định
             </Button>
           )}
-          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
+          {currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisiblePrescriptionModal(true)}>
             Đơn thuốc
           </Button>)}
-          {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
+          {currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleAdditionalPrescriptionModal(true)}>
             Tư vấn TPCN
           </Button>)}
           {readonly && currentUser?.role?.type != "care_concierge" && (<Button btnType="primary" type="reset" onClick={() => setVisibleTestResultModal(true)}>
@@ -3382,7 +3385,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       />
 
       {visiblePrescriptionModal && (
-
         <PrescriptionModal
           patientId={data?.patient?.id}
           data={formatStrapiObj(data?.medical_record?.data)}
@@ -3394,7 +3396,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       {visibleAdditionalPrescriptionModal && (
         <AdditionalPrescriptionModal
           patientId={data?.patient?.id}
-
           medicalRecordId={data?.medical_record?.data?.id}
           visibleModal={visibleAdditionalPrescriptionModal}
           onClose={() => setVisibleAdditionalPrescriptionModal(false)}

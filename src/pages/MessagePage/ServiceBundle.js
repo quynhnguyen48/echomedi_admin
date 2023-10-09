@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 import { JWT_TOKEN, BRANCH } from "../../constants/Authentication"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
-
+import Select from "components/Select"
 import Button from "components/Button"
 import Icon from "components/Icon"
 import Page from "components/Page"
@@ -51,8 +51,28 @@ const ServiceBundles = () => {
   const refInput = useRef();
   const fetchIdRef = useRef(0)
   const { id, email } = useParams();
+  const [status, setStatus] = useState();
 
   let chats;
+
+  const onSubmitStatus = async () => {
+    try {
+      const toastId = toast.loading("Đang tải");
+      await axios.post("/conversation-queue/updateStatus", {
+        "id": id,
+        "status": status.value,
+      })
+        .then((response) => {
+          // window.location.reload();
+          window.location.href = '/chat';
+        })
+        .finally(() => {
+          window.location.href = '/chat';
+        });
+    } catch (error) {
+    } finally {
+    }
+  }
 
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
@@ -144,6 +164,7 @@ const ServiceBundles = () => {
         setUserId(response.data.user.id)
         setPatient(response.data.user);
         setPatientId(response.data.user.patient?.id);
+        setStatus({value: response.data.status, label: response.data.status})
         let message = response.data.data;
         if (!Array.isArray(message)) {
           message = [message];
@@ -270,9 +291,9 @@ const ServiceBundles = () => {
                     ref={refInput}
                     onChange={e => setMessage(e.target.value)}
                     onKeyUp={e => {
-                      if (e.keyCode === 13) {
-                        sendMesssage();
-                      }
+                      // if (e.keyCode === 13) {
+                      //   sendMesssage();
+                      // }
                     }}
                     type="text" placeholder="Message"
                     class="block w-full py-2 pl-4 mx-3 bg-gray-100 outline-none focus:text-gray-700 h-40"
@@ -297,6 +318,23 @@ const ServiceBundles = () => {
               </div>
             </div>
           </div>
+          <Select
+            placeholder="Trạng thái"
+            label="Trạng thái"
+            name="status"
+            options={[
+              {value: "incomplete", label: "incomplete", },
+              {value: "complete", label: "complete", }
+            ]}
+            value={status}
+            onChange={(e) => {
+              setStatus(e)
+            }}
+          />
+          
+          <Button onClick={onSubmitStatus} className="fill-primary" type="button" loading={loading}>
+            Lưu
+          </Button>
         </div>
       </div>
     </Page>
