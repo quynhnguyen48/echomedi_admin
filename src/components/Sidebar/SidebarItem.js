@@ -23,7 +23,7 @@ const SidebarItem = ({ item, hideSidebar }) => {
       onClick={e => hideSidebar()}
         to={item.url}
         className={classNames(
-          "relative flex items-center gap-x-4 pl-6 last:pb-10",
+          "relative flex items-center gap-x-4 pl-4 last:pb-10",
           {
             "opacity-30": !isActive,
             "before:content-[''] before:absolute before:left-0 before:bg-green2 before:w-2 before:h-6 before:rounded-r":

@@ -119,7 +119,7 @@ const Sidebar = () => {
             </div>
           </div>
         }
-        <div className="max-h-sidebarHeight overflow-scroll space-y-6">
+        <div className="max-h-sidebarHeight overflow-scroll space-y-5">
           {Array.isArray(accessSidebarItems) &&
             accessSidebarItems?.map((item) => <SidebarItem key={item.name} item={item} hideSidebar={hideSidebar} />)}
         </div>

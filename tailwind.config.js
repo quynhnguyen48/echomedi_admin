@@ -76,7 +76,7 @@ module.exports = {
     },
     extend: {
       spacing: {
-        sidebarWidth: "15.625rem",
+        sidebarWidth: "230px",
         4.5: "1.125rem",
         10.5: "2.625rem",
         17: "4.25rem",
