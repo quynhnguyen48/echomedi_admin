@@ -166,8 +166,8 @@ const ServiceBundles = () => {
     })
       .then((response) => {
         setSecondPerson(response.data.second_person)
-        setSupporter({value: response.data.id, label: response.data.second_person.patient.full_name})
-        setStatus({value: response.data.status, label: response.data.status})
+        setSupporter({ value: response.data.id, label: response.data.second_person.patient.full_name })
+        setStatus({ value: response.data.status, label: response.data.status })
         setUserId(response.data.user.id)
         setPatient(response.data.user);
         setPatientId(response.data.user.patient?.id);
@@ -261,6 +261,40 @@ const ServiceBundles = () => {
     // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
       <div className="items-center">
+        <div class="relative flex flex-row items-center p-3 border-b border-gray-300">
+          <Select
+            placeholder="Nhân viên hỗ trợ"
+            label="Nhân viên hỗ trợ"
+            name="patient_source"
+            options={employee}
+            value={supporter}
+            onChange={(e) => {
+              setSupporter(e)
+            }}
+          />
+          <Button onClick={onSubmit} className="fill-primary mr-10" type="button" loading={loading}>
+            Lưu
+          </Button>
+          <Select
+            wrapperClassName="w-52"
+            placeholder="Trạng thái"
+            label="Trạng thái"
+            name="status"
+            options={[
+              { value: "incomplete", label: "incomplete", },
+              { value: "complete", label: "complete", }
+            ]}
+            value={status}
+            onChange={(e) => {
+              setStatus(e)
+            }}
+          />
+
+          <Button onClick={onSubmitStatus} className="fill-primary" type="button" loading={loading}>
+            Lưu
+          </Button>
+        </div>
+
         <div class="container mx-auto">
           <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
             <div class="lg:col-span-2 lg:block">
@@ -313,36 +347,9 @@ const ServiceBundles = () => {
               </div>
             </div>
           </div>
-          <Select
-            placeholder="Nhân viên hỗ trợ"
-            label="Nhân viên hỗ trợ"
-            name="patient_source"
-            options={employee}
-            value={supporter}
-            onChange={(e) => {
-              setSupporter(e)
-            }}
-          />
-          <Button onClick={onSubmit} className="fill-primary" type="button" loading={loading}>
-            Lưu
-          </Button>
-          <Select
-            placeholder="Trạng thái"
-            label="Trạng thái"
-            name="status"
-            options={[
-              {value: "incomplete", label: "incomplete", },
-              {value: "complete", label: "complete", }
-            ]}
-            value={status}
-            onChange={(e) => {
-              setStatus(e)
-            }}
-          />
-          
-          <Button onClick={onSubmitStatus} className="fill-primary" type="button" loading={loading}>
-            Lưu
-          </Button>
+
+
+
         </div>
       </div>
     </Page>
