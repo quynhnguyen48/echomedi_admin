@@ -9,6 +9,7 @@ import { uploadMedia } from "services/api/mediaLibrary"
 import { getMedicalRecordById, updateMedicalRecord } from "services/api/medicalRecord"
 import { getStrapiMedia } from "utils/media"
 import Icon from "components/Icon"
+import { useDispatch, useSelector } from "react-redux";
 
 const AVAILABLE_TEST_RESULT = [
   "Xét nghiệm máu",
@@ -24,6 +25,7 @@ const AVAILABLE_TEST_RESULT = [
 ]
 
 const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) => {
+  const currentUser = useSelector((state) => state.user.currentUser);
   const [testResults, setTestResults] = useState({})
   const ref = useRef()
 
@@ -136,7 +138,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                     </div>
                   )}
                 </a>
-                {/* <div
+                {currentUser.role.type == "admin" && <div
                   onClick={(e) => {
                     e.stopPropagation()
                     onRemove(originalRow?.id, item)
@@ -144,7 +146,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                   className="absolute cursor-pointer -top-2 -right-2 z-20"
                 >
                   <Icon name="close-circle" className="fill-red bg-white rounded-full" />
-                </div> */}
+                </div>}
               </div>
             ))}
             <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1">
