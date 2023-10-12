@@ -89,13 +89,19 @@ pre {
 }
 
 .rsc {
-  width: -webkit-fill-available !important;
-  height: 85vh !important;
+  height: 500px !important;
+  width: calc(min(100vw, 400px));
+  position: fixed;
+  right: 0;
+  bottom: 0;
 }
 
 .rsc-container {
   width: -webkit-fill-available !important; 
-  height: 85vh !important;
+  height: 500px !important;
+  position: fixed;
+  right: 0;
+  bottom: 0;
 }
 
 .multiselect-container{

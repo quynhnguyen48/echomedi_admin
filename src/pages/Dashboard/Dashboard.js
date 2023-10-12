@@ -462,7 +462,7 @@ class DBPedia extends Component {
 		return (
 			<div className="dbpedia w-full">
 				<p> {name?.value} {age?.value} {gender?.value}, BMI {(fWeight/fHeight/fHeight).toFixed(2)}. Vấn đề sức khoẻ:</p>
-				<div className="grid sm:grid-cols-2 grid-cols-2 gap-x-6 gap-y-4 py-4">
+				<div className="grid md:grid-cols-2 grid-cols-2 gap-x-6 gap-y-4 py-4">
 					{serviceGroups.map((searchTerm) => (
 						<Button
 							key={searchTerm}
@@ -729,14 +729,12 @@ const Dashboard = () => {
 		<Page title="Bảng thông tin" rightContent={<LatestBookings />}>
 			<div className="rounded-t-2xl">
 
-				<div className="grid grid-cols-2 sm:block grid-flow-col gap-x-4">
-					<div className="flex items-start space-x-2 sm:block">
+				<div className="grid grid-cols-1 lg:grid-cols-1 sm:block grid-flow-col gap-x-4">
+					{/* <div className="flex items-start space-x-2 sm:block">
 						<ThemeProvider theme={theme} >
 							<ChatBot steps={steps} headerTitle="ECHO MEDI" handleEnd={handleEnd} />
 						</ThemeProvider>
-						{/* <CheckinAnalytics />
-					<TreatementAnalytics className="w-fit" /> */}
-					</div>
+					</div> */}
 					{/* <div className="rounded-xl shadow-sm p-4">
 						<AnalysItem
 							iconName="calendar-tick"
@@ -745,7 +743,7 @@ const Dashboard = () => {
 						/>
 						
 					</div> */}
-					<div className="grid grid-cols-2 sm:p-4">
+					<div className="grid grid-cols-4 lg:grid-cols-2 sm:grid-cols-1 sm:p-4">
 						<AnalysItem
 							iconName="calendar-tick"
 							title="Yêu cầu hội thoại mới"
@@ -765,6 +763,11 @@ const Dashboard = () => {
 						/>
 						<CustomerAnalytics />
 					</div>
+					{/* <div className="flex items-start space-x-2 sm:block">
+						<ThemeProvider theme={theme} >
+							<ChatBot steps={steps} headerTitle="ECHO MEDI" handleEnd={handleEnd} />
+						</ThemeProvider>
+					</div> */}
 					{/* <CustomerAnalytics /> */}
 				</div>
 
