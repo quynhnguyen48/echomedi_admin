@@ -2,12 +2,12 @@ const Tag = ({ name, className, secondary = false, color, backgroundColor }) => 
   return (
     <p 
       style={{
-        padding: "10px",
+        padding: "0px",
         alignItems: "center",
         borderRadius: "5px",
         display: "flex",
         flexDirection: "column",
-        width: "80px",
+        width: "70px",
         backgroundColor,
       }}
       className={`inline-block text-14 font-bold text-black capitalize ${secondary ? 'rounded-lg' : 'rounded-full'} ${className}`}>
