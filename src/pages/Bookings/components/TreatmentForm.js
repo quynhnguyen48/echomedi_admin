@@ -1165,7 +1165,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         setVisibleAdditionalPrescriptionModal(true);
       })
       .finally(() => {
-        toast.dismiss(id)
       })
   }
 

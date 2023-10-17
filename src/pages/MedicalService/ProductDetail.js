@@ -176,7 +176,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
       /> */}
 
       <div className="mt-6 space-y-6 flex-1 overflow-y-auto">
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <Controller
             name="code"
             control={control}
@@ -423,76 +423,6 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 value={yearlyMedicalProvider}
                 label={<div>
                   <span className="mr-5">Miễn phí số lần theo năm - Thành viên medical provider</span>
-                </div>}
-                name="code"
-              />
-            )}
-          />
-
-          <Controller
-            name="code"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-
-              <Input
-                onChange={e => {
-                  setMonthlyMedicalProviderGold(e.target.value);
-                }}
-                value={monthlyMedicalProviderGold}
-                label={<div>
-                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên medical provider GOLD</span>
-                </div>}
-                name="code"
-              />
-            )}
-          />
-          <Controller
-            name="code"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-
-              <Input
-                onChange={e => {
-                  setYearlyMedicalProviderGold(e.target.value);
-                }}
-                value={yearlyMedicalProviderGold}
-                label={<div>
-                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên medical provider GOLD</span>
-                </div>}
-                name="code"
-              />
-            )}
-          />
-
-<Controller
-            name="code"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-
-              <Input
-                onChange={e => {
-                  setMonthlyMedicalProviderPlatinum(e.target.value);
-                }}
-                value={monthlyMedicalProviderPlatinum}
-                label={<div>
-                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên medical provider PLATINUM</span>
-                </div>}
-                name="code"
-              />
-            )}
-          />
-          <Controller
-            name="code"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-
-              <Input
-                onChange={e => {
-                  setYearlyMedicalProviderPlatinum(e.target.value);
-                }}
-                value={yearlyMedicalProviderPlatinum}
-                label={<div>
-                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên medical provider PLATINUM</span>
                 </div>}
                 name="code"
               />
