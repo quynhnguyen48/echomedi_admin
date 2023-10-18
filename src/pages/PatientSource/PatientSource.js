@@ -107,6 +107,7 @@ const Theme = () => {
           updatePatientSource(p.id, {
             data: {
               ...p,
+              image: p.image?.data?.id
             }
           })
         } else {
