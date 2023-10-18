@@ -342,7 +342,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         </table>
       </div>
       <div className="fixed bottom-0 sm:relative">
-      <div className="grid grid-cols-6 sm:grid-cols-1 gap-x-4">
+      <div className="grid grid-cols-6 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4">
       {<Button
           btnSize="small"
           className="mt-2"
@@ -380,7 +380,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           Đơn thuốc
         </Button>
       </div>
-      <div className="flex gap-2 py-2 grid grid-cols-4 sm:grid-cols-1 mb-2">
+      <div className="flex gap-2 py-2 grid xl:grid-cols-2 grid-cols-4 sm:grid-cols-1 mb-2">
         <Button btnType={data.status == "result_received" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_received")}>
           Đã có kết quả xét nghiệm
         </Button>
