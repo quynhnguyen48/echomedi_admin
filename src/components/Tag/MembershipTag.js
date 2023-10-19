@@ -7,7 +7,7 @@ const Tag = ({ name, className, secondary = false, color, backgroundColor }) => 
         borderRadius: "5px",
         display: "flex",
         flexDirection: "column",
-        width: "70px",
+        width: "75px",
         backgroundColor,
       }}
       className={`inline-block text-14 font-bold text-black capitalize ${secondary ? 'rounded-lg' : 'rounded-full'} ${className}`}>
