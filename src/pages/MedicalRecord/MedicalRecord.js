@@ -232,7 +232,7 @@ const Treatments = () => {
     >
       <div className="grid grid-cols-4 sm:grid-cols-1 gap-y-2 items-center gap-x-2">
       <SearchInput
-          placeholder="Tìm khách hàng bằng ID / Tên / Email / SDT"
+          placeholder="Tìm khách hàng theo tên"
           className="flex-1"
           onSearch={(value) => {
             dispatch(resetPageIndex())
