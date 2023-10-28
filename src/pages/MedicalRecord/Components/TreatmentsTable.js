@@ -1,6 +1,7 @@
 import { useMemo, useCallback } from "react"
 import classNames from "classnames"
 import dayjs from "dayjs";
+import { getStrapiMedia } from "utils/media";
 
 import Table from "components/Table"
 import Tag from "components/Tag"
@@ -94,6 +95,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
                         originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.patient?.membership)} text-${getMembershipColor(originalRow?.patient?.membership)}`
                       }`}/>
             )}
+            {getStrapiMedia(originalRow?.patient_source?.data?.attributes.image.data?.attributes) && <img src={getStrapiMedia(originalRow?.patient_source.data?.attributes.image.data?.attributes)} alt="Product" className="w-30" />}
             {originalRow?.uid}
           </span>
         ),
@@ -111,6 +113,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
 <path fill="#507C5C" d="M389.753,512H122.247c-8.208,0-14.861-6.653-14.861-14.861V396.084  c0-46.709,38.001-84.71,84.71-84.71h127.808c46.709,0,84.71,38.001,84.71,84.71v101.055C404.614,505.347,397.961,512,389.753,512z   M137.109,482.277h237.783v-86.193c0-30.32-24.667-54.987-54.987-54.987H192.096c-30.32,0-54.987,24.667-54.987,54.987  L137.109,482.277L137.109,482.277z M337.736,452.804H265.41c-8.208,0-14.861-6.653-14.861-14.861v-50.281  c0-8.208,6.653-14.861,14.861-14.861h72.326c8.208,0,14.861,6.653,14.861,14.861v50.281  C352.598,446.15,345.944,452.804,337.736,452.804z M280.273,423.081h42.603v-20.558h-42.603V423.081z"/>
 </svg>
            {originalRow?.doctor_in_charge?.data?.attributes?.patient?.data?.attributes?.full_name}</h1></div>,
+           
         collapse: true,
         width: 150,
       },
