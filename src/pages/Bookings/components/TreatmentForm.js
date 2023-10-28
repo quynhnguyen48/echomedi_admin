@@ -3222,7 +3222,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             </div>
                           )}
                         </a>
-                        {/* <div
+                        {currentUser.role.type == "admin" && <div
                           onClick={(e) => {
                             e.stopPropagation()
                             onRemove(item)
@@ -3230,7 +3230,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           className="absolute cursor-pointer -top-2 -right-2 z-20"
                         >
                           <Icon name="close-circle" className="fill-red bg-white rounded-full" />
-                        </div> */}
+                        </div>}
                       </div>
                     ))}
                     <div className="inline-flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
