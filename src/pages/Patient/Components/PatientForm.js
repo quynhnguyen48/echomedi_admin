@@ -559,8 +559,8 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
               {data?.mime?.startsWith("image") ? (
                 <img className="rounded-xl w-14 h-14" src={getStrapiMedia(data.membership_profile_file)} alt="name" />
               ) : (
-                <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-14 w-14 relative border-primary border-1">
-                  {data.membership_profile_file?.data?.attributes?.ext}
+                <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold p-4 relative border-primary border-1">
+                  {data.membership_profile_file?.data?.attributes?.name}
                 </div>
               )}
             </a>

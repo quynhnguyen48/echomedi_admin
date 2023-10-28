@@ -18,6 +18,8 @@ const populate = [
   // "results.title",
   // "results.images",
   "patient",
+  "patient.patient_source",
+  "patient.patient_source.image",
   // "booking",
   "doctor_in_charge.patient",
   "booking.patient",

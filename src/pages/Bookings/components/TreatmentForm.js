@@ -70,8 +70,8 @@ const MEMBERSHIP_PKGS = [
     price: 16000000,
   },
   {
-    value: "family",
-    label: "Gói gia đình",
+    value: "medical_provider",
+    label: "Medical provider",
   },
   {
     value: "business",
@@ -417,6 +417,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         setBookingDate(bd)
         setBookingHour({ label: moment(bd).format("H:mm"), value: moment(bd).format("H:mm") })
       }
+      console.log('data', data.patient.membership)
       if (data.patient.membership) {
         setSelectedMembership(MEMBERSHIP_PKGS.find(s => s.value == data.patient.membership));
       }
@@ -875,7 +876,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
           if (Array.isArray(s.attributes["Locations"])) {
             s.attributes["Locations"].forEach(sl => {
-              if (sl["location"] == branch) {
+              if (sl["location"] == branch && !s.attributes.membership_gold) {
                 s.attributes["disabled"] = sl["disabled"];
                 if (Number.isInteger(sl["price"])) {
                   s.attributes["price"] = sl["price"];
@@ -928,7 +929,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         cs = cs.map(s => {
           if (Array.isArray(s.attributes["Locations"])) {
             s.attributes["Locations"].forEach(sl => {
-              if (sl["location"] == branch) {
+              if (sl["location"] == branch && !s.attributes.membership_gold) {
                 s.attributes["disabled"] = sl["disabled"];
                 s.attributes["price"] = parseInt(sl["price"]);
               }
@@ -1016,7 +1017,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           ms = ms.map(s => {
             if (Array.isArray(s.attributes["Locations"])) {
               s.attributes["Locations"].forEach(sl => {
-                if (sl["location"] == branch) {
+                if (sl["location"] == branch && !s.attributes.membership_gold) {
                   s.attributes["disabled"] = sl["disabled"];
                   s.attributes["price"] = parseInt(sl["price"]);
                 }
@@ -3221,7 +3222,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             </div>
                           )}
                         </a>
-                        {/* <div
+                        {currentUser.role.type == "admin" && <div
                           onClick={(e) => {
                             e.stopPropagation()
                             onRemove(item)
@@ -3229,7 +3230,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           className="absolute cursor-pointer -top-2 -right-2 z-20"
                         >
                           <Icon name="close-circle" className="fill-red bg-white rounded-full" />
-                        </div> */}
+                        </div>}
                       </div>
                     ))}
                     <div className="inline-flex items-center justify-center rounded-xl bg-background h-14 w-14 relative border-primary border-1">
