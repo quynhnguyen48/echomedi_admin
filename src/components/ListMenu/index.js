@@ -42,7 +42,7 @@ const ListMenu = ({
           }}
         >
           <Typography variant="body2" className={classes.buttonText}>
-            Rename
+            Sửa tên
           </Typography>
         </Grid>
         <Grid
@@ -54,7 +54,7 @@ const ListMenu = ({
           }}
         >
           <Typography variant="body2" className={classes.buttonText}>
-            Edit
+            Chỉnh sửa
           </Typography>
         </Grid>
         <Grid
@@ -66,7 +66,7 @@ const ListMenu = ({
           }}
         >
           <Typography variant="body2" className={classes.buttonText}>
-            Delete this list
+            Xóa
           </Typography>
         </Grid>
         <Dialog

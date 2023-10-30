@@ -175,7 +175,7 @@ class List extends React.Component {
                   >
                     <Grid item xs={10}>
                       <Typography className={classes.buttonText} component="p">
-                        Add another card
+                        Thêm thẻ mới
                       </Typography>
                     </Grid>
                     <Grid item container xs={2}>

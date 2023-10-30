@@ -95,7 +95,7 @@ const EditDescription = ({ handleButtonClick }) => {
               onClick={handleCommentButton}
               disabled={loading}
             >
-              Comment
+              Bình luận
             </Button>
             {loading && (
               <CircularProgress size={24} className={classes.buttonProgress} />
