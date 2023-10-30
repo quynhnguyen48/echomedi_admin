@@ -119,11 +119,13 @@ const Treatments = () => {
             )
             if (res.data) {
               const listTreatments = formatStrapiArr(res.data)
+              
               setData(
                 listTreatments?.map((treatment) => {
                   const booking = formatStrapiObj(treatment?.booking)
                   let patient = formatStrapiObj(treatment?.patient);
                   patient.patient_source = formatStrapiObj(patient?.patient_source);
+                  if (patient.patient_source)
                   patient.patient_source.image = formatStrapiObj(patient?.patient_source.image);
                   return {
                     ...treatment,
@@ -141,7 +143,6 @@ const Treatments = () => {
                   }
                 })
               )
-
               setPageCount(res?.data?.meta?.pagination?.pageCount)
             }
           }
