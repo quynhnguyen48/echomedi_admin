@@ -44,7 +44,7 @@ const Header = () => {
           ) : (
             <div className={classes.boardsContainer}></div>
           )}
-          <Menu />
+          {/* <Menu /> */}
         </Toolbar>
       </AppBar>
     </div>

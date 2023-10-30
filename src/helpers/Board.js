@@ -164,7 +164,6 @@ const HandleListCreation = (board, lists, list, listOrder) =>
 
 const HandleTaskCreation = (board, listId, tasks, task, taskIds) =>
   new Promise((resolve, reject) => {
-    console.log('board', board)
     const list = board.lists.find(l => l.id == listId);
     if (board && listId && tasks && tasks && task && taskIds) {
       // board.tasks = tasks;

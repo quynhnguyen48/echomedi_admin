@@ -5,12 +5,7 @@ export const SIDEBAR_ITEMS = [
     icon: "sidebar/dashboard",
     url: "/",
   },
-  // {
-  //   id: "boards",
-  //   name: "Boards",
-  //   icon: "sidebar/kanban",
-  //   url: "/boards",
-  // },
+  
   {
     id: "patient",
     name: "Danh sách khách hàng",
@@ -80,6 +75,12 @@ export const SIDEBAR_ITEMS = [
     url: "/drugs/import",
     apiKey: "api::drug",
     controllerKey: "drug",
+  },
+  {
+    id: "boards",
+    name: "Boards",
+    icon: "sidebar/kanban",
+    url: "/boards",
   },
   {
     id: "customers",

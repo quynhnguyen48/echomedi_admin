@@ -12,7 +12,7 @@ export const getListStaffs = (pagination, filters = {}) => {
       //   },
       // },
     },
-    populate: "role",
+    populate: ["role", "patient"],
     pagination,
     sort: ["createdAt:DESC"],
   });

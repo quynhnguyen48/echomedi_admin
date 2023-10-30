@@ -32,14 +32,27 @@ const AssignMemberMenu = ({
         if (sk?.length) {
           setDetailData(null);
           filters = {
-            $or: [
-              {
-                username: { $containsi: sk },
+            $and: [
+              {$or: [
+                  {
+                    username: { $containsi: sk },
+                  },
+                  {
+                    patient: {
+                      full_name_i: { $containsi: sk },
+                    }
+                  },
+                  {
+                    email: { $containsi: sk },
+                  },
+                ],
               },
               {
-                email: { $containsi: sk },
-              },
-            ],
+                patient: {
+                  internal: {$eq :"yes"}
+                }
+              }
+            ]
           };
         }
         getListStaffs(
@@ -122,7 +135,7 @@ const AssignMemberMenu = ({
         <Grid className={classes.header} container>
           <Grid item xs={12}>
             <Typography className={classes.headerTitle} component="p">
-              Assign Member
+              Giao việc cho
             </Typography>
           </Grid>
         </Grid>

@@ -79,7 +79,7 @@ const EditDescription = ({ handleButtonClick }) => {
           <CommentInput
             value={comment}
             onChange={handleChange}
-            label="Write a comment..."
+            label="Bình luận ..."
             variant="outlined"
             multiline
             rowsMax={4}

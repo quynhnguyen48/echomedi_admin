@@ -84,6 +84,7 @@ export const ApproveTask = (body) =>
           body: JSON.stringify(body),
         }
       );
+      window.location.reload();
       resolve(await response.json());
     } catch (err) {
       reject(err);
