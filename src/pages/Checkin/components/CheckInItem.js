@@ -168,7 +168,7 @@ const CheckInItem = ({
           {checkinStatus === TRANSACTION_CHECKIN_STATUS.PROGRESS ? (
             <Timer secondary duration={duration} isStartTimer />
           ) : (
-            <p className="text-14 font-bold">{checkinDate && formatDate(checkinDate, "HH:MM")}</p>
+            <p className="text-14 font-bold">{checkinDate && formatDate(checkinDate, "HH:mm")}</p>
           )}
         </div>
       </div>

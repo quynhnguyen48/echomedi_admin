@@ -44,7 +44,7 @@ const CheckoutConfirmation = ({ checkin, onClose }) => {
         </li>
         <li className="flex items-center justify-between">
           <p>{checkin?.user?.phone || "None"}</p>
-          <p>{formatDate(checkin?.createdAt, "HH:MM")}</p>
+          <p>{formatDate(checkin?.createdAt, "HH:mm")}</p>
         </li>
       </ul>
       <ul className="space-y-2 mt-4 pb-4 border-b-1 border-primary/30">

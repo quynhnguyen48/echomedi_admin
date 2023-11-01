@@ -77,7 +77,7 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
         Header: "Cập nhật lúc",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            <span>{formatDate(originalRow?.updatedAt, "HH:MM DD/MM/YYYY")}</span>
+            <span>{formatDate(originalRow?.updatedAt, "HH:mm DD/MM/YYYY")}</span>
           </div>
         ),
         collapse: true,
