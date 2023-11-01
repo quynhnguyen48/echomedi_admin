@@ -166,7 +166,7 @@ const ServiceBundles = () => {
     })
       .then((response) => {
         setSecondPerson(response.data.second_person)
-        setSupporter({ value: response.data.id, label: response.data.second_person.patient.full_name })
+        setSupporter({ value: response.data.id, label: response.data?.second_person?.patient?.full_name })
         setStatus({ value: response.data.status, label: response.data.status })
         setUserId(response.data.user.id)
         setPatient(response.data.user);
