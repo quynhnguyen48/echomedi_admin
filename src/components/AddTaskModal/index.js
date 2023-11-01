@@ -42,7 +42,7 @@ const AddElementModal = ({ anchorEl, handleClose, createNewTask, list }) => {
           <NameInput
             onChange={handleChange}
             className={classes.margin}
-            label="Enter a title for this card.."
+            label="Đặt tiêu đề cho thẻ"
             variant="outlined"
             margin="dense"
             helperText={error && error}
@@ -66,7 +66,7 @@ const AddElementModal = ({ anchorEl, handleClose, createNewTask, list }) => {
               color="primary"
               onClick={handleSubmit}
             >
-              Add List
+              Thêm thẻ
             </Button>
           </Grid>
           <Grid item xs={2}>

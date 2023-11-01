@@ -63,7 +63,7 @@ const AddElementModal = ({ anchorEl, handleClose, createNewList }) => {
               color="primary"
               onClick={handleSubmit}
             >
-              Add List
+              Thêm danh sách
             </Button>
           </Grid>
           <Grid item xs={2}>

@@ -90,7 +90,7 @@ const RenameMenu = ({ anchorEl, handleClose, listTitle, listId }) => {
               onClick={handleSubmit}
               disabled={disableButton}
             >
-              Rename
+              Sửa tên
             </Button>
           </Grid>
           <Grid item xs={2}>

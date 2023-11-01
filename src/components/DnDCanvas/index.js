@@ -378,7 +378,7 @@ class DndCanvas extends React.Component {
                 >
                   <Grid item xs={10}>
                     <Typography className={classes.buttonText} component="p">
-                      Add another list
+                      Thêm danh sách mới
                     </Typography>
                   </Grid>
                   <Grid item container xs={2}>

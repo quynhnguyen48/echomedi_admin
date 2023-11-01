@@ -337,13 +337,13 @@ const EditTaskModal = ({
                 alignItems="center"
                 style={{ width: "100px" }}
               >
-                <SectionTitle title="Description" icon="description" />
+                <SectionTitle title="Mô tả" icon="description" />
               </Grid>
               {currentUser.role.type == "admin" && <Grid item xs={2}>
                 <LightButton
                   handleClick={handleEditButtonClick}
                   icon="edit"
-                  text="Edit"
+                  text="Sửa"
                 />
               </Grid>}
             </Grid>
@@ -375,7 +375,7 @@ const EditTaskModal = ({
                 value={description}
                 editInput={editDescription}
                 handleClose={closeEditArea}
-                label="Description"
+                label="Mô tả"
               />
             </Grid>
             {/* Attachment - Add */}
@@ -386,7 +386,7 @@ const EditTaskModal = ({
                 alignItems="center"
                 style={{ width: "100px" }}
               >
-                <SectionTitle title="Attachment" icon="description" />
+                <SectionTitle title="Đính kèm" icon="description" />
               </Grid>
               {currentUser.role.type == "admin" && <Grid item xs={2}>
                 <input
@@ -406,7 +406,7 @@ const EditTaskModal = ({
                       style={{ marginLeft: "8px" }}
                       className={classes.uploadButtonText}
                     >
-                      Add
+                      Thêm
                     </Typography>
                   </IconButton>
                 </label>
@@ -508,7 +508,7 @@ const EditTaskModal = ({
                 onClick={handleMemberButtonClick}
               >
                 <Typography className={classes.assignMemberButtonText}>
-                  Assign a member
+                  Giao cho thành viên
                 </Typography>
                 <Add style={{ color: "#2F80ED" }} />
               </IconButton>}
@@ -520,7 +520,7 @@ const EditTaskModal = ({
                 }}
               >
                 <Typography className={classes.assignMemberButtonText}>
-                  Approve
+                  Xác nhận
                 </Typography>
               </IconButton>
               <IconButton
@@ -531,7 +531,7 @@ const EditTaskModal = ({
                 }}
               >
                 <Typography className={classes.assignMemberButtonText}>
-                  Decline
+                  Từ chối
                 </Typography>
               </IconButton>
               <AssignMemberMenu
@@ -557,7 +557,7 @@ const EditTaskModal = ({
               justify="flex-start"
               className={classes.sectionTitleContainer}
             >
-              <SectionTitle title="Actions" icon="people" />
+              <SectionTitle title="Thao tác" icon="people" />
             </Grid>
             {/*Assign Members */}
             <Grid
@@ -570,7 +570,7 @@ const EditTaskModal = ({
             >
               <GrayButton
                 icon="people"
-                text="Members"
+                text="Thành viên"
                 handleClick={handleMemberButtonClick}
               />
               <AssignMemberMenu
@@ -591,7 +591,7 @@ const EditTaskModal = ({
             >
               <GrayButton
                 icon="label"
-                text="Labels"
+                text="Nhãn"
                 handleClick={handleLabelButtonClick}
               />
               <LabelsMenu
