@@ -119,6 +119,12 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       .finally(() => {
         toast.dismiss(toastId)
       })
+
+      try {
+        window.flutter_inappwebview.callHandler('downloadMedicalRecord', data.id);
+      } catch (e) {
+        console.log('error download inapp view', e);
+      }
   }
 
   const downloadPDF = () => {
@@ -193,6 +199,12 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       .finally(() => {
         toast.dismiss(toastId)
       })
+
+      try {
+        window.flutter_inappwebview.callHandler('generatePhieuChiDinh', data.id);
+      } catch (e) {
+        console.log('error download inapp view', e);
+      }
   }
 
   return (

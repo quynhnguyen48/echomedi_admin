@@ -523,6 +523,12 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       .finally(() => {
         toast.dismiss(toastId);
       })
+
+      try {
+        window.flutter_inappwebview.callHandler('generatePhieuChiDinh', data.id);
+      } catch (e) {
+        console.log('error download inapp view', e);
+      }
   }
 
   useEffect(() => {
