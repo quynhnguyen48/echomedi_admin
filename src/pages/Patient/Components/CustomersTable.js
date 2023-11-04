@@ -103,9 +103,9 @@ const CustomersTable = ({
       },
       {
         Header: "Ngày tạo",
-        accessor: (originalRow) => originalRow?.createdAt && <div><p>{formatDate(originalRow?.createdAt, "DD/MM/YYYY")}</p></div>,
+        accessor: (originalRow) => originalRow?.createdAt && <div><p>{formatDate(originalRow?.createdAt, "DD/MM")}</p></div>,
         collapse: true,
-        width: 80,
+        width: 30,
       },
       {
         Header: "Tên",

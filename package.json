@@ -60,6 +60,7 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.1.4",
     "tinycolor2": "^1.4.2",
+    "twilio-video": "^2.28.1",
     "unsplash-js": "^7.0.15",
     "uuid": "^9.0.0",
     "web-vitals": "^2.1.4",

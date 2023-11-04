@@ -201,7 +201,7 @@ const Treatments = () => {
         <div className="flex">
         <Select
         placeholder="Chọn nguồn"
-        label="Nguồn"
+        label=""
         name="patient_source"
         options={patientSource}
         value={source && patientSource?.find((s) => s.id === source.id)}

@@ -50,7 +50,7 @@ const Header = ({ title, parentUrl }) => {
             <Icon name="arrows/circle-left" className="fill-primary" />
           </button>
         )}
-        <span className="text-30 text-primary font-bold">{title}</span>
+        <span className="text-30 sm:text-20 text-primary font-bold">{title}</span>
       </div>
       {
         currentUser && !isMobile && 

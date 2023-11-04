@@ -198,8 +198,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
   return (
     <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`}>
       <div className="flex items-center gap-x-2 overflow-scroll"></div>
-      {isMobile ? 
-        <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row gap-y-5 mt-2">
+      {isMobile ?
+        <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row gap-y-5 mt-2 px-2">
           <div>Mạch {data?.circuit} (lần/phút)</div>
           <div>Nhiệt độ {data?.temperature} (*C)</div>
           <div>Huyết áp {data?.blood_pressure}/{data?.blood_pressure2} (mmHg)</div>
@@ -209,37 +209,37 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <div> Cân nặng {data?.weight} (Kg) </div>
           <div>BMI {data?.bmi}</div>
           <div>SPO2 {data?.spo2}</div>
-      </div> :
+        </div> :
         <table className="table-auto sinh_hieu w-full">
-        <tr>
-          <th>Mạch(lần/phút)</th>
-          <th>Nhiệt độ(*C)</th>
-          <th>Huyết áp(mmHg)</th>
-          <th>Huyết áp lần 2(mmHg)</th>
-          <th>Nhịp thở(Lần/phút)</th>
-        </tr>
-        <tr>
-          <th>{data?.circuit}</th>
-          <th>{data?.temperature}</th>
-          <th>{data?.blood_pressure}/{data?.blood_pressure2}</th>
-          <th>{data?.blood_pressure_1}/{data?.blood_pressure2_1}</th>
-          <th>{data?.respiratory_rate}</th>
-        </tr>
-        <tr>
-          <th>Chiều cao(Cm)</th>
-          <th> Cân nặng(Kg) </th>
-          <th>BMI</th>
-          <th>SPO2</th>
-        </tr>
-        <tr>
-          <th>{data?.height}</th>
-          <th>{data?.weight}</th>
-          <th>{data?.bmi}</th>
-          <th>{data?.spo2}</th>
-        </tr>
-      </table>}
+          <tr>
+            <th>Mạch(lần/phút)</th>
+            <th>Nhiệt độ(*C)</th>
+            <th>Huyết áp(mmHg)</th>
+            <th>Huyết áp lần 2(mmHg)</th>
+            <th>Nhịp thở(Lần/phút)</th>
+          </tr>
+          <tr>
+            <th>{data?.circuit}</th>
+            <th>{data?.temperature}</th>
+            <th>{data?.blood_pressure}/{data?.blood_pressure2}</th>
+            <th>{data?.blood_pressure_1}/{data?.blood_pressure2_1}</th>
+            <th>{data?.respiratory_rate}</th>
+          </tr>
+          <tr>
+            <th>Chiều cao(Cm)</th>
+            <th> Cân nặng(Kg) </th>
+            <th>BMI</th>
+            <th>SPO2</th>
+          </tr>
+          <tr>
+            <th>{data?.height}</th>
+            <th>{data?.weight}</th>
+            <th>{data?.bmi}</th>
+            <th>{data?.spo2}</th>
+          </tr>
+        </table>}
       <div className="grid grid-cols-2 sm:grid-cols-1 grid-flow-row gap-y-5 mt-2">
-        <DataItem icon="user" title="Tên" value={`${data?.patient?.full_name} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD MMMM, YYYY")}`} />
+        <DataItem icon="user" title="Tên/SĐT/Năm sinh" value={`${data?.patient?.full_name} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD/MM/YYYY")}`} />
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"
@@ -304,27 +304,27 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           ></div>
         </div>
       </div>
-      <div>
-        {data?.total && (
-          <p className="text-xl font-bold text-right">Tổng {numberWithCommas(data.total)}</p>
-        )}
-      </div>
+
       <div className="mt-5">
         {bundleServices && bundleServices.length > 0 && <p className="underline text-xl font-bold">Gói dịch vụ:</p>}
         {bundleServices && Array.isArray(bundleServices) &&
           bundleServices.map((b) => (
             <div>
               <div className="flex flex-row justify-between	">
-                <p className="font-semibold"> + {b.attributes.label}</p>
-                <span>{numberWithCommas(b.attributes.price)}</span>
-              </div>
-              <ol className="service w-full" style={{ listStyleType: "decimal", marginLeft: "20px" }}>
-                {Array.isArray((b.attributes.medical_services.data || b.attributes.medical_services)) && (b.attributes.medical_services.data || b.attributes.medical_services)?.map((s) => (
-                  // <p> - {s.attributes.label}</p>
-                  <li>{s?.attributes?.label || s?.label}</li>
-                ))}
-              </ol>
-            </div>
+                <div className="w-full">
+                  <input type="checkbox" name="panel" id={`panel-${b.id}`} class="hidden" />
+                  <label for={`panel-${b.id}`} class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">{b.attributes.label} {numberWithCommas(b.attributes.price)} &#62;</label>
+                  <div class="accordion__content overflow-scroll bg-grey-lighter">
+                    
+                  <ol className="service w-full" style={{ listStyleType: "decimal", marginLeft: "20px" }}>
+                    {Array.isArray((b.attributes.medical_services.data || b.attributes.medical_services)) && (b.attributes.medical_services.data || b.attributes.medical_services)?.map((s) => (
+                      // <p> - {s.attributes.label}</p>
+                      <li>{s?.attributes?.label || s?.label}</li>
+                    ))}
+                  </ol>
+                  </div>
+                </div>
+              </div></div>
           ))}
         {medicalServices && medicalServices.length > 0 && <p className="underline text-xl font-bold mt-5">Dịch vụ:</p>}
         <table className="service w-full">
@@ -341,56 +341,61 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             ))}
         </table>
       </div>
+      <div>
+        {data?.total && (
+          <p className="text-xl font-bold text-right">Tổng {numberWithCommas(data.total)}</p>
+        )}
+      </div>
       <div className="fixed bottom-0 sm:relative">
-      <div className="grid grid-cols-6 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4">
-      {<Button
-          btnSize="small"
-          className="mt-2"
-          onClick={() => {
-            navigate(`/bookings/medical-records/${data.booking.id}/view`)
-          }}
-        >
-          Xem bệnh án
-        </Button>}
-        {currentUser.role.type != "pharmacist" && <Button
-          btnSize="small"
-          className="mt-2"
-          onClick={() => {
-            navigate(`/bookings/medical-records/${data.booking.id}/edit`)
-          }}
-        >
-          Sửa bệnh án
-        </Button>}
-        {currentUser.role.type != "pharmacist" && <Button
-          btnSize="small"
-          className="mt-2"
-          onClick={(e) => {
-            downloadShortenMedicalRecordV2()
-          }}
-        >
-          Tải bệnh án
-        </Button>}
-        {currentUser.role.type != "pharmacist" && <Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
-          Tải phiếu chỉ định
-        </Button>}
-        {currentUser.role.type != "pharmacist" && <Button btnSize="small" className="mt-2" onClick={() => setVisibleTestResultModal(true)}>
-          Kết quả xét nghiệm
-        </Button>}
-        <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
-          Đơn thuốc
-        </Button>
-      </div>
-      <div className="flex gap-2 py-2 grid xl:grid-cols-2 grid-cols-4 sm:grid-cols-1 mb-2">
-        <Button btnType={data.status == "result_received" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_received")}>
-          Đã có kết quả xét nghiệm
-        </Button>
-        <Button btnType={data.status == "result_examined" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_examined")}>
-          Đã xem kết quả xét nghiệm
-        </Button>
-        <Button btnType={data.status == "result_done" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_done")}>
-          Hoàn thành bệnh án
-        </Button>
-      </div>
+        <div className="grid grid-cols-6 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4">
+          {<Button
+            btnSize="small"
+            className="mt-2"
+            onClick={() => {
+              navigate(`/bookings/medical-records/${data.booking.id}/view`)
+            }}
+          >
+            Xem bệnh án
+          </Button>}
+          {currentUser.role.type != "pharmacist" && <Button
+            btnSize="small"
+            className="mt-2"
+            onClick={() => {
+              navigate(`/bookings/medical-records/${data.booking.id}/edit`)
+            }}
+          >
+            Sửa bệnh án
+          </Button>}
+          {currentUser.role.type != "pharmacist" && <Button
+            btnSize="small"
+            className="mt-2"
+            onClick={(e) => {
+              downloadShortenMedicalRecordV2()
+            }}
+          >
+            Tải bệnh án
+          </Button>}
+          {currentUser.role.type != "pharmacist" && <Button btnSize="small" className="mt-2" onClick={() => generatePhieuChiDinh(true)}>
+            Tải phiếu chỉ định
+          </Button>}
+          {currentUser.role.type != "pharmacist" && <Button btnSize="small" className="mt-2" onClick={() => setVisibleTestResultModal(true)}>
+            Kết quả xét nghiệm
+          </Button>}
+          <Button btnSize="small" className="mt-2" onClick={() => setVisiblePrescriptionModal(true)}>
+            Đơn thuốc
+          </Button>
+        </div>
+        <div className="flex gap-2 py-2 grid xl:grid-cols-2 grid-cols-4 sm:grid-cols-1 mb-2">
+          <Button btnType={data.status == "result_received" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_received")}>
+            Đã có kết quả xét nghiệm
+          </Button>
+          <Button btnType={data.status == "result_examined" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_examined")}>
+            Đã xem kết quả xét nghiệm
+          </Button>
+          <Button btnType={data.status == "result_done" ? "primary" : "outline"} className="fill-primary" onClick={e => updateMedicalStatus("result_done")}>
+            Hoàn thành bệnh án
+          </Button>
+        </div>
       </div>
       {visiblePrescriptionModal && (
         <PrescriptionModal

@@ -288,10 +288,8 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p>{JSON.stringify(slotInfo)}</p>
-      <div className="grid grid-cols-2 gap-6 my-4">
-      </div>
       <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-1 gap-6">
           <Controller
             name="full_name"
             control={control}

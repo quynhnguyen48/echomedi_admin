@@ -1145,7 +1145,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     toast.info(
       <div>
         <p>Gói dược {p.label} gồm: </p>
-        {p.medicines.map((s,i) => <p> {i + 1}. {s.label}</p>)}
+        {p.medicines.map((s, i) => <p> {i + 1}. {s.label}</p>)}
         {/* {m.attributes.medical_services.map((a) => (
           <p>{a.label}</p>
 
@@ -1160,7 +1160,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       .post("medical-record/addProduct", {
         id: data.medical_record?.data?.id,
         productId: p.id
-    })
+      })
       .then((response) => {
         toast.success("Thêm gói dược vào đơn thuốc");
         setVisibleAdditionalPrescriptionModal(true);
@@ -1593,22 +1593,24 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <input type="checkbox" name="panel" id="panel-1" class="hidden" />
               <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary font-bold text-white ">1. Hành chính &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="grid sm:grid-cols-1 grid-cols-2 gap-x-6 gap-y-4 py-4">
-                  <Controller
-                    name="full_name"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Input
-                        disabled={true}
-                        onChange={onChange}
-                        value={value}
-                        name="full_name"
-                        label="Họ và tên"
-                        placeholder={"Nhập họ và tên"}
-                        errors={errors?.full_name?.message}
-                      />
-                    )}
-                  />
+                <div className="flex flex-col">
+                  <div className="">
+                    <Controller
+                      name="full_name"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Input
+                          disabled={true}
+                          onChange={onChange}
+                          value={value}
+                          name="full_name"
+                          label="Họ và tên"
+                          placeholder={"Nhập họ và tên"}
+                          errors={errors?.full_name?.message}
+                        />
+                      )}
+                    />
+                  </div>
                   <div className="space-y-2">
                     <label className="font-16 font-bold">Giới tính</label>
                     <div className="grid grid-cols-2 gap-x-6">
@@ -2014,7 +2016,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     </div>
                   )}
                   {!readonly && (
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-1">
                       <div>
                         <p className="inline-block text-16 font-bold mb-2">Khám lâm sàng</p>
                         <SearchInput
@@ -2133,7 +2135,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         />
                       )}
                     />
-                    <div className="grid sm: grid-cols-2 grid-cols-4 gap-6">
+                    <div className="grid sm:grid-cols-1 grid-cols-2 grid-cols-4 gap-6">
                       <Controller
                         name="circuit"
                         control={control}
@@ -2658,24 +2660,22 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   />
                   </div>
                   <p className="font-bold text-2xl">Khám lâm sàng</p>
-                  <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
-                    <div className="col-span-2">
-                      <Controller
-                        name="tong_quat"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Textarea
-                            id="tong_quat"
-                            disabled={readonly || currentUser?.role?.type == "nurse"}
-                            label="Tổng quát"
-                            name="tong_quat"
-                            value={value}
-                            onChange={onChange}
-                            errors={errors?.title?.en?.message}
-                          />
-                        )}
-                      />
-                    </div>
+                  <div className="flex flex-col gap-6 mt-4">
+                    <Controller
+                      name="tong_quat"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="tong_quat"
+                          disabled={readonly || currentUser?.role?.type == "nurse"}
+                          label="Tổng quát"
+                          name="tong_quat"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
                     <Controller
                       name="tim_mach"
                       control={control}
@@ -2796,7 +2796,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         />
                       )}
                     />
-                    <div className="col-span-2">
+                    <div className="col-span-1">
                       <Controller
                         name="cac_thang_diem_can_danh_gia"
                         control={control}
@@ -2907,7 +2907,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           <>
                             {serviceGroups.map((searchTerm) => (
                               <Button
-                                  key={searchTerm}
+                                key={searchTerm}
                                 onChange={onchange}
                                 type="button"
                                 className={classNames(
@@ -2965,7 +2965,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                   >
                                     Chi tiết
                                   </Button>}
-                                  {s.type == "product" &&
+                                {s.type == "product" &&
                                   <Button
                                     type="button"
                                     className={"inline text-xs h-8 mr-4 mt-1"}
@@ -3001,7 +3001,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         ))}
                     </div>
                     {!readonly && (
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-2 sm:grid-cols-1 gap-6">
                         <div>
                           <p className="inline-block text-16 font-bold mb-2">Gói dịch vụ</p>
                           <SearchInput
@@ -3121,7 +3121,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       </div>
                     )}
                     {!readonly && currentUser?.role?.type != "care_concierge" && (
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-2 sm:grid-cols-1 gap-6">
                         <div>
                           <p className="inline-block text-16 font-bold mb-2">Dịch vụ</p>
                           <SearchInput
@@ -3333,14 +3333,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </Button>
           )}
           {currentUser.role.type != "pharmacist" && <Button
-              btnType="primary"
-              type="reset"
-              onClick={(e) => {
-                window.location.href = `/bookings/medical-records/${data.id}/edit`
-              }}
-            >
-              Sửa bệnh án
-            </Button>
+            btnType="primary"
+            type="reset"
+            onClick={(e) => {
+              window.location.href = `/bookings/medical-records/${data.id}/edit`
+            }}
+          >
+            Sửa bệnh án
+          </Button>
           }
           {readonly && currentUser?.role?.type != "doctor" && currentUser?.role?.type != "nurse" && (
             <Button

@@ -192,7 +192,7 @@ const Treatments = () => {
           Nhập phiếu
         </Button>
     </Modal>
-    <ul className="flex mb-4">
+    <ul className="flex mb-4 overflow-scroll">
       <Button
         onClick={() => window.location.href = "/today-patient"}
         className="inline-block ml-2"

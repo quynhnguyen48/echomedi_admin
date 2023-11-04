@@ -233,10 +233,10 @@ const Treatments = () => {
     <Page
       title="Quản lý hồ sơ bệnh án"
     >
-      <div className="grid grid-cols-4 sm:grid-cols-1 gap-y-2 items-center gap-x-2">
+      <div className="grid grid-cols-4 sm:grid-cols-2 gap-y-2 items-center gap-x-2">
       <SearchInput
           placeholder="Tìm khách hàng theo tên"
-          className="flex-1"
+          className="flex-1 col-span-1 sm:col-span-2"
           onSearch={(value) => {
             dispatch(resetPageIndex())
             setSearchKey(removeVietnameseTones(value))
