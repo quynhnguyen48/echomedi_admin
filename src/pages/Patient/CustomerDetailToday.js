@@ -95,6 +95,12 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
       .finally(() => {
         toast.dismiss(toastId);
       });
+
+      try {
+        window.flutter_inappwebview.callHandler('generatePhieuChiDinh', data.booking.medical_record.id);
+      } catch (e) {
+        console.log('error download inapp view', e);
+      }
   }
 
   useEffect(() => {
