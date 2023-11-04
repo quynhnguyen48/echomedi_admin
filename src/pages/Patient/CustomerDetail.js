@@ -119,8 +119,8 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
             </Button>
           </div>}
       </div>
-      <div className="flex flex-col-2 gap-x-10 mt-4">
-        <div className="w-1/2 flex flex-col gap-y-1">
+      <div className="grid grid-cols-2 sm:grid-cols-1 gap-x-10 mt-4">
+        <div className="flex flex-col gap-y-1">
           <DataItem icon="user" title="Tên" value={`${data?.full_name}`} />
           <DataItem icon="message" title="Email" value={data?.email} />
           <DataItem icon="man" title="Giới tính" value={data?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />
@@ -158,8 +158,8 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
             <DataItem icon="man" title="Khuyến mãi" value={JSON.parse(data.discount)?.map(e => <p>{e.value}</p>)} />
           }
         </div>
-        <div className="my-4 w-1/2">
-          <div className="flex flex-row align-center">
+        <div className="my-4">
+          <div className="flex flex-row sm:flex-col align-center">
             <span className="font-bold mr-4 mt-1">Các mối quan hệ:</span>
             {currentUser?.role?.type != "doctor" &&
               currentUser?.role?.type != "nurse" &&

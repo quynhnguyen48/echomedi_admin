@@ -243,12 +243,12 @@ const Treatments = () => {
           }}
         />
         <div className="">
-          
+          <p>Ngày bắt đầu</p>
           <Datepicker
             className="bg-primary text-white"
             iconClassName="fill-white"
             value={startDate}
-            dateFormat={"dd MMMM, yyyy"}
+            dateFormat={"Startdd MMMM, yyyy"}
             showMonthYearPicker={dateType === "date"}
             onChange={(date) => {
               date.setHours(0);
@@ -257,6 +257,7 @@ const Treatments = () => {
           />
         </div><div
           className="">
+            <p>Ngày kết thúc</p>
           <Datepicker
             className="bg-primary text-white"
             iconClassName="fill-white"

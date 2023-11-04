@@ -9,6 +9,7 @@ import { CATEGORY_STATUS } from "constants/Category"
 import Price from "components/Price"
 import { formatDate } from "utils/dateTime"
 import MembershipTag from "components/Tag/MembershipTag"
+import { isMobile } from "react-device-detect";
 
 const translateStatus = (status) => {
   switch (status) {
@@ -101,7 +102,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
           </span>
         ),
         collapse: true,
-        width: 70,
+        width: !isMobile ? 70 : 30,
       },
       {
         Header: "Tên",
@@ -119,7 +120,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
       },
     ]
     if (activeRow) return defaultColumns
-    return [
+    return isMobile ? [...defaultColumns] :  [
       ...defaultColumns,
       // {
       //   Header: "Category",

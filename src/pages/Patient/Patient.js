@@ -190,7 +190,6 @@ const Treatments = () => {
       title="Danh sách khách hàng"
     >
       <div className="w-full grid grid-cols-3 sm:grid-cols-1 items-center gap-x-9">
-
         <SearchInput
           placeholder="Tìm khách hàng bằng ID / Tên / Email / SDT"
           className="flex-1"
@@ -199,6 +198,7 @@ const Treatments = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
+        <div className="flex">
         <Select
         placeholder="Chọn nguồn"
         label="Nguồn"
@@ -220,7 +220,7 @@ const Treatments = () => {
           >
             Tạo bệnh nhân mới
           </Button>}
-          
+          </div>
       </div>
       
       <div className="mt-4">

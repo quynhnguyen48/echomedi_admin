@@ -743,7 +743,7 @@ const Dashboard = () => {
 						/>
 						
 					</div> */}
-					<div className="grid grid-cols-4 lg:grid-cols-2 sm:grid-cols-1 sm:p-4">
+					<div className="grid grid-cols-4 lg:grid-cols-2 sm:grid-cols-1 sm:p-4 gap-y-5">
 						<AnalysItem
 							iconName="calendar-tick"
 							title="Yêu cầu hội thoại mới"

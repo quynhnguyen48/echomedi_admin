@@ -97,8 +97,8 @@ const CustomerAnalytics = ({ className }) => {
 
   return (
     <div className={`col-span-2 rounded-t-xl bg-white sm:block items-start justify-between ${className}`}>
-      <div className="grid grid-cols-3 sm:grid-cols-1">
-        <AnalysItem iconName="user" title="Lượng khách hàng" value={total} />
+      <AnalysItem iconName="user" title="Lượng khách hàng" value={total} />
+      <div className="grid grid-cols-2">
         <CustomerAnalyticsItem
           className="mt-6"
           name="Khách hàng mới"
@@ -115,10 +115,10 @@ const CustomerAnalytics = ({ className }) => {
         />
 
       </div>
-      <div className="grid grid-cols-2 gap-x-4 sm:grid-cols-1">
+      <div className="grid grid-cols-2 gap-x-4">
         {data?.gender && (
           <PieChart
-            className="-mt-5"
+            className="m-auto w-full"
             width={188}
             height={188}
             title="Khách hàng theo giới tính"
@@ -128,7 +128,7 @@ const CustomerAnalytics = ({ className }) => {
         )}
         {data?.age && (
           <PieChart
-            className="-mt-5"
+            className="m-auto w-full"
             width={188}
             height={188}
             title="Khách hàng theo độ tuổi"

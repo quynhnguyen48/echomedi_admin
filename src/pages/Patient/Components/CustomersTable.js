@@ -7,6 +7,7 @@ import MembershipTag from "components/Tag/MembershipTag"
 import Avatar from "components/Avatar"
 import { getStrapiMedia } from "utils/media"
 import { formatDate } from "utils/dateTime";
+import { isMobile } from "react-device-detect";
 
 const getMembershipColor = (v) => {
   switch (v) {
@@ -74,10 +75,9 @@ const CustomersTable = ({
     [activeRow?.id, onClickRow]
   )
 
-  console.log('data123', data)
-
   const columns = useMemo(() => {
-    const defaultColumns = [
+    const defaultColumns = 
+    [
       {
         Header: "ID",
         accessor: (originalRow) => (
@@ -101,23 +101,6 @@ const CustomersTable = ({
         collapse: true,
         width: 80,
       },
-      // {
-      //   Header: "Gói thành viên",
-      //   accessor: (originalRow) => (
-      //     <div className="flex items-center gap-x-4">
-      //       {originalRow?.membership && (
-      //         <MembershipTag 
-      //         color={getMembershipColor(originalRow?.membership)}
-      //         backgroundColor={getMembershipBackgroundColor(originalRow?.membership)}
-      //         name={originalRow?.membership} className={`font-bold ${
-      //                   originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.membership)} text-${getMembershipColor(originalRow?.membership)}`
-      //                 }`}/>
-      //       )}
-      //     </div>
-      //   ),
-      //   collapse: true,
-      //   width: 110,
-      // },
       {
         Header: "Ngày tạo",
         accessor: (originalRow) => originalRow?.createdAt && <div><p>{formatDate(originalRow?.createdAt, "DD/MM/YYYY")}</p></div>,
@@ -137,7 +120,7 @@ const CustomersTable = ({
       
     ]
     if (activeRow) return defaultColumns
-    return [
+    return isMobile ? [...defaultColumns] : [
       ...defaultColumns,
       {
         Header: "Giới tính",

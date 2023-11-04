@@ -503,8 +503,10 @@ const Bookings = () => {
           </div>
         </div>
       </div>
+      <div className="flex">
       <Button btnType="outline" onClick={e => setStatusFilter(bookingStatus)}>Chọn tất cả</Button>
       <Button
+        className={'ml-2'}
         icon={<Icon name="add-circle" className="fill-white" />}
         onClick={() => {
           setUpBooking(false)
@@ -515,6 +517,7 @@ const Bookings = () => {
       >
         Tạo lịch hẹn
       </Button>
+      </div>
     </Page>
   )
 }

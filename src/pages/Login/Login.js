@@ -119,7 +119,7 @@ const Login = () => {
       <div>
         <img width={400} src="/images/logo_.png" alt="Logo" />
       </div>
-      <div className="rounded-2xl p-6 space-y-6 flex-1 max-w-[500px] w-full mt-10">
+      <div className="rounded-2xl p-6 space-y-6 flex-1 max-w-[500px] w-full">
         <Controller
           name="email"
           control={control}
@@ -166,7 +166,7 @@ const Login = () => {
                       key={gender}
                       onChange={onchange}
                       type="button"
-                      className={classNames("w-full h-14 pl-6 !justify-start capitalize", {
+                      className={classNames("w-full h-14 !justify-start capitalize", {
                         "bg-primary text-white font-bold": gender === branch,
                         "bg-primary/10 text-primary font-normal": gender !== branch,
                       })}
