@@ -786,6 +786,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const downloadShortenPDFV2 = () => {
+    
     const toastId = toast.loading("Đang tải")
     const patient = data.patient
     axios
@@ -811,6 +812,12 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       .finally(() => {
         toast.dismiss(toastId)
       })
+
+      try {
+        window.flutter_inappwebview.callHandler('downloadMedicalRecord', data.medical_record?.data?.id);
+      } catch (e) {
+        console.log('error download inapp view', e);
+      }
   }
 
   const loadTagifyWhitelist = () => {
