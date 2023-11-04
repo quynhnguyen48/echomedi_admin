@@ -2951,13 +2951,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         )}
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-x-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-1 gap-x-2">
                       {searchData && Object.entries(searchData)
                         .map(([serviceName, service]) => {
                           return <div><h1 className="font-bold">- {serviceName}</h1>
                             {service.map(s => {
                               const usedBS = usedBundleMedicalServices.find(us => us.id == s.id);
                               return <p className="flex items-center">
+                                <div>
                                 {s.type == "service-bundle" &&
                                   <Button
                                     disabled={usedBS?.attributes?.paid || readonly}
@@ -2985,9 +2986,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     icon={<Icon name="add-circle" className="fill-white" />}
                                     onClick={e => addToPrescriptions(s)}
                                   >
-                                    Thêm vào đơn thuốc
+                                    Thêm vào
+                                    đơn thuốc
                                   </Button>}
-
+                                  </div>
                                 {s.label}
                                 <div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
                               </p>
