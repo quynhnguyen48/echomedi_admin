@@ -1,6 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "react-router-dom";
 
 import Input from "components/Input";
 import Button from "components/Button";
@@ -19,6 +20,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [branch, setBranch] = useState("q7");
   const [db, setDb] = useState();
+  const { t } = useParams();
 
   const validationSchema = yup.object({
     email: yup
@@ -44,7 +46,33 @@ const Login = () => {
     },
   });
 
-  
+  useEffect(() => {
+    console.log('asd', t)
+    const fetchData = async () => {
+      if (t) {
+        localStorage.setItem(JWT_TOKEN, t);
+        const userRes = await getMe();
+        if (
+          ![USER_ROLE.PUBLIC, USER_ROLE.AUTHENTICATED].includes(
+            userRes?.data?.role?.type
+          )
+        ) {
+          dispatch(setCurrentUser(userRes.data));
+          await updateUser(userRes?.data?.id, {
+            lastLogin: new Date()
+          })
+        } else {
+          localStorage.removeItem(JWT_TOKEN);
+          throw new Error("You don't have permission to access");
+        }
+      }
+    }
+    if (t) {
+    fetchData()
+      // bắt lỗi
+      .catch(console.error);
+    }
+  }, [])
 
   const onSubmit = async (data) => {
     try {

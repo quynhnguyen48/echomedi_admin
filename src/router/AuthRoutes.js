@@ -10,6 +10,7 @@ const AuthRoutes = () => {
     <React.Suspense fallback={<span>Loading</span>}>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/login/:t" element={<Login />} />
         <Route path="/health_finder" element={<HealthFinder />} />
         <Route path="/en_health_finder" element={<EnHealthFinder />} />
         <Route path="*" element={<Navigate to="/login" />} />
