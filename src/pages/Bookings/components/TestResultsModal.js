@@ -126,16 +126,16 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
       {
         Header: "Kết quả",
         accessor: (originalRow) => (
-          <div className="flex flex-col gap-y-1">
+          <div className="flex flex-col gap-y-5">
             {testResults?.[originalRow?.id]?.map((item, index) => (
               <div key={index} className="relative">
                 <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
                   {item?.mime?.startsWith("image") ? (
                     <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
                   ) : (
-                    <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold p-4 relative border-primary border-1 w-full!">
-                      {item?.name}
-                    </div>
+                    <div className="hover:underline">
+                              {item?.name}
+                            </div>
                   )}
                 </a>
                 {currentUser.role.type == "admin" && <div
@@ -143,7 +143,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                     e.stopPropagation()
                     onRemove(originalRow?.id, item)
                   }}
-                  className="absolute cursor-pointer -top-2 -right-2 z-20"
+                  className="absolute cursor-pointer -top-2 -right-10 z-20"
                 >
                   <Icon name="close-circle" className="fill-red bg-white rounded-full" />
                 </div>}
