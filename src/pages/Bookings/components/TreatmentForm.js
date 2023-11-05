@@ -3225,14 +3225,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">8. Các giấy tờ liên quan &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
-                  <div className="flex items-center gap-x-4 pl-4">
+                  <div className="flex flex-col items-start gap-x-4 pl-4">
                     {references?.map((item, index) => (
                       <div key={index} className="relative">
                         <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
                           {item?.mime?.startsWith("image") ? (
                             <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
                           ) : (
-                            <div className="inline-flex items-center justify-center rounded-xl bg-primary text-white font-bold h-30 w-30 relative border-primary border-1">
+                            <div className="hover:underline">
                               {item?.name}
                             </div>
                           )}
@@ -3242,7 +3242,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             e.stopPropagation()
                             onRemove(item)
                           }}
-                          className="absolute cursor-pointer -top-2 -right-2 z-20"
+                          className="absolute cursor-pointer -top-0 -right-10 z-20"
                         >
                           <Icon name="close-circle" className="fill-red bg-white rounded-full" />
                         </div>}
