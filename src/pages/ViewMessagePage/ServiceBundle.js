@@ -261,7 +261,7 @@ const ServiceBundles = () => {
     // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
       <div className="items-center">
-        <div class="relative flex flex-row items-center p-3 border-b border-gray-300">
+        <div class="relative flex flex-row sm:grid items-center p-3 border-b border-gray-300">
           <Select
             placeholder="Nhân viên hỗ trợ"
             label="Nhân viên hỗ trợ"
@@ -272,11 +272,10 @@ const ServiceBundles = () => {
               setSupporter(e)
             }}
           />
-          <Button onClick={onSubmit} className="fill-primary mr-10" type="button" loading={loading}>
+          <Button onClick={onSubmit} className="fill-primary mr-10 sm:mr-0" type="button" loading={loading}>
             Lưu
           </Button>
           <Select
-            wrapperClassName="w-52"
             placeholder="Trạng thái"
             label="Trạng thái"
             name="status"
@@ -296,7 +295,7 @@ const ServiceBundles = () => {
         </div>
 
         <div class="container mx-auto">
-          <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
+          <div class="min-w-full border rounded">
             <div class="lg:col-span-2 lg:block">
               <div class="w-full">
                 <div class="relative flex items-center p-3 border-b border-gray-300">

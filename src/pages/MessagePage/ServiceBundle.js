@@ -222,7 +222,7 @@ const ServiceBundles = () => {
     >
       <div className="items-center">
         <div class="container mx-auto">
-          <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
+          <div class="min-w-full border rounded">
             <div class="lg:col-span-2 lg:block">
               <div class="w-full">
                 <div class="relative flex items-center p-3 border-b border-gray-300">
