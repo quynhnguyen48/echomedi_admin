@@ -1158,7 +1158,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
         ))} */}
       </div>,
-      { progress: 1, className: "w-[500px] left-[-177px]" }
+      { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
     )
   }
 
@@ -1203,7 +1203,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
           ))} */}
         </div>,
-        { progress: 1, className: "w-[500px] left-[-177px]" }
+        { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
       )
     } else {
       let newExistServices = { ...existServices }
@@ -3059,12 +3059,12 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     onClick={(e) => {
                                       toast.success(
                                         <div>
-                                          <p>Gói dịch vụ {m.attributes.label} gồm: </p>
+                                          <p className="">Gói dịch vụ {m.attributes.label} gồm: </p>
                                           {m.attributes.medical_services.map((a, i) => (
-                                            <p>{i + 1}. {a.label}</p>
+                                            <p className="">{i + 1}. {a.label}</p>
                                           ))}
                                         </div>,
-                                        { progress: 1, className: "w-[500px] left-[-177px]" }
+                                        { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
                                       )
                                     }}
                                   >
@@ -3123,7 +3123,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                             <p>{i + 1}. {a.label}</p>
                                           ))}
                                         </div>,
-                                        { progress: 1, className: "w-[500px] left-[-177px]" }
+                                        { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
                                       )
                                     }}
                                   >
