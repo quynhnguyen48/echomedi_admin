@@ -20,7 +20,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [branch, setBranch] = useState("q7");
   const [db, setDb] = useState();
-  const { t } = useParams();
+  const { t, redirectUrl } = useParams();
 
   const validationSchema = yup.object({
     email: yup
@@ -47,7 +47,6 @@ const Login = () => {
   });
 
   useEffect(() => {
-    console.log('asd', t)
     const fetchData = async () => {
       if (t) {
         localStorage.setItem(JWT_TOKEN, t);
@@ -61,6 +60,9 @@ const Login = () => {
           await updateUser(userRes?.data?.id, {
             lastLogin: new Date()
           })
+          if (redirectUrl) {
+            window.location.href = redirectUrl;
+          }
         } else {
           localStorage.removeItem(JWT_TOKEN);
           throw new Error("You don't have permission to access");
