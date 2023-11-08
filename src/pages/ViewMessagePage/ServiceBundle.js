@@ -169,7 +169,7 @@ const ServiceBundles = () => {
         setSupporter({ value: response.data.id, label: response.data?.second_person?.patient?.full_name })
         setStatus({ value: response.data.status, label: response.data.status })
         setUserId(response.data.user.id)
-        setPatient(response.data.user);
+        setPatient(response.data.user.patient);
         setPatientId(response.data.user.patient?.id);
         let message = response.data.data;
         if (!Array.isArray(message)) {
@@ -301,7 +301,7 @@ const ServiceBundles = () => {
                 <div class="relative flex items-center p-3 border-b border-gray-300">
                   <img class="object-cover w-10 h-10 rounded-full"
                     src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg" alt="username" />
-                  <span class="block ml-2 font-bold text-gray-600">{patient?.full_name} - {patient?.email} - {patient?.phone}</span>
+                  <span class="block ml-2 font-bold text-gray-600">{patient?.full_name} - {patient?.phone}</span>
                   <a target="_blank" className="ml-4" href={`https://zalo.me/${patient?.phone}`} rel="noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 1249 439">
                     <path fill="blue" class="shp0" d="m649.69 129.68v-23.37h70.02v328.67h-40.06c-16.49 0-29.87-13.32-29.96-29.78-0.01 0.01-0.02 0.01-0.03 0.02-28.2 20.62-63.06 32.87-100.71 32.87-94.3 0-170.76-76.41-170.76-170.65s76.46-170.64 170.76-170.64c37.65 0 72.51 12.24 100.71 32.86 0.01 0.01 0.02 0.01 0.03 0.02zm-289.64-129.06v10.65c0 19.88-2.66 36.1-15.57 55.14l-1.56 1.78c-2.82 3.2-9.44 10.71-12.59 14.78l-224.76 282.11h254.48v39.94c0 16.55-13.43 29.96-29.98 29.96h-329.73v-18.83c0-23.07 5.73-33.35 12.97-44.07l239.61-296.57h-242.59v-74.89h349.72zm444.58 434.36c-13.77 0-24.97-11.19-24.97-24.94v-409.42h74.94v434.36h-49.97zm271.56-340.24c94.95 0 171.91 76.98 171.91 171.79 0 94.9-76.96 171.88-171.91 171.88-94.96 0-171.91-76.98-171.91-171.88 0-94.81 76.95-171.79 171.91-171.79zm-527.24 273.1c55.49 0 100.46-44.94 100.46-100.4 0-55.37-44.97-100.32-100.46-100.32s-100.47 44.95-100.47 100.32c0 55.46 44.98 100.4 100.47 100.4zm527.24-0.17c55.82 0 101.12-45.27 101.12-101.14 0-55.78-45.3-101.05-101.12-101.05-55.91 0-101.13 45.27-101.13 101.05 0 55.87 45.22 101.14 101.13 101.14z" fill-rule="evenodd" />
                   </svg></a>
@@ -309,7 +309,7 @@ const ServiceBundles = () => {
                   <Button
                     className={"ml-4"}
                     onClick={() => {
-                      window.open(`/patient/${patientId}/view`);
+                      window.open(`/patient/${patient.uid}`);
                     }}
                   >
                     Xem thông tin chi tiết

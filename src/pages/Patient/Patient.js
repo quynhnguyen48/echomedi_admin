@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify"
 
@@ -48,11 +48,12 @@ const localizer = dateFnsLocalizer({
 const Treatments = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { query } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   const [detailData, setDetailData] = useState();
-  const [searchKey, setSearchKey] = useState();
+  const [searchKey, setSearchKey] = useState(query);
   const [modalVisible, setModalVisible] = useState(false);
   const [slotInfo, setSlotInfo] = useState({});
   const fetchIdRef = useRef(0);
