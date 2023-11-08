@@ -11,6 +11,7 @@ const AuthRoutes = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/login/:t" element={<Login />} />
+        <Route path="/login/:t/:redirectUrl" element={<Login />} />
         <Route path="/health_finder" element={<HealthFinder />} />
         <Route path="/en_health_finder" element={<EnHealthFinder />} />
         <Route path="*" element={<Navigate to="/login" />} />
