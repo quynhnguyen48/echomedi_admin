@@ -80,7 +80,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
           title="Chi nhánh"
           value={getDisplayBranchLabel(data?.booking?.branch)}
         />
-        <DataItem icon="user" title="Tên" value={data?.patient?.full_name} />
+        <DataItem icon="user" title="Tên" value={data?.patient?.full_name?.toUpperCase()} />
         <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
         <DataItem icon="calendar" title="Nội dung đặt lịch" value={data?.booking?.note} />
         <div>
