@@ -233,6 +233,9 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
         // toast.error(getErrorMessage(error));
       } finally {
         toast.dismiss(toastId)
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     })
 
