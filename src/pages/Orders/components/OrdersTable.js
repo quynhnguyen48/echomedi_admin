@@ -20,6 +20,8 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
     [activeRow?.id, onClickRow]
   )
 
+  console.log('dataa', data)
+
   const columns = useMemo(() => {
     const defaultColumns = [
       {
@@ -56,7 +58,7 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
       {
         Header: "Khách hàng",
         accessor: (originalRow) => (
-          <span>{`${originalRow?.users_permissions_user?.data?.attributes.email}`}</span>
+          <span>{`${originalRow?.users_permissions_user?.data?.attributes?.patient?.data?.attributes.full_name ?? originalRow?.users_permissions_user?.data?.attributes.fullname ?? originalRow?.users_permissions_user?.data?.attributes.email}`}</span>
         ),
         collapse: true,
         width: 150,
