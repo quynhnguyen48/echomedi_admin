@@ -82,7 +82,7 @@ export function Input({
         <input
           ref={ref}
           className={classNames(
-            "border border-1 border-green w-full bg-white md:bg-gray2 outline-none px-6 rounded-lg text-16 placeholder:text-secondary/30 disabled:cursor-not-allowed",
+            "border border-1 w-full bg-white md:bg-gray2 outline-none px-6 rounded-lg text-16 placeholder:text-secondary/30 disabled:cursor-not-allowed",
             {
               error: !!errors,
               [size]: true,

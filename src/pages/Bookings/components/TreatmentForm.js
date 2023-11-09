@@ -21,7 +21,7 @@ import ChooseAssetsFromLibraryDrawer from "components/ChooseAssetsFromLibraryDra
 import { convertToKebabCase } from "utils/string"
 import { getStrapiMedia } from "utils/media"
 import { WEEK_DAYS } from "constants/Dates"
-import { createNewTreatment, updateMedicalRecord } from "services/api/medicalRecord"
+import { createNewTreatment, updateMedicalRecord, createOrUpdateTreatment } from "services/api/medicalRecord"
 import { updateStatusBooking } from "services/api/bookings"
 import { updatePatient } from "services/api/patient";
 import { generateHoursInterval } from "utils/timeSlots"
@@ -1356,7 +1356,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       if (data.medical_record?.data?.id) {
         const result = await updateMedicalRecord(data.medical_record?.data?.id, payload)
       } else {
-        const result = await createNewTreatment(payload)
+        const result = await createOrUpdateTreatment(payload)
       }
 
       if (data?.status != formData.status) {
