@@ -31,7 +31,6 @@ const UpsertTreatment = () => {
       try {
         if (id) {
           const res = await getBookingById(id)
-          console.log('booking', res)
           if (res.data) {
             const data = formatStrapiObj(res.data)
             const medicalRecord = formatStrapiObj(data?.medical_record)

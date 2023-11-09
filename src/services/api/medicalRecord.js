@@ -55,6 +55,16 @@ export const createNewTreatment = (payload) => {
   })
 }
 
+export const createOrUpdateTreatment = (payload) => {
+  // const query = qs.stringify({
+  //   populate: "*",
+  // })
+  return axios.post(`/medical-record/createOrUpdateTreatment`, {
+    data: payload,
+  })
+}
+
+
 export const updateMedicalRecord = (id, payload) => {
   return axios.put(`/medical-records/${id}`, {
     data: payload,

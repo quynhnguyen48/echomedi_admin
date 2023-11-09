@@ -99,7 +99,7 @@ const CustomersTable = ({
           </span>
         ),
         collapse: true,
-        width: 80,
+        width: 50,
       },
       {
         Header: "Ngày tạo",

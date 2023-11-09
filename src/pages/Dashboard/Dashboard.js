@@ -12,12 +12,15 @@ import CheckinAnalytics from "./CheckinAnalytics";
 import CustomerAnalytics from "./CustomerAnalytics";
 import LatestBookings from "./LatestBookings";
 import TreatementAnalytics from "./TreatementAnalytics";
-import axios from "axios";
+import axios from "../../services/axios";
 import { getListConversationQueues } from "services/api/conversationQueue"
 import ChatBot, { Loading } from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import Button from "components/Button"
 import classNames from "classnames"
+
+// import Twilio from "twilio/lib/rest/Twilio";
+// const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN)
 
 const serviceGroups = ['khong_co_benh', 'than_kinh', 'ho_hap', 'tim_mach', 'than_tiet_nieu', 'co_xuong_khop', 'noi_tiet_chuyen_hoa', 'tieu_hoa'];
 const translateServiceGroup = (t) => {
@@ -372,13 +375,13 @@ class DBPedia extends Component {
 
 		var data = [
 			{ label: "Không có bệnh", value: searchKey + "_khong_co_benh" },
-			{ label: "Thần kinh", value: searchKey +  "_than_kinh" },
-			{ label: "Hô hấp", value: searchKey +  "_ho_hap" },
-			{ label: "Tim mạch", value: searchKey +  "_tim_mach" },
-			{ label: "Thận tiết niệu", value: searchKey +  "_than_tiet_nieu" },
-			{ label: "Cơ xương khớp", value: searchKey +  "_co_xuong_khop" },
-			{ label: "Nội tiết chuyển hoá", value: searchKey +  "_noi_tiet_chuyen_hoa" },
-			{ label: "Tiêu hoá", value: searchKey +  "_tieu_hoa" },
+			{ label: "Thần kinh", value: searchKey + "_than_kinh" },
+			{ label: "Hô hấp", value: searchKey + "_ho_hap" },
+			{ label: "Tim mạch", value: searchKey + "_tim_mach" },
+			{ label: "Thận tiết niệu", value: searchKey + "_than_tiet_nieu" },
+			{ label: "Cơ xương khớp", value: searchKey + "_co_xuong_khop" },
+			{ label: "Nội tiết chuyển hoá", value: searchKey + "_noi_tiet_chuyen_hoa" },
+			{ label: "Tiêu hoá", value: searchKey + "_tieu_hoa" },
 		];
 		// var element = document.getElementById("multiselect__container");
 		// var element2 = document.getElementById("multiselect__container2");
@@ -461,7 +464,7 @@ class DBPedia extends Component {
 
 		return (
 			<div className="dbpedia w-full">
-				<p> {name?.value} {age?.value} {gender?.value}, BMI {(fWeight/fHeight/fHeight).toFixed(2)}. Vấn đề sức khoẻ:</p>
+				<p> {name?.value} {age?.value} {gender?.value}, BMI {(fWeight / fHeight / fHeight).toFixed(2)}. Vấn đề sức khoẻ:</p>
 				<div className="grid md:grid-cols-2 grid-cols-2 gap-x-6 gap-y-4 py-4">
 					{serviceGroups.map((searchTerm) => (
 						<Button
@@ -505,16 +508,16 @@ class DBPedia extends Component {
 					<div>
 						<p>Kết quả:</p>
 						{data && Object.entries(data)
-                      .map(([serviceName, service]) => {
-                        console.log('serviceName', serviceName, service)
-                        return <div><h1 className="font-bold">- {serviceName}</h1>
-                          {service.map(s => <p className="flex">
-                            {s.label} 
-                            <div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
-                            </p>)}
-                        </div>
-                      })
-                    }
+							.map(([serviceName, service]) => {
+								console.log('serviceName', serviceName, service)
+								return <div><h1 className="font-bold">- {serviceName}</h1>
+									{service.map(s => <p className="flex">
+										{s.label}
+										<div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
+									</p>)}
+								</div>
+							})
+						}
 					</div>
 				}
 			</div>
@@ -525,7 +528,7 @@ class DBPedia extends Component {
 
 function numberWithCommas(x) {
 	return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? '0'
-  }
+}
 
 const steps = [
 	{
@@ -695,6 +698,7 @@ var Motus = {};
 const Dashboard = () => {
 	const [dashboardData, setDashboardData] = useState([]);
 	const [conversationQueueCnt, setConversationQueueCnt] = useState(0);
+	const [twilioBalance, setTwilioBalance] = useState('');
 
 	useEffect(() => {
 		(async () => {
@@ -720,6 +724,22 @@ const Dashboard = () => {
 
 			} catch (error) { }
 		})();
+
+		// const id = toast.loading("Đang tải dữ liệu các dịch vụ");
+			axios.get("/conversation-queue/twilioBalance")
+			.then(response => {
+				console.log('response', response)
+				setTwilioBalance(response.data);
+			}).finally(() => {
+				// toast.dismiss(id);
+			});
+
+		// 		client.balance.fetch()
+		//   .then((data) => {
+		//     const balance = Math.round(data.balance * 100) / 100;
+		//     const currency = data.currency;
+		//     console.log(`Your account balance is ${balance} ${currency}.`)
+		//   });
 	}, []);
 
 	const handleEnd = ({ steps, values }) => {
@@ -770,7 +790,7 @@ const Dashboard = () => {
 					</div> */}
 					{/* <CustomerAnalytics /> */}
 				</div>
-
+				<p>{twilioBalance}</p>
 				{/* <CustomerAnalytics /> */}
 
 			</div>

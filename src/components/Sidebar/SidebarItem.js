@@ -43,7 +43,7 @@ const SidebarItem = ({ item, hideSidebar }) => {
           />
         </div>
         <span
-          className={classNames("text-14 font-bold", {
+          className={classNames("text-16 font-bold", {
             "text-primary": isActive,
             "text-secondary": !isActive,
           })}
