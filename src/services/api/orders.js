@@ -17,7 +17,7 @@ export const createNewOrder = (data) => {
 export const getListOrders = (pagination, filters) => {
   const query = qs.stringify({
     filters,
-    populate: "*",
+    populate: ['users_permissions_user', 'users_permissions_user.patient'],
     sort: ["createdAt:DESC"],
     pagination,
   });
