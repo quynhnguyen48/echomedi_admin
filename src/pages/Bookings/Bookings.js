@@ -204,7 +204,7 @@ const Bookings = () => {
             status: b.status,
             ...b,
             id: b.id,
-            title: (translateBookingType(b.type) ?? "") + " " + b.patient?.uid + " | " + b.patient?.full_name,
+            title: (translateBookingType(b.type) ?? "") + " " + b.patient?.uid + " | " + b.patient?.full_name?.toUpperCase(),
           }
         })
         setEvents(bks)

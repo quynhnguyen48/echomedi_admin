@@ -251,7 +251,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           </tr>
         </table>}
       <div className="grid grid-cols-2 sm:grid-cols-1 grid-flow-row gap-y-5 mt-2">
-        <DataItem icon="user" title="Tên/SĐT/Năm sinh" value={`${data?.patient?.full_name} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD/MM/YYYY")}`} />
+        <DataItem icon="user" title="Tên/SĐT/Năm sinh" value={`${data?.patient?.full_name?.toUpperCase()} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD/MM/YYYY")}`} />
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"
