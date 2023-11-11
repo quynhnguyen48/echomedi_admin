@@ -111,7 +111,7 @@ const CustomersTable = ({
         Header: "Tên",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            <span>{`${originalRow?.full_name}`}</span>
+            <span>{`${originalRow?.full_name?.toUpperCase()}`}</span>
           </div>
         ),
         collapse: true,
