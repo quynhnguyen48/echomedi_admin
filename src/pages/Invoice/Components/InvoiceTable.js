@@ -36,7 +36,7 @@ const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDa
       },
       {
         Header: "Tên",
-        accessor: (originalRow) => <span>{originalRow?.patient?.full_name}</span>,
+        accessor: (originalRow) => <span>{originalRow?.patient?.full_name?.toUpperCase()}</span>,
         collapse: true,
         width: 160,
       },
