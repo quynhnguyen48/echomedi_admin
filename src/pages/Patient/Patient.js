@@ -108,6 +108,10 @@ const Treatments = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    document.getElementById('customer-detail')?.scrollIntoView()
+  }, [detailData])
+
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
       const fetchId = ++fetchIdRef.current;
@@ -181,9 +185,11 @@ const Treatments = () => {
         return oldData
       })
       toast.success(`Treatment ${!!detailData?.publishedAt ? 'unpublished' : 'published'} successfully!`)
+      
     } catch (error) {
       toast.error(getErrorMessage(error))
     }
+    
   }, [detailData?.id, detailData?.publishedAt])
 
   return (

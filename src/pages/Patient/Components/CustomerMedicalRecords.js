@@ -44,8 +44,6 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
     })()
   }, [cardIds?.length, fetchData, openDrawer, userId])
 
-  console.log('transactions', transactions)
-
   function parseJson(str) {
     try {
       let items = JSON.parse(str);

@@ -208,7 +208,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
   }
 
   return (
-    <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`}>
+    <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`}  id='customer-detail'>
       <div className="flex items-center gap-x-2 overflow-scroll"></div>
       {isMobile ?
         <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row gap-y-5 mt-2 px-2">

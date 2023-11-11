@@ -86,7 +86,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   }, [data?.id])
 
   return (
-    <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll px-2`}>
+    <div className={`w-full ${isMobile ? '' : 'max-h-tableBody'} overflow-scroll px-2`} id='customer-detail'>
       <div className="flex items-center gap-x-2">
         {currentUser?.role?.type != "doctor"
           && currentUser?.role?.type != "nurse"
