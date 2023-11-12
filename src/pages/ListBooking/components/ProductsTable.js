@@ -1,6 +1,7 @@
 import { useMemo, useCallback } from "react"
 import classNames from "classnames"
 import sumBy from "lodash/sumBy"
+import dayjs from "dayjs"
 
 import Table from "components/Table"
 import Tag from "components/Tag"
@@ -24,15 +25,7 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
     [activeRow?.id, onClickRow]
   )
 
-  // const createConversation = async () => {
-  //   c.attributes["second_person"] = currentUser.id;
-  //   await axios.put("/conversation-queues/" + activeRow.id, { data: activeRow.attributes })
-  //     .then((response) => {
-  //     })
-  //     .finally(() => {
-  //       // toast.dismiss(toastId);
-  //     });
-  // }
+  console.log('data', data)
 
   const columns = useMemo(() => {
     const defaultColumns = [
@@ -49,28 +42,28 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
       {
         Header: "Khách hàng",
         accessor: (originalRow) => (
+          <div className="flex items-center gap-x-4 hover:underline">
+            <a href={"/patient/" + originalRow?.patient?.data?.attributes?.uid}>{originalRow?.patient?.data?.attributes?.full_name}</a>
+          </div>
+        ),
+        collapse: true,
+        width: 150,
+      },
+      {
+        Header: "Thời gian",
+        accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            <a className="hover:underline" href={`/patient/${originalRow?.user?.data?.attributes?.patient?.data?.attributes?.uid}`}>{originalRow?.user?.data?.attributes?.patient?.data?.attributes?.full_name}</a>
+            <span>{dayjs(originalRow.bookingDate).format("HH:mm DD/MM/YYYY")}</span>
           </div>
         ),
         collapse: true,
         width: 100,
       },
       {
-        Header: "Hỗ trợ viên",
+        Header: "Note",
         accessor: (originalRow) => (
-          <div className="flex items-center gap-x-4">
-            <span>{originalRow?.second_person?.data?.attributes?.patient?.data?.attributes?.full_name}</span>
-          </div>
-        ),
-        collapse: true,
-        width: 100,
-      },
-      {
-        Header: "Tin nhắn mới nhất",
-        accessor: (originalRow) => (
-          <div className={`flex items-center gap-x-4 ${!originalRow?.second_person_seen ? 'font-bold' : 'text-normal'}`}>
-            <span>{originalRow?.latest_message.split("|")[2]}</span>
+          <div className={`flex items-center gap-x-4`}>
+            <span>{originalRow?.note}</span>
           </div>
         ),
         collapse: true,
@@ -87,20 +80,10 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
         width: 50,
       },
       {
-        Header: "Cập nhật lúc",
-        accessor: (originalRow) => (
-          <div className="flex items-center gap-x-4">
-            <span>{formatDate(originalRow?.updatedAt, "HH:mm DD/MM/YYYY")}</span>
-          </div>
-        ),
-        collapse: true,
-        width: 70,
-      },
-      {
         Header: "Trạng thái",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
-            {originalRow.status}
+            {translate(originalRow.status)}
           </div>
         ),
         collapse: true,
@@ -112,7 +95,8 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
           <div className="flex items-center gap-x-4">
             <Button
               onClick={async e => {
-                await createConversation(originalRow);
+                // await createConversation(originalRow);
+                window.location.href = `/bookings/${originalRow.id}`;
               }}
             >Xem</Button>
           </div>
@@ -206,3 +190,26 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
 }
 
 export default ProductsTable
+
+const translate = (t) => {
+  switch (t) {
+    case "scheduled":
+      return "Đặt lịch"
+      break;
+    case "confirmed":
+      return "Đã xác nhận"
+      break;
+    case "finished":
+      return "Hoàn thành"
+      break;
+    case "cancelled":
+      return "Huỷ"
+      break;
+    case "postpone":
+      return "Hoãn lịch"
+      break;
+    case "waiting":
+      return "Đã đến"
+      break;
+  }
+}

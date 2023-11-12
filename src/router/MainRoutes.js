@@ -88,6 +88,7 @@ const News = React.lazy(() => import("pages/News/News"));
 const EmailTemplate = React.lazy(() => import("pages/EmailTemplate/EmailTemplate"));
 const ChatPage = React.lazy(() => import("pages/Chat/ServiceBundle"));
 const Conversations = React.lazy(() => import("pages/Conversations/ServiceBundle"));
+const ListBooking = React.lazy(() => import("pages/ListBooking/ServiceBundle"));
 const ChatRequestPage = React.lazy(() => import("pages/ChatRequest/ServiceBundle"));
 const MessagePage = React.lazy(() => import("pages/MessagePage/ServiceBundle"));
 const ViewMessagePage = React.lazy(() => import("pages/ViewMessagePage/ServiceBundle"));
@@ -101,6 +102,8 @@ const MainRoutes = () => {
         <Route path="/customers/create" element={<CreateCustomers />} />
         <Route path="/customers/:id/edit" element={<EditCustomer />} />
         <Route path="/bookings" element={<Bookings />} />
+        <Route path="/list-bookings" element={<ListBooking />} />
+        <Route path="/list-bookings/:status" element={<ListBooking />} />
         <Route path="/bookings/:id" element={<Bookings />} />
         <Route path="/bookings/create" element={<CreateBooking />} />
         <Route path="/bookings/:id/edit" element={<EditBooking />} />
