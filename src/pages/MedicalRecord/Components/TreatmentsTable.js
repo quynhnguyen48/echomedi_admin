@@ -106,7 +106,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
       },
       {
         Header: "Tên",
-        accessor: (originalRow) => <div><h1>{originalRow?.patient?.full_name?.toUpperCase()}</h1><h1>
+        accessor: (originalRow) => <div><span>{originalRow?.patient?.full_name?.toUpperCase()}</span><h1>
           <svg className="inline" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xmlSpace="preserve">
 <path fill="#507C5C" d="M256,288.24c-68.519,0-124.264-55.744-124.264-124.264V107.12c0-8.208,6.653-14.861,14.861-14.861  c8.208,0,14.861,6.653,14.861,14.861v56.857c0,52.129,42.412,94.541,94.541,94.541s94.541-42.412,94.541-94.541  c0-8.208,6.653-14.861,14.861-14.861c8.208,0,14.861,6.653,14.861,14.861C380.264,232.495,324.519,288.24,256,288.24z"/>
 <path fill="#CFF09E" d="M365.402,107.12H146.598c0,0,0-42.777,0-61.911c0-40.462,218.805-40.462,218.805,0  C365.402,64.341,365.402,107.12,365.402,107.12z"/>

@@ -99,7 +99,13 @@ const Treatments = () => {
         );
         setPageCount(res?.data?.meta?.pagination?.pageCount)
         if (res.data) {
-          setPatients(formatStrapiArr(res.data));
+          let cnt = res.data.length;
+          let patients = formatStrapiArr(res.data);
+          setPatients(patients);
+          console.log('cnt', cnt)
+          if (cnt == 1) {
+            setDetailData(patients[0])
+          }
         }
       } catch (error) {
       } finally {
@@ -107,6 +113,10 @@ const Treatments = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    document.getElementById('customer-detail')?.scrollIntoView()
+  }, [detailData])
 
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
@@ -153,9 +163,13 @@ const Treatments = () => {
       )
       if (res.data) {
       }
+      let data = formatStrapiArr(res.data);
       setPageCount(res?.data?.meta?.pagination?.pageCount)
-      setData(formatStrapiArr(res.data));
+      setData(data);
       setLoading(false);
+      if (data.length == 1) {
+        setDetailData(data[0])
+      }
 
     },
     [patients, searchKey, source]
@@ -181,9 +195,11 @@ const Treatments = () => {
         return oldData
       })
       toast.success(`Treatment ${!!detailData?.publishedAt ? 'unpublished' : 'published'} successfully!`)
+      
     } catch (error) {
       toast.error(getErrorMessage(error))
     }
+    
   }, [detailData?.id, detailData?.publishedAt])
 
   return (
