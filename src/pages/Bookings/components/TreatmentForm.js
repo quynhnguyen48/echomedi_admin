@@ -564,7 +564,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const loadData = () => {
     let newExistServices = {};
     if (data.bundle_services) {
-      const bundleServicesData_ = JSON.parse(data.bundle_services)
+      const bundleServicesData_ = typeof data.bundle_services == 'string' ? JSON.parse(data.bundle_services) : data.bundle_services;
       setBundleServicesData(bundleServicesData_)
       setUsedBundleMedicalServices(bundleServicesData_)
 
@@ -578,7 +578,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
     }
     if (data.services) {
-      const servicesData_ = JSON.parse(data.services)
+      const servicesData_ = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
       setServicesData(servicesData_)
       setUsedMedicalServices(servicesData_)
 
@@ -1056,7 +1056,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
           setBundleServices(ms)
         } else {
-          const bundleServicesData_ = JSON.parse(data.bundle_services)
+          const bundleServicesData_ = data.bundle_services;
           const usedIdMedicalServices = bundleServicesData_.map((ud) => ud.id)
           let ms = response.data.data;
           ms = ms.map(s => {
@@ -1319,10 +1319,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         nightTime: `${formData?.nightTime?.start}-${formData?.nightTime?.end}`,
         price: Number(formData?.price),
         procedure: formData?.procedure.filter((item) => !!item.en),
-        services: JSON.stringify(usedMedicalServices),
-        bundle_services: JSON.stringify(usedBundleMedicalServices),
+        services: usedMedicalServices,
+        bundle_services: usedBundleMedicalServices,
         clinique_services: usedCliniqueServices,
-        membership: data.patient.membership ? data.medical_record?.data?.attributes.membership : JSON.stringify(selectedMembership),
+        membership: data.patient.membership ? data.medical_record?.data?.attributes.membership : selectedMembership,
         doctor_in_charge: doctorInCharge?.value,
         nurse_in_charge: nurseInCharge?.value,
         cc_in_charge: CCInCharge?.value,

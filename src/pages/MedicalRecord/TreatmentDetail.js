@@ -30,10 +30,12 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
 
   useEffect(() => {
     if (data.bundle_services) {
-      setBundleServices(JSON.parse(data.bundle_services))
+      let dataServices = typeof data.bundle_services == 'string' ? JSON.parse(data.bundle_services) : data.bundle_services;
+      setBundleServices(dataServices);
     }
     if (data.services) {
-      setMedicalServices(JSON.parse(data.services))
+      let services = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
+      setMedicalServices(services)
     }
   }, [data])
 
