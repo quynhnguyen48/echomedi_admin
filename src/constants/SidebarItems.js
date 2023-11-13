@@ -39,6 +39,14 @@ export const SIDEBAR_ITEMS = [
     controllerKey: "booking",
   },
   {
+    id: "list-bookings",
+    name: "Danh sách lịch hẹn",
+    icon: "sidebar/bookings",
+    url: "/list-bookings",
+    apiKey: "api::booking",
+    controllerKey: "booking",
+  },
+  {
     id: "conversation",
     name: "Hội thoại",
     icon: "sidebar/conversation",

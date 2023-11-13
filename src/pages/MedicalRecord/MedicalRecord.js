@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef, useState, useEffect } from "react"
 import classNames from "classnames"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
@@ -228,6 +228,10 @@ const Treatments = () => {
         toast.dismiss(toastId)
       })
   }
+
+  useEffect(() => {
+    document.getElementById('customer-detail')?.scrollIntoView()
+  }, [detailData])
 
   return (
     <Page
