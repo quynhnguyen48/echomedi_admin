@@ -24,10 +24,10 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   useEffect(() => {
     if (data && data.medicalRecord) {
       if (data?.medicalRecord.bundle_services) {
-        setBundleServices(JSON.parse(data.medicalRecord.bundle_services))
+        setBundleServices(typeof data.medicalRecord.bundle_services == "string" ? JSON.parse(data.medicalRecord.bundle_services) : data.medicalRecord.bundle_services)
       }
       if (data?.medicalRecord.services) {
-        setMedicalServices(JSON.parse(data.medicalRecord.services))
+        setMedicalServices(typeof data.medicalRecord.services == "string" ? JSON.parse(data.medicalRecord.services): data.medicalRecord.services)
       }
       if (data?.medicalRecord.membership) {
         setMembership(JSON.parse(data.medicalRecord.membership));
