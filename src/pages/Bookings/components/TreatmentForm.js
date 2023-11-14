@@ -981,7 +981,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           setMedicalServices(ms);
           setCliniqueServices(cs);
         } else {
-          const servicesData = JSON.parse(data.services)
+          const servicesData = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
           const cliniqueServicesData = data.clinique_services;
           const usedIdMedicalServices = servicesData.map((ud) => ud.id)
           const usedIdCliniqueServices = cliniqueServicesData.map((ud) => ud.id)
@@ -1002,7 +1002,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         if (!data.services) {
           setMedicalServices(response.data.data)
         } else {
-          const servicesData = JSON.parse(data.services)
+          const servicesData = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
           const usedIdMedicalServices = servicesData.map((ud) => ud.id)
           setMedicalServices(
             response.data.data.filter((m) => usedIdMedicalServices.indexOf(m.id) == -1)
@@ -1056,7 +1056,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
           setBundleServices(ms)
         } else {
-          const bundleServicesData_ = data.bundle_services;
+          const bundleServicesData_ = typeof data.bundle_services == 'string' ? JSON.parse(data.bundle_services) : data.bundle_services;
           const usedIdMedicalServices = bundleServicesData_.map((ud) => ud.id)
           let ms = response.data.data;
           ms = ms.map(s => {
@@ -1177,6 +1177,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const addBundleMedicalServiceById = (id) => {
+    console.log('addBundleMedicalServiceById', id, bundleServices)
     const bs = bundleServices.find(b => b.id == id);
     if (usedBundleMedicalServices.find(us => us.id == id)) {
       const bs = usedBundleMedicalServices.find(b => b.id == id);
@@ -1187,6 +1188,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const addBundleMedicalService = (m) => {
+    console.log('mmmmmmmmmm', m)
     const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
 
@@ -2956,6 +2958,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         .map(([serviceName, service]) => {
                           return <div><h1 className="font-bold">- {serviceName}</h1>
                             {service.map(s => {
+                              console.log('sssss', s)
                               const usedBS = usedBundleMedicalServices.find(us => us.id == s.id);
                               return <p className="flex items-center">
                                 <div>
