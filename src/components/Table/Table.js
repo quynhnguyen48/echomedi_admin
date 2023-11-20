@@ -95,9 +95,9 @@ const Table = ({
     <div>
       <div
         {...getTableProps()}
-        className={`p-1 overflow-auto ${className} ${!fullHeight && !isMobile && "max-h-[75vh]"}`}
+        className={`border border-grey p-1 overflow-auto ${className} ${!fullHeight && !isMobile && "max-h-[75vh]"}`}
       >
-        <div className="flex">
+        <div className="flex bg-primary sticky top-0 full-w z-10 opacity-90">
           {headerGroups.map((headerGroup) => (
             <div {...headerGroup.getHeaderGroupProps()} className="px-6">
               {headerGroup.headers.map(
@@ -105,7 +105,7 @@ const Table = ({
                   !column.hidden && (
                     <div
                       {...column.getHeaderProps(headerProps)}
-                      className="text-16 font-bold text-secondary/30 !pr-0"
+                      className="text-16 font-bold text-secondary/30 !pr-0 !text-white"
                     >
                       {column.render("Header")}
                     </div>
