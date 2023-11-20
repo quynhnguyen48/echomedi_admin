@@ -87,6 +87,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
     let uids = data.prescriptions?.data.map(d => d.uid) ?? [];
     const payload2 = {
       Drugs: [],
+      publishedAt: null,
     }
     const res = await createPrescription(payload2);
     const pre = await getPrescriptionById(res.data.data.id);
@@ -108,6 +109,7 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
       Drugs: Drugs?.filter((item) => !!item.drug)
         .map((item) => ({ ...item, drug: item.drug.value })),
       additional_drugs: [],
+      publishedAt: Date.now(),
     }
     try {
       setLoading(true)

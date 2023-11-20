@@ -13,6 +13,7 @@ import { setCurrentUser } from "slice/userSlice";
 import { useDispatch } from "react-redux";
 import { getErrorMessage } from "utils/error";
 import classNames from "classnames";
+import axios from "../../services/axios"
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -21,12 +22,15 @@ const Login = () => {
   const [branch, setBranch] = useState("q7");
   const [db, setDb] = useState();
   const { t, redirectUrl } = useParams();
+  const [step, setStep] = useState(0);
 
   const validationSchema = yup.object({
-    email: yup
-      .string()
-      .required("Email is required"),
-    password: yup.string().required("Customer is required"),
+    id: yup
+      .string(),
+    otp: yup
+      .string(),
+      password: yup.string(),
+      confirmPassword: yup.string(),
   });
 
   const {
@@ -36,8 +40,7 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      ID: "",
     },
   });
 
@@ -65,61 +68,34 @@ const Login = () => {
       }
     }
     if (t) {
-    fetchData()
-      // bắt lỗi
-      .catch(console.error);
+      fetchData()
+        // bắt lỗi
+        .catch(console.error);
     }
   }, [])
 
   const onSubmit = async (data) => {
-    try {
-      setIsLoading(true);
-      const loginRes = await login({
-        identifier: data?.email,
-        password: data?.password,
-      });
-      if (loginRes.data?.jwt) {
-        localStorage.setItem(JWT_TOKEN, loginRes.data?.jwt);
-        localStorage.setItem(BRANCH, branch);
-        // db.transaction("echomedi", "readwrite")
-        //   .objectStore("echomedi")
-        //   .put({
-        //     id: 1, token: loginRes.data?.jwt
-        //   }, 1);
-
-
-        // var request = db.transaction("echomedi").objectStore("echomedi").get(1);
-        // request.onsuccess = (event) => {
-        //   console.log(`Value is: ${event.target.result.token}`)
-        //     navigator.serviceWorker
-        //       .register('firebase-messaging-sw.js')
-        //       .then(function (registration) {
-        //         return registration.scope;
-        //       })
-        //       .catch(function (err) {
-        //         return err;
-        //       });
-        // }
-
-        const userRes = await getMe();
-        if (
-          ![USER_ROLE.PUBLIC, USER_ROLE.AUTHENTICATED].includes(
-            userRes?.data?.role?.type
-          )
-        ) {
-          dispatch(setCurrentUser(userRes.data));
-          await updateUser(userRes?.data?.id, {
-            lastLogin: new Date()
-          })
-        } else {
-          localStorage.removeItem(JWT_TOKEN);
-          throw new Error("You don't have permission to access");
-        }
-      }
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    } finally {
-      setIsLoading(false);
+    console.log('data', data)
+    if (step == 0) {
+      axios.post('/auth/forgotPasswordEM', {
+        id: data.id,
+      }).then(() => {
+        setStep(1);
+      })
+      return;
+    } else if (step == 1) {
+      axios.post('/user/resetPassword', {
+        code: data.otp,
+        password: data.password,
+        passwordConfirmation: data.confirmPassword,
+      }).then(() => {
+        // setStep(1);
+        toast.success("Cập nhật thành công!");
+        window.location.href = "/login";
+      }).catch(() => {
+        toast.error("Lỗi xảy ra, xin kiểm tra lại!")
+      })
+      return;
     }
   };
 
@@ -145,23 +121,66 @@ const Login = () => {
         <img width={400} src="/images/logo_.png" alt="Logo" />
       </div>
       <div className="rounded-2xl p-6 space-y-6 flex-1 max-w-[500px] w-full">
-        <Controller
-          name="email"
+
+        {step == 0 && <Controller
+          name="id"
           control={control}
           render={({ field: { value, onChange } }) => (
             <Input
               value={value}
               onChange={onChange}
-              label="Email"
-              name="email"
-              placeholder="Nhập Eforgetmail"
+              label="ID"
               inputClassName="bg-primary/10"
               errors={errors?.email?.message}
             />
           )}
-        />
+        />}
 
-        <Controller
+        {step == 1 && <Controller
+          name="otp"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <Input
+              value={value}
+              onChange={onChange}
+              label="OTP"
+              inputClassName="bg-primary/10"
+              errors={errors?.email?.message}
+            />
+          )}
+        />}
+
+        {step == 1 && <Controller
+          name="password"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <Input
+              value={value}
+              onChange={onChange}
+              label="Password"
+              type="password"
+              inputClassName="bg-primary/10"
+              errors={errors?.email?.message}
+            />
+          )}
+        />}
+
+        {step == 1 && <Controller
+          name="confirmPassword"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <Input
+              value={value}
+              onChange={onChange}
+              label="Confirm password"
+              type="password"
+              inputClassName="bg-primary/10"
+              errors={errors?.email?.message}
+            />
+          )}
+        />}
+
+        {/* <Controller
           name="password"
           control={control}
           render={({ field: { value, onChange } }) => (
@@ -176,43 +195,14 @@ const Login = () => {
               errors={errors?.password?.message}
             />
           )}
-        />
-        <div className="space-y-2">
-          <label className="font-16 font-bold">Chọn chi nhánh</label>
-          <div className="grid grid-cols-3 gap-x-6">
-            <Controller
-              name="gender"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  {["q7", "q2", "binhduong"]?.map((gender) => (
-                    <Button
-                      key={gender}
-                      onChange={onchange}
-                      type="button"
-                      className={classNames("w-full h-14 !justify-start capitalize", {
-                        "bg-primary text-white font-bold": gender === branch,
-                        "bg-primary/10 text-primary font-normal": gender !== branch,
-                      })}
-                      onClick={() => setBranch(gender)}
-                    >
-                      {getDisplayLabelBranches(gender)}
-                    </Button>
-                  ))}
-                  {errors?.gender?.message && (
-                    <p className="text-12 text-error mt-1">{errors?.gender?.message}</p>
-                  )}
-                </>
-              )}
-            />
-          </div>
-        </div>
+        /> */}
+
         <div className="flex flex-col justify-center gap-x-4 mt-10">
-          <a href="/forgot-password" className="fill-primary m-auto mb-4" type="submit" loading={isLoading}>
+          {/* <a href="/forgot-password" className="fill-primary m-auto mb-4" type="submit" loading={isLoading}>
             QUÊN MẬT KHẨU
-          </a>
+          </a> */}
           <Button className="fill-primary" type="submit" loading={isLoading}>
-            ĐĂNG NHẬP
+            TIẾP TỤC
           </Button>
         </div>
       </div>
