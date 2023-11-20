@@ -152,9 +152,9 @@ const Login = () => {
             <Input
               value={value}
               onChange={onChange}
-              label="Email"
+              label="ID"
               name="email"
-              placeholder="Nhập Eforgetmail"
+              placeholder="ID"
               inputClassName="bg-primary/10"
               errors={errors?.email?.message}
             />
