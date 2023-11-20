@@ -105,7 +105,7 @@ const CustomersTable = ({
         Header: "Ngày tạo",
         accessor: (originalRow) => originalRow?.createdAt && <div><p>{formatDate(originalRow?.createdAt, "DD/MM")}</p></div>,
         collapse: true,
-        width: 30,
+        width: 50,
       },
       {
         Header: "Tên",
