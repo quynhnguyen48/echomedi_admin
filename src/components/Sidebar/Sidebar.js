@@ -85,7 +85,7 @@ const Sidebar = () => {
 
   return (
     <div>
-      {isMobile && <button className="fixed top-0 right-0 bg-white w-10 h-10" onClick={e => setDisplayNone(!displayNone)}>
+      {isMobile && <button className="fixed top-0 right-0 bg-white w-10 h-10 z-10" onClick={e => setDisplayNone(!displayNone)}>
         <img width={'100%'} src={"/icons/icons8-menu-rounded-24.png"} />
       </button>
       }
