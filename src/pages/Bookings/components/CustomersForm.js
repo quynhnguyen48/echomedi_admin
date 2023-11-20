@@ -22,6 +22,7 @@ import { BRANCH } from "constants/Authentication"
 import dayjs from 'dayjs';
 import Tagify from '@yaireo/tagify'
 import '@yaireo/tagify/dist/tagify.css' // imports tagify SCSS file from within
+import Textarea from "components/Textarea/Textarea"
 
 const bookingStatus = ["scheduled", "confirmed", "waiting", "postpone", "finished", "cancelled"];
 const getColorBookingStatus = (t) => {
@@ -715,7 +716,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
           name="note"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <Input
+            <Textarea
               disabled={false}
               name="note"
               label="Nội dung đặt lịch"
