@@ -252,7 +252,7 @@ const Treatments = () => {
             className="bg-primary text-white"
             iconClassName="fill-white"
             value={startDate}
-            dateFormat={"Startdd MMMM, yyyy"}
+            dateFormat={"dd MMMM, yyyy"}
             showMonthYearPicker={dateType === "date"}
             onChange={(date) => {
               date.setHours(0);
