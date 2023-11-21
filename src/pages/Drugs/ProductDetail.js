@@ -23,7 +23,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
   const [openProductInventoryDrawer, setOpenProductInventoryDrawer] = useState(false)
 
   return (
-    <div className="my-10 w-full">
+    <div className="my-10 w-full" id='customer-detail'>
       <div className="flex items-center gap-x-2">
         <div className="flex items-center flex-1 gap-x-4">
           {/* <div className="w-30">
@@ -60,7 +60,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
           </Button>
         </div> */}
       </div>
-      <div className="grid grid-cols-2 grid-flow-row gap-y-10 mt-12">
+      <div className="grid grid-cols-2 grid-flow-row gap-y-1 mt-12">
         <DataItem icon="key" title="Product ID" value={data?.code} />
 
 

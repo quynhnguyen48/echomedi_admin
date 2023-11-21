@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef, useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -119,11 +119,15 @@ const Products = () => {
     [data]
   )
 
+  useEffect(() => {
+    document.getElementById('customer-detail')?.scrollIntoView()
+  }, [detailData])
+
   return (
     <Page
       title="Quản lý thuốc"
     >
-      <div className="w-full flex items-center gap-x-9">
+      <div className="w-full flex items-center gap-x-9" >
         <SearchInput
           placeholder="Tìm bằng ID / Tên / Hoạt chất của thuốc"
           className="flex-1"
@@ -146,7 +150,7 @@ const Products = () => {
       <div
         className={classNames({
           "w-full": !detailData,
-          "flex gap-x-6": detailData,
+          "sm:block flex gap-x-6": detailData,
         })}
       >
         <ProductsTable
