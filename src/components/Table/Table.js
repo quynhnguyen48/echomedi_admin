@@ -95,7 +95,7 @@ const Table = ({
     <div>
       <div
         {...getTableProps()}
-        className={`border border-grey p-1 overflow-auto ${className} ${!fullHeight && !isMobile && "max-h-[75vh]"}`}
+        className={`border border-grey overflow-auto ${className} ${!fullHeight && !isMobile && "max-h-[75vh]"}`}
       >
         <div className="flex bg-primary sticky top-0 full-w z-10 opacity-90">
           {headerGroups.map((headerGroup) => (
@@ -105,7 +105,7 @@ const Table = ({
                   !column.hidden && (
                     <div
                       {...column.getHeaderProps(headerProps)}
-                      className="text-16 font-bold text-secondary/30 !pr-0 !text-white"
+                      className="text-12 font-bold text-secondary/30 !pr-0 !text-white"
                     >
                       {column.render("Header")}
                     </div>
@@ -114,7 +114,7 @@ const Table = ({
             </div>
           ))}
         </div>
-        <div className="mt-5 space-y-2.5">
+        <div className="mt-0 space-y-1">
           {loading ? (
             fill(new Array(10), "")?.map((_, i) => (
               <TableRowSkeleton key={i} headerGroups={headerGroups} />
@@ -134,7 +134,7 @@ const Table = ({
                 >
                   <div
                     {...row.getRowProps()}
-                    className={classNames("relative flex items-center py-2 px-2 rounded-lg", {
+                    className={classNames("relative flex items-center py-2 px-2", {
                       "text-white bg-primary": isActive,
                       "bg-primary/10": isModal,
                       "shadow-sm": !isModal,

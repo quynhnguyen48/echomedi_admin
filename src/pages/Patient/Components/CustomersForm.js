@@ -516,7 +516,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
             control={control}
             render={({ field: { onChange, value, ref } }) => (
               <Select
-                placeholder="Chọn nguồn"
+                placeholder="Nguồn"
                 label="Nguồn"
                 name="patient_source"
                 options={patientSource}

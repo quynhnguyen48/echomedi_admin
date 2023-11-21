@@ -217,7 +217,7 @@ const Treatments = () => {
         />
         <div className="flex">
         <Select
-        placeholder="Chọn nguồn"
+        placeholder="Nguồn"
         label=""
         name="patient_source"
         options={patientSource}
