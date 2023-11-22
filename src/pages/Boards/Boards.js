@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Container, Box, Button } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
@@ -11,6 +12,7 @@ const Boards = () => {
   const classes = boardsStyles();
 
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const [modalOpen, setModalOpen] = useState(false);
   const { boards } = useContext(UserContext);
@@ -33,7 +35,7 @@ const Boards = () => {
                 All Boards
               </Typography>
             </Box>
-            <Box p={1}>
+            {currentUser.role.type == "admin" &&<Box p={1}>
               <Button
                 onClick={handleCreateButton}
                 variant="contained"
@@ -44,7 +46,7 @@ const Boards = () => {
               >
                 Add
               </Button>
-            </Box>
+            </Box>}
           </Box>
           <Grid className={classes.boardsContainer} container spacing={3}>
             {boards !== undefined &&

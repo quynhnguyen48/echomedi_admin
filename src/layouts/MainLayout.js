@@ -10,7 +10,7 @@ import { getMe } from "services/api/users";
 import { setCurrentUser } from "slice/userSlice";
 import { getErrorMessage } from "utils/error";
 import { formatStrapiArr, formatStrapiObj } from "utils/strapi"
-import { getAllBoards, getBoard, getBoardDetail } from "api/Board";
+import { getAllBoards, getBoard, getBoardDetail, getTasks } from "api/Board";
 import UserProvider from "provider/UserProvider";
 import UIProvider from "provider/UIProvider";
 import { initializeFirebase } from '../push-notification';
@@ -30,6 +30,7 @@ const MainLayout = ({ children }) => {
 
   const loadRenderedBoard = async (b) => {
     const toastId = toast.loading("Đang tải ...")
+    await getTasks();
     if (b)
     await getBoardDetail(b.id)
     .then((response) => {
