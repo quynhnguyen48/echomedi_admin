@@ -15,7 +15,7 @@ const getBranchDisplayLabel = () => {
       return "CHI NHÁNH QUẬN 7";
       break;
     case "q2":
-      return "CHI NHÁNH QUẬN 7";
+      return "CHI NHÁNH QUẬN 2";
       break;
     case "binhduong":
       return "CHI NHÁNH BÌNH DƯƠNG";
