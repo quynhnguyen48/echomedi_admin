@@ -20,7 +20,7 @@ const customStyles = {
     cursor: "pointer",
   }),
   control: () => ({
-    width: '200px',
+    width: '300px',
     alignItems: "center",
     border: "none",
     borderRadius: "8px",

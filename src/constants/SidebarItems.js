@@ -91,6 +91,12 @@ export const SIDEBAR_ITEMS = [
     url: "/boards",
   },
   {
+    id: "tasks",
+    name: "Tasks",
+    icon: "sidebar/kanban",
+    url: "/tasks",
+  },
+  {
     id: "customers",
     name: "Khách hàng",
     icon: "sidebar/customer",

@@ -3,6 +3,7 @@ import React from "react"
 import { Routes, Route, Navigate } from "react-router-dom"
 import Loading from "components/Loading"
 import Boards from "../pages/Boards/Boards"
+import Tasks from "../pages/Tasks/ServiceBundle"
 import Board from "../pages/Board/Board"
 
 const Dashboard = React.lazy(() => import("pages/Dashboard"))
@@ -203,6 +204,7 @@ const MainRoutes = () => {
         <Route path="/chat/:id/:email" element={<MessagePage />} />
         <Route path="/view-chat/:id/:email" element={<ViewMessagePage />} />
         <Route path="/boards" element={<Boards />} />
+        <Route path="/tasks" element={<Tasks />} />
         <Route path="/board/:id/:taskId" element={<Board />} />
         <Route path="/board/:id" element={<Board />} />
       </Routes>

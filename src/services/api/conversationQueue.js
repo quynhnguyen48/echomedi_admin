@@ -96,6 +96,14 @@ export const getAllConversationQueues = (pagination, filters) => {
   return axios.get(`/conversation-queues?sort[0]=createdAt%3Adesc&populate[user][populate]=*&populate[second_person][populate]=*&${query}`)
 }
 
+export const getAllTasks = (pagination, filters) => {
+  const query = qs.stringify({
+    filters,
+    pagination,
+  })
+  return axios.get(`/tasks/get-tasks`)
+}
+
 export const getListConversationQueueByUser = (userId, pagination) => {
   const query = qs.stringify({
     pagination

@@ -219,6 +219,7 @@ export const PopMenu = withStyles((theme) => ({
 
 export const PopMenuItem = withStyles((theme) => ({
   root: {
+    overflow: "hidden",
     borderRadius: "8px",
     marginLeft: theme.spacing(1.5),
     marginRight: theme.spacing(1.5),

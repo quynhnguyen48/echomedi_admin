@@ -531,7 +531,7 @@ class Task extends React.Component {
                           container
                           alignItems="center"
                           xs
-                          style={{ maxWidth: "180px" }}
+                          style={{ maxWidth: "180px", overflow: 'hidden' }}
                         >
                           <Typography className={classes.name}>
                             {user.fullname ?? user.username}

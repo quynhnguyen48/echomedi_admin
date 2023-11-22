@@ -149,6 +149,26 @@ export const InviteUser = (body) =>
     }
   });
 
+  export const getTasks = (id) =>
+  new Promise(async (resolve, reject) => {
+    const token = localStorage.getItem(JWT_TOKEN);
+    try {
+      let response = await fetch(
+        process.env.REACT_APP_API_URL + `/api/tasks/get-tasks`,
+        {
+          method: "GET",
+          headers: new Headers({
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": token && ("Bearer " + token),
+          }),
+        }
+      );
+      resolve(response.json());
+    } catch (err) {
+      reject(err);
+    }
+  });
+
 export const RemoveUser = (body) =>
   new Promise(async (resolve, reject) => {
     const token = localStorage.getItem(JWT_TOKEN);
