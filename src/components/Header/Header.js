@@ -40,7 +40,7 @@ const Header = ({ title, parentUrl }) => {
   }
 
   return (
-    <header className="flex sm:block items-center justify-between p-4 lg:flex-col flex-row">
+    <header className="flex sm:block items-center justify-between p-2 pb-0 lg:flex-col flex-row">
       <div className="flex items-center">
         {!!parentUrl && (
           <button

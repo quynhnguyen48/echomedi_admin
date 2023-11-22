@@ -60,7 +60,7 @@ const Datepicker = ({
           selectsRange={selectsRange}
           disabled={disabled}
         />
-        <Icon name="calendar" className={`fill-primary absolute top-4 right-2 ${iconClassName}`} />
+        <Icon name="calendar" className={`fill-primary absolute top-1 right-2 ${iconClassName}`} />
       </div>
       {errors && <span className="text-12 text-error mt-1">{errors}</span>}
     </div>
