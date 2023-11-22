@@ -212,7 +212,22 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
   return (
     <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`}  id='customer-detail'>
       <div className="flex items-center gap-x-2 overflow-scroll"></div>
-      {isMobile ?
+      
+      <div className="grid grid-cols-2 sm:grid-cols-1 grid-flow-row gap-y-5 mt-2">
+        <DataItem icon="user" title="Tên/SĐT/Năm sinh" value={`${data?.patient?.full_name?.toUpperCase()} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD/MM/YYYY")}`} />
+        <DataItem
+          icon="calendar"
+          title="Ngày khám bệnh"
+          value={dayjs(data?.booking?.bookingDate).format("DD MMMM, YYYY, h:mm")}
+        />
+        <DataItem icon="location" title="Chi nhánh" value={getDisplayBranchLabel(data?.booking?.branch)} />
+      </div>
+      
+      <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
+
+        <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
+        <DataItemJSON icon="box-tick" title="Bệnh sử" value={parseJson(data?.inquiry)} />
+        {isMobile ?
         <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row gap-y-5 mt-2 px-2">
           <div>Mạch {data?.circuit} (lần/phút)</div>
           <div>Nhiệt độ {data?.temperature} (*C)</div>
@@ -252,19 +267,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             <th>{data?.spo2}</th>
           </tr>
         </table>}
-      <div className="grid grid-cols-2 sm:grid-cols-1 grid-flow-row gap-y-5 mt-2">
-        <DataItem icon="user" title="Tên/SĐT/Năm sinh" value={`${data?.patient?.full_name?.toUpperCase()} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD/MM/YYYY")}`} />
-        <DataItem
-          icon="calendar"
-          title="Ngày khám bệnh"
-          value={dayjs(data?.booking?.bookingDate).format("DD MMMM, YYYY, h:mm")}
-        />
-        <DataItem icon="location" title="Chi nhánh" value={getDisplayBranchLabel(data?.booking?.branch)} />
-      </div>
-      <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
-
-        <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
-        <DataItemJSON icon="box-tick" title="Bệnh sử" value={parseJson(data?.inquiry)} />
         <div className="w-full">
           <input type="checkbox" name="panel" id="panel-7" class="hidden" />
           <label for="panel-7" class="relative block bg-green p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">Tiền căn bản thân  &#62;</label>
@@ -361,7 +363,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         )}
       </div>
       <div className="fixed bottom-0 sm:relative">
-        <div className="grid grid-cols-6 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4">
+        <div className="grid grid-cols-6 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-x-4">
           {<Button
             btnSize="small"
             className="mt-2"
