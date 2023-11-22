@@ -12,13 +12,13 @@ const getBranchDisplayLabel = () => {
   const branch = localStorage.getItem(BRANCH);
   switch (branch) {
     case "q7":
-      return "Chi nhánh quận 7";
+      return "CHI NHÁNH QUẬN 7";
       break;
     case "q2":
-      return "Chi nhánh quận 2";
+      return "CHI NHÁNH QUẬN 7";
       break;
     case "binhduong":
-      return "Chi nhánh Bình Dương";
+      return "CHI NHÁNH BÌNH DƯƠNG";
       break;
   }
 }
@@ -63,9 +63,9 @@ const Header = ({ title, parentUrl }) => {
                 <svg className="fill-current h-4 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /> </svg>
               </button>
               <ul className="dropdown-menu absolute hidden text-gray-700 py-2 bg-gray z-50">
-                <li className="" onClick={() => changeBranch("q7")}><button onClick={() => changeBranch("q7")} className="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh quận 7</button></li>
-                <li className="" onClick={() => changeBranch("q2")}><button className="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh quận 2</button></li>
-                <li className="" onClick={() => changeBranch("binhduong")}><button className="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Chi nhánh Bình Dương</button></li>
+                <li className="" onClick={() => changeBranch("q7")}><button onClick={() => changeBranch("q7")} className="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">CHI NHÁNH QUẬN 7</button></li>
+                <li className="" onClick={() => changeBranch("q2")}><button className="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">CHI NHÁNH QUẬN 2</button></li>
+                <li className="" onClick={() => changeBranch("binhduong")}><button className="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">CHI NHÁNH BÌNH DƯƠNG</button></li>
               </ul>
             </div>
 
