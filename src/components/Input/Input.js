@@ -30,10 +30,10 @@ export function Input({
         </label>
       )}
       <div className="relative">
-        {prefix && <div className="absolute top-4 left-6">{prefix}</div>}
+        {prefix && <div className="absolute top-2 left-6">{prefix}</div>}
         <input
           className={classNames(
-            "border border-1 w-full bg-white md:bg-gray2 h-14 outline-none px-4 rounded-lg text-16 placeholder:text-secondary/30 disabled:cursor-not-allowed w-full",
+            "border border-1 w-full bg-white md:bg-gray2 h-10 outline-none px-4 text-16 placeholder:text-secondary/30 disabled:cursor-not-allowed w-full",
             {
               error: !!errors,
               [size]: true,
@@ -53,7 +53,7 @@ export function Input({
           disabled={disabled}
           {...rest}
         />
-        {suffix && <div className="absolute top-4 right-6">{suffix}</div>}
+        {suffix && <div className="absolute top-2 right-6">{suffix}</div>}
         {showError && errors && <p className="text-12 text-error mt-1">{errors}</p>}
       </div>
     </div>

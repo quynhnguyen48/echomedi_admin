@@ -128,23 +128,25 @@ const Treatments = () => {
         }
       };
       // if (searchKey?.length ) {
-        filters = {
-          $and: [
-            { $or: [
+      filters = {
+        $and: [
+          {
+            $or: [
               { full_name: { $containsi: searchKey } },
               { full_name_i: { $containsi: searchKey } },
               { uid: { $containsi: searchKey } },
               { email: { $containsi: searchKey } },
               { phone: { $containsi: searchKey } }
-            ]},
-            {
-              patient_source: source?.id
-            }
-          ],
-          internal: {
-            $null: true,
+            ]
+          },
+          {
+            patient_source: source?.id
           }
+        ],
+        internal: {
+          $null: true,
         }
+      }
       // }
 
       const res = await getListPatients(
@@ -195,11 +197,11 @@ const Treatments = () => {
         return oldData
       })
       toast.success(`Treatment ${!!detailData?.publishedAt ? 'unpublished' : 'published'} successfully!`)
-      
+
     } catch (error) {
       toast.error(getErrorMessage(error))
     }
-    
+
   }, [detailData?.id, detailData?.publishedAt])
 
   return (
@@ -208,7 +210,7 @@ const Treatments = () => {
     >
       <div className="w-full grid grid-cols-3 sm:grid-cols-1 items-center gap-x-9">
         <SearchInput
-          placeholder="Tìm khách hàng bằng ID / Tên / Email / SDT"
+          placeholder="Tìm bằng ID / Tên / Email / SDT"
           className="flex-1"
           onSearch={(value) => {
             dispatch(resetPageIndex())
@@ -216,31 +218,32 @@ const Treatments = () => {
           }}
         />
         <div className="flex">
-        <Select
-        placeholder="Nguồn"
-        label=""
-        name="patient_source"
-        options={patientSource}
-        value={source && patientSource?.find((s) => s.id === source.id)}
-        onChange={(e) => {
-          console.log('eeee', e)
-          setSource(e);
-        }}
-      />
-        {currentUser?.role?.type != "doctor"
-          && currentUser?.role?.type != "nurse"
-          && <Button
-            className={"w-52 sm:m-auto mt-4"}
-            onClick={() => {
-              navigate("/patient/create");
+          <Select
+            placeholder="Nguồn"
+            label=""
+            wrapperClassName="w-100"
+            name="patient_source"
+            options={patientSource}
+            value={source && patientSource?.find((s) => s.id === source.id)}
+            onChange={(e) => {
+              console.log('eeee', e)
+              setSource(e);
             }}
-          >
-            Tạo bệnh nhân mới
-          </Button>}
-          </div>
+          />
+          {currentUser?.role?.type != "doctor"
+            && currentUser?.role?.type != "nurse"
+            && <Button
+              className={"w-52 sm:m-auto mt-1"}
+              onClick={() => {
+                navigate("/patient/create");
+              }}
+            >
+              Tạo bệnh nhân mới
+            </Button>}
+        </div>
       </div>
-      
-      <div className="mt-4">
+
+      <div className="mt-1">
       </div>
       <Modal contentClassName="bg-modal" visibleModal={modalVisible} showCloseButton={true} onClose={() => setModalVisible(false)}>
         <TreatmentForm slotInfo={slotInfo} />

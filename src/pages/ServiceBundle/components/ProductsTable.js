@@ -6,6 +6,7 @@ import Table from "components/Table"
 import Tag from "components/Tag"
 import { getStrapiMedia } from "utils/media"
 import Price from "components/Price"
+import { formatDate } from "utils/dateTime"
 
 import { BRAND_STATUS } from "constants/Brand"
 
@@ -42,6 +43,26 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
             <span>{originalRow?.label}</span>
+          </div>
+        ),
+        collapse: true,
+        width: 200,
+      },
+      {
+        Header: "Số dịch vụ con",
+        accessor: (originalRow) => (
+          <div className="flex items-center gap-x-4">
+            <span>{originalRow?.medical_services.length}</span>
+          </div>
+        ),
+        collapse: true,
+        width: 80,
+      },
+      {
+        Header: "Ngày cập nhật",
+        accessor: (originalRow) => (
+          <div className="flex items-center gap-x-4">
+            <span>{formatDate(originalRow?.updatedAt, "HH:mm DD/MM/YYYY") }</span>
           </div>
         ),
         collapse: true,

@@ -130,7 +130,7 @@ const ServiceBundles = () => {
 
   return (
     <Page
-      title="Nhắn tin"
+      title="Yêu cầu hỗ trợ"
     >
       <div
         className={classNames({

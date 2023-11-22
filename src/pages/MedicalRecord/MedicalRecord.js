@@ -237,7 +237,7 @@ const Treatments = () => {
     <Page
       title="Quản lý hồ sơ bệnh án"
     >
-      <div className="grid grid-cols-4 sm:grid-cols-2 gap-y-2 items-center gap-x-2">
+      <div className="grid grid-cols-4 sm:grid-cols-2 gap-y-2 gap-x-2 items-end	">
       <SearchInput
           placeholder="Tìm khách hàng theo tên"
           className="flex-1 col-span-1 sm:col-span-2"
@@ -275,7 +275,7 @@ const Treatments = () => {
             }}
           />
         </div>
-        <div className="ml-6 flex">
+        <div className="ml-2 flex">
           <Button
             onClick={() => {
               search();

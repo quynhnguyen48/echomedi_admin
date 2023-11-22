@@ -105,7 +105,6 @@ const ServiceBundles = () => {
       const messaging = firebase.messaging();
       await messaging.requestPermission();
       const token = await messaging.getToken();
-      console.log('token do usuário:', token);
 
       return token;
     } catch (error) {
@@ -114,7 +113,7 @@ const ServiceBundles = () => {
   }
   return (
     <Page
-      title="Nhắn tin"
+      title="Hội thoại"
     >
       <div
         className={classNames({
