@@ -60,7 +60,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-2 grid-flow-row gap-y-20 mt-12">
+      <div className="grid grid-cols-2 grid-flow-row gap-y-2 mt-12">
         <DataItem icon="key" title="Product ID" value={data?.code} />
         <DataItem
           icon="sidebar/check-in-active"
