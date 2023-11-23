@@ -2,6 +2,7 @@ import DataItem from "components/DataItem";
 import { formatDate } from "utils/dateTime";
 
 const StaffAnalytics = ({ data }) => {
+  
   return (
     <div className="pt-20">
       <p className="font-bold">Staff Analytics</p>
@@ -10,8 +11,8 @@ const StaffAnalytics = ({ data }) => {
           icon="timer"
           title="Last Signed In"
           value={
-            data?.lastLogin
-              ? formatDate(data?.lastLogin, "DD MMM, YYYY | HH:mm")
+            data?.last_logged_in
+              ? formatDate(data?.last_logged_in, "DD MMM, YYYY | HH:mm")
               : "-"
           }
         />
