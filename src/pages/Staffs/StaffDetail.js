@@ -55,7 +55,7 @@ const StaffDetail = ({ data, ontToggleBlockStaff }) => {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-2 grid-flow-row gap-y-20 mt-12">
+      <div className="grid grid-cols-2 grid-flow-row gap-y-2 mt-12">
         <DataItem icon="key" title="Staff ID" value={data?.code} />
         <DataItem
           icon="calendar"
