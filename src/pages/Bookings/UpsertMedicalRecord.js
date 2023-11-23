@@ -53,7 +53,7 @@ const UpsertTreatment = () => {
 
   return (
     <Page title="Hồ sơ bệnh án">
-      <p className="text-16 font-bold">{`${editMode ? "Sửa" : "Tạo mới"} hồ sơ bệnh án`}</p>
+      {/* <p className="text-16 font-bold">{`${editMode ? "Sửa" : "Tạo mới"} hồ sơ bệnh án`}</p> */}
       <div className="my-4">
         {/* <DataItem icon="user" title="Full Name" value={`${JSON.stringify(medicalRecordData)}`} /> */}
       </div>

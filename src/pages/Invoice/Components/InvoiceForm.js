@@ -233,7 +233,7 @@ const InvoiceForm = ({
     return (
       <div class="grid grid-cols-1 divide-y">
         {fields?.map((item, index) => (
-          <div className="grid grid-cols-7 gap-2 py-4">
+          <div className="grid grid-cols-7 gap-1 py-1">
             <p className="col-span-3">{item?.label}</p>
             {/* <div className="col-span-3 text-right"> */}
             <div>

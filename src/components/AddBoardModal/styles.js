@@ -63,7 +63,6 @@ export const modalStyles = makeStyles((theme) => ({
     color: "#757575",
     letterSpacing: "-0.035em",
     fontWeight: "500",
-    fontFamily: "Poppins",
     fontSize: "0.875rem",
   },
   button: {
@@ -86,7 +85,6 @@ export const modalStyles = makeStyles((theme) => ({
     fontSize: "0.875rem",
     fontWeight: "500",
     lineHeight: "18px",
-    fontFamily: "Poppins",
   },
   cancelButton: {
     backgroundColor: "white",

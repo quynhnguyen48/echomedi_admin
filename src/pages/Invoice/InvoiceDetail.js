@@ -67,9 +67,12 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   }
 
   return (
-    <div className={`my-10 w-full max-h-[78vh] ${!isMobile && 'overflow-scroll'}`}>
+    <div className={`my-5 w-full max-h-[78vh] ${!isMobile && 'overflow-scroll'}`}>
       <div className="flex items-center gap-x-2"></div>
-      <div className="grid grid-cols-3 grid-flow-row gap-y-5">
+      <div className="grid grid-cols-4 grid-flow-row gap-y-2">
+      <DataItem icon="user" title="Tên" value={data?.patient?.full_name?.toUpperCase()} />
+        <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
+        
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"
@@ -80,9 +83,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
           title="Chi nhánh"
           value={getDisplayBranchLabel(data?.booking?.branch)}
         />
-        <DataItem icon="user" title="Tên" value={data?.patient?.full_name?.toUpperCase()} />
-        <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
-        <DataItem icon="calendar" title="Nội dung đặt lịch" value={data?.booking?.note} />
+        
         <div>
           <div
             className={`bg-white justify-center items-center flex fixed inset-0 z-20 outline-none focus:outline-none transition-all ${
@@ -91,6 +92,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
           ></div>
         </div>
       </div>
+      <DataItem icon="calendar" title="Nội dung đặt lịch" value={data?.booking?.note} />
       <div>
         {data?.total && (
           <p className="text-xl font-bold text-right">Tổng {numberWithCommas(data.total)}</p>

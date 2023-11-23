@@ -60,7 +60,6 @@ export const topSectionStyles = makeStyles(
       fontSize: "0.875rem",
       fontWeight: "500",
       lineHeight: "18px",
-      fontFamily: "Poppins",
     },
     iconGrid: {
       marginLeft: theme.spacing(2),

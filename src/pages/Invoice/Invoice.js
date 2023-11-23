@@ -156,7 +156,7 @@ const Invoice = () => {
       <div
         className={classNames({
           "w-full": !detailData,
-          "sm:block flex gap-x-6": detailData,
+          "sm:block flex gap-x-4": detailData,
         })}
       >
         <InvoiceTable
