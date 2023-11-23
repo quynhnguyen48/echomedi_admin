@@ -25,9 +25,10 @@ const AVAILABLE_TEST_RESULT = [
 ]
 
 const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) => {
-  const currentUser = useSelector((state) => state.user.currentUser);
   const [testResults, setTestResults] = useState({})
   const ref = useRef()
+  const currentUser = useSelector((state) => state.user.currentUser);
+
 
   const fetchData = useCallback(async () => {
     const toastId = toast.loading("Đang tải dữ liệu")
@@ -69,7 +70,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
           testResults: payload,
         })
         await fetchData()
-      } catch (error) {}
+      } catch (error) { }
     },
     [fetchData, medicalRecordId, testResults]
   )
@@ -111,59 +112,98 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
         accessor: (originalRow) => {
           return (
             <div className="text-secondary">
-              <p className="font-bold">{originalRow?.id}</p>
-              <ul className="list-decimal ml-4">
+              <p className="font-bold mb-4">{originalRow?.id}</p>
+
+              <div className="flex flex-col gap-y-5">
+                {testResults?.[originalRow?.id]?.map((item) => (
+                  <div className="relative flex">
+                    <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px"><path d="M19,20c0,0.6-0.4,1-1,1H6c-0.6,0-1-0.4-1-1V4c0-0.6,0.4-1,1-1h7.6L19,8.4V20z" opacity=".3" /><path d="M18,22H6c-1.1,0-2-0.9-2-2V4c0-1.1,0.9-2,2-2h8l6,6v12C20,21.1,19.1,22,18,22z M6,4v16h12V8.8L13.2,4H6z" /><path d="M18.5 9L13 9 13 3.5z" /></svg>
+
+                    <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
+                      {item?.mime?.startsWith("image") ? (
+                        <img className="rounded-xl w-14 h-14" src={getStrapiMedia(item)} alt="name" />
+                      ) : (
+                        <div className="hover:underline">
+                          {item?.name}
+                        </div>
+                      )}
+                    </a>
+                    {currentUser.role.type == "admin" && <div
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onRemove(originalRow?.id, item)
+                      }}
+                      className="absolute cursor-pointer -top-2 -right-10 z-20"
+                    >
+                      <Icon name="close-circle" className="fill-red bg-white rounded-full" />
+                    </div>}
+                  </div>
+                ))}
+                <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1 w-20 hover:bg-primary">
+                  <input
+                    ref={ref}
+                    type="file"
+                    className="h-full w-full opacity-0 cursor-pointer absolute z-20 "
+                    onChange={(e) => uploadAssets(originalRow.id, e)}
+                    multiple
+                  />
+                  <p>Tải lên</p>
+                </div>
+              </div>
+              <ul className="list-decimal ml-4 mt-4">
                 {originalRow?.service?.map((item) => (
-                  <li key={item.label}>{item.label}</li>
+                  <li>{item.label}</li>
                 ))}
               </ul>
             </div>
           )
         },
         collapse: true,
-        width: 150,
+        // width: 300,
       },
-      {
-        Header: "Kết quả",
-        accessor: (originalRow) => (
-          <div className="flex flex-col gap-y-5">
-            {testResults?.[originalRow?.id]?.map((item, index) => (
-              <div key={index} className="relative">
-                <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
-                  {item?.mime?.startsWith("image") ? (
-                    <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
-                  ) : (
-                    <div className="hover:underline">
-                              {item?.name}
-                            </div>
-                  )}
-                </a>
-                {currentUser.role.type == "admin" && <div
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onRemove(originalRow?.id, item)
-                  }}
-                  className="absolute cursor-pointer -top-2 -right-10 z-20"
-                >
-                  <Icon name="close-circle" className="fill-red bg-white rounded-full" />
-                </div>}
-              </div>
-            ))}
-            <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1">
-              <input
-                ref={ref}
-                type="file"
-                className="h-full w-full opacity-0 cursor-pointer absolute z-20"
-                onChange={(e) => uploadAssets(originalRow.id, e)}
-                multiple
-              />
-              <p>Tải lên</p>
-            </div>
-          </div>
-        ),
-        collapse: true,
-        width: 150,
-      },
+      // {
+      //   Header: "Kết quả",
+      //   accessor: (originalRow) => (
+      //     <div className="flex flex-col gap-y-5">
+      //       {testResults?.[originalRow?.id]?.map((item) => (
+      //         <div className="relative flex">
+      //                           <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px"><path d="M19,20c0,0.6-0.4,1-1,1H6c-0.6,0-1-0.4-1-1V4c0-0.6,0.4-1,1-1h7.6L19,8.4V20z" opacity=".3"/><path d="M18,22H6c-1.1,0-2-0.9-2-2V4c0-1.1,0.9-2,2-2h8l6,6v12C20,21.1,19.1,22,18,22z M6,4v16h12V8.8L13.2,4H6z"/><path d="M18.5 9L13 9 13 3.5z"/></svg>
+
+      //           <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
+      //             {item?.mime?.startsWith("image") ? (
+      //               <img className="rounded-xl w-14 h-14" src={getStrapiMedia(item)} alt="name" />
+      //             ) : (
+      //               <div className="hover:underline">
+      //                 {item?.name}
+      //               </div>
+      //             )}
+      //           </a>
+      //           {currentUser.role.type == "admin" && <div
+      //             onClick={(e) => {
+      //               e.stopPropagation()
+      //               onRemove(originalRow?.id, item)
+      //             }}
+      //             className="absolute cursor-pointer -top-2 -right-10 z-20"
+      //           >
+      //             <Icon name="close-circle" className="fill-red bg-white rounded-full" />
+      //           </div>}
+      //         </div>
+      //       ))}
+      //       <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1">
+      //         <input
+      //           ref={ref}
+      //           type="file"
+      //           className="h-full w-full opacity-0 cursor-pointer absolute z-20"
+      //           onChange={(e) => uploadAssets(originalRow.id, e)}
+      //           multiple
+      //         />
+      //         <p>Tải lên</p>
+      //       </div>
+      //     </div>
+      //   ),
+      //   collapse: true,
+      //   width: 300,
+      // },
     ]
   }, [testResults, uploadAssets])
 
@@ -195,7 +235,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
         disableLineClamp
         isModal
         rowClassName="!h-auto py-4"
-        className="mt-6"
+        className="mt-2"
         columns={columns}
         data={data}
       />

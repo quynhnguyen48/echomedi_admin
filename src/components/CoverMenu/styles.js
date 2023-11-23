@@ -56,7 +56,6 @@ export const keywordSearchStyles = makeStyles((theme) => ({
     color: "#757575",
     letterSpacing: "-0.035em",
     fontWeight: "500",
-    fontFamily: "Poppins",
     fontSize: "0.875rem",
     border: "none",
     borderRadius: "8px"

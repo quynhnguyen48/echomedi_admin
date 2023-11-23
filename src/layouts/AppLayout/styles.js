@@ -41,7 +41,6 @@ export const appStyles = makeStyles((theme) => ({
   },
   children: {
     minHeight: "80vh",
-    fontFamily: "Poppins",
     [theme.breakpoints.down("sm")]: {
       minHeight: "85vh",
     },
@@ -145,7 +144,6 @@ export const headerStyles = makeStyles((theme) => ({
     fontWeight: "500",
     lineHeight: "18px",
     letterSpacing: "-0.035em",
-    fontFamily: "Poppins",
   },
   allBoardsIcon: {
     color: "#828282",

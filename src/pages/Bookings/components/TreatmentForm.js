@@ -1606,7 +1606,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-1" class="hidden" />
-              <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary font-bold text-white ">1. Hành chính &#62;</label>
+              <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary font-bold text-white hover:text-gray">1. Hành chính &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="flex flex-col">
                   <div className="">
@@ -1824,7 +1824,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-2" class="hidden" />
-              <label for="panel-2" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer bg-primary text-white font-bold">2. Thông tin lịch hẹn &#62;</label>
+              <label for="panel-2" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer bg-primary text-white font-bold hover:text-gray">2. Thông tin lịch hẹn &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="grid col-span-2 sm:grid-cols-1 grid-cols-2 gap-x-6 gap-y-4 py-4">
                   <Controller
@@ -1886,7 +1886,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-3" class="hidden" />
-              <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">3. Trạng thái &#62;</label>
+              <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">3. Trạng thái &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full">
 
@@ -1932,7 +1932,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             </div>
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-4" class="hidden" />
-              <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">4. Tư vấn ban đầu &#62;</label>
+              <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">4. Tư vấn ban đầu &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="w-full">
@@ -2122,7 +2122,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             {currentUser?.role?.type != "care_concierge" &&
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-5" class="hidden" />
-                <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">5. Sinh hiệu &#62;</label>
+                <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">5. Sinh hiệu &#62;</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full py-4">
                     <Controller
@@ -2374,7 +2374,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               </div>}
             {currentUser?.role?.type != "care_concierge" && <div className="w-full">
               <input type="checkbox" name="panel" id="panel-6" class="hidden" />
-              <label for="panel-6" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">6. Khám</label>
+              <label for="panel-6" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">6. Khám</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="grid grid-cols-1 gap-6">
@@ -2908,7 +2908,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             {currentUser?.role?.type != "care_concierge" &&
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-7" class="hidden" />
-                <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">7. Chỉ định dịch vụ/Gói dịch vụ</label>
+                <label for="panel-7" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">7. Chỉ định dịch vụ/Gói dịch vụ</label>
 
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="w-full">
@@ -3225,7 +3225,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               </div>}
             <div className="w-full">
               <input type="checkbox" name="panel" id="panel-8" class="hidden" />
-              <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">8. Các giấy tờ liên quan &#62;</label>
+              <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">8. Các giấy tờ liên quan &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full py-4">
                   <div className="flex flex-col items-start gap-x-4 pl-4">
@@ -3268,7 +3268,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
             {
               <div className="w-full">
                 <input type="checkbox" name="panel" id="panel-9" class="hidden" />
-                <label for="panel-9" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">9. CC note</label>
+                <label for="panel-9" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">9. CC note</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
                   <div className="col-span-2">
                     <Controller
