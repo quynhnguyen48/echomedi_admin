@@ -112,8 +112,18 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
         accessor: (originalRow) => {
           return (
             <div className="text-secondary">
-              <p className="font-bold mb-4">{originalRow?.id}</p>
-
+              <div className="inline-flex items-center justify-center rounded-xl bg-background p-1 relative border-primary border-1 w-20 hover:bg-primary">
+                  <input
+                    ref={ref}
+                    type="file"
+                    className="h-full w-full opacity-0 cursor-pointer absolute z-20 "
+                    onChange={(e) => uploadAssets(originalRow.id, e)}
+                    multiple
+                  />
+                  <p>Tải lên</p>
+                </div>
+                <p className="font-bold mb-4">{originalRow?.id}</p>
+                
               <div className="flex flex-col gap-y-5">
                 {testResults?.[originalRow?.id]?.map((item) => (
                   <div className="relative flex">
@@ -133,22 +143,13 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                         e.stopPropagation()
                         onRemove(originalRow?.id, item)
                       }}
-                      className="absolute cursor-pointer -top-2 -right-10 z-20"
+                      className="absolute -top-2 -right-10 z-20"
                     >
                       <Icon name="close-circle" className="fill-red bg-white rounded-full" />
                     </div>}
                   </div>
                 ))}
-                <div className="inline-flex items-center justify-center rounded-xl bg-background p-4 relative border-primary border-1 w-20 hover:bg-primary">
-                  <input
-                    ref={ref}
-                    type="file"
-                    className="h-full w-full opacity-0 cursor-pointer absolute z-20 "
-                    onChange={(e) => uploadAssets(originalRow.id, e)}
-                    multiple
-                  />
-                  <p>Tải lên</p>
-                </div>
+
               </div>
               <ul className="list-decimal ml-4 mt-4">
                 {originalRow?.service?.map((item) => (
@@ -235,7 +236,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
         disableLineClamp
         isModal
         rowClassName="!h-auto py-4"
-        className="mt-6"
+        className="mt-2"
         columns={columns}
         data={data}
       />
