@@ -127,7 +127,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
           <div className="flex items-center gap-x-4">
             {testResults?.[originalRow?.id]?.map((item) => (
               <div className="relative">
-                <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
+                <a className="text-blue font-bold" href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
                   {item?.mime?.startsWith("image") ? (
                     <img className="rounded-xl w-14 h-14" src={getStrapiMedia(item)} alt="name" />
                   ) : (
