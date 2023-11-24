@@ -88,7 +88,7 @@ export const createNewUser = (payload) => {
 }
 
 export const login = (payload) => {
-  return axios.post("/auth/local", payload)
+  return axios.post("/user/auth", payload)
 }
 
 export const forgotPassword = (payload) => {
