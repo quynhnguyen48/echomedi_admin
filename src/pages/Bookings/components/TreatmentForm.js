@@ -3231,7 +3231,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                   <div className="flex flex-col items-start gap-x-4 pl-4">
                     {references?.map((item, index) => (
                       <div key={index} className="relative">
-                        <a href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
+                        <a className="text-blue font-bold" href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
                           {item?.mime?.startsWith("image") ? (
                             <img className="rounded-xl w-30 h-30" src={getStrapiMedia(item)} alt="name" />
                           ) : (
