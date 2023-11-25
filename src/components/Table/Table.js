@@ -95,7 +95,7 @@ const Table = ({
     <div>
       <div
         {...getTableProps()}
-        className={`border border-grey overflow-auto ${className} ${!fullHeight && !isMobile && "max-h-[75vh]"}`}
+        className={`border border-grey overflow-auto ${className} ${!fullHeight && !isMobile && "h-[calc(100vh-180px)]"}`}
       >
         <div className="flex bg-primary sticky top-0 full-w z-10 opacity-90">
           {headerGroups.map((headerGroup) => (
@@ -170,7 +170,7 @@ const Table = ({
         </div>
       </div>
       <ReactPaginate
-        className={`flex items-center justify-end gap-x-4 mt-2 mb-0`}
+        className={`flex items-center justify-end gap-x-4 mt-2 pb-2 mb-0`}
         pageClassName="bg-primary/10 rounded text-14"
         pageLinkClassName="w-6 h-6 flex items-center justify-center"
         activeClassName="!bg-primary text-white font-bold"
