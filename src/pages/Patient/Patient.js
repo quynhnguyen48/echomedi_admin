@@ -246,7 +246,6 @@ const Treatments = () => {
       <div className="mt-1">
       </div>
       <Modal contentClassName="bg-modal" visibleModal={modalVisible} showCloseButton={true} onClose={() => setModalVisible(false)}>
-        <TreatmentForm slotInfo={slotInfo} />
         <Button
           onClick={() => {
             navigate("/customers/create");
