@@ -102,7 +102,6 @@ const Treatments = () => {
           let cnt = res.data.length;
           let patients = formatStrapiArr(res.data);
           setPatients(patients);
-          console.log('cnt', cnt)
           if (cnt == 1) {
             setDetailData(patients[0])
           }
@@ -161,6 +160,7 @@ const Treatments = () => {
           "membership_profile_file",
           "patient_source",
           "patient_source.image",
+          "user"
         ]
       )
       if (res.data) {
@@ -203,6 +203,8 @@ const Treatments = () => {
     }
 
   }, [detailData?.id, detailData?.publishedAt])
+
+  console.log('data', data)
 
   return (
     <Page

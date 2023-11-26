@@ -147,6 +147,12 @@ const CustomersTable = ({
         collapse: true,
         width: 150,
       },
+      {
+        Header: "Đã đăng ký [ID]",
+        collapse: true,
+        width: 50,
+        accessor: (originalRow) => <span>{originalRow.user?.data?.id}</span>,
+      },
       // {
       //   Header: "Lần khám gần nhất",
       //   align: "right",
