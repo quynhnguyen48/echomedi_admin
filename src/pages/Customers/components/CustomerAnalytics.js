@@ -35,7 +35,7 @@ const CustomerAnalytics = ({ data }) => {
     <div>
       <p className="font-bold">Customer Analytics</p>
       {data && (
-        <div className="mt-5 p-6 rounded-lg flex flex-col gap-y-10 bg-rightContent">
+        <div className="mt-5 p-6 rounded-lg flex flex-col gap-y-2 bg-rightContent">
           <DataItem
             icon="calendar-tick"
             title="Latest Booking History"

@@ -127,7 +127,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           <DataItem
             icon="cake"
             title="Ngày sinh"
-            value={dayjs(data?.birthday).format("DD MMMM, YYYY")}
+            value={data?.birthday ? dayjs(data?.birthday).format("DD MMMM, YYYY") : ''}
           />
           <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
           <DataItem icon="call" title="Số điện thoại người thân" value={data?.relative_phone} />
