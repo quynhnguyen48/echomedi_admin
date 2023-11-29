@@ -179,7 +179,7 @@ const Login = () => {
         />
         <div className="space-y-2">
           <label className="font-16 font-bold">Chọn chi nhánh</label>
-          <div className="grid grid-cols-3 gap-x-6">
+          <div className="grid grid-cols-3 gap-x-2">
             <Controller
               name="gender"
               control={control}

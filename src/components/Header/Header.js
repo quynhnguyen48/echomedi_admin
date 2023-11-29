@@ -40,7 +40,7 @@ const Header = ({ title, parentUrl }) => {
   }
 
   return (
-    <header className="flex sm:block items-center justify-between p-2 pb-0 lg:flex-col flex-row">
+    <header className="flex sm:block items-center justify-between p-2 lg:flex-col flex-row shadow-lg mb-2">
       <div className="flex items-center">
         {!!parentUrl && (
           <button
@@ -57,7 +57,7 @@ const Header = ({ title, parentUrl }) => {
         <div className="flex items-center gap-x-2">
           <div className="">
 
-            <div className="dropdown inline-block relative">
+            <div className="dropdown inline-block relative w-[270px]">
               <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
                 <span className="mr-1">{getBranchDisplayLabel()}</span>
                 <svg className="fill-current h-4 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /> </svg>
@@ -70,7 +70,7 @@ const Header = ({ title, parentUrl }) => {
             </div>
 
           </div>
-          <Button shape="circle" className="bg-transparent w-[350px] text-[green]" onClick={() => navigate("/settings")}>
+          <a shape="circle" className="bg-transparent  text-[green]" onClick={() => navigate("/settings")}>
           {/* <Avatar
             size={40}
             round
@@ -80,7 +80,7 @@ const Header = ({ title, parentUrl }) => {
             }
           /> */}
           <pre>{" " + currentUser?.patient?.full_name + " (" + currentUser?.role.type + ")  "}</pre>
-          </Button>
+          </a>
           <Button shape="circle" className="bg-transparent" onClick={() => logout()}>
             <Icon name="logout-circle" />
           </Button>
