@@ -149,7 +149,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
 
         </div>}
       </div>
-      <div className="grid grid-cols-2 grid-flow-row gap-y-10 my-12">
+      <div className="grid grid-cols-2 grid-flow-row gap-y-2 my-2">
         <DataItem icon="key" title="Tên" value={data?.label} />
 
         <DataItem icon="code" title="Code" value={data?.code} />
