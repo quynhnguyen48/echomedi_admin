@@ -97,12 +97,12 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
                         originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.patient?.membership)} text-${getMembershipColor(originalRow?.patient?.membership)}`
                       }`}/>
             )}
-            {getStrapiMedia(originalRow?.patient?.patient_source?.image) && <img src={getStrapiMedia(originalRow?.patient?.patient_source?.image)} alt="Product" className="w-30" />}
+            {getStrapiMedia(originalRow?.patient?.patient_source?.image) && <img src={getStrapiMedia(originalRow?.patient?.patient_source?.image)} alt="Product" className="w-20 mt-1" />}
             {originalRow?.uid}
           </span>
         ),
         collapse: true,
-        width: !isMobile ? 70 : 30,
+        width: !isMobile ? 35 : 30,
       },
       {
         Header: "Tên",

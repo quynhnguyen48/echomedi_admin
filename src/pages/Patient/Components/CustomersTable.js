@@ -95,11 +95,12 @@ const CustomersTable = ({
                         originalRow?.id === activeRow?.id ? "fill-white" : `fill-${getMembershipColor(originalRow?.membership)} text-${getMembershipColor(originalRow?.membership)}`
                       }`}/>
             )}
-            {getStrapiMedia(originalRow?.patient_source.data?.attributes.image.data?.attributes) && <img src={getStrapiMedia(originalRow?.patient_source.data?.attributes.image.data?.attributes)} alt="Product" className="w-30" />}
+            {getStrapiMedia(originalRow?.patient_source.data?.attributes.image.data?.attributes) &&
+             <img src={getStrapiMedia(originalRow?.patient_source.data?.attributes.image.data?.attributes)} alt="Product" className="w-20 mt-1" />}
           </span>
         ),
         collapse: true,
-        width: 100,
+        width: 80,
       },
       {
         Header: "Ngày tạo",
