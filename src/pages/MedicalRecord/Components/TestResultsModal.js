@@ -122,7 +122,7 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                   />
                   <p>Tải lên</p>
                 </div>
-                <p className="font-bold mb-4">{originalRow?.id}</p>
+                <p className="font-bold mt-4">{originalRow?.id}</p>
                 
               <div className="flex flex-col gap-y-5">
                 {testResults?.[originalRow?.id]?.map((item) => (
