@@ -93,6 +93,7 @@ const ListBooking = React.lazy(() => import("pages/ListBooking/ServiceBundle"));
 const ChatRequestPage = React.lazy(() => import("pages/ChatRequest/ServiceBundle"));
 const MessagePage = React.lazy(() => import("pages/MessagePage/ServiceBundle"));
 const ViewMessagePage = React.lazy(() => import("pages/ViewMessagePage/ServiceBundle"));
+const HealthFinder = React.lazy(() => import("pages/HealthFinder"));
 
 const MainRoutes = () => {
   return (
@@ -100,6 +101,7 @@ const MainRoutes = () => {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/customers" element={<Customers />} />
+        <Route path="/health_finder" element={<HealthFinder />} />
         <Route path="/customers/create" element={<CreateCustomers />} />
         <Route path="/customers/:id/edit" element={<EditCustomer />} />
         <Route path="/bookings" element={<Bookings />} />
