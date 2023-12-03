@@ -376,7 +376,7 @@ class DBPedia extends Component {
 		const { name } = steps;
 		const { terms, searchTerms } = self.state;
 
-		const queryUrl = `https://1e70-13-229-51-67.ngrok-free.app/query?q=${name.value}`;
+		const queryUrl = `https://4a9c-13-229-51-67.ngrok-free.app/query?q=${name.value}`;
 		axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 		axios.get(queryUrl)
 			.then(response => {
