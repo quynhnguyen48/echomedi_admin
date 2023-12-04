@@ -66,6 +66,7 @@ class Review extends Component {
 		const { name, gender, age } = steps;
 
 		this.setState({ name, gender, age });
+		this.search();
 	}
 
 
@@ -104,6 +105,7 @@ class DBPedia extends Component {
 			result: '',
 			trigger: false,
 			terms: [],
+			data: '',
 			searchTerms: [],
 		};
 
@@ -361,82 +363,77 @@ class DBPedia extends Component {
 	};
 
 	componentDidMount() {
-		var self = this;
-		const { steps } = this.props;
-		const { name, gender, age } = steps;
-		let iAge = parseInt(age.value);
-		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_64' : '65'))}`;
-
-		var data = [
-			{ label: "Không có bệnh", value: searchKey + "_khong_co_benh" },
-			{ label: "Thần kinh", value: searchKey + "_than_kinh" },
-			{ label: "Hô hấp", value: searchKey + "_ho_hap" },
-			{ label: "Tim mạch", value: searchKey + "_tim_mach" },
-			{ label: "Thận tiết niệu", value: searchKey + "_than_tiet_nieu" },
-			{ label: "Cơ xương khớp", value: searchKey + "_co_xuong_khop" },
-			{ label: "Nội tiết chuyển hoá", value: searchKey + "_noi_tiet_chuyen_hoa" },
-			{ label: "Tiêu hoá", value: searchKey + "_tieu_hoa" },
-		];
-		// var element = document.getElementById("multiselect__container");
-		// var element2 = document.getElementById("multiselect__container2");
-
-		var select = function (data) {
-			self.setState({ terms: data })
-		}
-
-		// this.createMultiselect(this.textInput.current, data, select);
-		// createMultiselect(element2, data, select);
+		// var self = this;
+		// const { steps } = this.props;
+		this.search();
+		const { name } = steps;
+		
 	}
 
 	search() {
 		const self = this;
 		const { steps } = this.props;
-		const { name, gender, age } = steps;
+		const { name } = steps;
 		const { terms, searchTerms } = self.state;
 
-		let iAge = parseInt(age.value);
-
-		let searchKey = `${gender.value}_${iAge < 40 ? '18_39' : (iAge < 50 ? '40_49' : (iAge < 65 ? '50_64' : '65'))}`;
-
-		let te = searchTerms.map(t => searchKey + "_" + t);
-
-		const queryUrl = `https://api.echomedi.com/api/medical-service/search/${te.join('|')}`;
-
+		const queryUrl = `https://4a9c-13-229-51-67.ngrok-free.app/query?q=${name.value}`;
+		axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+		axios.get(queryUrl)
+			.then(response => {
+				this.setState({
+					data: response.data,
+				})
+				// setTwilioBalance(response.data);
+			})
+			.catch((e) =>  {
+				console.log('error', e)
+				this.setState({
+					data: 'Có lỗi xảy ra. Xin thử lại sau!',
+				})
+			})
+			.finally(() => {
+				// toast.dismiss(id);
+				this.props.triggerNextStep();
+			});
+		return;
 		const xhr = new XMLHttpRequest();
 
 		xhr.addEventListener('readystatechange', readyStateChange);
+		xhr.timeout = 100000;
+		
 
 		function readyStateChange() {
 			if (this.readyState === 4) {
 				const data = JSON.parse(this.responseText);
+				console.log('dataaaa a', data)
 
+				// // const bindings = data.results.bindings;
+				// if (data && data.length > 0) {
 
-				// const bindings = data.results.bindings;
-				if (data && data.length > 0) {
+				// 	let searchData = {};
+				// 	data.forEach(s => {
+				// 		let found = false;
+				// 		s.tags.forEach(t => {
+				// 			if (te.indexOf(t.searchBy) > -1 && !found) {
+				// 				if (!searchData[t.group]) {
+				// 					searchData[t.group] = [];
+				// 				}
+				// 				searchData[t.group].push(s);
+				// 				found = true;
+				// 			}
+				// 		});
 
-					let searchData = {};
-					data.forEach(s => {
-						let found = false;
-						s.tags.forEach(t => {
-							if (te.indexOf(t.searchBy) > -1 && !found) {
-								if (!searchData[t.group]) {
-									searchData[t.group] = [];
-								}
-								searchData[t.group].push(s);
-								found = true;
-							}
-						});
-
-					});
+				// 	});
 
 					self.setState({ loading: false, result: data, data: searchData });
 				} else {
 					self.setState({ loading: false, result: 'Not found.' });
 				}
-			}
 		}
 
-		xhr.open('GET', queryUrl);
+		xhr.open('GET', queryUrl, true);
+		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); 
+		xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
 		xhr.send();
 	}
 
@@ -453,64 +450,9 @@ class DBPedia extends Component {
 		const { name, gender, age } = steps;
 
 		return (
-			<div className="dbpedia w-full">
-				<div className="grid sm:grid-cols-2 grid-cols-4 gap-x-6 gap-y-4 py-4">
-					{serviceGroups.map((searchTerm) => (
-						<Button
-							key={searchTerm}
-							onChange={onchange}
-							type="button"
-							className={classNames(
-								"text-center w-full h-14 pl-2 !justify-start capitalize",
-								{
-									"bg-primary text-white font-bold": searchTerms.indexOf(searchTerm) != -1,
-									"bg-primary/10 text-primary font-normal": searchTerms.indexOf(searchTerm) == -1,
-								}
-							)}
-							onClick={() => {
-								let newSearchTerms = [...searchTerms];
-								const index = newSearchTerms.indexOf(searchTerm);
-								if (index != -1) {
-									newSearchTerms.splice(index, 1);
-								} else {
-									newSearchTerms.push(searchTerm);
-								}
-								//   setSearchTerms(newSearchTerms);
-								self.setState({
-									searchTerms: newSearchTerms
-								})
-							}}
-						>
-							{translateServiceGroup(searchTerm)}
-						</Button>
-					))}
-				</div>
-				<Button
-					className={"w-full"}
-					btnType="primary"
-					type="reset"
-					onClick={e => this.search()}
-				>
-					Tìm kiếm
-				</Button>
-				{loading ? <Loading /> :
-					<div>
-
-						<p>Kết quả ({name?.value} {age?.value} {gender?.value}):</p>
-						{data && Object.entries(data)
-							.map(([serviceName, service]) => {
-								console.log('serviceName', serviceName, service)
-								return <div><h1 className="font-bold">- {serviceName}</h1>
-									{service.map(s => <p className="flex">
-										{s.label}
-										<div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
-									</p>)}
-								</div>
-							})
-						}
-					</div>
-				}
-			</div>
+			<div class="sc-papXJ fkizOu rsc-ts rsc-ts-bot"><div class="sc-ftvSup hAEwKD rsc-ts-image-container">
+				<img class="sc-iBkjds cftzIa rsc-ts-image" src="data:image/svg+xml,%3csvg version='1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3e%3cpath d='M303 70a47 47 0 1 0-70 40v84h46v-84c14-8 24-23 24-40z' fill='%2393c7ef'/%3e%3cpath d='M256 23v171h23v-84a47 47 0 0 0-23-87z' fill='%235a8bb0'/%3e%3cpath fill='%2393c7ef' d='M0 240h248v124H0z'/%3e%3cpath fill='%235a8bb0' d='M264 240h248v124H264z'/%3e%3cpath fill='%2393c7ef' d='M186 365h140v124H186z'/%3e%3cpath fill='%235a8bb0' d='M256 365h70v124h-70z'/%3e%3cpath fill='%23cce9f9' d='M47 163h419v279H47z'/%3e%3cpath fill='%2393c7ef' d='M256 163h209v279H256z'/%3e%3cpath d='M194 272a31 31 0 0 1-62 0c0-18 14-32 31-32s31 14 31 32z' fill='%233c5d76'/%3e%3cpath d='M380 272a31 31 0 0 1-62 0c0-18 14-32 31-32s31 14 31 32z' fill='%231e2e3b'/%3e%3cpath d='M186 349a70 70 0 1 0 140 0H186z' fill='%233c5d76'/%3e%3cpath d='M256 349v70c39 0 70-31 70-70h-70z' fill='%231e2e3b'/%3e%3c/svg%3e" alt="avatar"/></div>
+				<div class="sc-gKXOVf iiGzCW rsc-ts-bubble">{data}</div></div>
 		);
 	}
 }
@@ -523,13 +465,13 @@ function numberWithCommas(x) {
 const steps = [
 	{
 		id: '1',
-		message: 'ECHO MEDI xin chào bạn, cho mình hỏi tên của bạn là gì ?',
+		message: 'Bạn có câu hỏi gì về ECHO MEDI hoặc vấn đề liên quan đến sức khoẻ ?',
 		trigger: 'name',
 	},
 	{
 		id: 'name',
 		user: true,
-		trigger: '3',
+		trigger: '7',
 	},
 	{
 		id: '3',
@@ -573,6 +515,7 @@ const steps = [
 		id: '7',
 		component: <DBPedia />,
 		waitAction: true,
+		trigger: 'name',
 	},
 	{
 		id: 'review',
