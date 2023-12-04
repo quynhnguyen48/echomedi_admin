@@ -101,6 +101,7 @@ const Bookings = () => {
       if (res.data) {
         let tmp = formatStrapiObj(res.data);
         tmp.patient = formatStrapiObj(tmp.patient.data);
+        tmp.medical_record = formatStrapiObj(tmp.medical_record);
         tmp.start = tmp.bookingDate;
         tmp.end = moment(tmp.bookingDate).add(29, "minutes").toDate();
         setSlotInfo(tmp);
