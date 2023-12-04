@@ -89,16 +89,17 @@ pre {
 }
 
 .rsc {
-  height: 500px !important;
+  height: 100% !important;
   width: calc(min(100vw, 400px));
   position: fixed;
   right: 0;
   bottom: 0;
+  z-index: 9999;
 }
 
 .rsc-container {
   width: -webkit-fill-available !important; 
-  height: 500px !important;
+  height: 100% !important;
   position: fixed;
   right: 0;
   bottom: 0;
@@ -212,4 +213,77 @@ pre {
 
 .rsc-content {
   height: calc(100% - 112px) !important;
+}
+
+.rsc-cs {
+  padding: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  justify-content: start !important;
+}
+
+.rsc-container {
+  border-radius: 0 !important;
+}
+
+.rsc-ts-bubble {
+  -webkit-animation: gZmgDU 0.3s ease forwards;
+  animation: gZmgDU 0.3s ease forwards;
+  background: #426044;
+  border-radius: 18px 18px 18px 0;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.15);
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  max-width: 50%;
+  margin: 0 0 10px 0;
+  overflow: hidden;
+  position: relative;
+  padding: 12px;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  -webkit-transform-origin: bottom left;
+  -ms-transform-origin: bottom left;
+  transform-origin: bottom left;
+}
+
+.rsc-ts-bot {
+  webkit-align-items: flex-end;
+    -webkit-box-align: flex-end;
+    -ms-flex-align: flex-end;
+    align-items: flex-end;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.rsc-ts-image-container {
+  display: inline-block;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    padding: 6px;
+}
+
+.rsc-ts-image {
+  -webkit-animation: gZmgDU 0.3s ease forwards;
+    animation: gZmgDU 0.3s ease forwards;
+    border-radius: 50% 50% 0 50%;
+    box-shadow: rgba(0,0,0,0.15) 0px 1px 2px 0px;
+    height: 40px;
+    min-width: 40px;
+    padding: 3px;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: bottom right;
+    -ms-transform-origin: bottom right;
+    transform-origin: bottom right;
+    width: 40;
 }
