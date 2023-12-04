@@ -119,23 +119,12 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
   }, [data])
 
   const validationSchema = yup.object({
-    // email: yup
-    //   .string()
-    //   .trim()
-    // .when([], {
-    //   is: () => !getValues("user"),
-    //   then: yup.string().trim().required('email is required').matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
-    //   otherwise: yup.string().notRequired(),
-    // }),
-    // .required("Email is required")
-    // .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
     full_name: yup.string()
       .when([], {
         is: () => !getValues("user"),
         then: yup.string().trim().required('Fullname is required'),
         otherwise: yup.string().notRequired(),
       }),
-    // .required("Fullname is required"),
     phone: yup
       .string()
       .trim()
@@ -144,27 +133,6 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
         then: yup.string().trim(),
         otherwise: yup.string().notRequired(),
       }),
-    // address: yup.object({
-    //   province: yup.object().required("City is required").nullable(),
-    //   district: yup.object().required("District is required").nullable(),
-    //   ward: yup.object().required("Ward is required").nullable(),
-    //   address: yup.string().required("Address is required"),
-    // }).when([], {
-    //   is: () => !getValues("user"),
-    //   then: yup.object().required('Fullname is required'),
-    //   otherwise: yup.object().notRequired(),
-    // }),
-    // birthday: yup.date().typeError("Date of birth is required").when([], {
-    //   is: () => !getValues("user"),
-    //   then: yup.date().required(),
-    //   otherwise: yup.date().notRequired(),
-    // }),
-    // birthday: yup.date().notRequired(),
-    // gender: yup.string().when([], {
-    //   is: () => !getValues("user"),
-    //   then: yup.string().required(),
-    //   otherwise: yup.string().notRequired(),
-    // }),
     status: yup.string().when([], {
       is: () => !getValues("user"),
       then: yup.string().required(),
@@ -186,8 +154,6 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
     }
     return result;
   }
-
-  console.log('data', data)
 
   const {
     handleSubmit,
@@ -336,7 +302,7 @@ const CustomersForm = ({ data, createNewPatient, updateBooking, fromCheckIn, onU
         delete payload.id;
         await createBookingWithPatient({ ...payload, createNewPatient: false })
       } else if (updateBooking) {
-        await updateBookingWithPatient({ ...payload, id: data.id, patient: data?.patient.id, createNewPatient })
+        await updateBookingWithPatient({ ...payload, id: data.id, patient: data?.patient.id, createNewPatient, medical_record: data?.medical_record?.id })
       } else {
         await createBookingWithPatient({ ...payload, createNewPatient })
       }
