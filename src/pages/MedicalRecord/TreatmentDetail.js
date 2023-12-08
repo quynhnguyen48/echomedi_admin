@@ -346,7 +346,10 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
               <div className="flex flex-row justify-between	">
                 <div className="w-full">
                   <input type="checkbox" name="panel" id={`panel-${b.id}`} class="hidden" />
+                  <div className="flex justify-between">
                   <label for={`panel-${b.id}`} class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">{b.attributes.label} {numberWithCommas(b.attributes.price)} &#62;</label>
+                  <label class=""> {numberWithCommas(b.attributes.price)}</label>
+                  </div>
                   <div class="accordion__content overflow-scroll bg-grey-lighter">
 
                     <ol className="service w-full" style={{ listStyleType: "decimal", marginLeft: "20px" }}>
