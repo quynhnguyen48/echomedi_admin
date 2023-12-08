@@ -16,6 +16,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
   const navigate = useNavigate()
   const [medicalServices, setMedicalServices] = useState([])
   const [bundleServices, setBundleServices] = useState([])
+  const [cliniqueServices, setCliniqueServices] = useState([])
   const [blob, setBlob] = useState(null)
   const [visibleModal, setVisibleModal] = useState(false)
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
@@ -36,6 +37,10 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
     if (data.services) {
       let services = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
       setMedicalServices(services)
+    }
+    if (data.clinique_services) {
+      let cliniqueServices = typeof data.clinique_services == 'string' ? JSON.parse(data.clinique_services) : data.clinique_services;
+      setCliniqueServices(cliniqueServices);
     }
   }, [data])
 
@@ -324,6 +329,16 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       </div>
 
       <div className="mt-5">
+      {cliniqueServices && cliniqueServices.length > 0 && <p className="underline text-xl font-bold mt-5">Dịch vụ lâm sàng:</p>}
+        <table className="service w-full">
+          {cliniqueServices &&
+            cliniqueServices.map((b) => (
+              <tr>
+                <th>{b.attributes.label}</th>
+                <th className="price">{numberWithCommas(b.attributes.price)}</th>
+              </tr>
+            ))}
+        </table>
         {bundleServices && bundleServices.length > 0 && <p className="underline text-xl font-bold">Gói dịch vụ:</p>}
         {bundleServices && Array.isArray(bundleServices) &&
           bundleServices.map((b) => (
