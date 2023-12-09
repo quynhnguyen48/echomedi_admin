@@ -1379,6 +1379,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       if (!payload.bmi) { 
         delete payload.bmi; 
       }
+      if (!payload.clinique_services || (Array.isArray(payload.clinique_services) && payload.clinique_services.length == 0)) {
+        delete payload.clinique_services; 
+      }
 
       if (!data.patient.membership && selectedMembership?.value) {
         const result = await updatePatient(data.patient.id, {
