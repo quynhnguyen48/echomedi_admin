@@ -1346,6 +1346,40 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         bmi,
       }
 
+      if (!payload.circuit) { 
+        delete payload.circuit; 
+      }
+      if (!payload.temperature) { 
+        delete payload.temperature; 
+      }
+      if (!payload.respiratory_rate) { 
+        delete payload.respiratory_rate; 
+      }
+      if (!payload.spo2) { 
+        delete payload.spo2; 
+      }
+      if (!payload.blood_pressure) { 
+        delete payload.blood_pressure; 
+      }
+      if (!payload.blood_pressure2) { 
+        delete payload.blood_pressure2; 
+      }
+      if (!payload.blood_pressure_1) { 
+        delete payload.blood_pressure_1; 
+      }
+      if (!payload.blood_pressure2_1) { 
+        delete payload.blood_pressure2_1; 
+      }
+      if (!payload.weight) { 
+        delete payload.weight; 
+      }
+      if (!payload.height) { 
+        delete payload.height; 
+      }
+      if (!payload.bmi) { 
+        delete payload.bmi; 
+      }
+
       if (!data.patient.membership && selectedMembership?.value) {
         const result = await updatePatient(data.patient.id, {
           data: {
