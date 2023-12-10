@@ -12,10 +12,10 @@ import Icon from "components/Icon"
 import { useDispatch, useSelector } from "react-redux";
 
 const AVAILABLE_TEST_RESULT = [
-  "Xét nghiệm máu",
-  "Xét nghiệm dịch tiết",
-  "Xét nghiệm nước tiểu",
-  "Xét nghiệm phân",
+  "Xét nghiệm máu/Xét nghiệm dịch tiết/Xét nghiệm nước tiểu/Xét nghiệm phân",
+  // "Xét nghiệm dịch tiết",
+  // "Xét nghiệm nước tiểu",
+  // "Xét nghiệm phân",
   "Thăm dò chức năng",
   "Nội soi",
   "Siêu âm",
@@ -105,6 +105,8 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
     }
   }, [fetchData, medicalRecordId])
 
+  console.log('testResults', testResults)
+
   const columns = useMemo(() => {
     return [
       {
@@ -149,7 +151,30 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
                     </div>}
                   </div>
                 ))}
+                {originalRow?.id == "Xét nghiệm máu/Xét nghiệm dịch tiết/Xét nghiệm nước tiểu/Xét nghiệm phân" && testResults?.["Xét nghiệm máu"]?.map((item) => (
+                  <div className="relative flex">
+                    <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px"><path d="M19,20c0,0.6-0.4,1-1,1H6c-0.6,0-1-0.4-1-1V4c0-0.6,0.4-1,1-1h7.6L19,8.4V20z" opacity=".3" /><path d="M18,22H6c-1.1,0-2-0.9-2-2V4c0-1.1,0.9-2,2-2h8l6,6v12C20,21.1,19.1,22,18,22z M6,4v16h12V8.8L13.2,4H6z" /><path d="M18.5 9L13 9 13 3.5z" /></svg>
 
+                    <a className="text-blue font-bold"  href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
+                      {item?.mime?.startsWith("image") ? (
+                        <img className="rounded-xl w-14 h-14" src={getStrapiMedia(item)} alt="name" />
+                      ) : (
+                        <div className="hover:underline">
+                          {item?.name}
+                        </div>
+                      )}
+                    </a>
+                    {currentUser.role.type == "admin" && <div
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onRemove(originalRow?.id, item)
+                      }}
+                      className="absolute -top-2 -right-10 z-20"
+                    >
+                      <Icon name="close-circle" className="fill-red bg-white rounded-full" />
+                    </div>}
+                  </div>
+                ))}
               </div>
               <ul className="list-decimal ml-4 mt-4">
                 {originalRow?.service?.map((item) => (
@@ -209,7 +234,14 @@ const TestResultsModal = ({ onClose, visibleModal, services, medicalRecordId }) 
   }, [testResults, uploadAssets])
 
   const servicesData = useMemo(() => {
-    const formatServices = groupBy(formatStrapiArr({ data: services }), "group_service")
+    // console.log('services', formatStrapiArr({ data: services }))
+    let formattedServices = formatStrapiArr({ data: services });
+    formattedServices = formattedServices.map(service => {
+      service.group_service = AVAILABLE_TEST_RESULT[0].includes(service?.group_service) ? AVAILABLE_TEST_RESULT[0] : service?.group_service;
+      return service;
+    })
+
+    const formatServices = groupBy(formattedServices, "group_service")
     return Object.entries(formatServices)
       .map(([serviceName, service]) => {
         if (!AVAILABLE_TEST_RESULT.includes(serviceName)) return null
