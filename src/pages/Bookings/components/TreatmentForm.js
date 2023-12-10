@@ -984,9 +984,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           const servicesData = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
           const cliniqueServicesData = data.clinique_services;
           const usedIdMedicalServices = servicesData.map((ud) => ud.id)
-          const usedIdCliniqueServices = cliniqueServicesData.map((ud) => ud.id)
-          ms = ms.filter(s => usedIdMedicalServices.indexOf(s.id) == -1);
-          cs = cs.filter(s => usedIdCliniqueServices.indexOf(s.id) == -1);
+          const usedIdCliniqueServices = cliniqueServicesData?.map((ud) => ud.id)
+          ms = ms.filter(s => usedIdMedicalServices?.indexOf(s.id) == -1);
+          cs = cs.filter(s => usedIdCliniqueServices?.indexOf(s.id) == -1);
           setMedicalServices(ms);
           setCliniqueServices(cs);
         }
