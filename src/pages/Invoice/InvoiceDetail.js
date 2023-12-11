@@ -21,13 +21,15 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   const [visibleTestResultModal, setVisibleTestResultModal] = useState(false)
   const [membership, setMembership] = useState();
 
+  console.log('bundleServices', bundleServices)
+
   useEffect(() => {
     if (data && data.medicalRecord) {
       if (data?.medicalRecord.bundle_services) {
         setBundleServices(typeof data.medicalRecord.bundle_services == "string" ? JSON.parse(data.medicalRecord.bundle_services) : data.medicalRecord.bundle_services)
       }
       if (data?.medicalRecord.services) {
-        setMedicalServices(typeof data.medicalRecord.services == "string" ? JSON.parse(data.medicalRecord.services): data.medicalRecord.services)
+        setMedicalServices(typeof data.medicalRecord.services == "string" ? JSON.parse(data.medicalRecord.services) : data.medicalRecord.services)
       }
       if (data?.medicalRecord.membership) {
         setMembership(JSON.parse(data.medicalRecord.membership));
@@ -70,9 +72,9 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
     <div className={`my-5 w-full max-h-[78vh] ${!isMobile && 'overflow-scroll'}`}>
       <div className="flex items-center gap-x-2"></div>
       <div className="grid grid-cols-4 grid-flow-row gap-y-2">
-      <DataItem icon="user" title="Tên" value={data?.patient?.full_name?.toUpperCase()} />
+        <DataItem icon="user" title="Tên" value={data?.patient?.full_name?.toUpperCase()} />
         <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
-        
+
         <DataItem
           icon="calendar"
           title="Ngày khám bệnh"
@@ -83,12 +85,11 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
           title="Chi nhánh"
           value={getDisplayBranchLabel(data?.booking?.branch)}
         />
-        
+
         <div>
           <div
-            className={`bg-white justify-center items-center flex fixed inset-0 z-20 outline-none focus:outline-none transition-all ${
-              visibleModal ? "visible" : "invisible"
-            }`}
+            className={`bg-white justify-center items-center flex fixed inset-0 z-20 outline-none focus:outline-none transition-all ${visibleModal ? "visible" : "invisible"
+              }`}
           ></div>
         </div>
       </div>

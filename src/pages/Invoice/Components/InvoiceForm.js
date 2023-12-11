@@ -45,6 +45,8 @@ const InvoiceForm = ({
   const [cashierData, setCashierData] = useState([]);
   const currentUser = useSelector((state) => state.user.currentUser)
 
+  console.log('invoiceData', bundleServices)
+
   const {
     handleSubmit,
     control,
@@ -351,6 +353,7 @@ const InvoiceForm = ({
             id: item?.id,
             price: item?.attributes?.original_price ?? item?.attributes?.price,
             label: item?.attributes?.label,
+            medical_services: item?.attributes?.medical_services,
             discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
             discountPercentage: item.attributes["discount_percentage"],
             note: item?.attributes?.discount_note
