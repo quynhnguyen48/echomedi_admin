@@ -71,7 +71,7 @@ export function Input({
   }, whiteList);
 
   return (
-    <div className={`${disabled && "opacity-30"} ${className}`}>
+    <div className={`${disabled && "opacity-60"} ${className}`}>
       {label && !hideLabel && (
         <label className="inline-block text-16 font-bold mb-2" htmlFor={name}>
           {label}

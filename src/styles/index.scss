@@ -65,6 +65,10 @@ table.service .price {
   --tag-inset-shadow-size: 2em !important;
 }
 
+.tagify[disabled] {
+  opacity: 1 !important;
+}
+
 .jsoneditor-menu {
   background-color: #416045 !important;
   border-bottom: 1px solid #416045 !important;

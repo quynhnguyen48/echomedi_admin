@@ -16,7 +16,7 @@ export function Textarea({
   textareaClassName,
 }) {
   return (
-    <div className={`${disabled && "opacity-30"} ${className}`}>
+    <div className={`${disabled && "opacity-60"} ${className}`}>
       {label && (
         <label className="inline-block text-16 font-bold mb-2" htmlFor={name}>
           {label}

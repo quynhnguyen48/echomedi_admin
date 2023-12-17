@@ -120,7 +120,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           </div>}
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-1 gap-x-10 mt-4">
-        <div className="flex flex-col gap-y-1">
+        <div className="flex flex-col">
           <DataItem icon="user" title="Tên" value={`${data?.full_name?.toUpperCase()}`} />
           <DataItem icon="message" title="Email" value={data?.email} />
           <DataItem icon="man" title="Giới tính" value={data?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />

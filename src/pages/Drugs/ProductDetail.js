@@ -60,7 +60,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
           </Button>
         </div> */}
       </div>
-      <div className="grid grid-cols-2 grid-flow-row gap-y-1 mt-12">
+      <div className="grid grid-cols-1 grid-flow-row mt-4">
         <DataItem icon="key" title="Product ID" value={data?.code} />
 
 
