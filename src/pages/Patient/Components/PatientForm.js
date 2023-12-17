@@ -230,11 +230,11 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           return uploadMedia(formData)
         })
       } catch (error) {
-        // toast.error(getErrorMessage(error));
+        toast.error(getErrorMessage(error));
       } finally {
         toast.dismiss(toastId)
         setTimeout(() => {
-          window.location.reload();
+          // window.location.reload();
         }, 1000);
       }
     })

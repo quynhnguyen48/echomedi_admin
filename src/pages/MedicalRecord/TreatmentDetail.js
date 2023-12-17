@@ -218,7 +218,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
     <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`} id='customer-detail'>
       <div className="flex items-center gap-x-2 overflow-scroll"></div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-1 grid-flow-row gap-y-5 mt-2">
+      <div className="grid grid-cols-3 sm:grid-cols-1 grid-flow-row">
         <DataItem icon="user" title="Tên/SĐT/Năm sinh" value={`${data?.patient?.full_name?.toUpperCase()} - ${data?.patient?.phone} - ${dayjs(data?.patient?.birthday).format("DD/MM/YYYY")}`} />
         <DataItem
           icon="calendar"
@@ -227,15 +227,15 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         />
         <DataItem icon="location" title="Chi nhánh" value={getDisplayBranchLabel(data?.booking?.branch)} />
       </div>
-      <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
+      <div className="grid grid-cols-1 grid-flow-row">
 
         <DataItemJSON icon="stickynote" title="Lý do nhập viện" value={parseJson(data?.reasons_to_get_hospitalized)} />
         <DataItemJSON icon="box-tick" title="Bệnh sử" value={parseJson(data?.inquiry)} />
       </div>
 
-      <div className="grid grid-cols-1 grid-flow-row gap-y-5 mt-2">
+      <div className="grid grid-cols-1 grid-flow-row">
         {isMobile ?
-          <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row gap-y-5 mt-2 px-2">
+          <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row px-2">
             <div>Mạch {data?.circuit} (lần/phút)</div>
             <div>Nhiệt độ {data?.temperature} (*C)</div>
             <div>Huyết áp {data?.blood_pressure}/{data?.blood_pressure2} (mmHg)</div>
@@ -278,7 +278,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <input type="checkbox" name="panel" id="panel-7" class="hidden" />
           <label for="panel-7" class="relative block bg-green p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">Tiền căn bản thân  &#62;</label>
           <div class="accordion__content overflow-scroll bg-grey-lighter">
-            <div className="w-full py-4">
+            <div className="w-full py-2">
 
               <DataItemJSON icon="box-tick" title="Nội khoa" value={parseJson(data?.noi_khoa)} />
               <DataItemJSON icon="box-tick" title="Ngoại khoa" value={parseJson(data?.ngoai_khoa)} />
@@ -296,7 +296,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           <input type="checkbox" name="panel" id="panel-1" class="hidden" />
           <label for="panel-1" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">Khám lâm sàng  &#62;</label>
           <div class="accordion__content overflow-scroll bg-grey-lighter">
-            <div className="w-full py-4"></div>
+            <div className="w-full py-2"></div>
             <DataItemJSON icon="box-tick" title="Tổng quát" value={parseJson(data?.tong_quat)} />
             <DataItemJSON icon="box-tick" title="Tim mạch" value={parseJson(data?.tim_mach)} />
             <DataItemJSON icon="box-tick" title="Hô hấp" value={parseJson(data?.ho_hap)} />

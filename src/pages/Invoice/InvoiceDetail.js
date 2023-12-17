@@ -71,7 +71,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   return (
     <div className={`my-5 w-full max-h-[78vh] ${!isMobile && 'overflow-scroll'}`}>
       <div className="flex items-center gap-x-2"></div>
-      <div className="grid grid-cols-4 grid-flow-row gap-y-2">
+      <div className="grid grid-cols-2 grid-flow-row">
         <DataItem icon="user" title="Tên" value={data?.patient?.full_name?.toUpperCase()} />
         <DataItem icon="call" title="Số điện thoại" value={data?.patient?.phone} />
 

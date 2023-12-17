@@ -874,8 +874,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     // }
     axios2
       // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
-      .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
-      // .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id)
+      // .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
+      .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         const services = response.data.data;
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
@@ -1016,7 +1016,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const loadBundleServices = () => {
     axios2
-      .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
+      .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
+
+      // .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         console.log('response', response)
         if (!data.bundle_services) {
@@ -1971,7 +1973,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <input type="checkbox" name="panel" id="panel-4" class="hidden" />
               <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">4. Tư vấn ban đầu &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="w-full py-4">
+                <div className="w-full py-2">
                   <div className="w-full">
                     <Controller
                       name="cc_in_charge"
@@ -2161,7 +2163,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <input type="checkbox" name="panel" id="panel-5" class="hidden" />
                 <label for="panel-5" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">5. Sinh hiệu &#62;</label>
                 <div class="accordion__content overflow-scroll bg-grey-lighter">
-                  <div className="w-full py-4">
+                  <div className="w-full py-2">
                     <Controller
                       name="nurse_in_charge"
                       control={control}
@@ -2413,7 +2415,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <input type="checkbox" name="panel" id="panel-6" class="hidden" />
               <label for="panel-6" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">6. Khám</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="w-full py-4">
+                <div className="w-full py-2">
                   <div className="grid grid-cols-1 gap-6">
                     <Controller
                       name="reasons_to_get_hospitalized"
@@ -3039,7 +3041,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       }
                     </div>
                   </div>
-                  <div className="w-full py-4">
+                  <div className="w-full py-2">
                     <div>
                       {readonly && servicesData && servicesData.length > 0 && <p className="underline text-xl font-bold">Dịch vụ:</p>}
                       {readonly && servicesData && servicesData.map((s) => <p>{s.attributes.label}</p>)}
@@ -3264,7 +3266,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               <input type="checkbox" name="panel" id="panel-8" class="hidden" />
               <label for="panel-8" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">8. Các giấy tờ liên quan &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
-                <div className="w-full py-4">
+                <div className="w-full py-2">
                   <div className="flex flex-col items-start gap-x-4 pl-4">
                     {references?.map((item, index) => (
                       <div key={index} className="relative">
