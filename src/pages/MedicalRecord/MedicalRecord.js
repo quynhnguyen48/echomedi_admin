@@ -119,30 +119,25 @@ const Treatments = () => {
             )
             if (res.data) {
               const listTreatments = formatStrapiArr(res.data)
+              const data = listTreatments?.map((treatment) => {
+                const booking = formatStrapiObj(treatment?.booking)
+                let patient = formatStrapiObj(treatment?.patient);
+                if (patient)
+                patient.patient_source = formatStrapiObj(patient?.patient_source);
+                if (patient?.patient_source) {
+                  patient.patient_source.image = formatStrapiObj(patient?.patient_source?.image);
+                }
+                return {
+                  ...treatment,
+                  patient: patient,
+                  bookings: formatStrapiArr(treatment?.bookings),
+                  prescription: formatStrapiObj(treatment?.prescription),
+                  doctor_in_charge: formatStrapiObj(treatment?.doctor_in_charge),
+                  booking,
+                }
+              });
               
-              setData(
-                listTreatments?.map((treatment) => {
-                  const booking = formatStrapiObj(treatment?.booking)
-                  let patient = formatStrapiObj(treatment?.patient);
-                  patient.patient_source = formatStrapiObj(patient?.patient_source);
-                  if (patient.patient_source)
-                  patient.patient_source.image = formatStrapiObj(patient?.patient_source.image);
-                  return {
-                    ...treatment,
-                    areaImage: formatStrapiObj(treatment?.areaImage),
-                    patient: patient,
-                    background: formatStrapiObj(treatment?.background),
-                    thumbnail: formatStrapiObj(treatment?.thumbnail),
-                    categories: formatStrapiArr(treatment?.categories),
-                    bookings: formatStrapiArr(treatment?.bookings),
-                    transactions: formatStrapiArr(treatment?.transactions),
-                    prescription: formatStrapiObj(treatment?.prescription),
-                    doctor_in_charge: formatStrapiObj(treatment?.doctor_in_charge),
-                    booking,
-                    treatmentHistories: formatStrapiArr(treatment?.treatmentHistories),
-                  }
-                })
-              )
+              setData(data);
               setPageCount(res?.data?.meta?.pagination?.pageCount)
             }
           }
