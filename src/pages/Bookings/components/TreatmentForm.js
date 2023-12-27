@@ -3389,7 +3389,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Tải bệnh án
             </Button>
           )}
-          {currentUser.role.type != "pharmacist" && moment().isSame(moment(data.bookingDate), 'day') && readonly && <Button
+          {(currentUser.role.type != "admin" || (currentUser.role.type != "pharmacist" && moment().isSame(moment(data.bookingDate), 'day') && readonly)) && <Button
             btnType="primary"
             type="reset"
             onClick={(e) => {
