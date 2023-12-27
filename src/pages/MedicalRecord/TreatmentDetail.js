@@ -11,6 +11,7 @@ import TestResultsModal from "./Components/TestResultsModal"
 import { flatten } from "lodash"
 import { useDispatch, useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
+import moment from "moment";
 
 const TreatmentDetail = ({ data, onTogglePublish }) => {
   const navigate = useNavigate()
@@ -214,6 +215,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
     }
   }
 
+  console.log('data', data.booking.bookingDate)
+
   return (
     <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`} id='customer-detail'>
       <div className="flex items-center gap-x-2 overflow-scroll"></div>
@@ -393,7 +396,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           >
             Xem bệnh án
           </Button>}
-          {currentUser.role.type != "pharmacist" && <Button
+          {currentUser.role.type != "pharmacist" && moment().isSame(moment(data.booking.bookingDate), 'day') && <Button
             btnSize="small"
             className="mt-2"
             onClick={() => {
