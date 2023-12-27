@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="viewport" 
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="ECHO MEDI HIS"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
-    <!--
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="ECHO MEDI HIS" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
+  <script omi-sdk type="text/javascript" src="https://cdn.omicrm.com/sdk/2.0.0/sdk.min.js"></script>
+
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -30,12 +30,13 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>ECHO MEDI HIS</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <title>ECHO MEDI HIS</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -45,5 +46,91 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Ví dụ về một số config có thể dùng khi init SDK
+      let config = {
+        theme: 'default',
+        callbacks: {
+          register: (data) => {
+            // Sự kiện xảy ra khi trạng thái kết nối tổng đài thay đổi
+            console.log('register:', data);
+          },
+          connecting: (data) => {
+            // Sự kiện xảy ra khi bắt đầu thực hiện cuộc gọi ra
+            console.log('connecting:', data);
+          },
+          invite: (data) => {
+            // Sự kiện xảy ra khi có cuộc gọi tới
+            console.log('invite:', data);
+          },
+          inviteRejected: (data) => {
+            // Sự kiện xảy ra khi có cuộc gọi tới, nhưng bị tự động từ chối
+            // trong khi đang diễn ra một cuộc gọi khác
+            console.log('inviteRejected:', data);
+          },
+          ringing: (data) => {
+            // Sự kiện xảy ra khi cuộc gọi ra bắt đầu đổ chuông
+            console.log('ringing:', data);
+          },
+          accepted: (data) => {
+            // Sự kiện xảy ra khi cuộc gọi vừa được chấp nhận
+            console.log('accepted:', data);
+          },
+          incall: (data) => {
+            // Sự kiện xảy ra mỗi 1 giây sau khi cuộc gọi đã được chấp nhận
+            console.log('incall:', data);
+          },
+          acceptedByOther: (data) => {
+            // Sự kiện dùng để kiểm tra xem cuộc gọi bị kết thúc
+            // đã được chấp nhận ở thiết bị khác hay không
+            console.log('acceptedByOther:', data);
+          },
+          ended: (data) => {
+            // Sự kiện xảy ra khi cuộc gọi kết thúc
+            console.log('ended:', data);
+          },
+          holdChanged: (status) => {
+            // Sự kiện xảy ra khi trạng thái giữ cuộc gọi thay đổi
+            console.log('on hold:', status);
+          },
+          saveCallInfo: (data) => {
+            // let { callId, note, ...formData } = data;
+            // Sự kiện xảy ra khi cuộc gọi đã có đổ chuông hoặc cuộc gọi tới, khi user có nhập note input mặc định hoặc form input custom
+            console.log('on save call info:', data);
+          },
+          infoLastCall: (data) => {
+            // Sự kiện xảy ra khi có bật options.showInfoLastCall và SDK có get được data cho số điện thoại đang gọi
+            console.log('on found info last call:', data);
+          },
+        }
+      };
+      omiSDK.init(config, () => {
+        // Truy cập OMICall
+        // Vào menu : Cấu hình >> Tổng đài >> Số nội bộ
+        // Mở chi tiết 1 số nội bộ để lấy thông tin 
+        // omiSDK.register({
+        //    domain: 'abc',
+        //    username: '100', 
+        //    password: '123456'
+        // });
+        omiSDK.register({
+          domain: 'contact33',
+          username: '203', // tương đương trường "sip_user" trong thông tin số nội bộ
+          password: 'vfYMuUaLt4'
+        });
+      });
+      // Cách khác để khai báo các SDK events:
+      // omiSDK.on('register', (data) => {
+      //     // Sự kiện xảy ra khi trạng thái kết nối tổng đài thay đổi
+      //     console.log('register:', data);
+      // });
+      // Cách khác để huỷ khai báo các SDK events:
+      // omiSDK.off('register');
+    });
+  </script>
+
+<script omi-sdk type="text/javascript" src="https://cdn.omicrm.com/sdk/2.0.0/sdk.min.js"></script>
+</body>
+
 </html>
