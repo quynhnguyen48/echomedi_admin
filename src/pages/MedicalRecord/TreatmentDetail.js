@@ -396,7 +396,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           >
             Xem bệnh án
           </Button>}
-          {(currentUser.role.type != "admin" || (currentUser.role.type != "pharmacist" && moment().isSame(moment(data.booking.bookingDate), 'day'))) && <Button
+          {(currentUser.role.type == "admin" || (currentUser.role.type != "pharmacist" && moment().isSame(moment(data.booking.bookingDate), 'day'))) && <Button
             btnSize="small"
             className="mt-2"
             onClick={() => {
