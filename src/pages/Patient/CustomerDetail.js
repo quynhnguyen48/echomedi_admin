@@ -117,6 +117,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
             >
               Đưa bệnh nhân vào danh sách tiếp đón
             </Button>
+            
           </div>}
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-1 gap-x-10 mt-4">
@@ -129,7 +130,15 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
             title="Ngày sinh"
             value={data?.birthday ? dayjs(data?.birthday).format("DD MMMM, YYYY") : ''}
           />
-          <DataItem icon="call" title="Số điện thoại" value={data?.phone} />
+          <DataItem icon="call" title="Số điện thoại" value={
+            <div className="flex items-center"><span className="mr-4">{data?.phone}</span><Button
+            icon={<Icon name="call" className="fill-white" />}
+            onClick={async () => {
+              omiSDK.makeCall(data?.phone)
+            }}
+          >
+            CALL
+          </Button></div>} />
           <DataItem icon="call" title="Số điện thoại người thân" value={data?.relative_phone} />
           {data?.patient_source && <DataItem icon="heart" title="Nguồn" value={data?.patient_source?.data?.attributes?.label} />}
           <div className="col-span-1">
