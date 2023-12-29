@@ -139,6 +139,7 @@ const MainRoutes = () => {
         />
         <Route path="/medical-records/:id/edit/" element={<UpsertMedicalRecord />} />
         <Route path="/medical-records/:id/view/" element={<UpsertMedicalRecord />} />
+        <Route path="/patient-search/:query" element={<Patient />} />
         <Route path="/patient" element={<Patient />} />
         <Route path="/patient/:query" element={<Patient />} />
         <Route path="/patient/create" element={<CreatePatient />} />

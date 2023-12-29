@@ -5,8 +5,8 @@ import debounce from "lodash/debounce";
 import Icon from "components/Icon";
 import Input from "components/Input";
 
-const SearchInput = ({ className, onSearch, ...props }) => {
-  const { control, setValue } = useForm({ defaultValues: { searchKey: "" } });
+const SearchInput = ({ className, onSearch, defaultValue, ...props }) => {
+  const { control, setValue } = useForm({ defaultValues: { searchKey: defaultValue ?? "" } });
 
   const handleSearch = useCallback(
     debounce((value) => {
