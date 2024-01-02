@@ -32,6 +32,7 @@ import CustomerDetail from './CustomerDetail';
 import {
   getPatientSource,
 } from "services/api/patientSource";
+import { BRANCH } from "constants/Authentication"
 
 const locales = {
   'vi': viVN,
@@ -61,6 +62,51 @@ const Treatments = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [patientSource, setPatientSource] = useState();
   const [source, setSource] = useState();
+
+  const getBranchDomain = () => {
+		const branch = localStorage.getItem(BRANCH);
+		switch (branch) {
+		  case "q7":
+			return "contact33";
+			break;
+		  case "q2":
+			return "contact33";
+			break;
+		  case "binhduong":
+			return "contact33";
+			break;
+		}
+	}
+
+	const getBranchUsername = () => {
+		const branch = localStorage.getItem(BRANCH);
+		switch (branch) {
+		  case "q7":
+			return "101";
+			break;
+		  case "q2":
+			return "201";
+			break;
+		  case "binhduong":
+			return "301";
+			break;
+		}
+	}
+
+	const getBranchPassword = () => {
+		const branch = localStorage.getItem(BRANCH);
+		switch (branch) {
+		  case "q7":
+			return "YUJDpbWb6d";
+			break;
+		  case "q2":
+			return "yaGapxveRi";
+			break;
+		  case "binhduong":
+			return "D6pVyi9ODx";
+			break;
+		}
+	}
 
   useEffect(() => {
     ; (async () => {
