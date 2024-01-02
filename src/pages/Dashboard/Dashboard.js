@@ -18,6 +18,7 @@ import ChatBot, { Loading } from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import Button from "components/Button"
 import classNames from "classnames"
+import { BRANCH } from "constants/Authentication"
 
 const serviceGroups = ['khong_co_benh', 'than_kinh', 'ho_hap', 'tim_mach', 'than_tiet_nieu', 'co_xuong_khop', 'noi_tiet_chuyen_hoa', 'tieu_hoa'];
 const translateServiceGroup = (t) => {
@@ -150,12 +151,57 @@ const Dashboard = () => {
 		};
 		omiSDK.init(config, () => {
 			omiSDK.register({
-				domain: 'contact33',
-				username: '404', // tương đương trường "sip_user" trong thông tin số nội bộ
-				password: 'JobxGQqjYo'
+				domain: getBranchDomain(),
+				username: getBranchUsername(), // tương đương trường "sip_user" trong thông tin số nội bộ
+				password: getBranchPassword()
 			});
 		});
 	}, []);
+
+	const getBranchDomain = () => {
+		const branch = localStorage.getItem(BRANCH);
+		switch (branch) {
+		  case "q7":
+			return "contact33";
+			break;
+		  case "q2":
+			return "contact33";
+			break;
+		  case "binhduong":
+			return "contact33";
+			break;
+		}
+	}
+
+	const getBranchUsername = () => {
+		const branch = localStorage.getItem(BRANCH);
+		switch (branch) {
+		  case "q7":
+			return "101";
+			break;
+		  case "q2":
+			return "201";
+			break;
+		  case "binhduong":
+			return "301";
+			break;
+		}
+	}
+
+	const getBranchPassword = () => {
+		const branch = localStorage.getItem(BRANCH);
+		switch (branch) {
+		  case "q7":
+			return "YUJDpbWb6d";
+			break;
+		  case "q2":
+			return "yaGapxveRi";
+			break;
+		  case "binhduong":
+			return "D6pVyi9ODx";
+			break;
+		}
+	}
 
 	const handleEnd = ({ steps, values }) => {
 	}
