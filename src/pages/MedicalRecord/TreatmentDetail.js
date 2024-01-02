@@ -215,8 +215,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
     }
   }
 
-  console.log('data', data.booking.bookingDate)
-
   return (
     <div className={`my-4 w-full max-h-[65vh] ${!isMobile && 'overflow-scroll'}`} id='customer-detail'>
       <div className="flex items-center gap-x-2 overflow-scroll"></div>
