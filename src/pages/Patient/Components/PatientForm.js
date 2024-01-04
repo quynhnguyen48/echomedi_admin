@@ -346,7 +346,7 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
                 label="Ngày sinh"
                 value={value}
                 onChange={(date) => {
-                  setValue("birthday", date)
+                  setValue("birthday", Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()))
                 }}
                 errors={errors?.birthday?.message}
               />
