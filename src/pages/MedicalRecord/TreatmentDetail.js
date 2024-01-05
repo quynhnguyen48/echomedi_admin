@@ -34,14 +34,20 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
     if (data.bundle_services) {
       let dataServices = typeof data.bundle_services == 'string' ? JSON.parse(data.bundle_services) : data.bundle_services;
       setBundleServices(dataServices);
+    } else {
+      setBundleServices([]);
     }
     if (data.services) {
       let services = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
       setMedicalServices(services)
+    } else {
+      setMedicalServices([]);
     }
     if (data.clinique_services) {
       let cliniqueServices = typeof data.clinique_services == 'string' ? JSON.parse(data.clinique_services) : data.clinique_services;
       setCliniqueServices(cliniqueServices);
+    } else {
+      setCliniqueServices([])
     }
   }, [data])
 
