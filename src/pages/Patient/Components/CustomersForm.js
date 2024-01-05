@@ -56,68 +56,22 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
       try {
         const res = await getPatientSource()
         const data = formatStrapiArr(res?.data);
-        // setPatientSource(data);
-
-        // console.log('dataaaa 2', data)
+       
         let rs = data.map(r => {
           r.label = r.label;
           r.value = r.value;
           return r;
         })
-        // reset({
-        //   relationship: rs
-        // })
 
         console.log('rssss123', rs)
         setPatientSource(rs);
-        // setRelationship(res.data.relationships);
       } catch (error) { }
     })()
   }, [])
 
-  // useEffect(() => {
-  //   ; (async () => {
-  //     try {
-  //       const res = await getPatientSource()
-  //       const data = formatStrapiArr(res?.data);
-  //       setPatientSource(data);
-
-  //       console.log('dataaaa 2', data)
-  //       let rs = data.map(r => {
-  //         r.label = r.label;
-  //         r.value = r.value;
-  //         return r;
-  //       })
-  //       reset({
-  //         relationship: rs
-  //       })
-  //       // setRelationship(res.data.relationships);
-  //     } catch (error) { }
-  //   })()
-  // }, [])
 
   const validationSchema = yup.object({
-    // email: yup
-    //   .string()
-    //   .trim()
-    //   // .required("Email is required")
-    //   .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not in correct format"),
-    // full_name: yup.string().required("First name is required"),
-    // // lastName: yup.string().required("Last name is required"),
-    // phone: yup
-    //   .string()
-    //   .trim()
-    //   .matches(/^[0-9]*$/, "Phone number is not in correct format"),
-    // address: yup.object({
-    //   province: yup.object().required("City is required").nullable(),
-    //   district: yup.object().required("District is required").nullable(),
-    //   ward: yup.object().required("Ward is required").nullable(),
-    //   address: yup.string().required("Address is required"),
-    // }),
-    // birthday: yup.date().required().typeError("Date of birth is required"),
-    // gender: yup.string().required("Gender is required"),
-    // customerTag: yup.string().required().typeError("Customer Tag is required"),
-    // referral: yup.object().nullable(),
+    
   })
 
   const {
@@ -390,7 +344,8 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
                 label="Ngày sinh"
                 value={value}
                 onChange={(date) => {
-                  setValue("birthday", date)
+                  // setValue("birthday", date)
+                  setValue("birthday", Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()))
                 }}
                 errors={errors?.birthday?.message}
               />
