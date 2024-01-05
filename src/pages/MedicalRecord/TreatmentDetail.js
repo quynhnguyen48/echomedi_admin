@@ -237,42 +237,42 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       <div className="grid grid-cols-1 grid-flow-row">
         {isMobile ?
           <div className="grid grid-cols-2 sm:grid-cols-2 grid-flow-row px-2">
-            <div>Mạch {data?.circuit} (lần/phút)</div>
-            <div>Nhiệt độ {data?.temperature} (*C)</div>
-            <div>Huyết áp {data?.blood_pressure}/{data?.blood_pressure2} (mmHg)</div>
-            <div>Huyết áp lần {data?.blood_pressure_1}/{data?.blood_pressure2_1} (mmHg)</div>
-            <div>Nhịp thở(Lần/phút)</div>
-            <div>Chiều cao {data?.height} (Cm)</div>
-            <div> Cân nặng {data?.weight} (Kg) </div>
-            <div>BMI {data?.bmi}</div>
-            <div>SPO2 {data?.spo2}</div>
+            <div className="border border-1">Mạch {data?.circuit} (lần/phút)</div>
+            <div className="border border-1">Nhiệt độ {data?.temperature} (*C)</div>
+            <div className="border border-1">Huyết áp {data?.blood_pressure}/{data?.blood_pressure2} (mmHg)</div>
+            <div className="border border-1">Huyết áp lần {data?.blood_pressure_1}/{data?.blood_pressure2_1} (mmHg)</div>
+            <div className="border border-1">Nhịp thở(Lần/phút)</div>
+            <div className="border border-1">Chiều cao {data?.height} (Cm)</div>
+            <div className="border border-1"> Cân nặng {data?.weight} (Kg) </div>
+            <div className="border border-1">BMI {data?.bmi}</div>
+            <div className="border border-1">SPO2 {data?.spo2}</div>
           </div> :
-          <table className="table-auto sinh_hieu w-full">
+          <table className="table-auto sinh_hieu w-full max-w-[800px]">
             <tr>
-              <th>Mạch(lần/phút)</th>
-              <th>Nhiệt độ(*C)</th>
-              <th>Huyết áp(mmHg)</th>
-              <th>Huyết áp lần 2(mmHg)</th>
-              <th>Nhịp thở(Lần/phút)</th>
+              <th className="border border-1">Mạch(lần/phút)</th>
+              <th className="border border-1">Nhiệt độ(*C)</th>
+              <th className="border border-1">Huyết áp(mmHg)</th>
+              <th className="border border-1">Huyết áp lần 2(mmHg)</th>
+              <th className="border border-1">Nhịp thở(Lần/phút)</th>
             </tr>
             <tr>
-              <th>{data?.circuit}</th>
-              <th>{data?.temperature}</th>
-              <th>{data?.blood_pressure}/{data?.blood_pressure2}</th>
-              <th>{data?.blood_pressure_1}/{data?.blood_pressure2_1}</th>
-              <th>{data?.respiratory_rate}</th>
+              <th className="border border-1">{data?.circuit}</th>
+              <th className="border border-1">{data?.temperature}</th>
+              <th className="border border-1">{data?.blood_pressure}/{data?.blood_pressure2}</th>
+              <th className="border border-1">{data?.blood_pressure_1}/{data?.blood_pressure2_1}</th>
+              <th className="border border-1">{data?.respiratory_rate}</th>
             </tr>
             <tr>
-              <th>Chiều cao(Cm)</th>
-              <th> Cân nặng(Kg) </th>
-              <th>BMI</th>
-              <th>SPO2</th>
+              <th className="border border-1">Chiều cao(Cm)</th>
+              <th className="border border-1"> Cân nặng(Kg) </th>
+              <th className="border border-1">BMI</th>
+              <th className="border border-1">SPO2</th>
             </tr>
             <tr>
-              <th>{data?.height}</th>
-              <th>{data?.weight}</th>
-              <th>{data?.bmi}</th>
-              <th>{data?.spo2}</th>
+              <th className="border border-1">{data?.height}</th>
+              <th className="border border-1">{data?.weight}</th>
+              <th className="border border-1">{data?.bmi}</th>
+              <th className="border border-1">{data?.spo2}</th>
             </tr>
           </table>}
         <div className="w-full">
