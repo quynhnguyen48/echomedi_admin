@@ -324,40 +324,6 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <Input
-                onChange={e => {
-                  setMedicalProviderGoldPercentage(e.target.value);
-                }}
-                value={medicalProviderGoldPercentage}
-                label={<div>
-                  <span className="mr-5">Thành viên medical provider GOLD (%)</span>
-                </div>}
-                name="code"
-                suffix={"%"}
-              />
-            )}
-          />
-          <Controller
-            name="code"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                onChange={e => {
-                  setMedicalProviderPlatinumPercentage(e.target.value);
-                }}
-                value={medicalProviderPlatinumPercentage}
-                label={<div>
-                  <span className="mr-5">Thành viên medical provider PLATINUM (%)</span>
-                </div>}
-                name="code"
-                suffix={"%"}
-              />
-            )}
-          />
-          <Controller
-            name="code"
-            control={control}
-            render={({ field: { onChange, value } }) => (
 
               <Input
                 onChange={e => {
