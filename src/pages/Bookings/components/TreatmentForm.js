@@ -35,6 +35,7 @@ import SearchInput from "components/SearchInput"
 import Datepicker from "components/Datepicker"
 import moment from "moment"
 import PrescriptionModal from "./PrescriptionModal"
+import PreviousMr from "./PreviousMr"
 import AdditionalPrescriptionModal from "./AdditionalPrescriptionModal"
 import TestResultsModal from "./TestResultsModal"
 import Tagify from '@yaireo/tagify'
@@ -43,6 +44,8 @@ import { useSelector } from "react-redux";
 import { JWT_TOKEN, BRANCH } from "../../../constants/Authentication"
 import { cloneDeep, flatten, groupBy } from "lodash"
 const branch = localStorage.getItem(BRANCH);
+import { getMedicalRecords } from "services/api/medicalRecord"
+import { formatDate } from "utils/dateTime"
 
 const PROCEDURE_ITEM_DEFAULT = {
   image: null,
@@ -132,6 +135,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [bp1, setBP1] = useState(data.blood_pressure ?? '')
   const [bp2, setBP2] = useState(data.blood_pressure2 ?? '')
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
+  const [visiblePreviousMr, setVisiblePreviousMr] = useState(false)
+  const [activePreviousMr, setActivePreviousMr] = useState(0)
   const [visibleAdditionalPrescriptionModal, setVisibleAdditionalPrescriptionModal] = useState(false);
   const [visibleTestResultModal, setVisibleTestResultModal] = useState(false)
   const [tagifyWhitelist, setTagifyWhitelist] = useState();
@@ -141,6 +146,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [references, setReferences] = useState([]);
   const [searchTerms, setSearchTerms] = useState([]);
   const [searchData, setSearchData] = useState();
+  const [previousMr, setPreviousMr] = useState([]);
 
   useEffect(() => {
     setMembershipPackages(MEMBERSHIP_PKGS);
@@ -172,240 +178,29 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         catch (err) { console.error(err) }
       }
     };
-    // const el1 = document.getElementById('reasons_to_get_hospitalized');
-    // var tagify = new Tagify(el1, {
-    //   whitelist: currentUser.abbreviation?.reasons_to_get_hospitalized ?? [],
-    //   dropdown: {
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true,
-    //   },
-    //   backspace: 'edit',
-    //   templates,
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // });
-
-    //     // bind "DragSort" to Tagify's main element and tell
-    // // it that all the items with the below "selector" are "draggable"
-    // var dragsort = new DragSort(tagify.DOM.scope, {
-    //   selector: '.'+tagify.settings.classNames.tag,
-    //   callbacks: {
-    //       dragEnd: onDragEnd
-    //   }
-    // })
-
-    // // must update Tagify's value according to the re-ordered nodes in the DOM
-    // function onDragEnd(elm){
-    //   tagify.updateValueByDOMTags()
-    // }
-
-
-    // const el2 = document.getElementById('inquiry');
-    // var tagify = new Tagify(el2, {
-    //   whitelist: currentUser.abbreviation?.inquiry ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // });
-
-    // const el3 = document.getElementById('diagnose');
-    // var tagify = new Tagify(el3, {
-    //   whitelist: currentUser.abbreviation.diagnose ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
-    // const el4 = document.getElementById('past_medical_history');
-    // var tagify = new Tagify(el4, {
-    //   whitelist: currentUser.abbreviation?.past_medical_history ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
-    // const el5 = document.getElementById('examination');
-    // var tagify = new Tagify(el5, {
-    //   whitelist: currentUser.abbreviation.examination ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
-    // const el6 = document.getElementById('treatment_regimen');
-    // var tagify = new Tagify(el6, {
-    //   whitelist: currentUser.abbreviation?.treatment_regimen ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
-    // const el7 = document.getElementById('general_examination');
-    // var tagify = new Tagify(el7, {
-    //   whitelist: currentUser.abbreviation.general_examination ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
-    // const el8 = document.getElementById('main_diagnose');
-    // var tagify = new Tagify(el8, {
-    //   whitelist: currentUser.abbreviation.main_diagnose ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
-    // const el9 = document.getElementById('other_diagnose');
-    // var tagify = new Tagify(el9, {
-    //   whitelist: currentUser.abbreviation.other_diagnose ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
-    // const el10 = document.getElementById('premise');
-    // var tagify = new Tagify(el10, {
-    //   whitelist: currentUser.abbreviation.premise ?? [],
-    //   dropdown: {
-    //     classname: "color-blue",
-    //     enabled: 0,              // show the dropdown immediately on focus
-    //     maxItems: 5,
-    //     position: "text",         // place the dropdown near the typed text
-    //     closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-    //     highlightFirst: true
-    //   },
-    //   templates,
-    //   backspace: 'edit',
-    //   delimiters: null,
-    //   transformTag: (tag) => {
-    //     const str = tag.value;
-    //     const str2 = str.charAt(0).toUpperCase() + str.slice(1);
-    //     tag.value = str2;
-    //     return tag;
-    //   }
-    // })
-
   }, [tagifyWhitelist]);
+
+  // useEffect(async () => {
+  //   if (data?.patient?.id) {
+  //       let filter = {
+  //         patient: data.patient.id,
+  //       }
+  //       console.log('filter', filter)
+  //       const res = await getMedicalRecords({ pageSize: 1000 }, filter)
+  //       setPreviousMr(formatStrapiArr(res.data))
+  //   }
+  // }, [])
+
+  const fetchData = useCallback(async () => {
+    if (data?.patient?.id) {
+      let filter = {
+        patient: data.patient.id,
+      }
+      const res = await getMedicalRecords({ pageSize: 1000 }, filter)
+      const preMr = formatStrapiArr(res.data)?.filter(p => p.uid != data.uid)
+      setPreviousMr(preMr)
+  }
+  }, [data])
 
   const provincesList = REGION_DATA
 
@@ -423,6 +218,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       }
 
       loadData();
+      fetchData();
     }
   }, [data])
 
@@ -786,7 +582,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const downloadShortenPDFV2 = () => {
-    
+
     const toastId = toast.loading("Đang tải")
     const patient = data.patient
     axios
@@ -813,11 +609,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         toast.dismiss(toastId)
       })
 
-      try {
-        window.flutter_inappwebview.callHandler('downloadMedicalRecord', data.medical_record?.data?.id);
-      } catch (e) {
-        console.log('error download inapp view', e);
-      }
+    try {
+      window.flutter_inappwebview.callHandler('downloadMedicalRecord', data.medical_record?.data?.id);
+    } catch (e) {
+      console.log('error download inapp view', e);
+    }
   }
 
   const loadTagifyWhitelist = () => {
@@ -1017,10 +813,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const loadBundleServices = () => {
     axios2
       // .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
-
       .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
-        console.log('response', response)
         if (!data.bundle_services) {
           let ms = response.data.data;
           ms = ms.map(s => {
@@ -1190,14 +984,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const addBundleMedicalService = (m) => {
-    console.log('mmmmmmmmmm', m)
     const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
 
 
     if (exist) {
-      // toast.error("Không thể thêm dịch vụ này vì bị trùng: " + ms.filter(s => s.id in existServices).map(s => s.label).join(", "))
-      // toast.error("Không thể thêm dịch vụ này vị bị trùng: " + )
       toast.error(
         <div>
           <p>Không thể thêm dịch vụ này vị bị trùng</p>
@@ -1348,41 +1139,41 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         bmi,
       }
 
-      if (!payload.circuit) { 
-        delete payload.circuit; 
+      if (!payload.circuit) {
+        delete payload.circuit;
       }
-      if (!payload.temperature) { 
-        delete payload.temperature; 
+      if (!payload.temperature) {
+        delete payload.temperature;
       }
-      if (!payload.respiratory_rate) { 
-        delete payload.respiratory_rate; 
+      if (!payload.respiratory_rate) {
+        delete payload.respiratory_rate;
       }
-      if (!payload.spo2) { 
-        delete payload.spo2; 
+      if (!payload.spo2) {
+        delete payload.spo2;
       }
-      if (!payload.blood_pressure) { 
-        delete payload.blood_pressure; 
+      if (!payload.blood_pressure) {
+        delete payload.blood_pressure;
       }
-      if (!payload.blood_pressure2) { 
-        delete payload.blood_pressure2; 
+      if (!payload.blood_pressure2) {
+        delete payload.blood_pressure2;
       }
-      if (!payload.blood_pressure_1) { 
-        delete payload.blood_pressure_1; 
+      if (!payload.blood_pressure_1) {
+        delete payload.blood_pressure_1;
       }
-      if (!payload.blood_pressure2_1) { 
-        delete payload.blood_pressure2_1; 
+      if (!payload.blood_pressure2_1) {
+        delete payload.blood_pressure2_1;
       }
-      if (!payload.weight) { 
-        delete payload.weight; 
+      if (!payload.weight) {
+        delete payload.weight;
       }
-      if (!payload.height) { 
-        delete payload.height; 
+      if (!payload.height) {
+        delete payload.height;
       }
-      if (!payload.bmi) { 
-        delete payload.bmi; 
+      if (!payload.bmi) {
+        delete payload.bmi;
       }
       if (!payload.clinique_services || (Array.isArray(payload.clinique_services) && payload.clinique_services.length == 0)) {
-        delete payload.clinique_services; 
+        delete payload.clinique_services;
       }
 
       if (!data.patient.membership && selectedMembership?.value) {
@@ -1464,11 +1255,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         toast.dismiss(toastId)
       })
 
-      try {
-        window.flutter_inappwebview.callHandler('generatePhieuChiDinh', data.medical_record?.data?.id);
-      } catch (e) {
-        console.log('error download inapp view', e);
-      }
+    try {
+      window.flutter_inappwebview.callHandler('generatePhieuChiDinh', data.medical_record?.data?.id);
+    } catch (e) {
+      console.log('error download inapp view', e);
+    }
   }
 
   useEffect(() => {
@@ -2541,6 +2332,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
                   </div>
                   <p className="font-bold text-2xl">Tiền căn bản thân</p>
+                  {previousMr?.length > 0 &&
+                  <p className="font-bold text-xl">Lịch sử tiền căn</p>}
+                  {previousMr?.length > 0 &&<div className="flex flex-col">{previousMr && previousMr.map(p => <button
+                    onClick={e => { setVisiblePreviousMr(p); setActivePreviousMr(p); }}
+                    type="button"
+                    className="flex"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                      class="fill-red bg-white rounded-full"><path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM14.79 12.53L11.26 16.06C11.11 16.21 10.92 16.28 10.73 16.28C10.54 16.28 10.35 16.21 10.2 16.06C9.91 15.77 9.91 15.29 10.2 15L13.2 12L10.2 9C9.91 8.71 9.91 8.23 10.2 7.94C10.49 7.65 10.97 7.65 11.26 7.94L14.79 11.47C15.09 11.76 15.09 12.24 14.79 12.53Z" fill="#5CA79F"></path></svg>{p.uid} {formatDate(p?.booking?.data?.attributes?.bookingDate, "H:mm DD/MM/YYYY")}</button>)}</div>}
                   <div className="grid sm:grid-cols-1 grid-cols-2 gap-6 mt-4">
                     <Controller
                       name="noi_khoa"
@@ -3001,37 +2799,37 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               const usedBS = usedBundleMedicalServices.find(us => us.id == s.id);
                               return <p className="flex items-center">
                                 <div>
-                                {s.type == "service-bundle" &&
-                                  <Button
-                                    disabled={usedBS?.attributes?.paid || readonly}
-                                    type="button"
-                                    className={"inline text-xs h-8 mr-4 mt-1"}
-                                    icon={<Icon name="add-circle" className="fill-white" />}
-                                    onClick={e => addBundleMedicalServiceById(s.id)}
-                                  >
-                                    {usedBS ? 'Bỏ' : "Thêm"}
-                                  </Button>}
+                                  {s.type == "service-bundle" &&
+                                    <Button
+                                      disabled={usedBS?.attributes?.paid || readonly}
+                                      type="button"
+                                      className={"inline text-xs h-8 mr-4 mt-1"}
+                                      icon={<Icon name="add-circle" className="fill-white" />}
+                                      onClick={e => addBundleMedicalServiceById(s.id)}
+                                    >
+                                      {usedBS ? 'Bỏ' : "Thêm"}
+                                    </Button>}
 
-                                {s.type == "product" &&
-                                  <Button
-                                    type="button"
-                                    className={"inline text-xs h-8 mr-4 mt-1"}
-                                    icon={<Icon name="add-circle" className="fill-white" />}
-                                    onClick={e => showProductDetail(s)}
-                                  >
-                                    Chi tiết
-                                  </Button>}
-                                {s.type == "product" &&
-                                  <Button
-                                    type="button"
-                                    className={"inline text-xs h-8 mr-4 mt-1"}
-                                    icon={<Icon name="add-circle" className="fill-white" />}
-                                    onClick={e => addToPrescriptions(s)}
-                                  >
-                                    Thêm vào
-                                    đơn thuốc
-                                  </Button>}
-                                  </div>
+                                  {s.type == "product" &&
+                                    <Button
+                                      type="button"
+                                      className={"inline text-xs h-8 mr-4 mt-1"}
+                                      icon={<Icon name="add-circle" className="fill-white" />}
+                                      onClick={e => showProductDetail(s)}
+                                    >
+                                      Chi tiết
+                                    </Button>}
+                                  {s.type == "product" &&
+                                    <Button
+                                      type="button"
+                                      className={"inline text-xs h-8 mr-4 mt-1"}
+                                      icon={<Icon name="add-circle" className="fill-white" />}
+                                      onClick={e => addToPrescriptions(s)}
+                                    >
+                                      Thêm vào
+                                      đơn thuốc
+                                    </Button>}
+                                </div>
                                 {s.label}
                                 <div className="ml-4 font-bold"><span>{numberWithCommas(s?.price)}đ</span></div>
                               </p>
@@ -3441,6 +3239,24 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         onFinish={handleAssetsSelected}
       />
 
+      {visiblePrescriptionModal && (
+        <PrescriptionModal
+          patientId={data?.patient?.id}
+          data={formatStrapiObj(data?.medical_record?.data)}
+          medicalRecordId={data?.medical_record?.data?.id}
+          visibleModal={visiblePrescriptionModal}
+          onClose={() => setVisiblePrescriptionModal(false)}
+        />
+      )}
+      {visiblePreviousMr && (
+        <PreviousMr
+          patientId={data?.patient?.id}
+          data={activePreviousMr}
+          medicalRecordId={data?.medical_record?.data?.id}
+          visibleModal={visiblePreviousMr}
+          onClose={() => setVisiblePreviousMr(false)}
+        />
+      )}
       {visiblePrescriptionModal && (
         <PrescriptionModal
           patientId={data?.patient?.id}
