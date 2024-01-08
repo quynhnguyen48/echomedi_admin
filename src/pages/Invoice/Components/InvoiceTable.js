@@ -36,7 +36,7 @@ const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDa
       },
       {
         Header: "Tên",
-        accessor: (originalRow) => <a className="hover:underline" href={`/patient/${originalRow?.patient?.uid}`}>{originalRow?.patient?.full_name?.toUpperCase()}</a>,
+        accessor: (originalRow) => <p>{originalRow?.patient?.full_name?.toUpperCase()}</p>,
         collapse: true,
         width: 160,
       },
