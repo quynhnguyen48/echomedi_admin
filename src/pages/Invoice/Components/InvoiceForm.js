@@ -43,9 +43,9 @@ const InvoiceForm = ({
   const [paid, setPaid] = useState(false);
   const [cashierInCharge, setCashierInCharge] = useState();
   const [cashierData, setCashierData] = useState([]);
+  const [refundAmount, setRefundAmount] = useState(null);
+  const [refundNote, setRefundNote] = useState("");
   const currentUser = useSelector((state) => state.user.currentUser)
-
-  console.log('invoiceData', bundleServices)
 
   const {
     handleSubmit,
@@ -149,7 +149,6 @@ const InvoiceForm = ({
       }
     ])
 
-    console.log('invoiceData', membership)
     if (cashier_in_charge) {
       setCashierInCharge({
         value: cashier_in_charge.id,
@@ -201,6 +200,8 @@ const InvoiceForm = ({
             totalDiscountFixedPrice,
             totalDiscountPercentage,
             total: subTotal - totalDiscount,
+            refundNote,
+            refundAmount,
             cashier_in_charge: cashierInCharge?.value,
           },
         },
@@ -227,7 +228,6 @@ const InvoiceForm = ({
     } finally {
       setIsLoading(false);
       if (!published) togglePublish();
-      // window.location.reload();
     }
   }
 
@@ -237,7 +237,6 @@ const InvoiceForm = ({
         {fields?.map((item, index) => (
           <div className="grid grid-cols-7 gap-1 py-1">
             <p className="col-span-3">{item?.label}</p>
-            {/* <div className="col-span-3 text-right"> */}
             <div>
               {!getValues(`${name}[${index}].discountFixedPrice`) && !getValues(`${name}[${index}].discountPercentage`) && <Price price={item?.price} priceClassName="text-secondary font-normal" />}
               {(getValues(`${name}[${index}].discountFixedPrice`) || getValues(`${name}[${index}].discountPercentage`)) && <del><Price price={item?.price} priceClassName="text-secondary font-normal" /></del>}
@@ -278,10 +277,8 @@ const InvoiceForm = ({
                   disabled={published}
                   suffix={"%"}
                   type="number"
-                  // className="w-[100px]"
                   name={`${name}[${index}].discountPercentage`}
                   onChange={(e) => {
-                    console.log('target value', e.target.value)
                     onChange(e);
                     setValue(`${name}[${index}].discountFixedPrice`, parseInt(e.target.value) * item.price / 100)
                   }}
@@ -321,8 +318,9 @@ const InvoiceForm = ({
   }
 
   useEffect(() => {
-    console.log('membership', membership)
     if (invoiceData) {
+      setRefundAmount(invoiceData?.refundAmount)
+      setRefundNote(invoiceData?.refundNote)
       setTotalDiscountFixedPrice(invoiceData?.totalDiscountFixedPrice)
       setTotalDiscountPercentage(invoiceData?.totalDiscountPercentage)
       reset({
@@ -333,19 +331,8 @@ const InvoiceForm = ({
         note: invoiceData?.note,
       })
     } else {
-      // console.log('cliniqueServices22', bundleServices?.map((item) => ({
-      //   id: item?.id,
-      //   price: item?.attributes?.price,
-      //   label: item?.attributes?.label,
-      //   discountFixedPrice: "",
-      //   discountPercentage: "",
-      // })), medicalServices?.map((item) => ({
-      //   id: item?.id,
-      //   price: item?.attributes?.price,
-      //   label: item?.attributes?.label,
-      //   discountFixedPrice: "",
-      //   discountPercentage: "",
-      // })), cliniqueServices)
+      setRefundAmount(null)
+      setRefundNote(null)
       reset({
         bundleServices: bundleServices?.filter(item => !item["attributes"]["paid"])
 
@@ -368,14 +355,14 @@ const InvoiceForm = ({
             note: item?.attributes?.discount_note
           })),
         cliniqueServices: cliniqueServices?.filter(item => !item["attributes"]["paid"])
-        .map((item) => ({
-          id: item?.id,
-          price: item?.attributes?.original_price ?? item?.attributes?.price,
-          label: item?.attributes?.label,
-          discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
+          .map((item) => ({
+            id: item?.id,
+            price: item?.attributes?.original_price ?? item?.attributes?.price,
+            label: item?.attributes?.label,
+            discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
             discountPercentage: item.attributes["discount_percentage"],
-          note: item?.attributes?.discount_note
-        })),
+            note: item?.attributes?.discount_note
+          })),
         membership: membership && !membership["paid"] ? [{
           id: membership?.id,
           price: membership?.price,
@@ -401,6 +388,34 @@ const InvoiceForm = ({
         {renderFields(cliniqueServicesFields, "cliniqueServices")}
         {renderFields(bundleServicesFields, "bundleServices")}
         {renderFields(medicalServicesFields, "medicalServices")}
+        {refundAmount != undefined &&
+          <div className="grid grid-cols-7 gap-1 py-1">
+            <p className="col-span-3">Hoàn tiền</p>
+            <Input
+              disabled={false}
+              suffix={"đ"}
+              name={`refundAmount`}
+              onChange={e => {
+                const value = e.target.value.replaceAll(".", "")
+                setRefundAmount(parseFloat(value));
+              }}
+              value={formatPrice(refundAmount)}
+              placeholder="VNĐ"
+            />
+            <div></div>
+            <div></div>
+            <div>
+              <TagifyInput
+                className="flex-1"
+                inputClassName="test"
+                name={`refundNote`}
+                value={refundNote}
+                onChange={e => setRefundNote(e.target.value)}
+                placeholder="Nhập ghi chú"
+                errors={''}
+              />
+            </div>
+          </div>}
       </div>
       <div className="mt-4">
         <p className="font-bold col-span-1">Ghi chú</p>
@@ -449,8 +464,6 @@ const InvoiceForm = ({
                 }}
                 value={formatPrice(totalDiscountFixedPrice)}
                 placeholder="VNĐ"
-              // min={0}
-              // errors={errors?.[name]?.[index]?.discountFixedPrice?.message}
               />
             )}
           />
@@ -462,7 +475,6 @@ const InvoiceForm = ({
             <Input
               disabled={published}
               type="number"
-              // className="w-[100px]"
               suffix="%"
               name={`totalDiscountPercentage`}
               onFocus={() => {
@@ -477,8 +489,6 @@ const InvoiceForm = ({
               }
               value={totalDiscountPercentage}
               placeholder="%"
-            // min={0}
-            // errors={errors?.[name]?.[index]?.discountPercentage?.message}
             />
           )}
         />
@@ -492,7 +502,7 @@ const InvoiceForm = ({
       <div className="grid grid-cols-7 gap-2">
         <p className="font-bold col-span-3">Tổng thanh toán</p>
         <div className="col-span-1">
-          <Price price={subTotal - totalDiscount - totalDiscountFixedPrice} />
+          <Price price={subTotal - totalDiscount - totalDiscountFixedPrice - (refundAmount ?? 0)} />
         </div>
       </div>
       <div className="w-full">
@@ -500,12 +510,12 @@ const InvoiceForm = ({
         <Select
           isDisabled={published}
           icon={<svg className="inline" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xmlSpace="preserve">
-          <path fill="#507C5C" d="M256,288.24c-68.519,0-124.264-55.744-124.264-124.264V107.12c0-8.208,6.653-14.861,14.861-14.861  c8.208,0,14.861,6.653,14.861,14.861v56.857c0,52.129,42.412,94.541,94.541,94.541s94.541-42.412,94.541-94.541  c0-8.208,6.653-14.861,14.861-14.861c8.208,0,14.861,6.653,14.861,14.861C380.264,232.495,324.519,288.24,256,288.24z" />
-          <path fill="#CFF09E" d="M365.402,107.12H146.598c0,0,0-42.777,0-61.911c0-40.462,218.805-40.462,218.805,0  C365.402,64.341,365.402,107.12,365.402,107.12z" />
-          <path fill="#507C5C" d="M365.402,121.981H146.598c-8.208,0-14.861-6.653-14.861-14.861V45.207C131.736,4.405,218.637,0,256,0  s124.264,4.405,124.264,45.207v61.913C380.264,115.328,373.61,121.981,365.402,121.981z M161.459,92.258h189.08V46.331  c-5.265-6.069-36.943-16.608-94.539-16.608s-89.274,10.538-94.541,16.608L161.459,92.258L161.459,92.258z" />
-          <path fill="#CFF09E" d="M319.904,326.235H192.096c-38.576,0-69.849,31.273-69.849,69.849v101.055h267.506V396.084  C389.753,357.507,358.48,326.235,319.904,326.235z M337.736,437.943H265.41v-50.281h72.326L337.736,437.943L337.736,437.943z" />
-          <path fill="#507C5C" d="M389.753,512H122.247c-8.208,0-14.861-6.653-14.861-14.861V396.084  c0-46.709,38.001-84.71,84.71-84.71h127.808c46.709,0,84.71,38.001,84.71,84.71v101.055C404.614,505.347,397.961,512,389.753,512z   M137.109,482.277h237.783v-86.193c0-30.32-24.667-54.987-54.987-54.987H192.096c-30.32,0-54.987,24.667-54.987,54.987  L137.109,482.277L137.109,482.277z M337.736,452.804H265.41c-8.208,0-14.861-6.653-14.861-14.861v-50.281  c0-8.208,6.653-14.861,14.861-14.861h72.326c8.208,0,14.861,6.653,14.861,14.861v50.281  C352.598,446.15,345.944,452.804,337.736,452.804z M280.273,423.081h42.603v-20.558h-42.603V423.081z" />
-        </svg>}
+            <path fill="#507C5C" d="M256,288.24c-68.519,0-124.264-55.744-124.264-124.264V107.12c0-8.208,6.653-14.861,14.861-14.861  c8.208,0,14.861,6.653,14.861,14.861v56.857c0,52.129,42.412,94.541,94.541,94.541s94.541-42.412,94.541-94.541  c0-8.208,6.653-14.861,14.861-14.861c8.208,0,14.861,6.653,14.861,14.861C380.264,232.495,324.519,288.24,256,288.24z" />
+            <path fill="#CFF09E" d="M365.402,107.12H146.598c0,0,0-42.777,0-61.911c0-40.462,218.805-40.462,218.805,0  C365.402,64.341,365.402,107.12,365.402,107.12z" />
+            <path fill="#507C5C" d="M365.402,121.981H146.598c-8.208,0-14.861-6.653-14.861-14.861V45.207C131.736,4.405,218.637,0,256,0  s124.264,4.405,124.264,45.207v61.913C380.264,115.328,373.61,121.981,365.402,121.981z M161.459,92.258h189.08V46.331  c-5.265-6.069-36.943-16.608-94.539-16.608s-89.274,10.538-94.541,16.608L161.459,92.258L161.459,92.258z" />
+            <path fill="#CFF09E" d="M319.904,326.235H192.096c-38.576,0-69.849,31.273-69.849,69.849v101.055h267.506V396.084  C389.753,357.507,358.48,326.235,319.904,326.235z M337.736,437.943H265.41v-50.281h72.326L337.736,437.943L337.736,437.943z" />
+            <path fill="#507C5C" d="M389.753,512H122.247c-8.208,0-14.861-6.653-14.861-14.861V396.084  c0-46.709,38.001-84.71,84.71-84.71h127.808c46.709,0,84.71,38.001,84.71,84.71v101.055C404.614,505.347,397.961,512,389.753,512z   M137.109,482.277h237.783v-86.193c0-30.32-24.667-54.987-54.987-54.987H192.096c-30.32,0-54.987,24.667-54.987,54.987  L137.109,482.277L137.109,482.277z M337.736,452.804H265.41c-8.208,0-14.861-6.653-14.861-14.861v-50.281  c0-8.208,6.653-14.861,14.861-14.861h72.326c8.208,0,14.861,6.653,14.861,14.861v50.281  C352.598,446.15,345.944,452.804,337.736,452.804z M280.273,423.081h42.603v-20.558h-42.603V423.081z" />
+          </svg>}
           placeholder="Thu ngân phụ trách"
           label="Thu ngân phụ trách"
           name="cashier_in_charge"
@@ -521,9 +531,9 @@ const InvoiceForm = ({
         <Button type="submit" loading={isLoading}>
           {published ? "Tải hoá đơn" : "Lưu và tải hóa đơn"}
         </Button>
-        {/* <Button type="button" loading={isLoading} onClick={togglePublish}>
-          Đã thanh toán
-        </Button> */}
+        {published && <Button type="button" loading={isLoading} onClick={e => setRefundAmount(0)}>
+          Hoàn tiền
+        </Button>}
       </div>
     </form>
   )
