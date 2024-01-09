@@ -20,24 +20,22 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
     [activeRow?.id, onClickRow]
   )
 
-  console.log('dataa', data)
-
   const columns = useMemo(() => {
     const defaultColumns = [
-      {
-        Header: "Code",
-        accessor: (originalRow) => (
-          <span
-            className={`font-bold ${
-              originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
-            }`}
-          >
-            {originalRow?.code}
-          </span>
-        ),
-        collapse: true,
-        width: 150,
-      },
+      // {
+      //   Header: "Code",
+      //   accessor: (originalRow) => (
+      //     <span
+      //       className={`font-bold ${
+      //         originalRow?.id === activeRow?.id ? "text-white" : "text-primary"
+      //       }`}
+      //     >
+      //       {originalRow?.code}
+      //     </span>
+      //   ),
+      //   collapse: true,
+      //   width: 150,
+      // },
       // {
       //   Header: "Order Date",
       //   accessor: (originalRow) => (
@@ -49,12 +47,6 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
       //   collapse: true,
       //   width: 200,
       // },
-    ]
-
-    if (activeRow) return defaultColumns
-
-    return [
-      ...defaultColumns,
       {
         Header: "Khách hàng",
         accessor: (originalRow) => (
@@ -63,6 +55,13 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
         collapse: true,
         width: 150,
       },
+      
+    ]
+
+    if (activeRow) return defaultColumns
+
+    return [
+      ...defaultColumns,
       {
         Header: "Tổng cộng",
         accessor: (originalRow) => <Price price={originalRow.total}></Price>,
