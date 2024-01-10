@@ -54,14 +54,14 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
       onClose={onClose}
     >
       <p>Nội khoa: {data.noi_khoa} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Ngoại khoa: {data.ngoai_khoa} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Sản khoa: {data.san_khoa} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Tiêm chủng: {data.tiem_chung} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Dị ứng: {data.di_ung} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Thói quen: {data.thoi_quen} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Nguy cơ khác: {data.nguy_co_khac} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Vấn đề khác: {data.van_de_khac} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
-      <p>Tiền căn gia đình: {data.tien_can_gia_dinh} <span className="hover:underline text-blue" onClick={e => copyText(data.noi_khoa)}>copy</span></p>
+      <p>Ngoại khoa: {data.ngoai_khoa} <span className="hover:underline text-blue" onClick={e => copyText(data.ngoai_khoa)}>copy</span></p>
+      <p>Sản khoa: {data.san_khoa} <span className="hover:underline text-blue" onClick={e => copyText(data.san_khoa)}>copy</span></p>
+      <p>Tiêm chủng: {data.tiem_chung} <span className="hover:underline text-blue" onClick={e => copyText(data.tiem_chung)}>copy</span></p>
+      <p>Dị ứng: {data.di_ung} <span className="hover:underline text-blue" onClick={e => copyText(data.di_ung)}>copy</span></p>
+      <p>Thói quen: {data.thoi_quen} <span className="hover:underline text-blue" onClick={e => copyText(data.thoi_quen)}>copy</span></p>
+      <p>Nguy cơ khác: {data.nguy_co_khac} <span className="hover:underline text-blue" onClick={e => copyText(data.nguy_co_khac)}>copy</span></p>
+      <p>Vấn đề khác: {data.van_de_khac} <span className="hover:underline text-blue" onClick={e => copyText(data.van_de_khac)}>copy</span></p>
+      <p>Tiền căn gia đình: {data.tien_can_gia_dinh} <span className="hover:underline text-blue" onClick={e => copyText(data.tien_can_gia_dinh)}>copy</span></p>
     </Modal>
   )
 }
