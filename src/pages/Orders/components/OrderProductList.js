@@ -10,13 +10,17 @@ import { formatStrapiArr } from "utils/strapi"
 
 const OrderProductList = ({ openDrawer, onClose, products = [], orderIdSelected }) => {
   const [productList, setProductList] = useState([])
+  const [product, setProduct] = useState("");
 
   useEffect(() => {
     (async () => {
       try {
         const res = await getOrderDetail({id: orderIdSelected});
+        console.log('res.data.product.products',res.data.product.products)
+        
         if (res.data) {
-          let productFormatted = res.data.product.cart.cart_lines;
+          setProduct(res.data.product.products);
+          let productFormatted = res.data?.product?.cart?.cart_lines;
           setProductList(productFormatted);
         }
       } catch (error) {
@@ -33,6 +37,7 @@ const OrderProductList = ({ openDrawer, onClose, products = [], orderIdSelected 
         value={`${products?.length} Products`}
       /> */}
       <div className="mt-8 space-y-2">
+      {JSON.stringify(product)}
         {Array.isArray(productList) &&
           productList?.map((p) => {
             const product = p.product ?? p.service;
@@ -43,6 +48,7 @@ const OrderProductList = ({ openDrawer, onClose, products = [], orderIdSelected 
                   src={getStrapiMedia(product?.images?.[0])}
                   alt={product?.label}
                 /> */}
+                
                 <div className="flex flex-col space-y-2">
                   <span className="text-18 font-bold">
                     {product?.code}
