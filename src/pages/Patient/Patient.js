@@ -332,7 +332,7 @@ const Treatments = () => {
           <Select
             placeholder="Nguồn"
             label=""
-            wrapperClassName="w-100"
+            wrapperClassName="w-[400px]"
             name="patient_source"
             options={patientSource}
             value={source && patientSource?.find((s) => s.id === source.id)}
