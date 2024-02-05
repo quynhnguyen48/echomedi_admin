@@ -241,7 +241,7 @@ const Treatments = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
-        <div className="">
+        {/* <div className="">
           <p>Ngày bắt đầu</p>
           <Datepicker
             className="bg-primary text-white"
@@ -269,8 +269,8 @@ const Treatments = () => {
               setEndDate(date);
             }}
           />
-        </div>
-        <div className="ml-2 flex">
+        </div> */}
+        {/* <div className="ml-2 flex">
           <Button
             onClick={() => {
               search();
@@ -286,7 +286,7 @@ const Treatments = () => {
           >
             Xuất file
           </Button>
-        </div>
+        </div> */}
       </div>
       <div
         className={classNames({
