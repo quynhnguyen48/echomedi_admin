@@ -171,7 +171,7 @@ const CustomersTable = ({
         Header: "Năm sinh",
         collapse: true,
         width: 80,
-        accessor: (originalRow) => originalRow?.patient?.birthday && <span>{formatDate(originalRow?.patient?.birthday, "DD MMMM, YYYY")} ({2023-dayjs(originalRow.birthday).year()})</span>,
+        accessor: (originalRow) => originalRow?.patient?.birthday && <span>{formatDate(originalRow?.patient?.birthday, "DD MMMM, YYYY")} ({dayjs().year()-dayjs(originalRow.birthday).year()})</span>,
       },
       {
         Header: "Số điện thoại",

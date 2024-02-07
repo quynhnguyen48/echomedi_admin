@@ -143,7 +143,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
         Header: "Năm sinh",
         collapse: true,
         width: 50,
-        accessor: (originalRow) => originalRow.patient?.birthday && <span>{dayjs(originalRow.patient?.birthday).year()} ({2023-dayjs(originalRow.patient?.birthday).year()})</span>,
+        accessor: (originalRow) => originalRow.patient?.birthday && <span>{dayjs(originalRow.patient?.birthday).year()} ({dayjs().year()-dayjs(originalRow.patient?.birthday).year()})</span>,
       },
       {
         Header: "Số điện thoại",
