@@ -6,6 +6,10 @@ import Tag from "components/Tag"
 import { CATEGORY_STATUS } from "constants/Category"
 import { formatDate } from "utils/dateTime"
 
+function numberWithCommas(x) {
+  return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchData }) => {
   const handleClickRow = useCallback(
     (row) => {
@@ -66,6 +70,18 @@ const InvoiceTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDa
         },
         collapse: true,
         width: 250,
+      },
+      {
+        Header: "Tổng cộng",
+        accessor: (originalRow) => {
+          return (
+            <div className="flex">
+              <span className="">{numberWithCommas(originalRow.data?.total)}</span>
+            </div>
+          )
+        },
+        collapse: true,
+        width: 100,
       },
       {
         Header: "Trạng thái",
