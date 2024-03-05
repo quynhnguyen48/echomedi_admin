@@ -1212,7 +1212,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       }
 
       toast.success("Lưu hồ sơ bệnh án thành công")
-      window.location.href = `/bookings/medical-records/${data.id}/view`
+      window.location.href = `/bookings/mental-health-medical-records/${data.id}/view`
     } catch (error) {
       toast.error(getErrorMessage(error))
     }
