@@ -74,6 +74,7 @@ const EmployeesReport = React.lazy(() => import("pages/Reports/EmployeesReport")
 const CustomersReport = React.lazy(() => import("pages/Reports/CustomersReport"))
 const UpsertMedicalRecord = React.lazy(() => import("pages/MedicalRecord/UpsertMedicalRecord"))
 const UpsertMedicalRecordBooking = React.lazy(() => import("pages/Bookings/UpsertMedicalRecord"))
+const MentalHealthUpsertMedicalRecord = React.lazy(() => import("pages/Bookings/MentalHealthUpsertMedicalRecord"))
 const Patient = React.lazy(() => import("pages/Patient/Patient"))
 const CreatePatient = React.lazy(() => import("pages/Patient/CreatePatient"))
 const TodayPatient = React.lazy(() => import("pages/Patient/TodayPatient"))
@@ -128,6 +129,10 @@ const MainRoutes = () => {
         <Route
           path="/bookings/medical-records/:id/create/"
           element={<UpsertMedicalRecordBooking />}
+        />
+        <Route
+          path="/bookings/mental-health-medical-records/:id/create/"
+          element={<MentalHealthUpsertMedicalRecord />}
         />
         <Route
           path="/bookings/medical-records/:id/view/"

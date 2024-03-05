@@ -99,6 +99,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
             )}
             {getStrapiMedia(originalRow?.patient?.patient_source?.image) && <img src={getStrapiMedia(originalRow?.patient?.patient_source?.image)} alt="Product" className="w-20 mt-1" />}
             {originalRow?.uid}
+            {originalRow?.is_mental_health_mr && <p>Mental health</p>}
           </span>
         ),
         collapse: true,

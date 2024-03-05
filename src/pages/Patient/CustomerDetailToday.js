@@ -77,7 +77,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   const generatePhieuChiDinh = () => {
     const toastId = toast.loading("Đang tải");
     axios.post("/product/generatePhieuChiDinh", {
-    // axios2.post("http://localhost:1337/api/product/generatePhieuChiDinh", {
+      // axios2.post("http://localhost:1337/api/product/generatePhieuChiDinh", {
       "id": data.booking.medical_record.id,
     }, {
       responseType: 'arraybuffer',
@@ -96,16 +96,16 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
         toast.dismiss(toastId);
       });
 
-      try {
-        window.flutter_inappwebview.callHandler('generatePhieuChiDinh', data.booking.medical_record.id);
-      } catch (e) {
-        console.log('error download inapp view', e);
-      }
+    try {
+      window.flutter_inappwebview.callHandler('generatePhieuChiDinh', data.booking.medical_record.id);
+    } catch (e) {
+      console.log('error download inapp view', e);
+    }
   }
 
   useEffect(() => {
     if (data?.id) {
-      ;(async () => {
+      ; (async () => {
         try {
           const cardRes = await getListCards(
             { pageSize: 1000 },
@@ -136,7 +136,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               }
             })
           )
-        } catch (error) {}
+        } catch (error) { }
       })()
     }
   }, [data?.id])
@@ -144,27 +144,6 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
   return (
     <div className="my-10 w-full">
       <div className="flex items-center gap-x-2">
-        {/* <div className="flex items-center flex-1 gap-x-4">
-          <Avatar
-            size={110}
-            src={getStrapiMedia({ url: data?.avatar })}
-            name={`${data?.firstName} ${data?.lastName}`}
-          />
-          <div className="flex-1">
-            <p className="text-24 font-bold">{`${data?.firstName} ${data?.lastName}`}</p>
-            <p className="text-18 break-all">{data?.email}</p>
-            <Tag
-              className={classNames("mt-4 rounded-lg", {
-                "bg-red": data.blocked,
-                "bg-green": !data.blocked,
-              })}
-              name={data.blocked ? "Blocked" : "Active"}
-            />
-            {data?.customerTag === "new" && (
-              <Tag className="ml-2 rounded-lg bg-pink2" name="New Customer" />
-            )}
-          </div>
-        </div> */}
         <div className="flex gap-x-2">
           <Button
             btnSize="auto"
@@ -174,27 +153,9 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           >
             <Icon name="edit" />
           </Button>
-          
-          {/* <Button
-            btnSize="auto"
-            className={`w-10 h-10 ${data?.blocked ? "bg-green" : "bg-red"}`}
-            shape="circle"
-            onClick={() => {
-              navigate(`/medical-records/${data.id}/create`);
-            }}
-          >
-            <Icon name="check" />
-          </Button> */}
-        
         </div>
       </div>
       <div className="grid grid-cols-2 grid-flow-row gap-y-8 mt-4">
-        {/* <DataItem icon="user-octagon" title="Customer ID" value={data?.code} /> */}
-        {/* <DataItem
-          icon="sidebar/check-in-active"
-          title="Joined Date"
-          value={dayjs(data?.createdAt).format("DD MMMM, YYYY")}
-        /> */}
         <DataItem icon="user" title="Tên" value={`${data?.patient?.full_name}`} />
         <DataItem icon="message" title="Email" value={data?.patient?.email} />
         <DataItem icon="man" title="Giới tính" value={data?.patient?.gender == "male" ? "Nam" : "Nữ"} valueClassName="capitalize" />
@@ -209,53 +170,65 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           title="Địa chỉ"
           value={
             data?.patient?.address
-              ? `${data?.patient?.address?.address || ""}, ${data?.patient?.address?.ward?.name || ""}, ${
-                  data?.patient?.address?.district?.name || ""
-                }, ${data?.patient?.address?.province?.name || ""}`
+              ? `${data?.patient?.address?.address || ""}, ${data?.patient?.address?.ward?.name || ""}, ${data?.patient?.address?.district?.name || ""
+              }, ${data?.patient?.address?.province?.name || ""}`
               : "-"
           }
         />
         {data?.patient?.discount && JSON.parse(data?.patient?.discount) &&
-            <DataItem icon="man" title="Khuyến mãi" value={JSON.parse(data?.patient?.discount)?.map(e => <p>{e.value}</p>)} />
-          }
+          <DataItem icon="man" title="Khuyến mãi" value={JSON.parse(data?.patient?.discount)?.map(e => <p>{e.value}</p>)} />
+        }
       </div>
-      
-      
-      <div className="flex space-x-1 mt-4 justify-between">
-      {data.medical_record ?  <Button
+      <div className="flex space-x-1 mt-4">
+        {data.medical_record ? <Button
           onClick={() => {
             navigate(`/bookings/medical-records/${data.id}/view`);
           }}
         >
           Xem hồ sơ bệnh án
-        </Button> : 
-        <Button
-        icon={<Icon name="add-circle" className="fill-white" />}
-        onClick={() => {
-          navigate(`/bookings/medical-records/${data.id}/create`);
-        }}
-      >
-        Tạo hồ sơ bệnh án
-      </Button>}
-      {data.medical_record &&  <Button
+        </Button> :
+          <Button
+            icon={<Icon name="add-circle" className="fill-white" />}
+            onClick={() => {
+              navigate(`/bookings/medical-records/${data.id}/create`);
+            }}
+          >
+            Tạo hồ sơ bệnh án
+          </Button>}
+        {data.medical_record ? <Button
+          onClick={() => {
+            navigate(`/bookings/mental-health-medical-records/${data.id}/create`);
+          }}
+        >
+          Xem hồ sơ bệnh án tâm lý
+        </Button> :
+          <Button
+            icon={<Icon name="add-circle" className="fill-white" />}
+            onClick={() => {
+              navigate(`/bookings/mental-health-medical-records/${data.id}/create`);
+            }}
+          >
+            Tạo hồ sơ bệnh án tâm lý
+          </Button>}
+        {data.medical_record && <Button
           onClick={() => {
             navigate(`/bookings/medical-records/${data.id}/edit`);
           }}
         >
           Sửa hồ sơ bệnh án
         </Button>}
-        {data.medical_record &&  <Button
-        onClick={() => downloadMedicalRecord()}
-      >
-        Tải bệnh án
-      </Button>}
-      {data.medical_record &&  <Button
-        onClick={() => generatePhieuChiDinh()}
-      >
-        Tải phiếu chỉ định
-      </Button>}
+        {data.medical_record && <Button
+          onClick={() => downloadMedicalRecord()}
+        >
+          Tải bệnh án
+        </Button>}
+        {data.medical_record && <Button
+          onClick={() => generatePhieuChiDinh()}
+        >
+          Tải phiếu chỉ định
+        </Button>}
       </div>
-      <CustomerMedicalRecords 
+      <CustomerMedicalRecords
         userId={data?.patient?.id}
         openDrawer={openCustomerAccountBalanceDrawer}
         onClose={() => setOpenCustomerAccountBalanceDrawer(false)}
