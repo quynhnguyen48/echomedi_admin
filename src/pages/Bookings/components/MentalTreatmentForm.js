@@ -642,7 +642,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const loadDoctors = () => {
-    if (currentUser?.role?.type == "doctor") {
+    if (currentUser?.role?.type == "counselor") {
       setCustomersData([{
         value: currentUser?.id,
         label: `${currentUser?.patient?.full_name}`,
