@@ -336,7 +336,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       </div>
 
       <div className="mt-5">
-      {cliniqueServices && cliniqueServices.length > 0 && <p className="underline text-xl font-bold mt-5">Dịch vụ lâm sàng:</p>}
+        {cliniqueServices && cliniqueServices.length > 0 && <p className="underline text-xl font-bold mt-5">Dịch vụ lâm sàng:</p>}
         <table className="service w-full">
           {cliniqueServices &&
             cliniqueServices.map((b) => (
@@ -354,8 +354,8 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
                 <div className="w-full">
                   <input type="checkbox" name="panel" id={`panel-${b.id}`} class="hidden" />
                   <div className="flex justify-between">
-                  <label for={`panel-${b.id}`} class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">{b.attributes.label} &#62;</label>
-                  <label class=""> {numberWithCommas(b.attributes.price)}</label>
+                    <label for={`panel-${b.id}`} class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold">{b.attributes.label} &#62;</label>
+                    <label class=""> {numberWithCommas(b.attributes.price)}</label>
                   </div>
                   <div class="accordion__content overflow-scroll bg-grey-lighter">
 
@@ -395,7 +395,10 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             btnSize="small"
             className="mt-2"
             onClick={() => {
-              navigate(`/bookings/medical-records/${data.booking.id}/view`)
+              if (data.is_mental_health_mr)
+                navigate(`/bookings/mental-health-medical-records/${data.booking.id}/create`)
+              else
+                navigate(`/bookings/medical-records/${data.booking.id}/view`)
             }}
           >
             Xem bệnh án
@@ -404,7 +407,10 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             btnSize="small"
             className="mt-2"
             onClick={() => {
-              navigate(`/bookings/medical-records/${data.booking.id}/edit`)
+              if (data.is_mental_health_mr)
+                navigate(`/bookings/mental-health-medical-records/${data.booking.id}/create`)
+              else
+                navigate(`/bookings/medical-records/${data.booking.id}/edit`)
             }}
           >
             Sửa bệnh án
