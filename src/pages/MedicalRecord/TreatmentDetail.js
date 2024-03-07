@@ -395,13 +395,19 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             btnSize="small"
             className="mt-2"
             onClick={() => {
-              if (data.is_mental_health_mr)
-                navigate(`/bookings/mental-health-medical-records/${data.booking.id}/create`)
-              else
                 navigate(`/bookings/medical-records/${data.booking.id}/view`)
             }}
           >
             Xem bệnh án
+          </Button>}
+          {data.is_mental_health_mr && <Button
+            btnSize="small"
+            className="mt-2"
+            onClick={() => {
+                navigate(`/bookings/mental-health-medical-records/${data.booking.id}/create`)
+            }}
+          >
+            Xem/Sửa bệnh án tâm lý
           </Button>}
           {(currentUser.role.type == "admin" || (currentUser.role.type != "pharmacist" && moment().isSame(moment(data.booking.bookingDate), 'day'))) && <Button
             btnSize="small"
