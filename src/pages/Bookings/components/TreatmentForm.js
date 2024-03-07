@@ -1107,6 +1107,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     } catch {
 
     }
+    console.log('selectedMembership', selectedMembership)
     try {
       const payload = {
         ...formData,
@@ -1117,7 +1118,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         services: usedMedicalServices,
         bundle_services: usedBundleMedicalServices,
         clinique_services: usedCliniqueServices,
-        membership: data.patient.membership ? data.medical_record?.data?.attributes.membership : selectedMembership,
+        membership: JSON.stringify(selectedMembership),
         doctor_in_charge: doctorInCharge?.value,
         nurse_in_charge: nurseInCharge?.value,
         cc_in_charge: CCInCharge?.value,
