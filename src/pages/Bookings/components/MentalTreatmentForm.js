@@ -118,6 +118,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [bookingDate, setBookingDate] = useState(null)
   const [bookingHour, setBookingHour] = useState("")
   const [doctorInCharge, setDoctorInCharge] = useState();
+  const [counselorInCharge, setCounselorInCharge] = useState();
   const [cashierInCharge, setCashierInCharge] = useState();
   const [CCInCharge, setCCInCharge] = useState();
   const [nurseInCharge, setNurseInCharge] = useState();
@@ -279,8 +280,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       nhu_cau_va_muc_tieu_tham_van: data?.nhu_cau_va_muc_tieu_tham_van || "",
       tom_tat_van_de: data?.tom_tat_van_de || "",
       ghi_chu_cua_cvtl: data?.ghi_chu_cua_cvtl || "",
-
-      //
       circuit: data?.circuit || "",
       temperature: data?.temperature || "",
       blood_pressure: data?.blood_pressure || "",
@@ -399,6 +398,13 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setDoctorInCharge({
         value: data.doctor_in_charge.data?.id,
         label: data.doctor_in_charge.data?.attributes?.patient?.data?.attributes?.full_name,
+      })
+    }
+
+    if (data.counselor_in_charge) {
+      setCounselorInCharge({
+        value: data.counselor_in_charge.data?.id,
+        label: data.counselor_in_charge.data?.attributes?.patient?.data?.attributes?.full_name,
       })
     }
 
@@ -2006,7 +2012,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
             <div className="w-full flex flex-row">
               <Controller
-                name="doctor_in_charge"
+                name="counselor_in_charge"
                 control={control}
                 render={({ field: { value, ref } }) => (
                   <div>
@@ -2021,11 +2027,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       </svg>}
                       placeholder="Bác sĩ phụ trách"
                       label="Bác sĩ phụ trách"
-                      name="doctor_in_charge"
+                      name="counselor_in_charge"
                       onChange={(e) => {
-                        setDoctorInCharge(e)
+                        setCounselorInCharge(e)
                       }}
-                      value={doctorInCharge}
+                      value={counselorInCharge}
                       options={customersData}
                       errors={errors?.address?.province?.message}
                     >
