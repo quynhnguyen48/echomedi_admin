@@ -413,10 +413,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             btnSize="small"
             className="mt-2"
             onClick={() => {
-              if (data.is_mental_health_mr)
-                navigate(`/bookings/mental-health-medical-records/${data.booking.id}/create`)
-              else
-                navigate(`/bookings/medical-records/${data.booking.id}/edit`)
+              navigate(`/bookings/medical-records/${data.booking.id}/edit`)
             }}
           >
             Sửa bệnh án
