@@ -22,6 +22,8 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
   const [openProductVariantsDrawer, setOpenProductVariantsDrawer] = useState(false)
   const [openProductInventoryDrawer, setOpenProductInventoryDrawer] = useState(false)
 
+  console.log('data', data)
+
   return (
     <div className="my-10 w-full">
       <div className="flex items-center gap-x-2">
@@ -61,6 +63,14 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
         </div>
       </div>
       <div className="grid grid-cols-2 grid-flow-row gap-y-2 mt-12">
+        <div className="my-4 col-span-2">
+          <div className="flex flex-row align-center">
+            <span className="font-bold mt-1">Danh sách thuốc:</span>
+          </div>
+          <ol style={{ listStyleType: "decimal", marginLeft: "30px" }}>
+            {Array.isArray(data?.medicines?.data) && data?.medicines?.data?.map(item => <li>{item.attributes.label}</li>)}
+          </ol>
+        </div>
         <DataItem icon="key" title="Product ID" value={data?.code} />
         <DataItem
           icon="sidebar/check-in-active"
