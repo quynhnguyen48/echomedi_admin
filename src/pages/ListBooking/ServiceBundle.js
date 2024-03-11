@@ -120,7 +120,7 @@ const ServiceBundles = () => {
   }
   return (
     <Page
-      title="Nhắn tin"
+      title="Danh sách lịch hẹn"
     >
       <div
         className={classNames({
