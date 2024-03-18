@@ -252,7 +252,6 @@ const PrescriptionModal = ({ data, medicalRecordId, visibleModal, onClose, patie
           });
           listDrugs = listDrugs.filter(l => l.stock > 0);
           listDrugs.sort((a, b) => a.type < b.type ? -1 : 1);
-          console.log('listDrugs', listDrugs)
           setAllDrugs(listDrugs);
         }
       })

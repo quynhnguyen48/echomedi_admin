@@ -61,6 +61,7 @@ const PrescriptionFormItem = ({
   }, [allDrugs])
 
   const handleSearchDrugs = (filter) => {
+    filter = removeVietnameseTones(filter);
     const drugs = allDrugs.filter(d => 
       (d.label_i?.toLowerCase().includes(filter) || 
       d.ingredient_i?.toLowerCase().includes(filter)) &&
