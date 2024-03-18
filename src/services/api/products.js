@@ -74,7 +74,7 @@ export const deleteProductBrand = (id) => {
 export const getListProducts = (pagination, filters, publicationState = "live") => {
   const query = qs.stringify({
     filters,
-    populate: ["brand", "category", "image", "variants", "inventory_histories.variants"],
+    populate: ["medicines", "brand", "category", "image", "variants", "inventory_histories.variants"],
     pagination,
     publicationState,
   })

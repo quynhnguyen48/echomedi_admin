@@ -180,17 +180,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     };
   }, [tagifyWhitelist]);
 
-  // useEffect(async () => {
-  //   if (data?.patient?.id) {
-  //       let filter = {
-  //         patient: data.patient.id,
-  //       }
-  //       console.log('filter', filter)
-  //       const res = await getMedicalRecords({ pageSize: 1000 }, filter)
-  //       setPreviousMr(formatStrapiArr(res.data))
-  //   }
-  // }, [])
-
   const fetchData = useCallback(async () => {
     if (data?.patient?.id) {
       let filter = {
@@ -199,7 +188,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       const res = await getMedicalRecords({ pageSize: 1000 }, filter)
       const preMr = formatStrapiArr(res.data)?.filter(p => p.uid != data.uid)
       setPreviousMr(preMr)
-  }
+    }
   }, [data])
 
   const provincesList = REGION_DATA
@@ -252,14 +241,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const validationSchema = yup.object({
-    // circuit: yup.number().required("Background image is required"),
-    // temperature: yup.number(),
-    // blood_pressure: yup.number(),
-    // respiratory_rate: yup.number(),
-    // height: yup.number(),
-    // weight: yup.number(),
-    // bmi: yup.number(),
-    // spo2: yup.number(),
   })
 
   const {
@@ -332,10 +313,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       },
       note: data?.note || "",
       cc_note: data?.medical_record?.data?.attributes?.cc_note || "",
-      // status: data?.medical_record?.data?.attributes?.status || "",
     },
   })
-  // useScrollToError(errors)
 
   const {
     fields: procedureFields,
@@ -665,13 +644,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const loadMedicalServices2 = () => {
     let monthlyGold = [];
     let yearlyGold = [];
-    // if (data.patient.membership == "gold") {
-    //   return;
-    // }
     axios2
-      // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
       .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
-      // .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         const services = response.data.data;
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
@@ -812,7 +786,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const loadBundleServices = () => {
     axios2
-      // .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         if (!data.bundle_services) {
@@ -949,10 +922,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       <div>
         <p>Gói dược {p.label} gồm: </p>
         {p.medicines.map((s, i) => <p> {i + 1}. {s.label}</p>)}
-        {/* {m.attributes.medical_services.map((a) => (
-          <p>{a.label}</p>
-
-        ))} */}
       </div>,
       { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
     )
@@ -993,10 +962,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         <div>
           <p>Không thể thêm dịch vụ này vị bị trùng</p>
           {ms.filter(s => s.id in existServices).map(s => <p>{s.label}</p>)}
-          {/* {m.attributes.medical_services.map((a) => (
-            <p>{a.label}</p>
-
-          ))} */}
         </div>,
         { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
       )
@@ -1118,7 +1083,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         services: usedMedicalServices,
         bundle_services: usedBundleMedicalServices,
         clinique_services: usedCliniqueServices,
-        membership: JSON.stringify(selectedMembership),
+        membership: data.patient.membership ? data.medical_record?.data?.attributes.membership : JSON.stringify(selectedMembership),
         doctor_in_charge: doctorInCharge?.value,
         nurse_in_charge: nurseInCharge?.value,
         cc_in_charge: CCInCharge?.value,
@@ -1182,6 +1147,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
           data: {
             ...data.patient,
             membership: selectedMembership?.value,
+            start_date_membership: new Date(),
           }
         });
       }
@@ -1314,59 +1280,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
         });
 
-        // if (bmi >= 23) {
-        //   if (!data["Gói dược"]) {
-        //     data["Gói dược"] = [];
-        //   }
-        //   data["Gói dược"].push({
-        //     label: "Gói hỗ trợ giảm cân",
-        //     type: "product",
-        //     id: 17,
-        //   });
-
-        //   if (!data["Gói dinh dưỡng"]) {
-        //     data["Gói dinh dưỡng"] = [];
-        //   }
-        //   data["Gói dinh dưỡng"].push({
-        //     label: "Dinh dưỡng giảm cân",
-        //     type: "service-bundle",
-        //     id: 94,
-        //   });
-
-        //   if (!data["Gói gene"]) {
-        //     data["Gói gene"] = [];
-        //   }
-
-        //   if (!data["Gói gene"].find(s => s.id == 107)) {
-        //     data["Gói gene"].push({
-        //       label: "Vitamin cho cuộc sức sống tràn đầy U-Vita",
-        //       type: "service-bundle",
-        //       id: 107,
-        //     });
-        //   }
-        //   if (!data["Gói gene"].find(s => s.id == 108)) {
-        //     data["Gói gene"].push({
-        //       label: "Xua tan phiền não về cân nặng U-Weight",
-        //       type: "service-bundle",
-        //       id: 108,
-        //     });
-        //   }
-
-        //   if (!data["Gói khám"]) {
-        //     data["Gói khám"] = [];
-        //   }
-        //   data["Gói khám"].push({
-        //     label: "QUẢN LÝ BỆNH BÉO PHÌ",
-        //     type: "service-bundle",
-        //     id: 62,
-        //   });
-        // } else if (bmi < 18) {
-        //   data["Gói dinh dưỡng"] = [];
-        //   data["Gói dinh dưỡng"].push({
-        //     label: "Suy Dinh dưỡng",
-        //   });
-        // }
-
         setSearchData(data);
       })
       .finally(() => {
@@ -1417,17 +1330,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     },
     [onFinish]
   )
-
-  // const dataService = useMemo(() => {
-  //   const formatServices = groupBy(searchData, "group")
-  //   console.log('formatServices', formatServices)
-  //   return Object.entries(searchData)
-  //     .map(([serviceName, service]) => {
-  //       if (!AVAILABLE_TEST_RESULT.includes(serviceName)) return null
-  //       return service
-  //     })
-  //     ?.filter((service) => !!service)
-  // }, [searchData])
 
   return (
     <>
@@ -1794,13 +1696,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     />
                   </div>
                   {(readonly || data.patient.membership) && <div className="w-full">
-                    {/* <Controller
-                name="address.ward"
-                control={control}
-                render={({ field: { value, ref } }) => ( */}
                     <Select
                       isDisabled={readonly || data.patient.membership}
-                      // placeholder="Chọn phường"
                       label="Gói thành viên"
                       name="address.ward"
                       onChange={(e) => {
@@ -2131,10 +2028,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           />
                         )}
                       />
-                      {/* <Controller
-              name="height"
-              control={control}
-              render={({ field: { onChange, value } }) => ( */}
                       <Input
                         disabled={readonly}
                         onChange={(e) => setHeight(e.target.value)}
@@ -2148,12 +2041,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           }
                         }}
                       />
-                      {/* )}
-            /> */}
-                      {/* <Controller
-              name="weight"
-              control={control}
-              render={({ field: { onChange, value } }) => ( */}
                       <Input
                         disabled={readonly}
                         onChange={(e) => setWeight(e.target.value)}
@@ -2161,25 +2048,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         name="weight"
                         label="Cân nặng(Kg)"
                         placeholder={""}
-                      // errors={errors?.name?.message}
                       />
-                      {/* )}
-            /> */}
-                      {/* <Controller
-              name="bmi"
-              control={control}
-              render={({ field: { onChange, value } }) => ( */}
                       <Input
                         disabled={true}
-                        // onChange={onChange}
                         value={bmi}
                         name="bmi"
                         label="BMI"
                         placeholder={""}
-                      // errors={errors?.name?.message}
                       />
-                      {/* )}
-            /> */}
                       <Controller
                         name="spo2"
                         control={control}
@@ -2252,90 +2128,11 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         />
                       )}
                     />
-                    {/* <Controller
-                      name="premise"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Textarea
-                          id="premise"
-                          label="Tiền căn"
-                          size="large"
-                          name="premise"
-                          value={value}
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          onChange={onChange}
-                          errors={errors?.title?.en?.message}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="general_examination"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Textarea
-                          id="general_examination"
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          label="Khám tổng quát"
-                          name="general_examination"
-                          value={value}
-                          onChange={onChange}
-                          errors={errors?.title?.en?.message}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="examination"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Textarea
-                          id="examination"
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          label="Khám cơ quan"
-                          name="examination"
-                          value={value}
-                          onChange={onChange}
-                          errors={errors?.title?.en?.message}
-                        />
-                      )}
-                    />
-
-
-                    <Controller
-                      name="main_diagnose"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Textarea
-                          id="main_diagnose"
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          label="Bệnh chính"
-                          name="main_diagnose"
-                          value={value}
-                          onChange={onChange}
-                        // errors={errors?.title?.en?.message}
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="other_diagnose"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Textarea
-                          id="other_diagnose"
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          label="Bệnh kèm theo"
-                          name="other_diagnose"
-                          value={value}
-                          onChange={onChange}
-                        // errors={errors?.title?.en?.message}
-                        />
-                      )}
-                    /> */}
-
                   </div>
                   <p className="font-bold text-2xl">Tiền căn bản thân</p>
                   {previousMr?.length > 0 &&
-                  <p className="font-bold text-xl">Lịch sử tiền căn</p>}
-                  {previousMr?.length > 0 &&<div className="flex flex-col">{previousMr && previousMr.map(p => <button
+                    <p className="font-bold text-xl">Lịch sử tiền căn</p>}
+                  {previousMr?.length > 0 && <div className="flex flex-col">{previousMr && previousMr.map(p => <button
                     onClick={e => { setVisiblePreviousMr(p); setActivePreviousMr(p); }}
                     type="button"
                     className="flex"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -2462,39 +2259,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                         />
                       )}
                     />
-
-                    {/* <Controller
-                      name="main_diagnose"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Textarea
-                          id="main_diagnose"
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          label="Bệnh chính"
-                          name="main_diagnose"
-                          value={value}
-                          onChange={onChange}
-                        // errors={errors?.title?.en?.message}
-                        />
-                      )}
-                    />
-
-                    <Controller
-                      name="other_diagnose"
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Textarea
-                          id="other_diagnose"
-                          disabled={readonly || currentUser?.role?.type == "nurse"}
-                          label="Bệnh kèm theo"
-                          name="other_diagnose"
-                          value={value}
-                          onChange={onChange}
-                        // errors={errors?.title?.en?.message}
-                        />
-                      )}
-                    /> */}
-
                   </div>
                   <div className="mt-4"><Controller
                     name="tien_can_gia_dinh"
