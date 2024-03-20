@@ -101,7 +101,7 @@ export const createDebtColectionReminder = (data) => {
 }
 
 export const getPatientSource = (id) => {
-  return axios.get(`/patient-sources?populate=*`, {
+  return axios.get(`/patient-sources?populate=*&pagination[pageSize]=1000`, {
   })
 }
 
