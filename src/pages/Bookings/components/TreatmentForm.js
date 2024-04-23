@@ -791,7 +791,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   
   const loadChronicServices = () => {
     axios2
-      .get("http://localhost:1337/api/chronic-services?populate=Services.medical_service")
+      .get("https://api.echomedi.com/api/chronic-services?populate=Services.medical_service")
       .then((response) => {
         let chronicServices = response.data.data;
         if (data.chronic_services) {
