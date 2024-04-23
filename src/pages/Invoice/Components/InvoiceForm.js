@@ -28,6 +28,7 @@ const InvoiceForm = ({
   bundleServices,
   medicalServices,
   cliniqueServices,
+  chronicServices,
   downloadPDF,
   onUpdate,
   membership,
@@ -79,17 +80,26 @@ const InvoiceForm = ({
     name: "cliniqueServices",
   })
 
+  const { fields: chronicServicesFields } = useFieldArray({
+    control,
+    name: "chronicServices",
+  })
+
+  console.log('chronicServicesFields', chronicServicesFields)
+
   const bundleServicesValues = useWatch({ control: control, name: "bundleServices" })
   const medicalServicesValues = useWatch({ control: control, name: "medicalServices" })
   const cliniqueServicesValues = useWatch({ control: control, name: "cliniqueServices" })
+  const chronicServicesValues = useWatch({ control: control, name: "chronicServices" })
   const membershipValues = useWatch({ control: control, name: "membership" })
 
   const subTotal = useMemo(
     () => sumBy([...(bundleServicesValues || []),
     ...(medicalServicesValues || []),
     ...(membershipValues || []),
+    ...(chronicServicesValues || []),
     ...(cliniqueServicesValues || [])], "price"),
-    [bundleServicesValues, medicalServicesValues, membershipValues, cliniqueServicesValues]
+    [bundleServicesValues, medicalServicesValues, membershipValues, chronicServicesValues, cliniqueServicesValues]
   )
   const totalDiscount = useMemo(
     () =>
@@ -97,12 +107,13 @@ const InvoiceForm = ({
         [...(bundleServicesValues || []),
         ...(medicalServicesValues || []),
         ...(cliniqueServicesValues || []),
+        ...(chronicServicesValues || []),
         ...(membershipValues || []),
         ],
         (item) =>
           (parseInt(item?.discountFixedPrice) || 0)
       ),
-    [bundleServicesValues, medicalServicesValues, cliniqueServicesValues, membershipValues]
+    [bundleServicesValues, medicalServicesValues, cliniqueServicesValues, chronicServicesValues, membershipValues]
   )
 
   useEffect(() => {
@@ -327,6 +338,7 @@ const InvoiceForm = ({
         bundleServices: invoiceData?.bundleServices?.filter(ms => !ms["paid"]),
         medicalServices: invoiceData?.medicalServices?.filter(ms => !ms["paid"]),
         cliniqueServices: invoiceData?.cliniqueServices?.filter(ms => !ms["paid"]),
+        chronicServices: invoiceData?.chronicServices?.filter(ms => !ms["paid"]),
         membership: invoiceData?.membership,
         note: invoiceData?.note,
       })
@@ -335,7 +347,6 @@ const InvoiceForm = ({
       setRefundNote(null)
       reset({
         bundleServices: bundleServices?.filter(item => !item["attributes"]["paid"])
-
           .map((item) => ({
             id: item?.id,
             price: item?.attributes?.original_price ?? item?.attributes?.price,
@@ -363,6 +374,15 @@ const InvoiceForm = ({
             discountPercentage: item.attributes["discount_percentage"],
             note: item?.attributes?.discount_note
           })),
+        chronicServices: chronicServices?.filter(item => !item["attributes"]["paid"])
+          .map((item) => ({
+            id: item?.id,
+            price: item?.attributes?.original_price ?? item?.attributes?.price,
+            label: item?.attributes?.label,
+            discountFixedPrice: item?.attributes?.original_price * item.attributes["discount_percentage"] / 100,
+            discountPercentage: item.attributes["discount_percentage"],
+            note: item?.attributes?.discount_note
+          })),
         membership: membership && !membership["paid"] ? [{
           id: membership?.id,
           price: membership?.price,
@@ -373,7 +393,7 @@ const InvoiceForm = ({
         note: "",
       })
     }
-  }, [bundleServices, invoiceData, medicalServices, membership, reset])
+  }, [bundleServices, invoiceData, medicalServices, chronicServices, membership, reset])
 
   return (
     <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
@@ -388,6 +408,7 @@ const InvoiceForm = ({
         {renderFields(cliniqueServicesFields, "cliniqueServices")}
         {renderFields(bundleServicesFields, "bundleServices")}
         {renderFields(medicalServicesFields, "medicalServices")}
+        {renderFields(chronicServicesFields, "chronicServices")}
         {refundAmount != undefined &&
           <div className="grid grid-cols-7 gap-1 py-1">
             <p className="col-span-3">Hoàn tiền</p>

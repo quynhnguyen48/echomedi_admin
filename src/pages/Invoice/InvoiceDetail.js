@@ -16,6 +16,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
   const [medicalServices, setMedicalServices] = useState([])
   const [bundleServices, setBundleServices] = useState([])
   const [cliniqueServices, setCliniqueServices] = useState([])
+  const [chronicServices, setChronicServices] = useState([])
   const [visibleModal, setVisibleModal] = useState(false)
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false)
   const [visibleTestResultModal, setVisibleTestResultModal] = useState(false)
@@ -36,6 +37,9 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
       }
       if (data?.medicalRecord.clinique_services) {
         setCliniqueServices(data.medicalRecord.clinique_services);
+      }
+      if (data?.medicalRecord.chronic_services) {
+        setChronicServices(data.medicalRecord.chronic_services)
       }
     }
   }, [data])
@@ -108,6 +112,7 @@ const InvoiceDetail = ({ data, onTogglePublish, onUpdate }) => {
           bundleServices={bundleServices}
           medicalServices={medicalServices}
           cliniqueServices={cliniqueServices}
+          chronicServices={chronicServices}
           membership={membership}
           downloadPDF={downloadPDF}
           onUpdate={onUpdate}
