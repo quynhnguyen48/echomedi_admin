@@ -270,7 +270,9 @@ const Treatments = () => {
           "membership_profile_file",
           "patient_source",
           "patient_source.image",
-          "user"
+          "user",
+          "remaining_services",
+          "remaining_services.medical_service",
         ]
       )
       if (res.data) {

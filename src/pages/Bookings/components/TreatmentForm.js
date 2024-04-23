@@ -103,14 +103,18 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [cliniqueServices, setCliniqueServices] = useState([]);
   const [medicalServices, setMedicalServices] = useState([])
   const [bundleServices, setBundleServices] = useState([])
+  const [chronicServices, setChronicServices] = useState([])
   const [usedMedicalServices, setUsedMedicalServices] = useState([])
   const [usedCliniqueServices, setUsedCliniqueServices] = useState([])
   const [usedBundleMedicalServices, setUsedBundleMedicalServices] = useState([])
+  const [usedChronicServices, setUsedChronicServices] = useState([])
   const [filterBundleService, setFilterBundleService] = useState("")
   const [filterUsedBundleService, setFilterUsedBundleService] = useState("")
+  const [filterUsedChronicService, setFilterUsedChronicService] = useState("")
   const [filterService, setFilterService] = useState("")
   const [filterUsedService, setFilterUsedService] = useState("")
   const [filterCliniqueService, setFilterCliniqueService] = useState("")
+  const [filterChronicService, setFilterChronicService] = useState("")
   const [existServices, setExistServices] = useState({})
   const [total, setTotal] = useState(0)
   const [servicesData, setServicesData] = useState([])
@@ -356,9 +360,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       const servicesData_ = typeof data.services == 'string' ? JSON.parse(data.services) : data.services;
       setServicesData(servicesData_)
       setUsedMedicalServices(servicesData_)
-
       servicesData_.forEach(s => newExistServices[s.id] = true);
-
     }
     if (data.clinique_services) {
       const cliniqueServicesData = data.clinique_services;
@@ -366,7 +368,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       setUsedCliniqueServices(cliniqueServicesData);
       setCliniqueServices(cliniqueServicesData);
     }
-
+    if (data.chronic_services) {
+      setUsedChronicServices(data.chronic_services);
+    }
     if (data.doctor_in_charge) {
       setDoctorInCharge({
         value: data.doctor_in_charge.data?.id,
@@ -403,6 +407,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     loadTagifyWhitelist();
     loadMedicalServices2();
     loadDoctors();
+    loadChronicServices();
     loadBundleServices()
       ; (async () => {
         try {
@@ -783,6 +788,23 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         // toast.dismiss(id)
       })
   }
+  
+  const loadChronicServices = () => {
+    axios2
+      .get("http://localhost:1337/api/chronic-services?populate=Services.medical_service")
+      .then((response) => {
+        let chronicServices = response.data.data;
+        if (data.chronic_services) {
+          let cs = data.chronic_services;
+          const usedIdChronicServices = cs.map((ud) => ud.id)
+          console.log('usedChronic', usedIdChronicServices)
+          chronicServices = chronicServices.filter(s => usedIdChronicServices?.indexOf(s.id) == -1);
+          setChronicServices(chronicServices);
+        } else {
+          setChronicServices(chronicServices);
+        }
+      });
+  }
 
   const loadBundleServices = () => {
     axios2
@@ -952,6 +974,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
   }
 
+  const addChronicService = (m) => {
+    let a = [...usedChronicServices];
+    a.concat(m)
+    a.push(m)
+    setUsedChronicServices(a);
+
+    let b = [...chronicServices]
+    b = b.filter((el) => el.id != m.id)
+    setChronicServices(b)
+  }
+
   const addBundleMedicalService = (m) => {
     const ms = m.attributes.medical_services
     const exist = ms.some((s) => s.id in existServices)
@@ -1072,7 +1105,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     } catch {
 
     }
-    console.log('selectedMembership', selectedMembership)
+    
     try {
       const payload = {
         ...formData,
@@ -1083,6 +1116,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         services: usedMedicalServices,
         bundle_services: usedBundleMedicalServices,
         clinique_services: usedCliniqueServices,
+        chronic_services: usedChronicServices,
         membership: data.patient.membership ? data.medical_record?.data?.attributes.membership : JSON.stringify(selectedMembership),
         doctor_in_charge: doctorInCharge?.value,
         nurse_in_charge: nurseInCharge?.value,
@@ -2620,6 +2654,126 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           </div>
                         ))}
                     </div>
+                    {!readonly && (
+                      <div className="grid grid-cols-2 sm:grid-cols-1 gap-6">
+                        <div>
+                          <p className="inline-block text-16 font-bold mb-2">Dịch vụ quản lý bệnh mãn tính</p>
+                          <SearchInput
+                            placeholder="Nhập tên gói cần tìm"
+                            className="flex-1 mb-2"
+                            value={filterChronicService}
+                            onChange={handleSearchBundleService}
+                          />
+                          <div
+                            style={{
+                              maxHeight: "300px",
+                              overflow: "scroll",
+                            }}
+                          >
+                            {chronicServices &&
+                              (!!filterChronicService
+                                ? chronicServices.filter((m) =>
+                                  matchSearchString(m.attributes.label, filterChronicService)
+                                )
+                                : chronicServices
+                              ).map((m) => (
+                                <div className="mb-2 flex">
+                                  <Button
+                                    disabled={currentUser?.role?.type == "nurse"}
+                                    type="button"
+                                    className={"inline text-xs h-16"}
+                                    icon={<Icon name="add-circle" className="fill-white" />}
+                                    onClick={() => addChronicService(m)}
+                                  >
+                                    <div className="flex flex-col">
+                                      <div>{m.attributes?.label}</div>
+                                      <div><span><del>{m.attributes?.original_price && numberWithCommas(m.attributes?.original_price) + 'đ'}</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span>{m.attributes.discount_note}</span></div>
+                                    </div>
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    className={"inline ml-1 text-xs h-16"}
+                                    disabled={currentUser?.role?.type == "nurse"}
+                                    onClick={(e) => {
+                                      toast.success(
+                                        <div>
+                                          <p className="">Gói dịch vụ {m.attributes.label} gồm: </p>
+                                          {m.attributes.Services.map((a, i) => (
+                                            <p>{i + 1}. {a.count} x {a.medical_service.data.attributes.label}</p>
+                                          ))}
+                                        </div>,
+                                        { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
+                                      )
+                                    }}
+                                  >
+                                    i
+                                  </Button>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="inline-block text-16 font-bold mb-2">Dịch vụ quản lý bệnh mãn tính sử dụng</p>
+                          <SearchInput
+                            placeholder="Nhập tên gói cần tìm"
+                            className="flex-1 mb-2"
+                            value={filterUsedChronicService}
+                            onChange={(e) => {
+                              setFilterUsedChronicService(e.target.value)
+                            }}
+                          />
+                          <div
+                            style={{
+                              maxHeight: "300px",
+                              overflow: "scroll",
+                            }}
+                          >
+                            {usedChronicServices &&
+                              (!!filterUsedChronicService
+                                ? usedChronicServices.filter((m) =>
+                                  matchSearchString(m.attributes.label, filterUsedChronicService)
+                                )
+                                : usedChronicServices
+                              ).map((m) => (
+                                <div className="mb-2 flex">
+                                  <Button
+                                    disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
+                                    type="button"
+                                    className={"inline text-xs h-16"}
+                                    icon={<Icon name="close-circle" className="fill-white" />}
+                                    onClick={() => removeBundleMedicalService(m)}
+                                  >
+                                    <div className="flex flex-col">
+                                      <div>{m.attributes?.label}</div>
+                                      <div><span><del>{m.attributes?.original_price && numberWithCommas(m.attributes?.original_price) + 'đ'}</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                      <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
+                                    </div>
+                                  </Button>
+                                  <Button
+                                    disabled={currentUser?.role?.type == "nurse"}
+                                    type="button"
+                                    className={"inline ml-1"}
+                                    onClick={(e) => {
+                                      toast.success(
+                                        <div>
+                                          <p className="">Gói dịch vụ {m.attributes.label} gồm: </p>
+                                          {m.attributes.Services.map((a, i) => (
+                                            <p>{i + 1}. {a.count} x {a.medical_service.data.attributes.label}</p>
+                                          ))}
+                                        </div>,
+                                        { progress: 1, className: "sm:w-full w-[500px] sm:left-0 left-[-177px]" }
+                                      )
+                                    }}
+                                  >
+                                    i
+                                  </Button>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     {!readonly && (
                       <div className="grid grid-cols-2 sm:grid-cols-1 gap-6">
                         <div>
