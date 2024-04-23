@@ -156,7 +156,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           <div className="col-span-1">
             <DataItem
               icon="location"
-              title="Địa chỉ"
+              title="Dịch vụ còn lại"
               value={
                 JSON.stringify(data?.remaining_services)
               }
