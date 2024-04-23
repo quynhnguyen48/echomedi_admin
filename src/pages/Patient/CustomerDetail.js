@@ -153,6 +153,15 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
               }
             />
           </div>
+          <div className="col-span-1">
+            <DataItem
+              icon="location"
+              title="Địa chỉ"
+              value={
+                JSON.stringify(data?.remaining_services)
+              }
+            />
+          </div>
           {data.start_date_membership &&
             <DataItem
               icon="cake"
@@ -186,7 +195,6 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           <PrescriptionModal
             patientId={data?.id}
             patient={data}
-            // bundleServiceId={data?.id}
             setRelationships={setRelationships}
             visibleModal={visiblePrescriptionModal}
             onClose={() => setVisiblePrescriptionModal(false)}
