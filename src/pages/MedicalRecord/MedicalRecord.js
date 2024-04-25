@@ -241,52 +241,6 @@ const Treatments = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
-        {/* <div className="">
-          <p>Ngày bắt đầu</p>
-          <Datepicker
-            className="bg-primary text-white"
-            iconClassName="fill-white"
-            value={startDate}
-            dateFormat={"dd MMMM, yyyy"}
-            showMonthYearPicker={dateType === "date"}
-            onChange={(date) => {
-              date.setHours(0);
-              setStartDate(date);
-            }}
-          />
-        </div><div
-          className="">
-            <p>Ngày kết thúc</p>
-          <Datepicker
-            className="bg-primary text-white"
-            iconClassName="fill-white"
-            value={endDate}
-            dateFormat={"dd MMMM, yyyy"}
-            showMonthYearPicker={dateType === "date"}
-            onChange={(date) => {
-              date.setHours(23);
-              date.setMinutes(59);
-              setEndDate(date);
-            }}
-          />
-        </div> */}
-        {/* <div className="ml-2 flex">
-          <Button
-            onClick={() => {
-              search();
-            }}
-          >
-            Tìm kiếm
-          </Button>
-          <Button
-            className={"ml-4"}
-            onClick={() => {
-              downloadReport();
-            }}
-          >
-            Xuất file
-          </Button>
-        </div> */}
       </div>
       <div
         className={classNames({
