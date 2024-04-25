@@ -64,6 +64,19 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
   const [monthlyMedicalProviderPlatinum, setMonthlyMedicalProviderPlatinum] = useState(0);
   const [yearlyMedicalProviderPlatinum, setYearlyMedicalProviderPlatinum] = useState(0);
 
+  
+  const [infantPercentage, setInfantPercentage] = useState(0);
+  const [monthlyInfant, setMonthlyInfant] = useState(0);
+  const [yearlyInfant, setYearlyInfant] = useState(0);
+
+  const [toddlerPercentage, setToddlerPercentage] = useState(0);
+  const [monthlyToddler, setMonthlyToddler] = useState(0);
+  const [yearlyToddler, setYearlyToddler] = useState(0);
+
+  const [preschoolSchoolAgePercentage, setPreschoolSchoolAgePercentage] = useState(0);
+  const [monthlyPreschoolSchoolAge, setMonthlyPreschoolSchoolAge] = useState(0);
+  const [yearlyPreschoolSchoolAge, setYearlyPreschoolSchoolAge] = useState(0);
+
   const [tag, setTag] = useState(null);
 
   useEffect(() => {
@@ -93,6 +106,18 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
     setMedicalProviderPlatinumPercentage(data?.membership_discount?.medical_provider_platinum_percentage);
     setMonthlyMedicalProviderPlatinum(data?.membership_discount?.medical_provider_platinum_monthly);
     setYearlyMedicalProviderPlatinum(data?.membership_discount?.medical_provider_platinum_yearly);
+
+    setInfantPercentage(data?.membership_discount?.infant_percentage);
+    setMonthlyInfant(data?.membership_discount?.infant_monthly);
+    setYearlyInfant(data?.membership_discount?.infant_yearly);
+
+    setToddlerPercentage(data?.membership_discount?.toddler_percentage);
+    setMonthlyToddler(data?.membership_discount?.toddler_monthly);
+    setYearlyToddler(data?.membership_discount?.toddler_yearly);
+
+    setPreschoolSchoolAgePercentage(data?.membership_discount?.preschool_school_age_percentage);
+    setMonthlyPreschoolSchoolAge(data?.membership_discount?.preschool_school_age_monthly);
+    setYearlyPreschoolSchoolAge(data?.membership_discount?.preschool_school_age_yearly);
 
     setTag(JSON.stringify(data?.tags ?? []))
 
@@ -324,6 +349,57 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
+              <Input
+                onChange={e => {
+                  setInfantPercentage(e.target.value);
+                }}
+                value={infantPercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên gói nhũ nhi (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                onChange={e => {
+                  setToddlerPercentage(e.target.value);
+                }}
+                value={toddlerPercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên gói nhà trẻ (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                onChange={e => {
+                  setPreschoolSchoolAgePercentage(e.target.value);
+                }}
+                value={preschoolSchoolAgePercentage}
+                label={<div>
+                  <span className="mr-5">Thành viên gói học đường (%)</span>
+                </div>}
+                name="code"
+                suffix={"%"}
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
 
               <Input
                 onChange={e => {
@@ -423,7 +499,110 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               />
             )}
           />
+<Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
 
+              <Input
+                onChange={e => {
+                  setMonthlyInfant(e.target.value);
+                }}
+                value={monthlyInfant}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên gói nhũ nhi</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyInfant(e.target.value);
+                }}
+                value={yearlyInfant}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên gói nhũ nhi</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setMonthlyToddler(e.target.value);
+                }}
+                value={monthlyToddler}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên gói nhà trẻ</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyToddler(e.target.value);
+                }}
+                value={yearlyToddler}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên gói nhà trẻ</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setMonthlyPreschoolSchoolAge(e.target.value);
+                }}
+                value={monthlyPreschoolSchoolAge}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên gói học đường</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
+          <Controller
+            name="code"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+
+              <Input
+                onChange={e => {
+                  setYearlyPreschoolSchoolAge(e.target.value);
+                }}
+                value={yearlyPreschoolSchoolAge}
+                label={<div>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên gói học đường</span>
+                </div>}
+                name="code"
+              />
+            )}
+          />
         </div>
       </div>
       {editable && <Button className="mt-4" type="button" onClick={async () => {
@@ -464,6 +643,15 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             medical_provider_platinum_percentage: medicalProviderPlatinumPercentage,
             medical_provider_platinum_monthly: monthlyMedicalProviderPlatinum,
             medical_provider_platinum_yearly: yearlyMedicalProviderPlatinum,
+            infant_percentage: infantPercentage,
+            infant_monthly: monthlyInfant,
+            infant_yearly: yearlyInfant,
+            toddler_percentage: toddlerPercentage,
+            toddler_monthly: monthlyToddler,
+            toddler_yearly: yearlyToddler,
+            preschool_school_age_percentage: preschoolSchoolAgePercentage,
+            preschool_school_age_monthly: monthlyPreschoolSchoolAge,
+            preschool_school_age_yearly: yearlyPreschoolSchoolAge,
           }
         };
 

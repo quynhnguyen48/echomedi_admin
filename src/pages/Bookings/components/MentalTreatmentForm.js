@@ -77,18 +77,19 @@ const MEMBERSHIP_PKGS = [
     label: "Medical provider",
   },
   {
-    value: "business",
-    label: "Gói doanh nghiệp",
+    value: "infant",
+    label: "Thành viên gói nhũ nhi",
+    price: 3500000,
   },
   {
-    value: "non-resident",
-    label: "Thành viên ngoại kiều",
-    price: 10000000,
+    value: "toddler",
+    label: "Thành viên gói nhà trẻ",
+    price: 5000000,
   },
   {
-    value: "foreigner",
-    label: "Thành viên ngoại kiều ngắn hạn (2 tuần)",
-    price: 2500000,
+    value: "preschool_school_age",
+    label: "Thành viên gói học đường",
+    price: 5000000,
   },
 ];
 
@@ -686,13 +687,9 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const loadMedicalServices2 = () => {
     let monthlyGold = [];
     let yearlyGold = [];
-    // if (data.patient.membership == "gold") {
-    //   return;
-    // }
+    console.log('loadMedicalServices2')
     axios2
-      // .get("https://api.echomedi.com/api/medical-services?pagination[page]=1&pagination[pageSize]=10000&populate=*")
       .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
-      // .get("http://localhost:1337/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         const services = response.data.data;
         let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
@@ -833,7 +830,6 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const loadBundleServices = () => {
     axios2
-      // .get("http://localhost:1337/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .get("https://api.echomedi.com/api/service-bundle/getGoldBundleServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         if (!data.bundle_services) {
@@ -864,6 +860,21 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
+              } else if ((selectedMembership?.value == "infant" || data.patient.membership == "infant") && s.attributes["membership_discount"].infant_percentage) {
+                s.attributes["discount_note"] = "Thành viên gói nhũ nhi";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].infant_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
+              } else if ((selectedMembership?.value == "toddler" || data.patient.membership == "toddler") && s.attributes["membership_discount"].toddler_percentage) {
+                s.attributes["discount_note"] = "Thành viên gói nhà trẻ";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].toddler_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
+              } else if ((selectedMembership?.value == "preschool_school_age" || data.patient.membership == "preschool_school_age") && s.attributes["membership_discount"].preschool_school_age_percentage) {
+                s.attributes["discount_note"] = "Thành viên gói học đường";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].preschool_school_age_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].preschool_school_age_percentage) / 100;
               }
             }
 
@@ -904,6 +915,21 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].medical_provider_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].medical_provider_percentage) / 100;
+              } else if ((selectedMembership?.value == "infant" || data.patient.membership == "infant") && s.attributes["membership_discount"].infant_percentage) {
+                s.attributes["discount_note"] = "Thành viên gói nhũ nhi";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].infant_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
+              } else if ((selectedMembership?.value == "toddler" || data.patient.membership == "toddler") && s.attributes["membership_discount"].toddler_percentage) {
+                s.attributes["discount_note"] = "Thành viên gói nhà trẻ";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].toddler_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
+              } else if ((selectedMembership?.value == "preschool_school_age" || data.patient.membership == "preschool_school_age") && s.attributes["membership_discount"].preschool_school_age_percentage) {
+                s.attributes["discount_note"] = "Thành viên gói học đường";
+                s.attributes["original_price"] = s.attributes["price"];
+                s.attributes["discount_percentage"] = s.attributes["membership_discount"].preschool_school_age_percentage;
+                s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].preschool_school_age_percentage) / 100;
               }
             }
 

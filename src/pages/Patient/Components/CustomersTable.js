@@ -17,7 +17,7 @@ const getMembershipColor = (v) => {
       return "#EDF325";
     case "platinum":
       return "#E5E4E2";
-    case "medical_provider": 
+    case "medical_provider":
       return "#FFC300";
     case "medical_provider_gold":
       return "#DAF7A6";
@@ -25,6 +25,12 @@ const getMembershipColor = (v) => {
       return "#581845";
     case "foreigner":
       return "#25F3BB";
+    case "infant":
+      return "white";
+    case "toddler":
+      return "black";
+    case "preschool_school_age":
+      return "white";
     case "medical_provider":
       return "Medical provider";
     case "medical_provider_gold":
@@ -42,7 +48,7 @@ const getMembershipBackgroundColor = (v) => {
       return "#607d8b";
     case "platinum":
       return "grey";
-    case "medical_provider": 
+    case "medical_provider":
       return "#607d8b";
     case "medical_provider_gold":
       return "#607d8b";
@@ -50,6 +56,12 @@ const getMembershipBackgroundColor = (v) => {
       return "#607d8b";
     case "foreigner":
       return "#25F3BB";
+    case "infant":
+      return "#FFC100";
+    case "toddler":
+      return "#A3D8FF";
+    case "preschool_school_age":
+      return "#75A47F";
   }
 }
 
