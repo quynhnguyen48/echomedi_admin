@@ -692,7 +692,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
       .get("https://api.echomedi.com/api/medical-service/getGoldMedicalServices/" + data.patient.id + "/" + selectedMembership?.value)
       .then((response) => {
         const services = response.data.data;
-        let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng");
+        let ms = services.filter(s => s.attributes?.group_service != "Khám lâm sàng" && s.attributes?.is_mental_health_service == true);
         ms = ms.map(s => {
 
           if (Array.isArray(s.attributes["Locations"])) {
@@ -811,7 +811,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const loadMedicalServices = () => {
     axios2
-      .get("https://api.echomedi.com/api/medical-services?pagination[pageSize]=1000")
+      .get("https://api.echomedi.com/api/medical-services?pagination[pageSize]=1000&is_mental_health_service=true")
       .then((response) => {
         if (!data.services) {
           setMedicalServices(response.data.data)
@@ -1985,7 +1985,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                     {currentUser.role.type == "counselor" && <div className="w-full py-2">
                       <h1 className="font-bold">11. Các giấy tờ liên quan:</h1>
                       <div className="flex flex-col items-start gap-x-4 pl-4">
-                      {Array.isArray(cacGiayToLienQuan) && cacGiayToLienQuan?.map((item, index) => (
+                        {Array.isArray(cacGiayToLienQuan) && cacGiayToLienQuan?.map((item, index) => (
                           <div key={index} className="relative">
                             <a className="text-blue font-bold" href={getStrapiMedia(item)} target="_blank" rel="noreferrer">
                               {item?.mime?.startsWith("image") ? (
@@ -2032,6 +2032,98 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                       )}
                     />}
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <input type="checkbox" name="panel" id="panel-4" class="hidden" />
+              <label for="panel-4" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">D. Tư vấn ban đầu &#62;</label>
+              <div class="accordion__content overflow-scroll bg-grey-lighter">
+                <div className="w-full">
+
+                  {!readonly && currentUser?.role?.type != "care_concierge" && (
+                    <div className="grid grid-cols-2 sm:grid-cols-1 gap-6">
+                      <div>
+                        <p className="inline-block text-16 font-bold mb-2">Dịch vụ</p>
+                        <SearchInput
+                          placeholder="Nhập tên gói cần tìm"
+                          className="flex-1 mb-2"
+                          value={filterService}
+                          onChange={(e) => setFilterService(e.target.value)}
+                        />
+                        <div
+                          style={{
+                            maxHeight: "500px",
+                            overflow: "scroll",
+                          }}
+                        >
+                          {medicalServices &&
+                            (!!filterService
+                              ? medicalServices.filter((m) =>
+                                matchSearchString(m.attributes?.label, filterService)
+                              )
+                              : medicalServices
+                            ).map((m) => (
+                              <div className="mb-2">
+                                <Button
+                                  disabled={currentUser?.role?.type == "nurse"}
+                                  type="button"
+                                  className={"inline text-xs flex-col flex h-16"}
+                                  icon={<Icon name="add-circle" className="fill-white" />}
+                                  onClick={() => addMedicalService(m)}
+                                >
+                                  <div className="flex flex-col">
+                                    <div>{m.attributes?.label}</div>
+                                    <div><span><del>{m.attributes?.original_price && numberWithCommas(m.attributes?.original_price) + 'đ'}</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                    <div><span>{m.attributes.discount_note}</span></div>
+                                  </div>
+                                </Button>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                      <div>
+                        <p className="inline-block text-16 font-bold mb-2">Dịch vụ sử dụng</p>
+                        <SearchInput
+                          placeholder="Nhập tên gói cần tìm"
+                          className="flex-1 mb-2"
+                          value={filterUsedService}
+                          onChange={(e) => setFilterUsedService(e.target.value)}
+                        />
+                        <div
+                          style={{
+                            maxHeight: "500px",
+                            overflow: "scroll",
+                          }}
+                        >
+                          {usedMedicalServices &&
+                            (!!filterUsedService
+                              ? usedMedicalServices.filter((m) =>
+                                matchSearchString(m.attributes.label, filterUsedService)
+                              )
+                              : usedMedicalServices
+                            ).map((m) => (
+                              <div className="mb-2">
+                                <Button
+                                  disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
+                                  type="button"
+                                  className={"inline text-xs h-16"}
+                                  icon={<Icon name="close-circle" className="fill-white" />}
+                                  onClick={() => removeMedicalService(m)}
+                                >
+                                  <div className="flex flex-col">
+                                    <div>{m.attributes?.label}</div>
+                                    <div><span><del>{m.attributes?.original_price && numberWithCommas(m.attributes?.original_price) + 'đ'}</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
+                                    <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
+                                  </div>
+                                </Button>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -2088,7 +2180,17 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               Huỷ
             </Button>
           )}
-
+          {readonly && currentUser?.role?.type != "doctor" && currentUser?.role?.type != "nurse" && (
+            <Button
+              btnType="primary"
+              type="reset"
+              onClick={(e) => {
+                exportInvoice();
+              }}
+            >
+              Xuất hoá đơn
+            </Button>
+          )}
         </div>
       </form>
 
