@@ -157,8 +157,10 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
             <DataItem
               icon="location"
               title="Dịch vụ còn lại"
+              valueClassName="whitespace-break-spaces"
               value={
-                JSON.stringify(data?.remaining_services)
+                data?.rem_services && data?.rem_services.length > 0 && data?.rem_services.map(e => 
+                JSON.stringify(e.count) + ' X ' + JSON.stringify(e.medical_service.data.attributes.label)).join('\n')
               }
             />
           </div>
