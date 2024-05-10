@@ -75,6 +75,8 @@ const CustomersReport = React.lazy(() => import("pages/Reports/CustomersReport")
 const UpsertMedicalRecord = React.lazy(() => import("pages/MedicalRecord/UpsertMedicalRecord"))
 const UpsertMedicalRecordBooking = React.lazy(() => import("pages/Bookings/UpsertMedicalRecord"))
 const MentalHealthUpsertMedicalRecord = React.lazy(() => import("pages/Bookings/MentalHealthUpsertMedicalRecord"))
+const PediatricMentalHealthUpsertMedicalRecord = React.lazy(() => import("pages/Bookings/PediatricMentalHealthUpsertMedicalRecord"))
+const PediatricUpsertMedicalRecord = React.lazy(() => import("pages/Bookings/PediatricUpsertMedicalRecord"))
 const Patient = React.lazy(() => import("pages/Patient/Patient"))
 const CreatePatient = React.lazy(() => import("pages/Patient/CreatePatient"))
 const TodayPatient = React.lazy(() => import("pages/Patient/TodayPatient"))
@@ -134,6 +136,13 @@ const MainRoutes = () => {
           path="/bookings/mental-health-medical-records/:id/create/"
           element={<MentalHealthUpsertMedicalRecord />}
         />
+        <Route
+          path="/bookings/pediatric-mental-health-medical-records/:id/create/"
+          element={<PediatricMentalHealthUpsertMedicalRecord />}
+        />
+        <Route path="/bookings/medical-records-pediatrics/:id/create" element={<PediatricUpsertMedicalRecord />} />
+        <Route path="/bookings/medical-records-pediatrics/:id/view" element={<PediatricUpsertMedicalRecord />} />
+        <Route path="/bookings/medical-records-pediatrics/:id/edit" element={<PediatricUpsertMedicalRecord />} />
         <Route
           path="/bookings/medical-records/:id/view/"
           element={<UpsertMedicalRecordBooking />}

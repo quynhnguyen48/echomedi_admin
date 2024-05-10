@@ -406,26 +406,6 @@ const Bookings = () => {
               onCloseModal={() => setModalVisible(false)}
             />
             <div className="mt-2 grid grid-cols-3 gap-x-6">
-              {/* <Button
-            onClick={() => {
-              navigate("/customers/create");
-            }}
-          >
-            Nhập phiếu
-          </Button> */}
-              {/* {slotInfo.id && (
-                <Button
-                  onClick={() => {
-                    if (slotInfo.medical_record?.id) {
-                      navigate(`/bookings/medical-records/${slotInfo.id}/view`)
-                    } else {
-                      navigate(`/bookings/medical-records/${slotInfo.id}/create/`)
-                    }
-                  }}
-                >
-                  {slotInfo.medical_record?.id ? "Xem hồ sơ bệnh án" : "Tạo hồ sơ bệnh án"}
-                </Button>
-              )} */}
               {slotInfo.id &&
                 slotInfo.medical_record?.id &&
                 (slotInfo.status == "scheduled" || slotInfo.status == "confirmed") && (
