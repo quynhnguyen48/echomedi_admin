@@ -179,7 +179,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           <DataItem icon="man" title="Khuyến mãi" value={JSON.parse(data?.patient?.discount)?.map(e => <p>{e.value}</p>)} />
         }
       </div>
-      <div className="flex space-x-1 mt-4">
+      <div className="flex flex-col space-y-1 mt-4">
         {data.medical_record ? <Button
           onClick={() => {
             navigate(`/bookings/medical-records/${data.id}/view`);
@@ -195,6 +195,21 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           >
             Tạo hồ sơ bệnh án
           </Button>}
+          {data.medical_record ? <Button
+          onClick={() => {
+            navigate(`/bookings/medical-records/${data.id}/view`);
+          }}
+        >
+          Xem hồ sơ bệnh án
+        </Button> :
+          <Button
+            icon={<Icon name="add-circle" className="fill-white" />}
+            onClick={() => {
+              navigate(`/bookings/medical-records-pediatrics/${data.id}/create`);
+            }}
+          >
+            Tạo hồ sơ bệnh án nhi
+          </Button>}
         {data.medical_record ? <Button
           onClick={() => {
             navigate(`/bookings/mental-health-medical-records/${data.id}/create`);
@@ -209,6 +224,21 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
             }}
           >
             Tạo hồ sơ bệnh án tâm lý
+          </Button>}
+          {data.medical_record ? <Button
+          onClick={() => {
+            navigate(`/bookings/mental-health-medical-records/${data.id}/create`);
+          }}
+        >
+          Xem hồ sơ bệnh án tâm lý
+        </Button> :
+          <Button
+            icon={<Icon name="add-circle" className="fill-white" />}
+            onClick={() => {
+              navigate(`/bookings/pediatric-mental-health-medical-records/${data.id}/create`);
+            }}
+          >
+            Tạo hồ sơ bệnh án tâm lý nhi
           </Button>}
         {data.medical_record && <Button
           onClick={() => {

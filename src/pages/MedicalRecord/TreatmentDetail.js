@@ -390,7 +390,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
         )}
       </div>
       <div className="fixed bottom-0 sm:relative">
-        <div className="grid grid-cols-6 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-4 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-x-4">
           {<Button
             btnSize="small"
             className="mt-2"
@@ -410,11 +410,39 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
           >
             Sửa bệnh án
           </Button>}
+          {data.is_pediatric_mr && <Button
+            btnSize="small"
+            className="mt-2"
+            onClick={() => {
+                navigate(`/bookings/medical-records-pediatrics/${data.booking.id}/view`)
+            }}
+          >
+            Xem bệnh án nhi
+          </Button>}
+          
+          {data.is_pediatric_mr && (currentUser.role.type == "admin" || (currentUser.role.type != "pharmacist" && moment().isSame(moment(data.booking.bookingDate), 'day'))) && <Button
+            btnSize="small"
+            className="mt-2"
+            onClick={() => {
+              navigate(`/bookings/medical-records-pediatrics/${data.booking.id}/edit`)
+            }}
+          >
+            Sửa bệnh án nhi
+          </Button>}
           {data.is_mental_health_mr && <Button
             btnSize="small"
             className="mt-2"
             onClick={() => {
                 navigate(`/bookings/mental-health-medical-records/${data.booking.id}/create`)
+            }}
+          >
+            Xem/Sửa bệnh án tâm lý
+          </Button>}
+          {data.is_pediatric_mental_health_mr && <Button
+            btnSize="small"
+            className="mt-2"
+            onClick={() => {
+                navigate(`/bookings/pediatric-mental-health-medical-records/${data.booking.id}/create`)
             }}
           >
             Xem/Sửa bệnh án tâm lý
