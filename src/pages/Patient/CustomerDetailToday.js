@@ -200,7 +200,7 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
             navigate(`/bookings/medical-records/${data.id}/view`);
           }}
         >
-          Xem hồ sơ bệnh án
+          Xem hồ sơ bệnh án nhi
         </Button> :
           <Button
             icon={<Icon name="add-circle" className="fill-white" />}
@@ -227,10 +227,10 @@ const CustomerDetail = ({ data, onToggleStatus }) => {
           </Button>}
           {data.medical_record ? <Button
           onClick={() => {
-            navigate(`/bookings/mental-health-medical-records/${data.id}/create`);
+            navigate(`/bookings/pediatric-mental-health-medical-records/${data.id}/create`);
           }}
         >
-          Xem hồ sơ bệnh án tâm lý
+          Xem hồ sơ bệnh án tâm lý nhi
         </Button> :
           <Button
             icon={<Icon name="add-circle" className="fill-white" />}
