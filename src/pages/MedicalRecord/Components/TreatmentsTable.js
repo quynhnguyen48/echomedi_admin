@@ -110,7 +110,7 @@ const TreatmentsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetc
             {originalRow?.uid}
             {originalRow?.is_mental_health_mr && <p>Mental health</p>}
             {originalRow?.is_pediatric_mr && <p>Pediatric</p>}
-            {originalRow?.is_pediatric_mental_health_mr && <p>Mental health Pediatric</p>}
+            {originalRow?.is_pediatric_mental_health_mr && <p>MH Pediatric</p>}
           </span>
         ),
         collapse: true,
