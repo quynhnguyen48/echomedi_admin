@@ -27,6 +27,8 @@ import startOfWeek from "date-fns/startOfWeek"
 import getDay from "date-fns/getDay"
 import Datepicker from "components/Datepicker"
 import moment from "moment"
+import { useSelector } from "react-redux";
+
 
 const locales = {
   vi: viVN,
@@ -86,6 +88,7 @@ const Treatments = () => {
   const [endDate, setEndDate] = useState()
   const fetchIdRef = useRef(0)
   const [dateType, setDateType] = useState("month")
+  const currentUser = useSelector((state) => state.user.currentUser)
 
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
@@ -94,7 +97,17 @@ const Treatments = () => {
       if (fetchId === fetchIdRef.current) {
         try {
           setLoading(true)
-          let filters = {}
+          let filters = {
+            $or:
+              [
+                {
+                  is_pediatric_mr: currentUser?.role?.type == "pediatrician" ? true : undefined,
+                },
+                {
+                  is_pediatric_mental_health_mr: currentUser?.role?.type == "pediatrician" ? true : undefined,
+                }
+              ]
+          }
           if (searchKey?.length) {
             setDetailData(null)
             filters = {
@@ -106,7 +119,16 @@ const Treatments = () => {
                   name: { $containsi: searchKey },
                 },
               ],
-              publicationState: "live"
+              publicationState: "live",
+              $or:
+                [
+                  {
+                    is_pediatric_mr: currentUser?.role?.type == "pediatrician" ? true : undefined,
+                  },
+                  {
+                    is_pediatric_mental_health_mr: currentUser?.role?.type == "pediatrician" ? true : undefined,
+                  }
+                ]
             }
             search();
           } else {
@@ -123,7 +145,7 @@ const Treatments = () => {
                 const booking = formatStrapiObj(treatment?.booking)
                 let patient = formatStrapiObj(treatment?.patient);
                 if (patient)
-                patient.patient_source = formatStrapiObj(patient?.patient_source);
+                  patient.patient_source = formatStrapiObj(patient?.patient_source);
                 if (patient?.patient_source) {
                   patient.patient_source.image = formatStrapiObj(patient?.patient_source?.image);
                 }
@@ -136,7 +158,7 @@ const Treatments = () => {
                   booking,
                 }
               });
-              
+
               setData(data);
               setPageCount(res?.data?.meta?.pagination?.pageCount)
             }
@@ -233,7 +255,7 @@ const Treatments = () => {
       title="Quản lý hồ sơ bệnh án"
     >
       <div className="grid grid-cols-4 sm:grid-cols-2 gap-y-2 gap-x-2 items-end	">
-      <SearchInput
+        <SearchInput
           placeholder="Tìm khách hàng theo tên"
           className="flex-1 col-span-1 sm:col-span-2"
           onSearch={(value) => {

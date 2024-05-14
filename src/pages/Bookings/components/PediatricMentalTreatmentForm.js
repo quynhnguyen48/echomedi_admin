@@ -1885,9 +1885,9 @@ Ghi chú:`,
               <label for="panel-3" class="relative block bg-black p-1 shadow border-b border-green cursor-pointer	bg-primary text-white font-bold  hover:text-gray">C. Hồ sơ tham vấn &#62;</label>
               <div class="accordion__content overflow-scroll bg-grey-lighter">
                 <div className="w-full">
-                  <p className="font-bold">SƠ LƯỢC VỀ THÂN CHỦ</p>
+                {currentUser.role.type == "counselor" && <p className="font-bold">SƠ LƯỢC VỀ THÂN CHỦ</p>}
                   <div className="grid sm:grid-cols-1 grid-cols-1 gap-x-6 gap-y-4 py-4">
-                    <Controller
+                  {currentUser.role.type == "counselor" && <Controller
                       name="ly_do_den_tham_van"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1898,8 +1898,8 @@ Ghi chú:`,
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
-                    <Controller
+                    />}
+                    {currentUser.role.type == "counselor" && <Controller
                       name="hanh_vi_quan_sat"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1910,7 +1910,7 @@ Ghi chú:`,
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
+                    />}
                     <p className="font-bold">SỞ THÍCH</p>
                     <p className="font-bold">TIỀN SỬ BỆNH LÝ</p>
                     <Controller
@@ -1937,8 +1937,8 @@ Ghi chú:`,
                         />
                       )}
                     />}
-                    <p className="font-bold">VIỆC BỊ LẠM DỤNG/NGƯỢC ĐÃI/ BẮT NẠT/ XÂM HẠI TÌNH DỤC</p>
-                    {<div>
+                    {currentUser.role.type == "counselor" && <p className="font-bold">VIỆC BỊ LẠM DỤNG/NGƯỢC ĐÃI/ BẮT NẠT/ XÂM HẠI TÌNH DỤC</p>}
+                    {currentUser.role.type == "counselor" && <div>
                       <h1 className="text-xl underline mb-4">5. Các yếu tố liên quan</h1>
                       <Controller
                         name="yeu_to_khoi_phat"
@@ -1989,7 +1989,7 @@ Ghi chú:`,
                         )}
                       />
                     </div>}
-                    <Controller
+                    {currentUser.role.type == "counselor" && <Controller
                       name="anh_huong_toi_cuoc_song"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2000,9 +2000,9 @@ Ghi chú:`,
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
-                    <p className="font-bold">CÁC YẾU TỐ KHÁC ẢNH HƯỞNG ĐẾN NAN ĐỀ</p>
-                    {<Controller
+                    />}
+                    {currentUser.role.type == "counselor" && <p className="font-bold">CÁC YẾU TỐ KHÁC ẢNH HƯỞNG ĐẾN NAN ĐỀ</p>}
+                    {currentUser.role.type == "counselor" && <Controller
                       name="cach_giai_quyet_van_de_da_su_dung"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2026,7 +2026,7 @@ Ghi chú:`,
                         />
                       )}
                     />}
-                    <Controller
+                    {currentUser.role.type == "counselor" && <Controller
                       name="nhu_cau_va_muc_tieu_tham_van"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2037,8 +2037,8 @@ Ghi chú:`,
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
-                    <Controller
+                    />}
+                    {currentUser.role.type == "counselor" && <Controller
                       name="tom_tat_van_de"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2049,8 +2049,8 @@ Ghi chú:`,
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
-                    <Controller
+                    />}
+                    {currentUser.role.type == "counselor" && <Controller
                       name="chien_luoc_can_thiep"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2061,8 +2061,8 @@ Ghi chú:`,
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
-                    <Controller
+                    />}
+                    {currentUser.role.type == "counselor" && <Controller
                       name="theo_doi_sau_phien"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2073,7 +2073,7 @@ Ghi chú:`,
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
+                    />}
 
                   </div>
                 </div>
