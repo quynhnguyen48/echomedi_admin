@@ -52,13 +52,10 @@ const UpsertTreatment = () => {
   }, [id, navigate])
 
   return (
-    <Page title="Hồ sơ bệnh án">
-      {/* <p className="text-16 font-bold">{`${editMode ? "Sửa" : "Tạo mới"} hồ sơ bệnh án`}</p> */}
+    <Page title="Hồ sơ bệnh án" parentUrl={'/patient/' + medicalRecordData?.patient?.uid }>
       <div className="my-4">
-        {/* <DataItem icon="user" title="Full Name" value={`${JSON.stringify(medicalRecordData)}`} /> */}
       </div>
       <div className="mt-4 rounded-t-2xl">
-        {/* {editMode ? (medicalRecordData && <TreatmentForm data={medicalRecordData} user={user} />) : <TreatmentForm user={user}/>} */}
         {viewMode
           ? medicalRecordData && (
               <TreatmentForm data={medicalRecordData} user={user} readonly={true} />
