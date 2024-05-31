@@ -72,7 +72,7 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
             <div className="flex justify-between mt-4 w-25">
               <button
                 className="flex w-22 justify-between"
-                onClick={() => navigate(`/bookings/medical-records/${transaction?.booking?.data?.id}/view`)}>
+                onClick={() => window.open(`/bookings/medical-records/${transaction?.booking?.data?.id}/view`)}>
                 Chi tiết
                 <Icon
                   name="arrows/right-square"
