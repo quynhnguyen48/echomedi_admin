@@ -69,9 +69,6 @@ const CustomerAccountBalance = ({ userId, cardIds, openDrawer, onClose, accountB
             <p>
               {"Lý do khám: " + parseJson(transaction.reasons_to_get_hospitalized)}
             </p>
-            {/* <p className="text-14 text-secondary/[56]">
-              {transaction?.booking?.data?.attributes?.bookingDate}
-            </p> */}
             <div className="flex justify-between mt-4 w-25">
               <button
                 className="flex w-22 justify-between"
