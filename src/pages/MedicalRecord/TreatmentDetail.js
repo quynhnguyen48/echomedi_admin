@@ -141,6 +141,40 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
     }
   }
 
+  const downloadShortenPediatricMedicalRecordV2 = () => {
+    const toastId = toast.loading("Đang tải")
+    axios
+      .post(
+        "/product/downloadShortenPediatricMedicalRecordV2",
+        {
+          // axios2.post("http://localhost:1337/api/product/generatePhieuCLS", {
+          id: data.id,
+        },
+        {
+          responseType: "arraybuffer",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/pdf",
+          },
+        }
+      )
+      .then((response) => {
+        const b = new Blob([response.data], { type: "application/pdf" })
+        var url = window.URL.createObjectURL(b)
+        window.open(url)
+        setTimeout(() => window.URL.revokeObjectURL(url), 100)
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+      })
+
+    try {
+      window.flutter_inappwebview.callHandler('downloadMedicalRecord', data.id);
+    } catch (e) {
+      console.log('error download inapp view', e);
+    }
+  }
+
   const downloadPDF = () => {
     const toastId = toast.loading("Đang tải")
     axios
@@ -451,7 +485,11 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             btnSize="small"
             className="mt-2"
             onClick={(e) => {
-              downloadShortenMedicalRecordV2()
+              if (data.is_pediatric_mr) {
+                downloadShortenPediatricMedicalRecordV2()
+              } else {
+                downloadShortenMedicalRecordV2()
+              }
             }}
           >
             Tải bệnh án
