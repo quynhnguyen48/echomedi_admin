@@ -610,6 +610,39 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     }
   }
 
+  const downloadShortenPediatricMedicalRecordV2 = () => {
+    const toastId = toast.loading("Đang tải")
+    axios
+      .post(
+        "/product/downloadShortenPediatricMedicalRecordV2",
+        {
+          id: data.medical_record?.data?.id,
+        },
+        {
+          responseType: "arraybuffer",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/pdf",
+          },
+        }
+      )
+      .then((response) => {
+        const b = new Blob([response.data], { type: "application/pdf" })
+        var url = window.URL.createObjectURL(b)
+        window.open(url)
+        setTimeout(() => window.URL.revokeObjectURL(url), 100)
+      })
+      .finally(() => {
+        toast.dismiss(toastId)
+      })
+
+    try {
+      window.flutter_inappwebview.callHandler('downloadMedicalRecord', data.medical_record?.data?.id);
+    } catch (e) {
+      console.log('error download inapp view', e);
+    }
+  }
+
   const loadTagifyWhitelist = () => {
     axios2
       .get("https://api.echomedi.com/api/tagify-whitelist")
@@ -3173,7 +3206,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               btnType="primary"
               type="reset"
               onClick={(e) => {
-                downloadShortenPDFV2()
+                  downloadShortenPediatricMedicalRecordV2()
               }}
             >
               Tải bệnh án
