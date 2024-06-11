@@ -113,7 +113,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       .post(
         "/product/downloadShortenMedicalRecordV2",
         {
-          // axios2.post("http://localhost:1337/api/product/generatePhieuCLS", {
           id: data.id,
         },
         {
@@ -147,7 +146,6 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       .post(
         "/product/downloadShortenPediatricMedicalRecordV2",
         {
-          // axios2.post("http://localhost:1337/api/product/generatePhieuCLS", {
           id: data.id,
         },
         {
@@ -425,7 +423,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
       </div>
       <div className="fixed bottom-0 sm:relative">
         <div className="grid grid-cols-4 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-x-4">
-          {<Button
+          {!data.is_pediatric_mr && <Button
             btnSize="small"
             className="mt-2"
             onClick={() => {
@@ -435,7 +433,7 @@ const TreatmentDetail = ({ data, onTogglePublish }) => {
             Xem bệnh án
           </Button>}
           
-          {(currentUser.role.type == "admin" || (currentUser.role.type != "pharmacist" && moment().isSame(moment(data.booking.bookingDate), 'day'))) && <Button
+          {!data.is_pediatric_mr && (currentUser.role.type == "admin" || (currentUser.role.type != "pharmacist" && moment().isSame(moment(data.booking.bookingDate), 'day'))) && <Button
             btnSize="small"
             className="mt-2"
             onClick={() => {
