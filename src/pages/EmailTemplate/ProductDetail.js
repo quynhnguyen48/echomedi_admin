@@ -1,11 +1,13 @@
 import classNames from "classnames"
 import dayjs from "dayjs"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { getStrapiMedia } from "utils/media"
 import sumBy from "lodash/sumBy"
 import { toast } from "react-toastify"
 import { formatPrice } from "utils/number";
+import EmailEditor, { EditorRef, EmailEditorProps } from 'react-email-editor';
+import Select from "components/Select"
 
 import Button from "components/Button"
 import DataItem from "components/DataItem"
@@ -24,11 +26,12 @@ import * as yup from "yup"
 import {
   updateServiceBundle
 } from "services/api/serviceBundle";
+import { updateEmailTemplate, sendTestEmail, sendEmails } from "services/api/emailTemplates";
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
+const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, patientSource }) => {
   const navigate = useNavigate()
   const [openProductDescriptionDrawer, setOpenProductDescriptionDrawer] = useState(false)
   const [openProductImagesDrawer, setOpenProductImagesDrawer] = useState(false)
@@ -36,41 +39,75 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
   const [openProductInventoryDrawer, setOpenProductInventoryDrawer] = useState(false)
   const [visiblePrescriptionModal, setVisiblePrescriptionModal] = useState(false);
   const validationSchema = yup.object({});
-  const [price, setPrice] = useState(0);
-  const [priceq2, setPriceQ2] = useState(0);
-  const [disabledQ2, setDisabledQ2] = useState(false);
-  const [priceq7, setPriceQ7] = useState(0);
-  const [disabledQ7, setDisabledQ7] = useState(false);
-  const [pricebd, setPriceBD] = useState(0);
-  const [disabledBD, setDisabledBD] = useState(false);
   const [label, setLabel] = useState("");
+  const [sourceId, setSourceId] = useState(0);
+  const [email, setEmail] = useState('');
+
+  const emailEditorRef = React.createRef();
+
 
   useEffect(() => {
-    setPrice(data?.price);
     setLabel(data?.label)
-    if (data.Locations) {
-      setPriceQ2(0);
-      setDisabledQ2(false);
-      setPriceQ7(0);
-      setDisabledQ7(false);
-      setPriceBD(0);
-      setDisabledBD(false);
-      data.Locations?.forEach(l => {
-        if (l["location"] == "q2") {
-          setPriceQ2(l["price"]);
-          setDisabledQ2(l["disabled"]);
-        }
-        if (l["location"] == "q7") {
-          setPriceQ7(l["price"]);
-          setDisabledQ7(l["disabled"]);
-        }
-        if (l["location"] == "binhduong") {
-          setPriceBD(l["price"]);
-          setDisabledBD(l["disabled"]);
-        }
-      })
+    const unlayer = emailEditorRef.current?.editor;
+    if (data?.design) {
+      unlayer?.loadDesign(data ? data?.design : {});
+    } else {
+      unlayer?.loadBlank();
     }
   }, [data]);
+
+  const exportHtml = () => {
+    const unlayer = emailEditorRef.current?.editor;
+
+    unlayer?.exportHtml((a) => {
+      const { design, html } = a;
+
+      let uData = { ...data };
+      uData.article = html;
+      uData.design = design;
+
+      updateEmailTemplate(data.id, uData);
+    });
+  };
+
+  const toSendTestEmail = () => {
+    const unlayer = emailEditorRef.current?.editor;
+
+    unlayer?.exportHtml((a) => {
+      const { design, html } = a;
+
+      let uData = { ...data };
+      uData.article = html;
+      uData.design = design;
+
+      sendTestEmail({ id: data.id, email: email });
+    });
+  };
+
+  const toSendEmails = () => {
+    const unlayer = emailEditorRef.current?.editor;
+
+    unlayer?.exportHtml((a) => {
+      const { design, html } = a;
+
+      let uData = { ...data };
+      uData.article = html;
+      uData.design = design;
+
+      sendEmails({ id: data.id, sourceId: sourceId });
+    });
+  };
+
+  const onReady: EmailEditorProps['onReady'] = (unlayer) => {
+    // editor is ready
+    // you can load your template here;
+    // the design json can be obtained by calling
+    unlayer.loadDesign(data.design);
+
+    // const templateJson = { DESIGN JSON GOES HERE };
+    // unlayer.loadDesign(templateJson);
+  };
+
 
   const {
     handleSubmit,
@@ -86,7 +123,59 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
 
   return (
     <div className="my-10 w-full mb-4">
-      <div className="grid grid-cols-1 gap-4">
+      <div className="mt-4">
+        <EmailEditor ref={emailEditorRef} onReady={onReady} />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
+        <Button onClick={e => {
+          exportHtml();
+        }}>
+          Save
+        </Button>
+        {/* <span></span> */}
+        <Controller
+          name="code"
+          label="Tên"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              label={'Email'}
+              onChange={e => setEmail(e.target.value)}
+              value={email}
+              name="code"
+            />
+          )}
+        />
+        <Button onClick={e => {
+          toSendTestEmail();
+        }}>
+          Send test email
+        </Button>
+        <Controller
+          name="patient_source"
+          control={control}
+          render={({ field: { onChange, value, ref } }) => (
+            <Select
+              placeholder="Chọn nguồn"
+              label="Nguồn"
+              name="patient_source"
+              options={patientSource}
+              value={value && patientSource?.find((s) => s.id === sourceId)}
+              onChange={e => {
+                console.log('eee', e)
+                setSourceId(e.id);
+              }}
+              errors={errors?.category?.message}
+            />
+          )}
+        />
+        <Button onClick={e => {
+          toSendEmails();
+        }}>
+          Send emails
+        </Button>
+        <span></span>
         <Controller
           name="code"
           label="Tên"
@@ -100,26 +189,6 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct }) => {
             />
           )}
         />
-      </div>
-      <div className="mt-4">
-      <CKEditor
-        editor={ClassicEditor}
-        data={data?.article}
-        onReady={editor => {
-          // You can store the "editor" and use when it is needed.
-          console.log('Editor is ready to use!', editor);
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          console.log({ event, editor, data });
-        }}
-        onBlur={(event, editor) => {
-          console.log('Blur.', editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log('Focus.', editor);
-        }}
-      />
       </div>
     </div>
   )

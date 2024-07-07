@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef, useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -19,6 +19,9 @@ import ImportExportHistory from "./components/ImportExportHistory"
 import ProductAnalytics from "./components/ProductAnalytics"
 import ProductsTable from "./components/ProductsTable"
 import ProductDetail from "./ProductDetail"
+import {
+  getPatientSource,
+} from "services/api/patientSource";
 
 const ServiceBundles = () => {
   const dispatch = useDispatch()
@@ -29,8 +32,26 @@ const ServiceBundles = () => {
   const [pageCount, setPageCount] = useState(0)
   const [detailData, setDetailData] = useState()
   const [searchKey, setSearchKey] = useState()
+  const [patientSource, setPatientSource] = useState();
 
   const fetchIdRef = useRef(0)
+
+  useEffect(() => {
+    ; (async () => {
+      try {
+        const res = await getPatientSource()
+        const data = formatStrapiArr(res?.data);
+       
+        let rs = data.map(r => {
+          r.label = r.label;
+          r.value = r.value;
+          return r;
+        })
+
+        setPatientSource(rs);
+      } catch (error) { }
+    })()
+  }, [])
 
   const fetchData = useCallback(
     async ({ pageSize, pageIndex }) => {
@@ -158,6 +179,7 @@ const ServiceBundles = () => {
             data={detailData}
             onUpdateProduct={onUpdateProduct}
             onTogglePublish={togglePublish}
+            patientSource={patientSource}
           />
         )}
       </div>
