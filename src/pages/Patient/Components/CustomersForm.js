@@ -63,7 +63,6 @@ const CustomersForm = ({ data, fromCheckIn, onUpdateGuestUserCheckin, onCloseMod
           return r;
         })
 
-        console.log('rssss123', rs)
         setPatientSource(rs);
       } catch (error) { }
     })()

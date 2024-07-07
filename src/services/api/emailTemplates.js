@@ -88,6 +88,33 @@ export const getListEmailTemplates = (pagination, filters) => {
   return axios.get(`/email-templates?populate=*&${query}`)
 }
 
+export const updateEmailTemplate = (id, data) => {
+  const query = qs.stringify({
+    populate: "*",
+  })
+  return axios.put(`/email-templates/${id}`, {
+    data,
+  })
+}
+
+export const sendTestEmail = (data) => {
+  const query = qs.stringify({
+    populate: "*",
+  })
+  return axios.post(`/email-template/send-test-email`, {
+    data,
+  })
+}
+
+export const sendEmails = (data) => {
+  const query = qs.stringify({
+    populate: "*",
+  })
+  return axios.post(`/email-template/send-emails`, {
+    data,
+  })
+}
+
 export const getProductById = (id) => {
   const query = qs.stringify({
     populate: ["brand", "category", "images", "variants", "inventory_histories.variants"],

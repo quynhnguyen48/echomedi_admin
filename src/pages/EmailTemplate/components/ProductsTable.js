@@ -24,20 +24,6 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
   const columns = useMemo(() => {
     const defaultColumns = [
       {
-        Header: "Hình ảnh",
-        accessor: (originalRow) => (
-          <div className="flex items-center gap-x-4">
-            {!activeRow && (
-              <div className="w-20 h-12">
-                {/* <img src={getStrapiMedia(originalRow?.image.data?.attributes?.formats?.thumbnail)} alt="Product" /> */}
-              </div>
-            )}
-          </div>
-        ),
-        collapse: true,
-        width: 30,
-      },
-      {
         Header: "Tên",
         accessor: (originalRow) => (
           <div className="flex items-center gap-x-4">
@@ -45,7 +31,7 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
           </div>
         ),
         collapse: true,
-        width: 200,
+        width: 100,
       },
     ]
     if (activeRow) return defaultColumns
