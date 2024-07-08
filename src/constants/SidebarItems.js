@@ -129,6 +129,14 @@ export const SIDEBAR_ITEMS = [
     controllerKey: "service-bundle",
   },
   {
+    id: "chronic-service",
+    name: "Dịch vụ mãn tính",
+    icon: "sidebar/treatments",
+    url: "/chronic-service",
+    apiKey: "api::chronic-service",
+    controllerKey: "chronic-service",
+  },
+  {
     id: "report",
     name: "Tin tức",
     icon: "sidebar/news",

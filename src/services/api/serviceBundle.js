@@ -80,6 +80,7 @@ export const createServiceBundle = (data) => {
     data,
   })
 }
+
 export const getListServiceBundles = (pagination, filters) => {
   const query = qs.stringify({
     filters,
@@ -87,6 +88,15 @@ export const getListServiceBundles = (pagination, filters) => {
   })
   return axios.get(`/service-bundles?populate=*&${query}`)
 }
+
+export const getListChronicService = (pagination, filters) => {
+  const query = qs.stringify({
+    filters,
+    pagination,
+  })
+  return axios.get(`/chronic-services?populate=Services.medical_service&${query}`)
+}
+
 
 export const getProductById = (id) => {
   const query = qs.stringify({

@@ -88,6 +88,7 @@ const EditMedicalServices = React.lazy(() => import("pages/MedicalService/EditMe
 const CreateMedicalService = React.lazy(() => import("pages/MedicalService/CreateMedicalService"));
 const CreateBundleService = React.lazy(() => import("pages/ServiceBundle/CreateBundleService"));
 const ServiceBundles = React.lazy(() => import("pages/ServiceBundle/ServiceBundle"));
+const ChronicService = React.lazy(() => import("pages/ChronicService/ServiceBundle"));
 const News = React.lazy(() => import("pages/News/News"));
 const EmailTemplate = React.lazy(() => import("pages/EmailTemplate/EmailTemplate"));
 const ChatPage = React.lazy(() => import("pages/Chat/ServiceBundle"));
@@ -211,6 +212,7 @@ const MainRoutes = () => {
         <Route path="/medical-services" element={<MedicalServices />} />
         <Route path="/medical-services/:id/edit" element={<EditMedicalServices />} />
         <Route path="/service-bundle" element={<ServiceBundles />} />
+        <Route path="/chronic-service" element={<ChronicService />} />
         <Route path="/news" element={<News />} />
         <Route path="/email-templates" element={<EmailTemplate />} />
         <Route path="/medical-services/create" element={<CreateMedicalService />} />
