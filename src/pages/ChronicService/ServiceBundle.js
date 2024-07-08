@@ -129,15 +129,6 @@ const ServiceBundles = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
-        {currentUser?.role?.type == "admin" &&
-        <Button
-          icon={<Icon name="add-circle" className="fill-white" />}
-          onClick={() => {
-            navigate("/service-bundle/create")
-          }}
-        >
-          Tạo mới gói dịch vụ
-        </Button>}
       </div>
 
       <div
