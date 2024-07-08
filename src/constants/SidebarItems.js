@@ -130,7 +130,7 @@ export const SIDEBAR_ITEMS = [
   },
   {
     id: "chronic-service",
-    name: "Dịch vụ mãn tính",
+    name: "Dịch vụ mạn tính",
     icon: "sidebar/treatments",
     url: "/chronic-service",
     apiKey: "api::chronic-service",

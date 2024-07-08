@@ -118,8 +118,7 @@ const ServiceBundles = () => {
 
   return (
     <Page
-      title="Quản lý gói dịch vụ"
-    // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
+      title="Quản lý gói dịch vụ mạn tính"
     >
       <div className="w-full flex items-center gap-x-9">
         <SearchInput
