@@ -138,7 +138,7 @@ const ServiceBundles = () => {
 
   return (
     <Page
-      title="Quản lý tin tức"
+      title="Quản lý email template"
     // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
     >
       <div className="w-full flex items-center gap-x-9">
@@ -150,14 +150,6 @@ const ServiceBundles = () => {
             setSearchKey(value)
           }}
         />
-        <Button
-          icon={<Icon name="add-circle" className="fill-white" />}
-          onClick={() => {
-            navigate("/service-bundle/create")
-          }}
-        >
-          Tạo mới gói dịch vụ
-        </Button>
       </div>
 
       <div
