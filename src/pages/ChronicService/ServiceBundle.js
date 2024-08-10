@@ -118,8 +118,7 @@ const ServiceBundles = () => {
 
   return (
     <Page
-      title="Quản lý gói dịch vụ"
-    // rightContent={detailData ? <ProductAnalytics data={detailData} /> : <ImportExportHistory />}
+      title="Quản lý gói dịch vụ mạn tính"
     >
       <div className="w-full flex items-center gap-x-9">
         <SearchInput
@@ -130,15 +129,6 @@ const ServiceBundles = () => {
             setSearchKey(removeVietnameseTones(value))
           }}
         />
-        {currentUser?.role?.type == "admin" &&
-        <Button
-          icon={<Icon name="add-circle" className="fill-white" />}
-          onClick={() => {
-            navigate("/service-bundle/create")
-          }}
-        >
-          Tạo mới gói dịch vụ
-        </Button>}
       </div>
 
       <div
