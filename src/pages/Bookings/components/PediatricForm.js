@@ -654,7 +654,8 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   }
 
   const loadDoctors = () => {
-    if (currentUser?.role?.type == "doctor") {
+    console.log('currentUser', currentUser)
+    if (currentUser?.role?.type == "pediatrician") {
       setCustomersData([{
         value: currentUser?.id,
         label: `${currentUser?.patient?.full_name}`,
