@@ -163,7 +163,6 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, patientSource }
               options={patientSource}
               value={value && patientSource?.find((s) => s.id === sourceId)}
               onChange={e => {
-                console.log('eee', e)
                 setSourceId(e.id);
               }}
               errors={errors?.category?.message}
@@ -174,6 +173,12 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, patientSource }
           toSendEmails();
         }}>
           Send emails
+        </Button>
+        <Button onClick={e => {
+          setSourceId(-1);
+          toSendEmails();
+        }}>
+          Send all
         </Button>
         <span></span>
         <Controller
