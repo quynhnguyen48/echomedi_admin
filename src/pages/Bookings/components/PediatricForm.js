@@ -77,19 +77,9 @@ const MEMBERSHIP_PKGS = [
     label: "Medical provider",
   },
   {
-    value: "infant",
-    label: "Thành viên gói nhũ nhi",
-    price: 3500000,
-  },
-  {
     value: "toddler",
     label: "Thành viên gói nhà trẻ",
-    price: 5000000,
-  },
-  {
-    value: "preschool_school_age",
-    label: "Thành viên gói học đường",
-    price: 5000000,
+    price: 3000000,
   },
 ];
 

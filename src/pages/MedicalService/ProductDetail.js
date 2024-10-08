@@ -314,7 +314,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               />
             )}
           />
-          <Controller
+          {/* <Controller
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -330,7 +330,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 suffix={"%"}
               />
             )}
-          />
+          /> */}
           <Controller
             name="code"
             control={control}
@@ -348,7 +348,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
               />
             )}
           />
-          <Controller
+          {/* <Controller
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -364,7 +364,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 suffix={"%"}
               />
             )}
-          />
+          /> */}
           <Controller
             name="code"
             control={control}
@@ -469,7 +469,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             )}
           />
 
-          <Controller
+          {/* <Controller
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -502,7 +502,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 name="code"
               />
             )}
-          />
+          /> */}
 
           <Controller
             name="code"
@@ -539,7 +539,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
             )}
           />
 
-          <Controller
+          {/* <Controller
             name="code"
             control={control}
             render={({ field: { onChange, value } }) => (
@@ -572,7 +572,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 name="code"
               />
             )}
-          />
+          /> */}
         </div>
       </div>
       {editable && <Button className="mt-4" type="button" onClick={async () => {
