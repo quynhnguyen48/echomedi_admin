@@ -149,13 +149,15 @@ const Dashboard = () => {
 				},
 			}
 		};
-		omiSDK.init(config, () => {
-			omiSDK.register({
-				domain: getBranchDomain(),
-				username: getBranchUsername(), // tương đương trường "sip_user" trong thông tin số nội bộ
-				password: getBranchPassword()
+		if (typeof omiSDK === 'undefined') {} else {
+			omiSDK?.init(config, () => {
+				omiSDK.register({
+					domain: getBranchDomain(),
+					username: getBranchUsername(), // tương đương trường "sip_user" trong thông tin số nội bộ
+					password: getBranchPassword()
+				});
 			});
-		});
+		}
 	}, []);
 
 	const getBranchDomain = () => {
