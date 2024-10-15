@@ -1160,6 +1160,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
         nurse_in_charge: nurseInCharge?.value,
         cc_in_charge: CCInCharge?.value,
         cashier_in_charge: cashierInCharge?.value,
+        counselor_in_charge: counselorInCharge?.value,
         status: data?.medical_record?.data?.attributes?.status || "",
         patient: data.patient.id,
         total,

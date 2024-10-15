@@ -155,6 +155,7 @@ const Treatments = () => {
                   bookings: formatStrapiArr(treatment?.bookings),
                   prescription: formatStrapiObj(treatment?.prescription),
                   doctor_in_charge: formatStrapiObj(treatment?.doctor_in_charge),
+                  counselor_in_charge: formatStrapiObj(treatment?.counselor_in_charge),
                   booking,
                 }
               });

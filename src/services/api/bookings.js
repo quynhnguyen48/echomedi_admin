@@ -48,6 +48,8 @@ export const getBookingById = (id) => {
         "medical_record",
         "medical_record.doctor_in_charge",
         "medical_record.doctor_in_charge.patient",
+        "medical_record.counselor_in_charge",
+        "medical_record.counselor_in_charge.patient",
         "medical_record.cashier_in_charge",
         "medical_record.cc_in_charge",
         "medical_record.cc_in_charge.patient",
