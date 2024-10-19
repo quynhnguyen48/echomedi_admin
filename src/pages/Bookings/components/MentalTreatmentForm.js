@@ -46,6 +46,7 @@ import { cloneDeep, flatten, groupBy } from "lodash"
 const branch = localStorage.getItem(BRANCH);
 import { getMedicalRecords } from "services/api/medicalRecord"
 import { formatDate } from "utils/dateTime"
+import TextArea from "@uiw/react-md-editor/lib/components/TextArea"
 
 const PROCEDURE_ITEM_DEFAULT = {
   image: null,
@@ -1788,19 +1789,36 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 <div className="w-full">
 
                   <div className="grid sm:grid-cols-1 grid-cols-1 gap-x-6 gap-y-4 py-4">
-                    <Controller
+                    {/* <Controller
                       name="ly_do_den_tham_van"
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <Input
+                        <TextArea
                           label="1. Lý do đến tham vấn"
                           value={value}
                           onChange={onChange}
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
+                    /> */}
                     <Controller
+                      name="ly_do_den_tham_van"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="ly_do_den_tham_van"
+                          label={<div className="flex">
+                            <span className="mr-2">1. Lý do đến tham vấn</span>
+                          </div>}
+                          size="large"
+                          name="title.en"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    {/* <Controller
                       name="hanh_vi_quan_sat"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1811,8 +1829,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
+                    /> */}
                     <Controller
+                      name="hanh_vi_quan_sat"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="hanh_vi_quan_sat"
+                          label={<div className="flex">
+                            <span className="mr-2">2. Hành vi quan sát</span>
+                          </div>}
+                          size="large"
+                          name="title.en"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    {/* <Controller
                       name="mo_ta_trieu_chung"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1823,8 +1858,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           errors={errors?.birthday?.message}
                         />
                       )}
+                    /> */}
+                    <Controller
+                      name="mo_ta_trieu_chung"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="mo_ta_trieu_chung"
+                          label={<div className="flex">
+                            <span className="mr-2">3. Mô tả triệu chứng</span>
+                          </div>}
+                          size="large"
+                          name="title.en"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
                     />
-                    {currentUser.role.type == "counselor" && <Controller
+                    {/* {currentUser.role.type == "counselor" && <Controller
                       name="thong_tin_nen_tang_boi_canh_lien_quan"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1835,10 +1887,28 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />}
+                    />} */}
+                    {currentUser.role.type == "counselor" &&
+                      <Controller
+                        name="thong_tin_nen_tang_boi_canh_lien_quan"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="thong_tin_nen_tang_boi_canh_lien_quan"
+                            label={<div className="flex">
+                              <span className="mr-2">4. Thông tin nền tảng và bối cảnh liên quan</span>
+                            </div>}
+                            size="large"
+                            name="title.en"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />}
                     {currentUser.role.type == "counselor" && <div>
                       <h1 className="text-xl underline mb-4">5. Các yếu tố liên quan</h1>
-                      <Controller
+                      {/* <Controller
                         name="yeu_to_khoi_phat"
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1849,8 +1919,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             errors={errors?.birthday?.message}
                           />
                         )}
-                      />
+                      /> */}
                       <Controller
+                        name="yeu_to_khoi_phat"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="yeu_to_khoi_phat"
+                            label={<div className="flex">
+                              <span className="mr-2">5.1. Yếu tố khởi phát</span>
+                            </div>}
+                            size="large"
+                            name="title.en"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                      {/* <Controller
                         name="yeu_to_bao_ve"
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1861,8 +1948,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             errors={errors?.birthday?.message}
                           />
                         )}
-                      />
+                      /> */}
                       <Controller
+                        name="yeu_to_bao_ve"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="yeu_to_bao_ve"
+                            label={<div className="flex">
+                              <span className="mr-2">5.2. Yếu tố bảo vệ</span>
+                            </div>}
+                            size="large"
+                            name="title.en"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                      {/* <Controller
                         name="yeu_to_kich_hoat"
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1873,8 +1977,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             errors={errors?.birthday?.message}
                           />
                         )}
-                      />
+                      /> */}
                       <Controller
+                        name="yeu_to_kich_hoat"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="yeu_to_kich_hoat"
+                            label={<div className="flex">
+                              <span className="mr-2">5.3. Yếu tố kích hoạt</span>
+                            </div>}
+                            size="large"
+                            name="title.en"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
+                      />
+                      {/* <Controller
                         name="yeu_to_duy_tri"
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1885,9 +2006,27 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             errors={errors?.birthday?.message}
                           />
                         )}
+                      /> */}
+                      <Controller
+                        name="yeu_to_duy_tri"
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Textarea
+                            id="yeu_to_duy_tri"
+                            label={<div className="flex">
+                              <span className="mr-2">5.3. Yếu tố duy trì</span>
+                            </div>}
+                            size="large"
+                            name="title.en"
+                            value={value}
+                            onChange={onChange}
+                            errors={errors?.title?.en?.message}
+                          />
+                        )}
                       />
                     </div>}
-                    <Controller
+
+                    {/* <Controller
                       name="anh_huong_toi_cuoc_song"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1898,8 +2037,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           errors={errors?.birthday?.message}
                         />
                       )}
+                    /> */}
+                    <Controller
+                      name="anh_huong_toi_cuoc_song"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="anh_huong_toi_cuoc_song"
+                          label={<div className="flex">
+                            <span className="mr-2">6. Ảnh hưởng tới cuộc sống</span>
+                          </div>}
+                          size="large"
+                          name="title.en"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
                     />
-                    {currentUser.role.type == "counselor" && <Controller
+                    {/* {currentUser.role.type == "counselor" && <Controller
                       name="cach_giai_quyet_van_de_da_su_dung"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1910,8 +2066,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           errors={errors?.birthday?.message}
                         />
                       )}
+                    />} */}
+                    {currentUser.role.type == "counselor" && <Controller
+                      name="cach_giai_quyet_van_de_da_su_dung"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="cach_giai_quyet_van_de_da_su_dung"
+                          label={<div className="flex">
+                            <span className="mr-2">7. Cách giải quyết vấn đề đã sử dụng</span>
+                          </div>}
+                          size="large"
+                          name="title.en"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
                     />}
-                    <Controller
+                    {/* <Controller
                       name="nhu_cau_va_muc_tieu_tham_van"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1922,8 +2095,25 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           errors={errors?.birthday?.message}
                         />
                       )}
-                    />
+                    /> */}
                     <Controller
+                      name="nhu_cau_va_muc_tieu_tham_van"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="nhu_cau_va_muc_tieu_tham_van"
+                          label={<div className="flex">
+                            <span className="mr-2">8. Nhu cầu và mục tiêu tham vấn</span>
+                          </div>}
+                          size="large"
+                          name="title.en"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
+                    />
+                    {/* <Controller
                       name="tom_tat_van_de"
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1934,8 +2124,24 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                           errors={errors?.birthday?.message}
                         />
                       )}
+                    /> */}
+                    <Controller
+                      name="tom_tat_van_de"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Textarea
+                          id="tom_tat_van_de"
+                          label={<div className="flex">
+                            <span className="mr-2">9. Tóm tắt vấn đề</span>
+                          </div>}
+                          size="large"
+                          name="title.en"
+                          value={value}
+                          onChange={onChange}
+                          errors={errors?.title?.en?.message}
+                        />
+                      )}
                     />
-
                     <h1 className="font-bold">10. Kế hoạch tham vấn:</h1>
                     <div className="w-full py-2">
                       <div className="flex flex-col items-start gap-x-4 pl-4">
