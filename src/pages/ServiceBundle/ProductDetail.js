@@ -372,7 +372,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 }}
                 value={toddlerPercentage}
                 label={<div>
-                  <span className="mr-5">Thành viên gói nhà trẻ (%)</span>
+                  <span className="mr-5">Thành viên gói trẻ em (%)</span>
                 </div>}
                 name="code"
                 suffix={"%"}
