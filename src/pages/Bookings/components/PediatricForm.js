@@ -78,7 +78,7 @@ const MEMBERSHIP_PKGS = [
   },
   {
     value: "toddler",
-    label: "Thành viên gói nhà trẻ",
+    label: "Thành viên gói trẻ em",
     price: 3000000,
   },
 ];
@@ -740,7 +740,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].infant_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
             } else if ((selectedMembership?.value == "toddler" || data.patient.membership == "toddler") && s.attributes["membership_discount"].toddler_percentage) {
-              s.attributes["discount_note"] = "Thành viên gói nhà trẻ";
+              s.attributes["discount_note"] = "Thành viên gói trẻ em";
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].toddler_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].toddler_percentage) / 100;
@@ -803,7 +803,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].infant_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
             } else if ((selectedMembership?.value == "toddler" || data.patient.membership == "toddler") && s.attributes["membership_discount"].toddler_percentage) {
-              s.attributes["discount_note"] = "Thành viên gói nhà trẻ";
+              s.attributes["discount_note"] = "Thành viên gói trẻ em";
               s.attributes["original_price"] = s.attributes["price"];
               s.attributes["discount_percentage"] = s.attributes["membership_discount"].toddler_percentage;
               s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].toddler_percentage) / 100;
@@ -909,7 +909,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].infant_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
               } else if ((selectedMembership?.value == "toddler" || data.patient.membership == "toddler") && s.attributes["membership_discount"].toddler_percentage) {
-                s.attributes["discount_note"] = "Thành viên gói nhà trẻ";
+                s.attributes["discount_note"] = "Thành viên gói trẻ em";
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].toddler_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
@@ -964,7 +964,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].infant_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;
               } else if ((selectedMembership?.value == "toddler" || data.patient.membership == "toddler") && s.attributes["membership_discount"].toddler_percentage) {
-                s.attributes["discount_note"] = "Thành viên gói nhà trẻ";
+                s.attributes["discount_note"] = "Thành viên gói trẻ em";
                 s.attributes["original_price"] = s.attributes["price"];
                 s.attributes["discount_percentage"] = s.attributes["membership_discount"].toddler_percentage;
                 s.attributes["price"] = s.attributes["price"] * (100 - s.attributes["membership_discount"].infant_percentage) / 100;

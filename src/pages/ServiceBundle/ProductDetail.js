@@ -545,7 +545,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 }}
                 value={monthlyToddler}
                 label={<div>
-                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên gói nhà trẻ</span>
+                  <span className="mr-5">Miễn phí số lần theo tháng - Thành viên gói trẻ em</span>
                 </div>}
                 name="code"
               />
@@ -562,7 +562,7 @@ const ProductDetail = ({ data, onTogglePublish, onUpdateProduct, editable }) => 
                 }}
                 value={yearlyToddler}
                 label={<div>
-                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên gói nhà trẻ</span>
+                  <span className="mr-5">Miễn phí số lần theo năm - Thành viên gói trẻ em</span>
                 </div>}
                 name="code"
               />
