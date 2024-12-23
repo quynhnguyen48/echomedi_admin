@@ -813,14 +813,14 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   
   const loadChronicServices = () => {
     axios2
-      .get("https://api.echomedi.com/api/chronic-services?populate=Services.medical_service")
+      .get("https://api.echomedi.com/api/chronic-services?populate=Services.medical_service&pagination[pageSize]=1000")
       .then((response) => {
         let chronicServices = response.data.data;
         if (data.chronic_services) {
           let cs = data.chronic_services;
           const usedIdChronicServices = cs.map((ud) => ud.id)
-          console.log('usedChronic', usedIdChronicServices)
           chronicServices = chronicServices.filter(s => usedIdChronicServices?.indexOf(s.id) == -1);
+          console.log('chronicServices', chronicServices)
           setChronicServices(chronicServices);
         } else {
           setChronicServices(chronicServices);
@@ -1071,6 +1071,10 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   const handleSearchBundleService = (e) => {
     setFilterBundleService(e.target.value)
+  }
+
+  const handleSearchChronicService = (e) => {
+    setFilterChronicService(e.target.value)
   }
 
   const removeMedicalService = (m) => {
@@ -2714,7 +2718,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                             placeholder="Nhập tên gói cần tìm"
                             className="flex-1 mb-2"
                             value={filterChronicService}
-                            onChange={handleSearchBundleService}
+                            onChange={handleSearchChronicService}
                           />
                           <div
                             style={{
