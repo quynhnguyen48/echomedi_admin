@@ -83,6 +83,14 @@ const MEMBERSHIP_PKGS = [
   },
 ];
 
+const ADDITIONAL_PKGS = [
+  {
+    value: "family",
+    label: "Bác sĩ gia đình",
+    price: 1000000,
+  },
+];
+
 const TreatmentForm = ({ data, user, readonly = false }) => {
   const navigate = useNavigate()
   const [visibleChooseAssetsFromLibraryDrawer, setVisibleChooseAssetsFromLibraryDrawer] =
@@ -119,6 +127,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
   const [districtList, setDistrictList] = useState([])
   const [wardList, setWardList] = useState([])
   const [membershipPackage, setMembershipPackages] = useState([])
+  const [additionalPackage, setAdditionalPackages] = useState([])
   const [loadingCustomers, setLoadingCustomers] = useState(false)
   const [customersData, setCustomersData] = useState([])
   const [CCData, setCCData] = useState([])
@@ -145,6 +154,7 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
 
   useEffect(() => {
     setMembershipPackages(MEMBERSHIP_PKGS);
+    setAdditionalPackages(ADDITIONAL_PKGS);
   }, [])
 
   useEffect(() => {
@@ -1113,6 +1123,26 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
     if (!isNaN(newTotal)) setTotal(newTotal)
   }
 
+  const removeChronicService = (m) => {
+    // let newExistServices = { ...existServices }
+    // delete newExistServices[m.id]
+    // setExistServices(newExistServices)
+
+    let a = [...chronicServices]
+    a.concat(m)
+    a.push(m)
+    setChronicServices(a)
+
+    let b = [...usedChronicServices]
+    b = b.filter((el) => el.id != m.id)
+    setUsedChronicServices(b)
+
+    console.log('removeChronicService', b)
+
+    const newTotal = total - m.attributes.price
+    if (!isNaN(newTotal)) setTotal(newTotal)
+  }
+
   const removeBundleMedicalService = (m) => {
     const ms = m.attributes.medical_services
     let newExistServices = { ...existServices }
@@ -1837,6 +1867,41 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                                     setSelectedMembership(null)
                                   }
                                   setTotal(newTotal);
+                                }}
+                              >
+                                <p>{m.label}</p>
+                                <p>{numberWithCommas(m.price)}</p>
+                              </Button>
+                            </div>
+                          ))}
+                          {additionalPackage.map((m) => (
+                            <div className="mb-2 flex">
+                              <Button
+                                type="button"
+                                className={`inline ${selectedMembership?.value == m.value && "bg-red"}`}
+                                icon={<Icon name="add-circle" className="fill-white" />}
+                                onClick={() => {
+                                  let newTotal = total;
+                                  if (selectedMembership) {
+                                    newTotal = newTotal - selectedMembership.price;
+                                  }
+                                  if (!selectedMembership || selectedMembership.value != m.value) {
+                                    newTotal = newTotal + m.price;
+                                    setSelectedMembership(m)
+                                  } else {
+                                    setSelectedMembership(null)
+                                  }
+                                  setTotal(newTotal);
+
+                                  if (m.value == "family") {
+                                    if (!usedChronicServices.find(a => a.id == 31)) {
+                                      let pkg = chronicServices.filter(c => c.id == 31);
+                                      addChronicService(pkg[0]) 
+                                    } else {
+                                      let pkg = usedChronicServices.filter(c => c.id == 31);
+                                      removeChronicService(pkg[0])
+                                    }
+                                  }
                                 }}
                               >
                                 <p>{m.label}</p>
@@ -2794,16 +2859,16 @@ const TreatmentForm = ({ data, user, readonly = false }) => {
                               ).map((m) => (
                                 <div className="mb-2 flex">
                                   <Button
-                                    disabled={currentUser?.role?.type == "nurse" || m.attributes?.paid}
+                                    disabled={currentUser?.role?.type == "nurse" || m?.attributes?.paid}
                                     type="button"
                                     className={"inline text-xs h-16"}
                                     icon={<Icon name="close-circle" className="fill-white" />}
-                                    onClick={() => removeBundleMedicalService(m)}
+                                    onClick={() => removeChronicService(m)}
                                   >
                                     <div className="flex flex-col">
                                       <div>{m.attributes?.label}</div>
                                       <div><span><del>{m.attributes?.original_price && numberWithCommas(m.attributes?.original_price) + 'đ'}</del>   {numberWithCommas(m.attributes?.price)}đ</span></div>
-                                      <div><span>{m.attributes.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
+                                      <div><span>{m.attributes?.discount_note} {m.attributes?.paid ? '(Đã thanh toán)' : ''}</span></div>
                                     </div>
                                   </Button>
                                   <Button
