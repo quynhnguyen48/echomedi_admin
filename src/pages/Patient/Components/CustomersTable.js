@@ -29,7 +29,7 @@ const getMembershipColor = (v) => {
       return "white";
     case "toddler":
       return "black";
-    case "preschool_school_age":
+    case "family":
       return "white";
     case "medical_provider":
       return "Medical provider";
@@ -60,7 +60,7 @@ const getMembershipBackgroundColor = (v) => {
       return "#FFC100";
     case "toddler":
       return "#A3D8FF";
-    case "preschool_school_age":
+    case "family":
       return "#75A47F";
   }
 }
