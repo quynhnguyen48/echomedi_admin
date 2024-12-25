@@ -97,7 +97,7 @@ const Select = ({
   icon,
 }) => {
   return (
-    <div className={`flex flex-col ${wrapperClassName}`}>
+    <div className={`flex flex-col relative z-50 ${wrapperClassName}`}>
       {label && (
         <label className="text-16 font-bold mb-2" htmlFor={name}>
           {label}

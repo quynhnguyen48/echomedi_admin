@@ -23,6 +23,14 @@ export const SIDEBAR_ITEMS = [
     controllerKey: "patient",
   },
   {
+    id: "orders",
+    name: "Quản lý đơn hàng",
+    icon: "sidebar/orders",
+    url: "/orders",
+    apiKey: "api::patient",
+    controllerKey: "patient",
+  },
+  {
     id: "medical-record",
     name: "Hồ sơ bệnh án",
     icon: "sidebar/medical-records",

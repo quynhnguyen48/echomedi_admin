@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 
 import axios from "../axios";
 import { NEW_RANGES } from "constants/Dashboard";
+import { ORDER_STATUS } from "constants/Order";
 
 export const getOrderDetail = (data) => {
   return axios.get('/orders/getOrderDetail/' + data.id);
@@ -38,9 +39,12 @@ export const deleteOrder = (id) => {
 export const countNewOrders = () => {
   return axios.post(`/orders/count`, {
     query: {
-      orderedDate: {
-        $gte: dayjs().subtract(NEW_RANGES, "days").startOf("day").toISOString(),
+      createdAt: {
+        $gte: dayjs().subtract(1, "days").startOf("day").toISOString(),
       },
+      status: {
+        $in: [ORDER_STATUS.COMPLETED]
+      }
     },
   });
 };
