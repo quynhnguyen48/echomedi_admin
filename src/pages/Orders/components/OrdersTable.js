@@ -7,6 +7,7 @@ import Table from "components/Table"
 import Tag from "components/Tag"
 import Price from "components/Price"
 import { ORDER_STATUS, ORDER_STATUS_TITLE } from "constants/Order"
+import { numberWithCommas } from "pages/Invoice/Components/InvoiceTable"
 
 const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchData }) => {
   const handleClickRow = useCallback(
@@ -50,12 +51,16 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
       {
         Header: "Khách hàng",
         accessor: (originalRow) => (
-          <span>{`${originalRow?.users_permissions_user?.data?.attributes?.patient?.data?.attributes.full_name ?? originalRow?.users_permissions_user?.data?.attributes.fullname ?? originalRow?.users_permissions_user?.data?.attributes.email}`}</span>
+          <span>
+            {originalRow?.users_permissions_user?.data?.attributes?.patient?.data?.attributes.full_name || 
+             originalRow?.users_permissions_user?.data?.attributes.fullname || 
+             originalRow?.users_permissions_user?.data?.attributes.email || 
+             "Update"}
+          </span>
         ),
         collapse: true,
         width: 150,
       },
-      
     ]
 
     if (activeRow) return defaultColumns
@@ -64,7 +69,7 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
       ...defaultColumns,
       {
         Header: "Tổng cộng",
-        accessor: (originalRow) => <Price price={originalRow.total}></Price>,
+        accessor: (originalRow) => <>{numberWithCommas(originalRow.total)}</>,
         collapse: true,
         width: 150,
       },
@@ -74,6 +79,36 @@ const OrdersTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchDat
           <span className="capitalize">{`${
             originalRow.num_of_prod ? originalRow.num_of_prod : 0
           } products`}</span>
+        ),
+        collapse: true,
+        width: 100,
+      },
+      {
+        Header: "Phương thức",
+        accessor: (originalRow) => (
+          <div>
+            {originalRow.paymentMethod === "momo" ? (
+              <img
+                src="https://d3e4m6b6rxmux9.cloudfront.net/momo_cd67e6e6d8.png"
+                className="object-cover h-14"
+                alt="Momo"
+              />
+            ) : (
+              <img
+                src="https://d3e4m6b6rxmux9.cloudfront.net/vnpay_10b151a67e.png"
+                className="object-cover h-14"
+                alt="VNPay"
+              />
+            )}
+          </div>
+        ),
+        collapse: true,
+        width: 100,
+      },
+      {
+        Header: "Ngày mua",
+        accessor: (originalRow) => (
+          <span className="capitalize">{dayjs(originalRow?.createdAt).format("DD MMMM, YYYY | HH:mm")}</span>
         ),
         collapse: true,
         width: 100,

@@ -9,6 +9,7 @@ import Price from "components/Price"
 import { formatDate } from "utils/dateTime"
 
 import { BRAND_STATUS } from "constants/Brand"
+import { numberWithCommas } from "pages/Invoice/Components/InvoiceTable"
 
 const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchData }) => {
   const handleClickRow = useCallback(
@@ -76,9 +77,7 @@ const ProductsTable = ({ data, activeRow, loading, pageCount, onClickRow, fetchD
       {
         Header: "Giá",
         accessor: (originalRow) => (
-          <div className="flex items-center gap-x-4">
-            <span>{originalRow?.price}</span>
-          </div>
+          <>{numberWithCommas(originalRow?.price)}</>
         ),
         collapse: true,
         width: 100,

@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-
+import Select from "components/Select";
 import Button from "components/Button";
 import Icon from "components/Icon";
 import Page from "components/Page";
@@ -13,6 +13,7 @@ import { getErrorMessage } from "utils/error";
 import { formatStrapiArr, formatStrapiObj } from "utils/strapi";
 import OrdersTable from "./components/OrdersTable";
 import OrderDetail from "./OrderDetail";
+import { ORDER_STATUS } from "constants/Order";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Orders = () => {
   const [pageCount, setPageCount] = useState(0);
   const [detailData, setDetailData] = useState();
   const [searchKey, setSearchKey] = useState();
+  const [selectedStatus, setSelectedStatus] = useState(ORDER_STATUS.ALL);
   const fetchIdRef = useRef(0);
 
   const fetchData = useCallback(
@@ -33,21 +35,16 @@ const Orders = () => {
           setLoading(true);
           let filters = {};
           if (searchKey?.length) {
-            filters = {
-              $or: [
-                {
-                  user: {
-                    $or: [
-                      { code: { $containsi: searchKey } },
-                      { firstName: { $containsi: searchKey } },
-                      { lastName: { $containsi: searchKey } },
-                      { email: { $containsi: searchKey } },
-                    ],
-                  },
-                },
-                { code: { $containsi: searchKey } },
-              ],
-            };
+            filters = {};
+            filters.$or = [
+              { code: { $containsi: searchKey } },
+              { paymentMethod: { $containsi: searchKey } },
+            ];
+          }
+          
+          
+          if (selectedStatus !== ORDER_STATUS.ALL) {
+            filters.status = selectedStatus;
           }
           const res = await getListOrders(
             {
@@ -67,14 +64,19 @@ const Orders = () => {
             setPageCount(res?.data?.meta?.pagination?.pageCount);
           }
         } catch (error) {
+          // toast.error("Lỗi khi lấy dữ liệu đơn hàng");
         } finally {
           setLoading(false);
         }
       }
     },
-    [searchKey]
+    [searchKey, selectedStatus]
   );
 
+  useEffect(() => {
+    dispatch(resetPageIndex());
+    fetchData({ pageSize: 10, pageIndex: 0 });
+  }, [searchKey, selectedStatus, dispatch, fetchData]);
   const updateStatus = useCallback(
     async (status) => {
       try {
@@ -90,7 +92,7 @@ const Orders = () => {
           if (pos > -1) {
             oldData[pos].status = status;
           }
-          return oldData;
+          return [...oldData];
         });
         toast.success(`Order status updated successfully!`);
       } catch (error) {
@@ -103,13 +105,7 @@ const Orders = () => {
   const handleDeleteOrder = useCallback(async () => {
     try {
       await deleteOrder(detailData?.id);
-      setData((oldData) => {
-        const pos = oldData.findIndex((t) => t.id === detailData?.id);
-        if (pos > -1) {
-          oldData.splice(pos, 1);
-        }
-        return oldData;
-      });
+      setData((oldData) => oldData.filter((order) => order.id !== detailData?.id));
       setDetailData(null);
       toast.success(`Order deleted successfully!`);
     } catch (error) {
@@ -117,15 +113,32 @@ const Orders = () => {
     }
   }, [detailData?.id]);
 
+  const orderStatusOptions = Object.entries(ORDER_STATUS).map(([key, value]) => ({
+    label: key.charAt(0).toUpperCase() + key.slice(1).toLowerCase(),
+    value: value,
+  }));
+
+  console.log("data", data);
   return (
     <Page title="Quản lý đơn hàng">
-      <div className="w-full flex items-center gap-x-9">
+      <div className="w-full grid grid-cols-3 sm:grid-cols-1 items-center gap-4 mb-6">
         <SearchInput
-          placeholder="Search by Order ID / Customer"
+          placeholder="Search by order ID / Phương thức thanh toán"
           className="flex-1"
           onSearch={(value) => {
             dispatch(resetPageIndex());
             setSearchKey(value);
+          }}
+        />
+       <Select
+          placeholder="Select Order Status"
+          label=""
+          wrapperClassName="w-[400px]"
+          name="order_status"
+          options={orderStatusOptions} 
+          value={orderStatusOptions.find((status) => status.value === selectedStatus)}
+          onChange={(selectedOption) => {
+            setSelectedStatus(selectedOption?.value); 
           }}
         />
         <Button

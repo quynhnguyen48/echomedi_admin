@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-
 import DataItem from "components/DataItem";
 import Drawer from "components/Drawer";
 import Price from "components/Price";
@@ -15,9 +14,7 @@ const OrderProductList = ({ openDrawer, onClose, products = [], orderIdSelected 
   useEffect(() => {
     (async () => {
       try {
-        const res = await getOrderDetail({id: orderIdSelected});
-        console.log('res.data.product.products',res.data.product.products)
-        
+        const res = await getOrderDetail({ id: orderIdSelected });
         if (res.data) {
           setProduct(res.data.product.products);
           let productFormatted = res.data?.product?.cart?.cart_lines;
@@ -31,42 +28,34 @@ const OrderProductList = ({ openDrawer, onClose, products = [], orderIdSelected 
 
   return (
     <Drawer open={openDrawer} onClose={onClose}>
-      {/* <DataItem
+      <DataItem
         icon="3dcube"
         title="Product"
-        value={`${products?.length} Products`}
-      /> */}
+        value={`${productList?.length} Products`}
+      />
       <div className="mt-8 space-y-2">
-      {JSON.stringify(product)}
+        {/* {JSON.stringify(product)} */}
         {Array.isArray(productList) &&
           productList?.map((p) => {
             const product = p.product ?? p.service;
-            return ( 
+            return (
               <div key={product?.id} className="flex gap-x-4">
-                {/* <img
-                  className="w-30 h-30 object-cover rounded-xl bg-primary"
-                  src={getStrapiMedia(product?.images?.[0])}
-                  alt={product?.label}
-                /> */}
-                
                 <div className="flex flex-col space-y-2">
                   <span className="text-18 font-bold">
                     {product?.code}
                   </span>
                   <span className="text-18 font-primary">
-                    {product?.label}
+                    {product?.label }
                   </span>
-                  {/* <span className="text-18 font-primary">
-                    {`Size: ${product?.variant?.size} | Quantity: ${product?.amount}`}
-                  </span> */}
                   <Price
                     className="text-18"
-                    price={product?.price}
+                    price={product?.price || 0}
                   />
                 </div>
               </div>
             );
           })}
+
       </div>
     </Drawer>
   );
