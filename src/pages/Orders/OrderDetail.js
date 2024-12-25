@@ -15,6 +15,7 @@ import Tag from "components/Tag";
 import OrderProductList from "./components/OrderProductList";
 import OrderTotalPrice from "./components/OrderTotalPrice";
 import CustomerModal from "../../components/CustomerModal"
+import { numberWithCommas } from "pages/Invoice/Components/InvoiceTable";
 
 const OrderDetail = ({ data, onUpdateStatus, onDelete }) => {
   const [openProductListDrawer, setOpenProductListDrawer] = useState(false);
@@ -42,12 +43,13 @@ const OrderDetail = ({ data, onUpdateStatus, onDelete }) => {
                 "bg-yellow": data?.status === ORDER_STATUS.ORDERED,
                 "bg-blue": data?.status === ORDER_STATUS.COMPLETED,
                 "bg-red": data?.status === ORDER_STATUS.CANCELED,
+                "bg-orange": data?.status === ORDER_STATUS.DRAFT,
               })}
               name={ORDER_STATUS_TITLE[data?.status]}
             />
           </div>
         </div>
-        <div className="flex gap-x-2">
+        {/* <div className="flex gap-x-2">
           <Button
             disabled={data?.status === ORDER_STATUS.COMPLETED}
             btnSize="auto"
@@ -65,11 +67,11 @@ const OrderDetail = ({ data, onUpdateStatus, onDelete }) => {
           >
             <Icon name="trash" className="fill-white" />
           </Button>
-        </div>
+        </div> */}
       </div>
       <div className="grid grid-cols-2 grid-flow-row gap-y-8 mt-4">
         <DataItem icon="key" title="Order ID" value={data?.code} />
-        <DataItem
+        {/* <DataItem
           icon="user-octagon"
           title="Customer ID"
           value={data?.user?.code}
@@ -79,13 +81,13 @@ const OrderDetail = ({ data, onUpdateStatus, onDelete }) => {
               className="mt-2"
               onClick={() => {
                 setVisibleCustomerModal(true)
-                setCustomerIdSelected(data?.user?.id)
+                setCustomerIdSelected(setCustomerIdSelected(data?.users_permissions_user?.data?.attributes?.patient?.data?.attributes?.uid))
               }}
             >
               View Detail
             </Button>
           }
-        />
+        /> */}
 
         <DataItem
           icon="3dcube"
@@ -106,19 +108,14 @@ const OrderDetail = ({ data, onUpdateStatus, onDelete }) => {
         <DataItem
           icon="calendar"
           title="Order Date"
-          value={dayjs(data?.orderedDate).format("DD MMMM, YYYY | HH:mm")}
+          value={dayjs(data?.createdAt).format("DD MMMM, YYYY | HH:mm")}
           valueClassName="capitalize"
         />
 
         <DataItem
           icon="coin"
           title="Total Price"
-          value={
-            <Price
-              suffixClassName={"font-light text-secondary"}
-              price={data?.total}
-            />
-          }
+          value={numberWithCommas(data?.total)}
           valueClassName={"text-orange font-bold"}
           footer={
             <Button
@@ -140,18 +137,16 @@ const OrderDetail = ({ data, onUpdateStatus, onDelete }) => {
         <DataItem
           icon="call"
           title="Phone Number"
-          value={data?.contactPhoneNumber}
+          value={data?.users_permissions_user?.data?.attributes?.phone}
         />
         <DataItem
           icon="location"
           title="Address"
           value={
             data?.contactAddress
-              ? `${data?.contactAddress?.address || ""} ${
-                  data?.contactAddress?.ward?.name || ""
-                } ${data?.contactAddress?.district?.name || ""} ${
-                  data?.contactAddress?.province?.name || ""
-                }`
+              ? `${data?.contactAddress?.address || ""} ${data?.contactAddress?.ward?.name || ""
+              } ${data?.contactAddress?.district?.name || ""} ${data?.contactAddress?.province?.name || ""
+              }`
               : "-"
           }
         />

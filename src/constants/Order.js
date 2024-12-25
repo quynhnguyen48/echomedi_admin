@@ -1,4 +1,5 @@
 export const ORDER_STATUS = {
+  ALL: 'all', 
   DRAFT: "draft",
   COMPLETED: "done",
   CANCELED: "canceled",

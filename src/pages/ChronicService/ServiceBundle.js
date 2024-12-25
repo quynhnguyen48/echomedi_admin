@@ -115,7 +115,7 @@ const ServiceBundles = () => {
     },
     [data]
   )
-
+  console.log("data",data)
   return (
     <Page
       title="Quản lý gói dịch vụ mạn tính"

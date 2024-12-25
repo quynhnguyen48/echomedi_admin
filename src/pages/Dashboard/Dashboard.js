@@ -19,6 +19,9 @@ import { ThemeProvider } from 'styled-components';
 import Button from "components/Button"
 import classNames from "classnames"
 import { BRANCH } from "constants/Authentication"
+import { ORDER_STATUS } from "constants/Order";
+import Tag from "components/Tag";
+import Icon from "components/Icon";
 
 const serviceGroups = ['khong_co_benh', 'than_kinh', 'ho_hap', 'tim_mach', 'than_tiet_nieu', 'co_xuong_khop', 'noi_tiet_chuyen_hoa', 'tieu_hoa'];
 const translateServiceGroup = (t) => {
@@ -224,7 +227,19 @@ const Dashboard = () => {
 							title="Lịch đặt hẹn mới"
 							value={dashboardData?.[0] || 0}
 						/>
-						<AnalysItem iconName="box-tick" title="Đơn hàng mới" value={dashboardData?.[1] || 0} />
+						<div className="flex items-center gap-x-2">
+							<div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+								<Icon width={28} height={28} name="box-tick" className="fill-primary" />
+							</div>
+							<div className="flex-2 overflow-x-hidden">
+								{dashboardData?.[1] !== 0 ? (
+										<Tag name="Đơn hàng mới" className="bg-red !rounded-lg" />
+								) : (
+										<p className="text-14">Đơn hàng mới</p>
+								)}
+								<p className={`text-24 font-bold`}>{dashboardData?.[1] || 0}</p>
+							</div>
+						</div>
 						<AnalysItem
 							iconName="coin"
 							title="Doanh thu"

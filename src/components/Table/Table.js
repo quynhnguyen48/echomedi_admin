@@ -105,7 +105,7 @@ const Table = ({
                   !column.hidden && (
                     <div
                       {...column.getHeaderProps(headerProps)}
-                      className="text-12 font-bold text-secondary/30 !pr-0 !text-white"
+                      className="text-16 py-2 font-bold text-secondary/30 !pr-0 !text-white"
                     >
                       {column.render("Header")}
                     </div>
