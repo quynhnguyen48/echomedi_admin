@@ -43,6 +43,8 @@ const Sidebar = () => {
 
     return (
       SIDEBAR_ITEMS.filter((item) => {
+        console.log('item', item)
+        if (item.id == 'email-template' && currentUser.username == 'EM0025') return true;
         if (!item.apiKey) return true
         const controller = roleData?.permissions?.[item.apiKey]?.controllers?.[item.controllerKey]
 
